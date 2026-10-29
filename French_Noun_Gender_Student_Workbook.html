@@ -1,0 +1,2766 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>French Noun Gender Mastery</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+@page {
+  size: letter;
+  margin: 14mm 14mm 16mm 14mm;
+  @top-right {
+    content: "FLE • SYSTÈME DE MAÎTRISE DU GENRE";
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: #94a3b8;
+    letter-spacing: 0.08em;
+  }
+  @bottom-center {
+    content: "Page " counter(page);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    font-size: 7.5pt;
+    font-weight: 500;
+    color: #64748b;
+  }
+}
+
+@page :first {
+  margin: 0;
+  @top-right { content: normal; }
+  @bottom-center { content: normal; }
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 9pt;
+  line-height: 1.48;
+  color: #1e293b;
+  background-color: #faf9f6;
+  margin: 0;
+  padding: 0;
+}
+
+/* ==========================================
+   STORYTELLING & ESSAY STYLING
+   ========================================== */
+.story-lead {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 10.5pt;
+  line-height: 1.55;
+  color: #1e293b;
+  font-style: italic;
+  background: #ffffff;
+  border-left: 3.5px solid #4f46e5;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.history-box {
+  background: #fffdfa;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 12px 0;
+  font-size: 8pt;
+  line-height: 1.45;
+  break-inside: avoid;
+}
+
+.history-box-title {
+  font-weight: 700;
+  color: #9a3412;
+  font-size: 8.5pt;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ==========================================
+   PRONUNCIATION KEY & SOUND GUIDE
+   ========================================== */
+.pronunciation-master-box {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 16px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  break-inside: avoid;
+}
+
+.pron-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 16px;
+  margin-top: 8px;
+}
+
+.pron-row {
+  font-size: 7.5pt;
+  line-height: 1.35;
+  border-bottom: 1px dotted #e2e8f0;
+  padding-bottom: 4px;
+}
+
+.pron-symbol {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: #4338ca;
+  background: #e0e7ff;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-right: 6px;
+}
+
+/* ==========================================
+   COVER PAGE HERO
+   ========================================== */
+.cover-page {
+  page-break-after: always;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24mm 20mm;
+  background: linear-gradient(145deg, #faf9f6 0%, #f1f5f9 60%, #e2e8f0 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #4f46e5 0%, #e11d48 50%, #059669 100%);
+}
+
+.cover-pill-box {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.cover-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  background: #e0e7ff;
+  color: #3730a3;
+  border: 1px solid #c7d2fe;
+}
+
+.cover-pill-accent {
+  background: #ffe4e6;
+  color: #9f1239;
+  border: 1px solid #fecdd3;
+}
+
+.cover-main {
+  margin-top: 30px;
+  margin-bottom: auto;
+}
+
+.cover-kicker {
+  font-size: 10pt;
+  font-weight: 700;
+  color: #4f46e5;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 12px;
+}
+
+.cover-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 32pt;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #0f172a;
+  margin: 0 0 14px 0;
+}
+
+.cover-subtitle {
+  font-size: 11pt;
+  line-height: 1.5;
+  color: #475569;
+  max-width: 600px;
+  margin: 0 0 24px 0;
+}
+
+.cover-features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+  max-width: 620px;
+}
+
+.feature-box {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.feature-box-title {
+  font-weight: 700;
+  font-size: 8.5pt;
+  color: #1e293b;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.feature-box-desc {
+  font-size: 7.5pt;
+  color: #64748b;
+  line-height: 1.35;
+}
+
+.cover-footer {
+  border-top: 1px solid #cbd5e1;
+  padding-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 7.5pt;
+  color: #64748b;
+}
+
+.cover-author {
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 8.5pt;
+}
+
+/* ==========================================
+   HEADINGS & TYPOGRAPHY
+   ========================================== */
+.chapter-hero {
+  page-break-before: always;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e2e8f0;
+  position: relative;
+}
+
+.chapter-badge {
+  display: inline-block;
+  font-size: 7pt;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4f46e5;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.chapter-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20pt;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+.chapter-subtitle {
+  font-size: 9.5pt;
+  color: #64748b;
+  margin: 0 0 10px 0;
+  font-weight: 500;
+}
+
+.section-hero {
+  margin-top: 18px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e2e8f0;
+  break-after: avoid;
+}
+
+.section-title {
+  font-size: 12.5pt;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ==========================================
+   CALLOUTS & ALERT BOXES
+   ========================================== */
+.callout {
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 12px 0;
+  font-size: 8.5pt;
+  line-height: 1.45;
+  break-inside: avoid;
+}
+
+.callout-tip {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+.callout-trap {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #92400e;
+}
+
+.callout-fem {
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  color: #9f1239;
+}
+
+.callout-masc {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  color: #3730a3;
+}
+
+/* ==========================================
+   RULE CARDS & TABLES
+   ========================================== */
+.ending-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  break-inside: avoid;
+}
+
+.ending-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.ending-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11pt;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 7px;
+  font-size: 6.5pt;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+}
+
+.badge-masc {
+  background: #e0e7ff;
+  color: #3730a3;
+  border: 1px solid #c7d2fe;
+}
+
+.badge-fem {
+  background: #ffe4e6;
+  color: #9f1239;
+  border: 1px solid #fecdd3;
+}
+
+.badge-dual {
+  background: #f3e8ff;
+  color: #6b21a8;
+  border: 1px solid #e9d5ff;
+}
+
+.badge-amber {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.words-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 14px;
+  margin: 6px 0;
+}
+
+.word-item {
+  font-size: 8pt;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dotted #e2e8f0;
+  padding-bottom: 2px;
+}
+
+.word-fr {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.word-en {
+  color: #64748b;
+  font-style: italic;
+}
+
+.mnemonic-box {
+  background: #f8fafc;
+  border-left: 3px solid #6366f1;
+  padding: 6px 10px;
+  font-size: 7.5pt;
+  color: #334155;
+  margin-top: 8px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* ==========================================
+   MASTER VOCABULARY VAULT CARDS (WITH ENRICHED PHONETICS)
+   ========================================== */
+.vocab-vault-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.vocab-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 9px 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  break-inside: avoid;
+}
+
+.vocab-card.is-trap {
+  border-left: 3.5px solid #d97706;
+  background: #fffdfa;
+}
+
+.vocab-card.is-masc {
+  border-left: 3.5px solid #4f46e5;
+}
+
+.vocab-card.is-fem {
+  border-left: 3.5px solid #e11d48;
+}
+
+.vocab-card.is-dual {
+  border-left: 3.5px solid #7c3aed;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.card-fr-title {
+  font-size: 10.5pt;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.card-pron-box {
+  background: #f1f5f9;
+  border-radius: 4px;
+  padding: 4px 6px;
+  margin-bottom: 6px;
+}
+
+.card-phonetic {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7.5pt;
+  font-weight: 700;
+  color: #3730a3;
+}
+
+.card-syllables {
+  font-size: 7pt;
+  color: #64748b;
+  margin-left: 4px;
+  font-style: italic;
+}
+
+.card-sound-tip {
+  font-size: 6.5pt;
+  color: #475569;
+  margin-top: 1px;
+}
+
+.card-en {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.card-mnemonic {
+  font-size: 7.5pt;
+  color: #475569;
+  background: #f8fafc;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+
+.card-example {
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 5px;
+  font-size: 7.5pt;
+}
+
+.card-ex-fr {
+  font-style: italic;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.card-ex-en {
+  color: #64748b;
+  font-size: 7pt;
+}
+
+/* ==========================================
+   VISUAL EXCEPTION CARDS (SVG ATLAS)
+   ========================================== */
+.exceptions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.exception-visual-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  break-inside: avoid;
+}
+
+.exception-svg-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================
+   WORKSHEETS & EXERCISES
+   ========================================== */
+.worksheet-section {
+  page-break-before: always;
+  margin-bottom: 20px;
+}
+
+.worksheet-hero {
+  border-bottom: 2px solid #0f172a;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+
+.exercise-group {
+  margin-bottom: 16px;
+  break-inside: avoid;
+}
+
+.exercise-inst {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 10px;
+  background: #f1f5f9;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.quiz-grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 16px;
+}
+
+.quiz-grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px 12px;
+}
+
+.quiz-item {
+  font-size: 8pt;
+  padding: 4px 0;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: baseline;
+  break-inside: avoid;
+}
+
+.quiz-num {
+  font-weight: 700;
+  color: #64748b;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.quiz-prompt {
+  flex-grow: 1;
+  color: #1e293b;
+}
+
+.quiz-blank {
+  display: inline-block;
+  min-width: 45px;
+  border-bottom: 1px solid #94a3b8;
+  margin: 0 4px;
+}
+
+/* ==========================================
+   ANSWER KEY STYLING
+   ========================================== */
+.ans-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 14px;
+  margin-top: 10px;
+}
+
+.ans-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 7.5pt;
+  break-inside: avoid;
+}
+
+.ans-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.ans-num {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ans-correct {
+  font-weight: 800;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.ans-rule {
+  color: #64748b;
+  line-height: 1.35;
+}
+
+/* ==========================================
+   DATA TABLES
+   ========================================== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8pt;
+  margin: 10px 0;
+  break-inside: avoid;
+}
+
+.data-table th {
+  background: #f8fafc;
+  color: #1e293b;
+  font-weight: 700;
+  text-align: left;
+  padding: 6px 10px;
+  border-bottom: 2px solid #e2e8f0;
+  font-size: 7.5pt;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.data-table td {
+  padding: 5px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #fafbfc;
+}
+
+</style>
+</head>
+<body>
+
+    <div class="cover-page">
+      <div class="cover-pill-box">
+        <span class="cover-pill">CAHIER D'ACTIVITÉS</span>
+        <span class="cover-pill cover-pill-accent">140 EXERCICES & SOLUTIONS</span>
+      </div>
+      <div class="cover-main">
+        <div class="cover-kicker">WORKBOOK D'ENTRAÎNEMENT INTENSIF</div>
+        <h1 class="cover-title">Cahier d'Exercices du Genre des Noms Français</h1>
+        <p class="cover-subtitle">140 exercices pratiques en 6 niveaux intensifs (réflexes, pièges trompeurs, double genre, accords et progression CECRL) suivis du corrigé intégral expliqué pas à pas.</p>
+        <div class="cover-features-grid">
+          <div class="feature-box">
+            <div class="feature-box-title"><span>✦</span> NARRATION HISTORIQUE & GUEULOIR</div>
+            <div class="feature-box-desc">Le test acoustique de Flaubert, la conquête normande de 1066, la création d'« ordinateur » et la bataille politique de la féminisation.</div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-title"><span>🔊</span> GUIDE PHONÉTIQUE INTUITIF</div>
+            <div class="feature-box-desc">Découpage syllabique, astuces acoustiques et règles des consonnes muettes pour une prononciation naturelle sans accent plat.</div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-title"><span>◈</span> ATLAS VISUEL DES EXCEPTIONS</div>
+            <div class="feature-box-desc">36 fiches illustrées avec icônes vectorielles dédiées pour fixer visuellement chaque piège trompeur (plage, eau, silence, squelette...).</div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-title"><span>⚡</span> CAHIER D'ACTIVITÉS EN 6 NIVEAUX</div>
+            <div class="feature-box-desc">140 exercices intensifs (drills de rapidité, chasse aux pièges, double genre, accords) avec corrigé intégral expliqué pas à pas.</div>
+          </div>
+        </div>
+      </div>
+      <div class="cover-footer">
+        <div>
+          <div class="cover-author">Édition Pédagogique de Référence • FLE All-in-One</div>
+          <div>Conforme aux normes du CECRL (Cadre Européen Commun de Référence pour les Langues)</div>
+        </div>
+        <div style="text-align: right;">
+          <div>Format Grand Format A4 / Letter</div>
+          <div>Système Minimaliste Éditorial Français</div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="page-break-before: always; margin-bottom: 24px;">
+      <div class="chapter-hero">
+        <span class="chapter-badge">SOMMAIRE GÉNÉRAL</span>
+        <h2 class="chapter-title">Table des Matières & Architecture Pédagogique</h2>
+        <p class="chapter-subtitle">Une progression rigoureuse alliant synthèse culturelle, intuition sonore, repères visuels et mise en pratique.</p>
+      </div>
+      <div style="max-width: 650px; margin-top: 18px;">
+        
+      <div style="display: flex; gap: 14px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dotted #cbd5e1; break-inside: avoid;">
+        <div style="font-family: 'Playfair Display', serif; font-size: 14pt; font-weight: 700; color: #4f46e5; width: 32px;">08</div>
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 700; font-size: 9.5pt; color: #0f172a;">Cahier d'Entraînement Intensif en 6 Niveaux (140 Items)</div>
+          <div style="font-size: 8pt; color: #64748b; font-style: italic;">Drills de rapidité, chasseurs de pièges, matrice de double genre et phrases à compléter</div>
+        </div>
+      </div>
+    
+      <div style="display: flex; gap: 14px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dotted #cbd5e1; break-inside: avoid;">
+        <div style="font-family: 'Playfair Display', serif; font-size: 14pt; font-weight: 700; color: #4f46e5; width: 32px;">09</div>
+        <div style="flex-grow: 1;">
+          <div style="font-weight: 700; font-size: 9.5pt; color: #0f172a;">Corrigé Détaillé & Justifications Pédagogiques</div>
+          <div style="font-size: 8pt; color: #64748b; font-style: italic;">Solutions pas à pas pour l'ensemble des 140 questions avec renvois explicites aux règles</div>
+        </div>
+      </div>
+    
+      </div>
+    </div>
+    
+    <div class="chapter-hero">
+      <span class="chapter-badge">CAHIER PRATIQUE</span>
+      <h2 class="chapter-title">Cahier d'Exercices en 6 Niveaux de Rétention</h2>
+      <p class="chapter-subtitle">140 exercices intensifs conçus pour automatiser la reconnaissance du genre en un seul passage.</p>
+    </div>
+    
+
+        <div class="worksheet-section">
+          <div class="worksheet-hero">
+            <div style="font-size: 7.5pt; font-weight: 800; color: #4f46e5; letter-spacing: 0.1em; text-transform: uppercase;">Tier 1</div>
+            <h3 style="font-size: 13pt; font-weight: 700; color: #0f172a; margin: 2px 0 4px 0;">Rapid-Fire Gender Reflex (Core Suffix Identification)</h3>
+          </div>
+          <div class="exercise-inst">Consigne : Indicate the correct definite article (le, la, or l') for each noun based on its suffix pattern.</div>
+          <div class="quiz-grid-2col">
+            
+                <div class="quiz-item">
+                  <span class="quiz-num">1.</span>
+                  <span class="quiz-prompt">_____ fromage (cheese)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">2.</span>
+                  <span class="quiz-prompt">_____ nation (nation)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">3.</span>
+                  <span class="quiz-prompt">_____ journal (newspaper)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">4.</span>
+                  <span class="quiz-prompt">_____ liberté (liberty)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">5.</span>
+                  <span class="quiz-prompt">_____ bâtiment (building)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">6.</span>
+                  <span class="quiz-prompt">_____ bicyclette (bicycle)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">7.</span>
+                  <span class="quiz-prompt">_____ château (castle)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">8.</span>
+                  <span class="quiz-prompt">_____ différence (difference)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">9.</span>
+                  <span class="quiz-prompt">_____ couteau (knife)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">10.</span>
+                  <span class="quiz-prompt">_____ voiture (car)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">11.</span>
+                  <span class="quiz-prompt">_____ travail (work)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">12.</span>
+                  <span class="quiz-prompt">_____ pharmacie (pharmacy)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">13.</span>
+                  <span class="quiz-prompt">_____ village (village)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">14.</span>
+                  <span class="quiz-prompt">_____ salade (salad)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">15.</span>
+                  <span class="quiz-prompt">_____ chapeau (hat)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">16.</span>
+                  <span class="quiz-prompt">_____ décision (decision)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">17.</span>
+                  <span class="quiz-prompt">_____ pain (bread)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">18.</span>
+                  <span class="quiz-prompt">_____ confiance (trust)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">19.</span>
+                  <span class="quiz-prompt">_____ vin (wine)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">20.</span>
+                  <span class="quiz-prompt">_____ jeunesse (youth)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">21.</span>
+                  <span class="quiz-prompt">_____ miroir (mirror)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">22.</span>
+                  <span class="quiz-prompt">_____ famille (family)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">23.</span>
+                  <span class="quiz-prompt">_____ fauteuil (armchair)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">24.</span>
+                  <span class="quiz-prompt">_____ culture (culture)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">25.</span>
+                  <span class="quiz-prompt">_____ sentiment (feeling)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">26.</span>
+                  <span class="quiz-prompt">_____ commande (order)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">27.</span>
+                  <span class="quiz-prompt">_____ poisson (fish)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">28.</span>
+                  <span class="quiz-prompt">_____ chaleur (heat)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">29.</span>
+                  <span class="quiz-prompt">_____ téléphone (telephone)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">30.</span>
+                  <span class="quiz-prompt">_____ boutique (shop)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">31.</span>
+                  <span class="quiz-prompt">_____ télescope (telescope)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">32.</span>
+                  <span class="quiz-prompt">_____ vérité (truth)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">33.</span>
+                  <span class="quiz-prompt">_____ pont (bridge)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">34.</span>
+                  <span class="quiz-prompt">_____ présence (presence)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">35.</span>
+                  <span class="quiz-prompt">_____ cahier (notebook)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">36.</span>
+                  <span class="quiz-prompt">_____ fourchette (fork)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">37.</span>
+                  <span class="quiz-prompt">_____ bijou (jewel)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">38.</span>
+                  <span class="quiz-prompt">_____ bouteille (bottle)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">39.</span>
+                  <span class="quiz-prompt">_____ jardin (garden)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">40.</span>
+                  <span class="quiz-prompt">_____ solution (solution)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">41.</span>
+                  <span class="quiz-prompt">_____ cheval (horse)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">42.</span>
+                  <span class="quiz-prompt">_____ tristesse (sadness)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">43.</span>
+                  <span class="quiz-prompt">_____ vent (wind)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">44.</span>
+                  <span class="quiz-prompt">_____ journée (daytime)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">45.</span>
+                  <span class="quiz-prompt">_____ coin (corner)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">46.</span>
+                  <span class="quiz-prompt">_____ peinture (painting)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">47.</span>
+                  <span class="quiz-prompt">_____ réalisme (realism)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">48.</span>
+                  <span class="quiz-prompt">_____ serviette (towel/napkin)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">49.</span>
+                  <span class="quiz-prompt">_____ salon (living room)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">50.</span>
+                  <span class="quiz-prompt">_____ musique (music)</span>
+                </div>
+                
+          </div>
+        </div>
+        
+
+        <div class="worksheet-section">
+          <div class="worksheet-hero">
+            <div style="font-size: 7.5pt; font-weight: 800; color: #4f46e5; letter-spacing: 0.1em; text-transform: uppercase;">Tier 2</div>
+            <h3 style="font-size: 13pt; font-weight: 700; color: #0f172a; margin: 2px 0 4px 0;">The 'Trojan Horse' Exception Hunter (Deceptive Traps)</h3>
+          </div>
+          <div class="exercise-inst">Consigne : These nouns look like one gender by their ending, but are actually the opposite! Supply the correct definite article (le, la, or l') and identify why it is deceptive.</div>
+          <div class="quiz-grid-2col">
+            
+                <div class="quiz-item">
+                  <span class="quiz-num">51.</span>
+                  <span class="quiz-prompt">_____ plage (beach)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">52.</span>
+                  <span class="quiz-prompt">_____ problème (problem)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">53.</span>
+                  <span class="quiz-prompt">_____ eau (water)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">54.</span>
+                  <span class="quiz-prompt">_____ silence (silence)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">55.</span>
+                  <span class="quiz-prompt">_____ main (hand)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">56.</span>
+                  <span class="quiz-prompt">_____ musée (museum)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">57.</span>
+                  <span class="quiz-prompt">_____ peau (skin)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">58.</span>
+                  <span class="quiz-prompt">_____ lycée (high school)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">59.</span>
+                  <span class="quiz-prompt">_____ dent (tooth)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">60.</span>
+                  <span class="quiz-prompt">_____ squelette (skeleton)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">61.</span>
+                  <span class="quiz-prompt">_____ nuit (night)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">62.</span>
+                  <span class="quiz-prompt">_____ bonheur (happiness)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">63.</span>
+                  <span class="quiz-prompt">_____ mer (sea)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">64.</span>
+                  <span class="quiz-prompt">_____ parapluie (umbrella)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">65.</span>
+                  <span class="quiz-prompt">_____ fin (end)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">66.</span>
+                  <span class="quiz-prompt">_____ Mexique (Mexico)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">67.</span>
+                  <span class="quiz-prompt">_____ souris (mouse)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">68.</span>
+                  <span class="quiz-prompt">_____ système (system)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">69.</span>
+                  <span class="quiz-prompt">_____ vis (screw)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">70.</span>
+                  <span class="quiz-prompt">_____ comité (committee)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">71.</span>
+                  <span class="quiz-prompt">_____ maison (house)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">72.</span>
+                  <span class="quiz-prompt">_____ incendie (fire/blaze)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">73.</span>
+                  <span class="quiz-prompt">_____ photo (photo)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">74.</span>
+                  <span class="quiz-prompt">_____ bastion (bastion)</span>
+                </div>
+                
+                <div class="quiz-item">
+                  <span class="quiz-num">75.</span>
+                  <span class="quiz-prompt">_____ moto (motorbike)</span>
+                </div>
+                
+          </div>
+        </div>
+        
+
+        <div class="worksheet-section">
+          <div class="worksheet-hero">
+            <div style="font-size: 7.5pt; font-weight: 800; color: #4f46e5; letter-spacing: 0.1em; text-transform: uppercase;">Tier 3</div>
+            <h3 style="font-size: 13pt; font-weight: 700; color: #0f172a; margin: 2px 0 4px 0;">Dual-Gender & Meaning-Shift Matrix</h3>
+          </div>
+          <div class="exercise-inst">Consigne : Fill in the blank with the appropriate article (le/la or un/une) based strictly on the required meaning in context.</div>
+          <div class="quiz-grid-2col">
+            
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">76.</span>
+                  <span class="quiz-prompt">J'ai emprunté _____ livre passionnant à la bibliothèque municipale hier. (reading book)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">77.</span>
+                  <span class="quiz-prompt">Veuillez me peser _____ livre de cerises bien mûres, s'il vous plaît. (pound = 500g)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">78.</span>
+                  <span class="quiz-prompt">Nous avons grimpé tout en haut de _____ tour Eiffel pour admirer la vue. (tall tower)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">79.</span>
+                  <span class="quiz-prompt">Ce magicien habile a fait _____ tour de cartes absolument stupéfiant. (trick / turn)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">80.</span>
+                  <span class="quiz-prompt">Il a rallumé _____ poêle à bois pour chasser le froid hivernal du salon. (heating stove)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">81.</span>
+                  <span class="quiz-prompt">Faites dorer les morceaux de poulet dans _____ poêle avec un filet d'huile. (skillet / pan)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">82.</span>
+                  <span class="quiz-prompt">La mariée a délicatement soulevé _____ voile blanc qui couvrait son visage. (facial veil)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">83.</span>
+                  <span class="quiz-prompt">Ce navigateur solitaire hisse _____ voile pour traverser l'Atlantique. (ship sail)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">84.</span>
+                  <span class="quiz-prompt">Il a réparé _____ manche en chêne de son marteau de bricolage. (tool handle)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">85.</span>
+                  <span class="quiz-prompt">Le joueur a retroussé _____ manche gauche de son maillot de sport. (shirt sleeve)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">86.</span>
+                  <span class="quiz-prompt">Elle a décroché _____ poste prestigieux dans une grande entreprise internationale. (job position)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">87.</span>
+                  <span class="quiz-prompt">Je dois déposer cette lettre recommandée directement à _____ poste. (post office)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">88.</span>
+                  <span class="quiz-prompt">Ce magazine branché analyse les dernières tendances de _____ mode estivale. (fashion)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">89.</span>
+                  <span class="quiz-prompt">Ce nouveau _____ de transport écologique séduit de plus en plus de citadins. (method / mode)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">90.</span>
+                  <span class="quiz-prompt">Versez la pâte fluide dans _____ moule à gâteau beurré. (baking tin / mold)</span>
+                </div>
+                
+          </div>
+        </div>
+        
+
+        <div class="worksheet-section">
+          <div class="worksheet-hero">
+            <div style="font-size: 7.5pt; font-weight: 800; color: #4f46e5; letter-spacing: 0.1em; text-transform: uppercase;">Tier 4</div>
+            <h3 style="font-size: 13pt; font-weight: 700; color: #0f172a; margin: 2px 0 4px 0;">Natural Sentence Agreement & Synthesis</h3>
+          </div>
+          <div class="exercise-inst">Consigne : Complete each sentence by adding the proper article and making any enclosed adjective agree in gender.</div>
+          <div class="quiz-grid-2col">
+            
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">91.</span>
+                  <span class="quiz-prompt">(Le / La) _____ forêt de Fontainebleau est (immense / boisé) ____________ et magnifique.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">92.</span>
+                  <span class="quiz-prompt">(Ce / Cette) _____ problème semble particulièrement (complexe / difficile) ____________.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">93.</span>
+                  <span class="quiz-prompt">Nous avons admiré (le / la) _____ beauté (naturel) ____________ de cette île.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">94.</span>
+                  <span class="quiz-prompt">(Le / La) _____ silence régnant dans la cathédrale était (profond) ____________.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">95.</span>
+                  <span class="quiz-prompt">(Un / Une) _____ ouvrier et (un / une) _____ infirmière travaillent ici.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">96.</span>
+                  <span class="quiz-prompt">(Le / La) _____ nouveau musée d'art moderne est (ouvert) ____________ le dimanche.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">97.</span>
+                  <span class="quiz-prompt">Elle a acheté (un / une) _____ belle robe et (un / une) _____ nouveau chapeau.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">98.</span>
+                  <span class="quiz-prompt">(Ce / Cette) _____ tire-bouchon métallique est très (pratique) ____________.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">99.</span>
+                  <span class="quiz-prompt">(Le / La) _____ Mexique est un pays (fascinant) ____________ d'Amérique latine.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">100.</span>
+                  <span class="quiz-prompt">J'ai ressenti (un / une) _____ grande joie et (un / une) _____ immense bonheur.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">101.</span>
+                  <span class="quiz-prompt">(Ce / Cette) _____ vieille personne est toujours (bienveillant) ____________.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">102.</span>
+                  <span class="quiz-prompt">(Le / La) _____ Normandie est (célèbre) ____________ pour ses fromages.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">103.</span>
+                  <span class="quiz-prompt">Ils ont planté (un / une) _____ grand chêne et (un / une) _____ vigne grimpante.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">104.</span>
+                  <span class="quiz-prompt">(Le / La) _____ Seine traverse Paris avec une allure (tranquille) ____________.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">105.</span>
+                  <span class="quiz-prompt">Ces (vieux) ____________ gens sont très (prudent) ____________.</span>
+                </div>
+                
+          </div>
+        </div>
+        
+
+        <div class="worksheet-section">
+          <div class="worksheet-hero">
+            <div style="font-size: 7.5pt; font-weight: 800; color: #4f46e5; letter-spacing: 0.1em; text-transform: uppercase;">Tier 5</div>
+            <h3 style="font-size: 13pt; font-weight: 700; color: #0f172a; margin: 2px 0 4px 0;">Homophone & Acoustic Recognition Lab</h3>
+          </div>
+          <div class="exercise-inst">Consigne : Select the exact French homophone required by the context, paying close attention to grammatical gender.</div>
+          <div class="quiz-grid-2col">
+            
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">106.</span>
+                  <span class="quiz-prompt">Le (maire / mer / mère) _____ a célébré le mariage civil dans la salle des fêtes.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">107.</span>
+                  <span class="quiz-prompt">Les vagues de la (maire / mer / mère) _____ s'écrasent contre la falaise blanche.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">108.</span>
+                  <span class="quiz-prompt">Ma (maire / mer / mère) _____ prépare une délicieuse tarte aux pommes.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">109.</span>
+                  <span class="quiz-prompt">L'auteur a écrit un (comte / conte / compte) _____ fantastique pour enfants.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">110.</span>
+                  <span class="quiz-prompt">Le (comte / conte / compte) _____ de Paris possédait un vaste domaine forestier.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">111.</span>
+                  <span class="quiz-prompt">J'ai déposé de l'argent sur mon (comte / conte / compte) _____ d'épargne.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">112.</span>
+                  <span class="quiz-prompt">Le jardinier a déterré un (ver / verre / vers / vert) _____ de terre dans le potager.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">113.</span>
+                  <span class="quiz-prompt">Sers-moi un grand (ver / verre / vers / vert) _____ d'eau minérale fraîche.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">114.</span>
+                  <span class="quiz-prompt">Le poète a composé un magnifique (ver / verre / vers / vert) _____ en alexandrin.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">115.</span>
+                  <span class="quiz-prompt">Les feuilles du tilleul ont une belle couleur (ver / verre / vers / vert) _____ tendre.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">116.</span>
+                  <span class="quiz-prompt">Les oiseaux nichent dans les branches du vieux (chêne / chaîne) _____ séculaire.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">117.</span>
+                  <span class="quiz-prompt">Cette bicyclette a une (chêne / chaîne) _____ métallique bien graissée.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">118.</span>
+                  <span class="quiz-prompt">Le prêtre a évoqué le pardon du (péché / pêcher / pêche) _____ lors de son sermon.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">119.</span>
+                  <span class="quiz-prompt">Le (péché / pêcher / pêche) _____ du verger donne des fruits sucrés en été.</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">120.</span>
+                  <span class="quiz-prompt">La (péché / pêcher / pêche) _____ à la ligne est autorisée dans cette rivière calme.</span>
+                </div>
+                
+          </div>
+        </div>
+        
+
+        <div class="worksheet-section">
+          <div class="worksheet-hero">
+            <div style="font-size: 7.5pt; font-weight: 800; color: #4f46e5; letter-spacing: 0.1em; text-transform: uppercase;">Tier 6</div>
+            <h3 style="font-size: 13pt; font-weight: 700; color: #0f172a; margin: 2px 0 4px 0;">Progressive CEFR Challenge (A1 to C2 Mastery)</h3>
+          </div>
+          <div class="exercise-inst">Consigne : Test your mastery across the official European Framework levels. Determine the gender (M or F) and insert the correct article.</div>
+          <div class="quiz-grid-2col">
+            
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">121.</span>
+                  <span class="quiz-prompt">_____ pain (bread)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">122.</span>
+                  <span class="quiz-prompt">_____ maison (house)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">123.</span>
+                  <span class="quiz-prompt">_____ problème (problem)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">124.</span>
+                  <span class="quiz-prompt">_____ plage (beach)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">125.</span>
+                  <span class="quiz-prompt">_____ sentiment (feeling)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">126.</span>
+                  <span class="quiz-prompt">_____ vérité (truth)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">127.</span>
+                  <span class="quiz-prompt">_____ silence (silence)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">128.</span>
+                  <span class="quiz-prompt">_____ Mexique (Mexico)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">129.</span>
+                  <span class="quiz-prompt">_____ schéma (diagram)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">130.</span>
+                  <span class="quiz-prompt">_____ victime (victim)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">131.</span>
+                  <span class="quiz-prompt">_____ incendie (fire/blaze)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">132.</span>
+                  <span class="quiz-prompt">_____ souris (mouse)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">133.</span>
+                  <span class="quiz-prompt">_____ bénéfice (profit)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">134.</span>
+                  <span class="quiz-prompt">_____ cicatrice (scar)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">135.</span>
+                  <span class="quiz-prompt">_____ crapule (scoundrel)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">136.</span>
+                  <span class="quiz-prompt">_____ bastion (bastion)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">137.</span>
+                  <span class="quiz-prompt">_____ éloge (panegyric/praise)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">138.</span>
+                  <span class="quiz-prompt">_____ désuétude (obsolescence)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">139.</span>
+                  <span class="quiz-prompt">_____ mousses (cabin boys)</span>
+                </div>
+                
+                <div class="quiz-item" style="padding: 6px 0;">
+                  <span class="quiz-num">140.</span>
+                  <span class="quiz-prompt">_____ turpitude (baseness)</span>
+                </div>
+                
+          </div>
+        </div>
+        
+    <div class="chapter-hero">
+      <span class="chapter-badge">SOLUTIONS & ANALYSE</span>
+      <h2 class="chapter-title">Corrigé Intégral & Justifications Pédagogiques</h2>
+      <p class="chapter-subtitle">Retrouvez ci-dessous la solution précise de chacun des 140 items, accompagnée de la règle morphologique ou étymologique appliquée.</p>
+    </div>
+    
+
+        <div style="page-break-before: always; margin-top: 14px;">
+          <div class="section-hero">
+            <h3 class="section-title"><span>✓</span> Corrigé Tier 1 • Rapid-Fire Gender Reflex (Core Suffix Identification)</h3>
+          </div>
+          <div class="ans-grid">
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#1</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -age ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#2</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -tion ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#3</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -al ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#4</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -té ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#5</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ment ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#6</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ette ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#7</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -eau ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#8</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ence ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#9</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -eau ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#10</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ure ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#11</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ail ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#12</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ie ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#13</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -age ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#14</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ade ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#15</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -eau ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#16</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -sion ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#17</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ain ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#18</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ance ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#19</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -in ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#20</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -esse ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#21</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -oir ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#22</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ille ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#23</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -euil ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#24</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ure ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#25</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ment ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#26</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ande ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#27</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -on ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#28</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -eur (abstract sensation) is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#29</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -phone ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#30</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ique ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#31</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -scope ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#32</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -té ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#33</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ont ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#34</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ence ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#35</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ier ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#36</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ette ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#37</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ou ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#38</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -eille ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#39</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -in ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#40</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -tion ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#41</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -al ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#42</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -esse ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#43</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ent ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#44</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ée ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#45</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -oin ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#46</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ure ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#47</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -isme ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#48</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ette ending is feminine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#49</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -on ending is masculine</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#50</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> -ique ending is feminine</div>
+            </div>
+            
+          </div>
+        </div>
+        
+
+        <div style="page-break-before: always; margin-top: 14px;">
+          <div class="section-hero">
+            <h3 class="section-title"><span>✓</span> Corrigé Tier 2 • The 'Trojan Horse' Exception Hunter (Deceptive Traps)</h3>
+          </div>
+          <div class="ans-grid">
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#51</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -age, but is FEMININE (Beach-Cage rule).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#52</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -e, but is MASCULINE from Greek neuter in -ma.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#53</span>
+                <span class="ans-correct">l’ (la)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -eau, but is FEMININE (one of the classic water/skin pair).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#54</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -ence, but is MASCULINE (silence is golden/masculine!).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#55</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -ain, but is FEMININE (only major exception to -ain).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#56</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -ée, but is MASCULINE (Greek mouseion).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#57</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -eau, but is FEMININE.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#58</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -ée, but is MASCULINE (Greek lykeion).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#59</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -ent, but is FEMININE from Latin dens.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#60</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -ette, but is MASCULINE (bones are hard!).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#61</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -t, but is FEMININE from Latin nox.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#62</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -eur, but is MASCULINE (bon + heur).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#63</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -er, but is FEMININE (mother ocean).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#64</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -ie, but is MASCULINE (verb compound parer + pluie).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#65</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -in, but is FEMININE from Latin finis.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#66</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -e, but is MASCULINE (one of the 6 special countries).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#67</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -is, but is FEMININE (animal & computer mouse).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#68</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -e, but is MASCULINE from Greek neuter -ma.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#69</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -is, but is FEMININE.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#70</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -té, but is MASCULINE.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#71</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -on, but is FEMININE.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#72</span>
+                <span class="ans-correct">l’ (le)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -ie, but is MASCULINE.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#73</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -o, but is FEMININE from la photographie.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#74</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -tion, but is MASCULINE (fortress bastion).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#75</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ends in -o, but is FEMININE from la motocyclette.</div>
+            </div>
+            
+          </div>
+        </div>
+        
+
+        <div style="page-break-before: always; margin-top: 14px;">
+          <div class="section-hero">
+            <h3 class="section-title"><span>✓</span> Corrigé Tier 3 • Dual-Gender & Meaning-Shift Matrix</h3>
+          </div>
+          <div class="ans-grid">
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#76</span>
+                <span class="ans-correct">un / le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le livre = reading book (masculine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#77</span>
+                <span class="ans-correct">une</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> La livre = 500g of weight or currency £ (feminine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#78</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> La tour = tall tower / skyscraper structure (feminine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#79</span>
+                <span class="ans-correct">un / le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le tour = turn, tour, or magician's trick (masculine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#80</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le poêle = wood heating stove (masculine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#81</span>
+                <span class="ans-correct">la / une</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> La poêle = cooking frying pan (feminine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#82</span>
+                <span class="ans-correct">le / son</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le voile = face or bridal cloth veil (masculine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#83</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> La voile = cloth sail of a ship or sailing sport (feminine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#84</span>
+                <span class="ans-correct">le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le manche = tool handle (masculine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#85</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> La manche = clothing sleeve or English Channel (feminine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#86</span>
+                <span class="ans-correct">un / le</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le poste = employment position or receiver set (masculine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#87</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> La poste = postal institution / post office (feminine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#88</span>
+                <span class="ans-correct">la</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> La mode = fashion / style (feminine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#89</span>
+                <span class="ans-correct">mode</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le mode = mode, method, or mood (masculine).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#90</span>
+                <span class="ans-correct">le / un</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le moule = baking container or casting mold (masculine).</div>
+            </div>
+            
+          </div>
+        </div>
+        
+
+        <div style="page-break-before: always; margin-top: 14px;">
+          <div class="section-hero">
+            <h3 class="section-title"><span>✓</span> Corrigé Tier 4 • Natural Sentence Agreement & Synthesis</h3>
+          </div>
+          <div class="ans-grid">
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#91</span>
+                <span class="ans-correct">La / boisée</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Forêt is feminine &rarr; La forêt est boisée.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#92</span>
+                <span class="ans-correct">Ce / complexe</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Problème is masculine &rarr; Ce problème.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#93</span>
+                <span class="ans-correct">la / naturelle</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Beauté is feminine (-té) &rarr; la beauté naturelle.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#94</span>
+                <span class="ans-correct">Le / profond</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Silence is masculine (trap in -ence) &rarr; Le silence était profond.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#95</span>
+                <span class="ans-correct">Un / une</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Ouvrier is masc; infirmière is fem (-ière).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#96</span>
+                <span class="ans-correct">Le / ouvert</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Musée is masculine &rarr; Le nouveau musée est ouvert.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#97</span>
+                <span class="ans-correct">une / un</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Robe is fem; chapeau is masc (-eau).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#98</span>
+                <span class="ans-correct">Ce / pratique</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Tire-bouchon is a verb+noun compound &rarr; MASCULINE.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#99</span>
+                <span class="ans-correct">Le / fascinant</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Mexique is masculine despite ending in -e.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#100</span>
+                <span class="ans-correct">une / un</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Joie is fem; bonheur is masc (trap in -eur).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#101</span>
+                <span class="ans-correct">Cette / bienveillante</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Personne is always feminine &rarr; Cette personne est bienveillante.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#102</span>
+                <span class="ans-correct">La / célèbre</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Province ending in -ie is feminine &rarr; La Normandie.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#103</span>
+                <span class="ans-correct">un / une</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Chêne (tree) is masc; vigne is fem.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#104</span>
+                <span class="ans-correct">La / tranquille</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> The river Seine is feminine.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#105</span>
+                <span class="ans-correct">vieilles / prudents</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> GENS agreement: feminine before (vieilles gens), masculine after (prudents)!</div>
+            </div>
+            
+          </div>
+        </div>
+        
+
+        <div style="page-break-before: always; margin-top: 14px;">
+          <div class="section-hero">
+            <h3 class="section-title"><span>✓</span> Corrigé Tier 5 • Homophone & Acoustic Recognition Lab</h3>
+          </div>
+          <div class="ans-grid">
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#106</span>
+                <span class="ans-correct">maire</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le maire (city mayor, masc) conducts civil marriages.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#107</span>
+                <span class="ans-correct">mer</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> La mer (sea/ocean, fem) has waves.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#108</span>
+                <span class="ans-correct">mère</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> La mère (mother, fem) cooks the tart.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#109</span>
+                <span class="ans-correct">conte</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Un conte (fairy tale, masc) for children.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#110</span>
+                <span class="ans-correct">comte</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le comte (aristocratic count, masc).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#111</span>
+                <span class="ans-correct">compte</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le compte bancaire (bank account, masc).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#112</span>
+                <span class="ans-correct">ver</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le ver de terre (earthworm, masc).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#113</span>
+                <span class="ans-correct">verre</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le verre (drinking glass, masc).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#114</span>
+                <span class="ans-correct">vers</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le vers (line of poetry, masc).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#115</span>
+                <span class="ans-correct">vert</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le vert (green color, masc).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#116</span>
+                <span class="ans-correct">chêne</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le chêne (oak tree, masc).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#117</span>
+                <span class="ans-correct">chaîne</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> La chaîne (bicycle chain, fem).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#118</span>
+                <span class="ans-correct">péché</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le péché (religious sin, masc).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#119</span>
+                <span class="ans-correct">pêcher</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le pêcher (peach tree, masc).</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#120</span>
+                <span class="ans-correct">pêche</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> La pêche (fishing / peach fruit, fem).</div>
+            </div>
+            
+          </div>
+        </div>
+        
+
+        <div style="page-break-before: always; margin-top: 14px;">
+          <div class="section-hero">
+            <h3 class="section-title"><span>✓</span> Corrigé Tier 6 • Progressive CEFR Challenge (A1 to C2 Mastery)</h3>
+          </div>
+          <div class="ans-grid">
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#121</span>
+                <span class="ans-correct">le (M)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Suffix -ain is masculine.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#122</span>
+                <span class="ans-correct">la (F)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Maison is feminine despite -on.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#123</span>
+                <span class="ans-correct">le (M)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Greek root in -ème is masculine.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#124</span>
+                <span class="ans-correct">la (F)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Plage is feminine despite -age.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#125</span>
+                <span class="ans-correct">le (M)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Suffix -ment is masculine.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#126</span>
+                <span class="ans-correct">la (F)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Suffix -té is feminine.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#127</span>
+                <span class="ans-correct">le (M)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Silence is masculine despite -ence.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#128</span>
+                <span class="ans-correct">le (M)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Country in -e that is masculine.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#129</span>
+                <span class="ans-correct">le (M)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Greek -ma root is masculine.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#130</span>
+                <span class="ans-correct">la (F)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Fixed feminine gender for human beings.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#131</span>
+                <span class="ans-correct">l’ (le) (M)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Incendie is masculine despite -ie.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#132</span>
+                <span class="ans-correct">la (F)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Souris is feminine despite -is.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#133</span>
+                <span class="ans-correct">le (M)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Latin neuter beneficium &rarr; masculine.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#134</span>
+                <span class="ans-correct">la (F)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Latin feminine cicatrix &rarr; feminine.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#135</span>
+                <span class="ans-correct">la (F)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Feminine noun applied to a man.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#136</span>
+                <span class="ans-correct">le (M)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Bastion is masculine despite -tion.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#137</span>
+                <span class="ans-correct">l’ (le) (M)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Suffix -oge is masculine.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#138</span>
+                <span class="ans-correct">la (F)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Suffix -tude is feminine.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#139</span>
+                <span class="ans-correct">les (M)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Le mousse (sailor boy) is masculine.</div>
+            </div>
+            
+            <div class="ans-item">
+              <div class="ans-header">
+                <span class="ans-num">#140</span>
+                <span class="ans-correct">la (F)</span>
+              </div>
+              <div class="ans-rule"><strong>Justification :</strong> Suffix -tude is feminine.</div>
+            </div>
+            
+          </div>
+        </div>
+        
+</body>
+</html>

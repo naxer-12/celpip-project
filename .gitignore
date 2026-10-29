@@ -1,0 +1,4 @@
+.superpowers/
+__pycache__/
+*.pdf
+*.docx

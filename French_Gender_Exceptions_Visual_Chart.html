@@ -1,0 +1,2342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>French Noun Gender - Visual Exceptions Atlas</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+@page {
+  size: letter;
+  margin: 14mm 14mm 16mm 14mm;
+  @top-right {
+    content: "FLE • SYSTÈME DE MAÎTRISE DU GENRE";
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    color: #94a3b8;
+    letter-spacing: 0.08em;
+  }
+  @bottom-center {
+    content: "Page " counter(page);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    font-size: 7.5pt;
+    font-weight: 500;
+    color: #64748b;
+  }
+}
+
+@page :first {
+  margin: 0;
+  @top-right { content: normal; }
+  @bottom-center { content: normal; }
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 9pt;
+  line-height: 1.48;
+  color: #1e293b;
+  background-color: #faf9f6;
+  margin: 0;
+  padding: 0;
+}
+
+/* ==========================================
+   STORYTELLING & ESSAY STYLING
+   ========================================== */
+.story-lead {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 10.5pt;
+  line-height: 1.55;
+  color: #1e293b;
+  font-style: italic;
+  background: #ffffff;
+  border-left: 3.5px solid #4f46e5;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.history-box {
+  background: #fffdfa;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 12px 0;
+  font-size: 8pt;
+  line-height: 1.45;
+  break-inside: avoid;
+}
+
+.history-box-title {
+  font-weight: 700;
+  color: #9a3412;
+  font-size: 8.5pt;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ==========================================
+   PRONUNCIATION KEY & SOUND GUIDE
+   ========================================== */
+.pronunciation-master-box {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 16px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  break-inside: avoid;
+}
+
+.pron-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 16px;
+  margin-top: 8px;
+}
+
+.pron-row {
+  font-size: 7.5pt;
+  line-height: 1.35;
+  border-bottom: 1px dotted #e2e8f0;
+  padding-bottom: 4px;
+}
+
+.pron-symbol {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: #4338ca;
+  background: #e0e7ff;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-right: 6px;
+}
+
+/* ==========================================
+   COVER PAGE HERO
+   ========================================== */
+.cover-page {
+  page-break-after: always;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24mm 20mm;
+  background: linear-gradient(145deg, #faf9f6 0%, #f1f5f9 60%, #e2e8f0 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #4f46e5 0%, #e11d48 50%, #059669 100%);
+}
+
+.cover-pill-box {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.cover-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  background: #e0e7ff;
+  color: #3730a3;
+  border: 1px solid #c7d2fe;
+}
+
+.cover-pill-accent {
+  background: #ffe4e6;
+  color: #9f1239;
+  border: 1px solid #fecdd3;
+}
+
+.cover-main {
+  margin-top: 30px;
+  margin-bottom: auto;
+}
+
+.cover-kicker {
+  font-size: 10pt;
+  font-weight: 700;
+  color: #4f46e5;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 12px;
+}
+
+.cover-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 32pt;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #0f172a;
+  margin: 0 0 14px 0;
+}
+
+.cover-subtitle {
+  font-size: 11pt;
+  line-height: 1.5;
+  color: #475569;
+  max-width: 600px;
+  margin: 0 0 24px 0;
+}
+
+.cover-features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+  max-width: 620px;
+}
+
+.feature-box {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.feature-box-title {
+  font-weight: 700;
+  font-size: 8.5pt;
+  color: #1e293b;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.feature-box-desc {
+  font-size: 7.5pt;
+  color: #64748b;
+  line-height: 1.35;
+}
+
+.cover-footer {
+  border-top: 1px solid #cbd5e1;
+  padding-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 7.5pt;
+  color: #64748b;
+}
+
+.cover-author {
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 8.5pt;
+}
+
+/* ==========================================
+   HEADINGS & TYPOGRAPHY
+   ========================================== */
+.chapter-hero {
+  page-break-before: always;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e2e8f0;
+  position: relative;
+}
+
+.chapter-badge {
+  display: inline-block;
+  font-size: 7pt;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4f46e5;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.chapter-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20pt;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+.chapter-subtitle {
+  font-size: 9.5pt;
+  color: #64748b;
+  margin: 0 0 10px 0;
+  font-weight: 500;
+}
+
+.section-hero {
+  margin-top: 18px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e2e8f0;
+  break-after: avoid;
+}
+
+.section-title {
+  font-size: 12.5pt;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ==========================================
+   CALLOUTS & ALERT BOXES
+   ========================================== */
+.callout {
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 12px 0;
+  font-size: 8.5pt;
+  line-height: 1.45;
+  break-inside: avoid;
+}
+
+.callout-tip {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+.callout-trap {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #92400e;
+}
+
+.callout-fem {
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  color: #9f1239;
+}
+
+.callout-masc {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  color: #3730a3;
+}
+
+/* ==========================================
+   RULE CARDS & TABLES
+   ========================================== */
+.ending-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  break-inside: avoid;
+}
+
+.ending-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.ending-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11pt;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 7px;
+  font-size: 6.5pt;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+}
+
+.badge-masc {
+  background: #e0e7ff;
+  color: #3730a3;
+  border: 1px solid #c7d2fe;
+}
+
+.badge-fem {
+  background: #ffe4e6;
+  color: #9f1239;
+  border: 1px solid #fecdd3;
+}
+
+.badge-dual {
+  background: #f3e8ff;
+  color: #6b21a8;
+  border: 1px solid #e9d5ff;
+}
+
+.badge-amber {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.words-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 14px;
+  margin: 6px 0;
+}
+
+.word-item {
+  font-size: 8pt;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dotted #e2e8f0;
+  padding-bottom: 2px;
+}
+
+.word-fr {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.word-en {
+  color: #64748b;
+  font-style: italic;
+}
+
+.mnemonic-box {
+  background: #f8fafc;
+  border-left: 3px solid #6366f1;
+  padding: 6px 10px;
+  font-size: 7.5pt;
+  color: #334155;
+  margin-top: 8px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* ==========================================
+   MASTER VOCABULARY VAULT CARDS (WITH ENRICHED PHONETICS)
+   ========================================== */
+.vocab-vault-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.vocab-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 9px 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  break-inside: avoid;
+}
+
+.vocab-card.is-trap {
+  border-left: 3.5px solid #d97706;
+  background: #fffdfa;
+}
+
+.vocab-card.is-masc {
+  border-left: 3.5px solid #4f46e5;
+}
+
+.vocab-card.is-fem {
+  border-left: 3.5px solid #e11d48;
+}
+
+.vocab-card.is-dual {
+  border-left: 3.5px solid #7c3aed;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.card-fr-title {
+  font-size: 10.5pt;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.card-pron-box {
+  background: #f1f5f9;
+  border-radius: 4px;
+  padding: 4px 6px;
+  margin-bottom: 6px;
+}
+
+.card-phonetic {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7.5pt;
+  font-weight: 700;
+  color: #3730a3;
+}
+
+.card-syllables {
+  font-size: 7pt;
+  color: #64748b;
+  margin-left: 4px;
+  font-style: italic;
+}
+
+.card-sound-tip {
+  font-size: 6.5pt;
+  color: #475569;
+  margin-top: 1px;
+}
+
+.card-en {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.card-mnemonic {
+  font-size: 7.5pt;
+  color: #475569;
+  background: #f8fafc;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+
+.card-example {
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 5px;
+  font-size: 7.5pt;
+}
+
+.card-ex-fr {
+  font-style: italic;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.card-ex-en {
+  color: #64748b;
+  font-size: 7pt;
+}
+
+/* ==========================================
+   VISUAL EXCEPTION CARDS (SVG ATLAS)
+   ========================================== */
+.exceptions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.exception-visual-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  break-inside: avoid;
+}
+
+.exception-svg-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================
+   WORKSHEETS & EXERCISES
+   ========================================== */
+.worksheet-section {
+  page-break-before: always;
+  margin-bottom: 20px;
+}
+
+.worksheet-hero {
+  border-bottom: 2px solid #0f172a;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+
+.exercise-group {
+  margin-bottom: 16px;
+  break-inside: avoid;
+}
+
+.exercise-inst {
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 10px;
+  background: #f1f5f9;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.quiz-grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 16px;
+}
+
+.quiz-grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px 12px;
+}
+
+.quiz-item {
+  font-size: 8pt;
+  padding: 4px 0;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: baseline;
+  break-inside: avoid;
+}
+
+.quiz-num {
+  font-weight: 700;
+  color: #64748b;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.quiz-prompt {
+  flex-grow: 1;
+  color: #1e293b;
+}
+
+.quiz-blank {
+  display: inline-block;
+  min-width: 45px;
+  border-bottom: 1px solid #94a3b8;
+  margin: 0 4px;
+}
+
+/* ==========================================
+   ANSWER KEY STYLING
+   ========================================== */
+.ans-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 14px;
+  margin-top: 10px;
+}
+
+.ans-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 7.5pt;
+  break-inside: avoid;
+}
+
+.ans-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.ans-num {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ans-correct {
+  font-weight: 800;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.ans-rule {
+  color: #64748b;
+  line-height: 1.35;
+}
+
+/* ==========================================
+   DATA TABLES
+   ========================================== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8pt;
+  margin: 10px 0;
+  break-inside: avoid;
+}
+
+.data-table th {
+  background: #f8fafc;
+  color: #1e293b;
+  font-weight: 700;
+  text-align: left;
+  padding: 6px 10px;
+  border-bottom: 2px solid #e2e8f0;
+  font-size: 7.5pt;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.data-table td {
+  padding: 5px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #fafbfc;
+}
+
+
+    .exceptions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 12px 0;
+    }
+    .exception-visual-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      break-inside: avoid;
+    }
+    
+</style>
+</head>
+<body>
+
+    <div class="cover-page" style="page-break-after: always; height: auto; min-height: 94vh;">
+      <div class="cover-pill-box">
+        <span class="cover-pill" style="background: #fef3c7; color: #92400e; border-color: #fde68a;">ATLAS VISUEL DES EXCEPTIONS</span>
+        <span class="cover-pill cover-pill-accent">FLE MAÎTRISE</span>
+      </div>
+      <div class="cover-main" style="margin-top: 20px;">
+        <div class="cover-kicker">RÉPERTOIRE ILLUSTRÉ DES FAUX AMIS & PIÈGES DE GENRE</div>
+        <h1 class="cover-title" style="font-size: 26pt;">Le Grand Tableau Illustré des Exceptions</h1>
+        <p class="cover-subtitle" style="font-size: 11pt;">
+          Une cartographie visuelle complète des 36 mots trompeurs majeurs de la langue française. Chaque fiche associe une illustration vectorielle, la règle enfreinte, une prononciation intuitive et une ancre mnémotechnique indélébile.
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 18px;">
+          <div class="feature-box">
+            <div class="feature-box-title"><span>👁️</span> ANCRAGE VISUEL</div>
+            <div class="feature-box-desc">Chaque exception possède son icône dédiée pour créer une empreinte visuelle immédiate dans la mémoire.</div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-title"><span>🔊</span> PHONÉTIQUE INTUITIVE</div>
+            <div class="feature-box-desc">Découpage syllabique et astuces phonétiques pour anglophones (lettres muettes, voyelles nasales).</div>
+          </div>
+          <div class="feature-box">
+            <div class="feature-box-title"><span>💡</span> HISTOIRE MNÉMOTECHNIQUE</div>
+            <div class="feature-box-desc">Une phrase narrative frappante pour ne plus jamais hésiter entre 'le' et 'la'.</div>
+          </div>
+        </div>
+      </div>
+      <div class="cover-footer">
+        <div><strong>Édition Illustrée Grand Format</strong> • Conforme aux Chapitres 2 & 3 du FLE All-in-One</div>
+        <div>Système Editorial Minimaliste • Chroma Pastels</div>
+      </div>
+    </div>
+
+    <div style="page-break-before: always; margin-top: 10px;">
+      <div class="chapter-hero">
+        <span class="chapter-badge">ATLAS VISUEL • PARTIE 1</span>
+        <h2 class="chapter-title">Les Faux Noms Masculins (Mots en Suffixe Masculin qui sont FÉMININS)</h2>
+        <p class="chapter-subtitle">Ces noms se terminent par -age, -eau, -ain, -ent, -is ou une consonne, mais sont rigoureusement féminins.</p>
+      </div>
+      <div class="exceptions-grid">
+        
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 52c8-4 16-4 24 0s16 4 24 0" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M8 58c10-3 18-3 28 0s18 3 24 0" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="48" cy="18" r="8" fill="#f59e0b"/>
+          <path d="M32 20l-16 14h32L32 20z" fill="#f43f5e"/>
+          <path d="M32 20v28" stroke="#78350f" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la plage</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">beach</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -age are 95% MASCULINE (le fromage, le voyage), but plage is strictly FEMININE!
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah PLAHZH]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(PLAHZH)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Soft 'zh' sound like the 's' in 'measure' or 'vision'. The final 'e' is completely silent.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Think: Sunbathers relaxing in pink bikinis on LA PLAGE.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Les enfants courent joyeusement sur la plage ensoleillée. »</div>
+        <div style="color: #64748b; font-size: 7pt;">The children are running merrily on the sunny beach.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="18" y="20" width="28" height="34" rx="4" stroke="#475569" stroke-width="2"/>
+          <path d="M25 20v34M32 20v34M39 20v34" stroke="#94a3b8" stroke-width="1.5"/>
+          <path d="M22 20c0-6 4.5-10 10-10s10 4 10 10" stroke="#475569" stroke-width="2"/>
+          <circle cx="32" cy="7" r="3" stroke="#475569" stroke-width="1.5"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la cage</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">cage</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -age, yet is strictly FEMININE.
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah KAHZH]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(KAHZH)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Rhymes with 'dodge' but with a smooth 'zh' glide.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> A fragile canary sings inside LA CAGE.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« L'oiseau apprivoisé chante dans sa petite cage dorée. »</div>
+        <div style="color: #64748b; font-size: 7pt;">The tame bird sings in its little golden cage.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="12" y="14" width="40" height="36" rx="3" stroke="#64748b" stroke-width="2.5" fill="#f8fafc"/>
+          <circle cx="24" cy="26" r="4" fill="#fbbf24"/>
+          <path d="M16 44l12-14 8 8 6-6 10 12H16z" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">l’image</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">image / picture</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -age, but is FEMININE (une belle image).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lee-MAHZH]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(ee • MAHZH)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Stress on the second syllable: 'ee' + 'MAHZH'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> A vivid imagination paints a colorful feminine picture.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Cette image en noir et blanc capture l'émotion du moment. »</div>
+        <div style="color: #64748b; font-size: 7pt;">This black and white picture captures the emotion of the moment.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 12h20l12 12v28H18V12z" stroke="#475569" stroke-width="2.5" fill="#ffffff"/>
+          <path d="M38 12v12h12" stroke="#475569" stroke-width="2" fill="#e2e8f0"/>
+          <path d="M24 28h16M24 36h16M24 44h10" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la page</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">page</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -age, yet is strictly FEMININE.
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah PAHMZ]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(PAHZH)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'ah' vowel like 'father' + 'zh'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Turn to LA PAGE dix to read the story.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« J'ai corné le coin de la page pour ne pas perdre ma lecture. »</div>
+        <div style="color: #64748b; font-size: 7pt;">I dog-eared the corner of the page so as not to lose my place.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="32" r="22" stroke="#475569" stroke-width="2.5" fill="#ffffff"/>
+          <circle cx="32" cy="32" r="2.5" fill="#0f172a"/>
+          <path d="M32 32V20M32 32l8 5" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+          <path d="M32 10v3M32 51v3M10 32h3M51 32h3" stroke="#94a3b8" stroke-width="2"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">l’horloge</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">clock</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -oge (like l'éloge, masc), but l'horloge is FEMININE!
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lohr-LOHZH]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(ohr • LOHZH)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Silent 'h'! Say 'ohr' + 'LOHZH'. Deep round 'oh'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> The clock on the wall ticks away the hours (l'heure is also fem!).
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« L'horloge du grand salon sonne les douze coups de minuit. »</div>
+        <div style="color: #64748b; font-size: 7pt;">The grandfather clock strikes the twelve chimes of midnight.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 36V22a3 3 0 016 0v12M28 22V16a3 3 0 016 0v18M34 18a3 3 0 016 0v16M40 22a3 3 0 016 0v16c0 8-6 16-16 16s-14-6-14-14v-6a3 3 0 016 0v4" stroke="#e11d48" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la main</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">hand</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -ain are masculine (le pain, le train), but la main is FEMININE (Latin manus, 4th declension fem).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah MAN]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(MAN)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Nasal 'an' like 'can' through the nose; do NOT pronounce the 'n' consonant!
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> A woman's delicate hand (la main) wearing a wedding ring.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Elle a tendu la main pour saluer son nouvel invité. »</div>
+        <div style="color: #64748b; font-size: 7pt;">She extended her hand to greet her new guest.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 10c0 0-14 18-14 28a14 14 0 0028 0c0-10-14-28-14-28z" fill="#0284c7" stroke="#0369a1" stroke-width="2"/>
+          <path d="M26 34a7 7 0 007 7" stroke="#bae6fd" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">l’eau</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">water</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -eau are masculine (le bateau, le château), but l'eau is strictly FEMININE (Latin aqua).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[LOH]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(LOH)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Sounds identically to the English word 'low'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Life-giving water (l'eau) and human skin (la peau) are nature's feminine pair.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Un verre d'eau fraîche est indispensable après l'effort physique. »</div>
+        <div style="color: #64748b; font-size: 7pt;">A glass of cold water is essential after physical exercise.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="28" r="16" stroke="#e11d48" stroke-width="2.2" fill="#fff1f2"/>
+          <path d="M20 54c4-8 10-10 12-10s8 2 12 10" stroke="#e11d48" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M26 28s2 2 6 2 6-2 6-2" stroke="#fb7185" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la peau</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">skin</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -eau, yet is strictly FEMININE.
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah POH]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(POH)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Sounds identically to 'Poe' (as in Edgar Allan Poe).
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Soft feminine skin protected with lotion.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Cette crème hydrate intensément la peau sèche en hiver. »</div>
+        <div style="color: #64748b; font-size: 7pt;">This cream intensely hydrates dry skin in winter.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 18c0-6 6-6 12-4 6-2 12-2 12 4 0 10-4 18-4 32-1 0-4-12-8-12s-7 12-8 12c0-14-4-22-4-32z" fill="#ffffff" stroke="#475569" stroke-width="2.5"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la dent</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">tooth</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in consonant cluster -ent (like l'argent, le vent), but is FEMININE (Latin dens).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah DAHN]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(DAHN)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Nasal 'dahn' like 'haunt' through the nose. The final 't' is completely silent!
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Dentist drills a cavity in a white feminine tooth.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« L'enfant montre fièrement sa première dent tombée. »</div>
+        <div style="color: #64748b; font-size: 7pt;">The child proudly shows his first lost tooth.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M38 12a18 18 0 1014 26 20 20 0 01-14-26z" fill="#312e81" stroke="#4338ca" stroke-width="2"/>
+          <circle cx="20" cy="18" r="1.5" fill="#fbbf24"/>
+          <circle cx="16" cy="30" r="1.5" fill="#fbbf24"/>
+          <circle cx="26" cy="44" r="1.5" fill="#fbbf24"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la nuit</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">night</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Consonant -t terminations default to masculine, but la nuit is FEMININE (Latin nox, noctis).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah NWEE]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(NWEE)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'Nwee' in one syllable. The final 't' is completely silent!
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> The famous proverb: 'La nuit, tous les chats sont gris.'
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« La nuit était silencieuse et baignée par la lueur des étoiles. »</div>
+        <div style="color: #64748b; font-size: 7pt;">The night was quiet and bathed in the glow of the stars.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 46l10-18 10 18H22zM12 52l10-14 10 14H12zM32 52l10-14 10 14H32z" fill="#15803d" stroke="#166534" stroke-width="1.8"/>
+          <path d="M32 46v6" stroke="#78350f" stroke-width="2.5"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la forêt</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">forest</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in consonant -t, yet is strictly FEMININE.
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah foh-REH]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(foh • REH)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'foh' + open 'reh' like 'red'. The 't' is silent!
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Mother Nature's deep green enchanted forest.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Une promenade vivifiante dans la forêt apaise l'esprit. »</div>
+        <div style="color: #64748b; font-size: 7pt;">An invigorating walk in the forest calms the mind.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 38c8-6 16 6 24 0s16-6 24 0" stroke="#0284c7" stroke-width="3" stroke-linecap="round"/>
+          <path d="M8 48c8-6 16 6 24 0s16-6 24 0" stroke="#0369a1" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M28 26l8-12v12h-8z" fill="#f43f5e"/>
+          <path d="M24 26h16l-3 4H27l-3-4z" fill="#475569"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la mer</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">sea / ocean</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -er are predominantly masculine (le fer, le verger), but la mer is FEMININE (Latin mare).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah MEHR]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(MEHR)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Open 'eh' sound with rolled/throaty French 'r'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> The French call the sea 'La Grande Bleue' (feminine blue).
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Le voilier fend les vagues agitées de la mer Méditerranée. »</div>
+        <div style="color: #64748b; font-size: 7pt;">The sailboat cuts through the rough waves of the Mediterranean Sea.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="12" y="16" width="40" height="32" rx="4" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+          <text x="32" y="37" fill="#fbbf24" font-family="'Playfair Display', serif" font-weight="bold" font-size="14" text-anchor="middle">FIN</text>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la fin</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">end / finale</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -in are masculine (le vin, le jardin), but la fin is FEMININE (Latin finis).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah FAN]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(FAN)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Nasal 'an' like 'can' through the nose; do not say the 'n'!
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> The famous screen banner at the close of vintage French films: 'FIN' (la fin).
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« La fin du roman a surpris tous les lecteurs par son audace. »</div>
+        <div style="color: #64748b; font-size: 7pt;">The end of the novel surprised all readers with its audacity.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="22" y="14" width="20" height="36" rx="10" stroke="#475569" stroke-width="2.2" fill="#ffffff"/>
+          <path d="M32 14v12" stroke="#94a3b8" stroke-width="2"/>
+          <path d="M32 10V6" stroke="#475569" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la souris</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">mouse (animal & computer)</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -is are masculine (le devis, le croquis), but la souris is FEMININE.
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah soo-REE]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(soo • REE)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'soo' as in soup + 'ree'. The final 's' is completely silent!
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> A tiny mouse squeaks before clicking the computer mouse.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Je clique deux fois avec la souris sans fil de mon bureau. »</div>
+        <div style="color: #64748b; font-size: 7pt;">I double-click with my desk's wireless mouse.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="24" y="10" width="16" height="6" rx="2" fill="#64748b"/>
+          <path d="M28 16v34l4 6 4-6V16H28z" fill="#94a3b8" stroke="#475569" stroke-width="2"/>
+          <path d="M28 24l8-4M28 32l8-4M28 40l8-4" stroke="#475569" stroke-width="1.8"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la vis</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">screw (hardware)</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -is, yet is strictly FEMININE.
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah VEES]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(VEES)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Unlike souris, here the final 's' IS pronounced: 'VEES' like geese with a 'v'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Fasten the hinge with a small feminine screw.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Serre fermement la vis pour maintenir solidement l'étagère. »</div>
+        <div style="color: #64748b; font-size: 7pt;">Tighten the screw firmly to hold the shelf securely.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="26" y="14" width="12" height="22" rx="6" fill="#e11d48"/>
+          <path d="M20 28a12 12 0 0024 0M32 40v12M24 52h16" stroke="#475569" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la voix</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">voice</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -x are masculine (le choix, le prix), but la voix is FEMININE (Latin vox).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah VWAH]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(VWAH)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'Vwah' like 'voyage' without the yage. Final 'x' is silent!
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> The soprano sings with a golden operatic voice.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Sa voix douce et mélodieuse a captivé l'ensemble de l'auditoire. »</div>
+        <div style="color: #64748b; font-size: 7pt;">Her sweet and melodious voice captivated the entire audience.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 36c6-10 16-16 28-14-4 6-4 14 0 20-8 0-16-2-28-6z" fill="#ffffff" stroke="#0284c7" stroke-width="2.2"/>
+          <path d="M44 22c2-4 6-6 10-6" stroke="#16a34a" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la paix</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">peace</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -x, but is FEMININE (Latin pax).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah PEH]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(PEH)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Open 'peh' rhyming with 'bed' without the 'd'. Final 'x' is silent!
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> The dove of peace bringing harmony to the world.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Les traités diplomatiques visent à préserver la paix mondiale. »</div>
+        <div style="color: #64748b; font-size: 7pt;">Diplomatic treaties aim to preserve world peace.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="32" r="10" stroke="#f59e0b" stroke-width="2.5" fill="none"/>
+          <path d="M32 32h22v6M46 32v4" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la clé (clef)</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">key</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Hard consonants default to masculine, but la clé is FEMININE (Latin clavis).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah KLAY]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(KLAY)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Sounds identically to the English name 'Clay'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Turn the golden key in the lock of the door.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« N'oublie pas de prendre la clé avant de fermer la porte. »</div>
+        <div style="color: #64748b; font-size: 7pt;">Don't forget to take the key before closing the door.</div>
+      </div>
+    </div>
+    
+      </div>
+    </div>
+
+    <div style="page-break-before: always; margin-top: 10px;">
+      <div class="chapter-hero">
+        <span class="chapter-badge">ATLAS VISUEL • PARTIE 2</span>
+        <h2 class="chapter-title">Les Faux Noms Féminins (Mots en Suffixe Féminin qui sont MASCULINS)</h2>
+        <p class="chapter-subtitle">Ces noms se terminent par -ence, -ée, -ette, -eur, -ie, -té ou le 'e' muet, mais sont rigoureusement masculins.</p>
+      </div>
+      <div class="exceptions-grid">
+        
+    <div class="exception-visual-card" style="border-left: 4px solid #4f46e5; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #f0f4ff; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 26h8l12-10v32L24 38h-8V26z" fill="#475569"/>
+          <path d="M42 24l12 16M54 24L42 40" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">le silence</span>
+            <span class="badge badge-masc">MASCULIN</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">silence</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -ence are overwhelmingly FEMININE (la présence, la différence), but le silence is MASCULINE!
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[luh see-LAHNS]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(see • LAHNS)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'see' + deep nasal 'LAHNS'. The golden silence.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Silence is golden, and in French, silence is MASCULINE!
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Un silence solennel s'est abattu sur la salle d'audience. »</div>
+        <div style="color: #64748b; font-size: 7pt;">A solemn silence fell over the courtroom.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #4f46e5; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #f0f4ff; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 24l20-10 20 10H12z" fill="#4f46e5"/>
+          <path d="M16 24v22M26 24v22M38 24v22M48 24v22" stroke="#4338ca" stroke-width="2"/>
+          <rect x="10" y="46" width="44" height="6" fill="#1e1b4b"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">le musée</span>
+            <span class="badge badge-masc">MASCULIN</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">museum</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -ée are feminine (la journée, l'idée), but le musée is MASCULINE (from Greek mouseion).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[luh mew-ZAY]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(mew • ZAY)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Round lips tightly saying 'ee' to produce French 'u' &rarr; 'mew' + 'ZAY'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> The famous Louvre is LE MUSÉE le plus visité du monde.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Le musée d'Orsay abrite des chefs-d'œuvre impressionnistes majeurs. »</div>
+        <div style="color: #64748b; font-size: 7pt;">The Orsay museum houses major Impressionist masterpieces.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #4f46e5; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #f0f4ff; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 14L10 24l22 10 22-10-22-10z" fill="#4f46e5"/>
+          <path d="M46 29v14M18 29v12c0 8 6 12 14 12s14-4 14-12V29" stroke="#312e81" stroke-width="2" fill="none"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">le lycée</span>
+            <span class="badge badge-masc">MASCULIN</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">high school</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -ée, yet is strictly MASCULINE (Greek lykeion).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[luh lee-SAY]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(lee • SAY)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'lee' + 'SAY' like 'say' in English.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> French teenagers attend LE LYCÉE before university.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Mon fils aîné prépare son baccalauréat au lycée Victor-Hugo. »</div>
+        <div style="color: #64748b; font-size: 7pt;">My eldest son is preparing for his baccalaureate at Victor Hugo high school.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #4f46e5; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #f0f4ff; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="18" r="8" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+          <circle cx="29" cy="18" r="1.5" fill="#0f172a"/>
+          <circle cx="35" cy="18" r="1.5" fill="#0f172a"/>
+          <path d="M32 26v22M24 32h16M26 38h12M28 44h8M32 48l-8 10M32 48l8 10" stroke="#475569" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">le squelette</span>
+            <span class="badge badge-masc">MASCULIN</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">skeleton</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -ette are feminine (la bicyclette, la fourchette), but le squelette is MASCULINE (bones are tough!).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[luh skuh-LEHT]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(skuh • LEHT)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Rhymes with 'net' or 'bet': 'skuh' + 'LEHT'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> The anatomy teacher hung LE SQUELETTE in the laboratory.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Le squelette humain est composé de deux cent six os distincts. »</div>
+        <div style="color: #64748b; font-size: 7pt;">The human skeleton is composed of two hundred and six distinct bones.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #4f46e5; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #f0f4ff; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 50s-16-10-16-22a10 10 0 0116-8 10 10 0 0116 8c0 12-16 22-16 22z" fill="#f43f5e"/>
+          <circle cx="32" cy="20" r="12" fill="#fbbf24" opacity="0.3"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">le bonheur</span>
+            <span class="badge badge-masc">MASCULIN</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">happiness</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Abstract nouns in -eur are feminine (la chaleur, la peur), but le bonheur is MASCULINE (bon + heur).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[luh boh-NUHR]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(boh • NUHR)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'boh' + 'nuhr' rhyming with 'purr' or 'fur'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> True happiness (le bonheur) and good fortune.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Le vrai bonheur se trouve souvent dans les plaisirs simples du quotidien. »</div>
+        <div style="color: #64748b; font-size: 7pt;">True happiness is often found in the simple pleasures of daily life.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #4f46e5; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #f0f4ff; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 36c0-12 9-20 20-20s20 8 20 20H12z" fill="#0284c7" stroke="#0369a1" stroke-width="2"/>
+          <path d="M32 16v30a4 4 0 01-8 0" stroke="#78350f" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">le parapluie</span>
+            <span class="badge badge-masc">MASCULIN</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">umbrella</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -ie are feminine (la vie, la pharmacie), but le parapluie is MASCULINE because it is a verb compound (parer + la pluie).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[luh pah-rah-PLWEE]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(pah • rah • PLWEE)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'PLWEE' rhyming with 'free' with a 'w' glide.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Open LE PARAPLUIE to shield against the falling rain.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« N'oublie pas ton parapluie car le ciel s'assombrit rapidement. »</div>
+        <div style="color: #64748b; font-size: 7pt;">Don't forget your umbrella because the sky is darkening quickly.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #4f46e5; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #f0f4ff; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 50h40L44 26H20L12 50z" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+          <rect x="26" y="18" width="12" height="8" fill="#b45309"/>
+          <path d="M28 50V36h8v14" fill="#78350f"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">le Mexique</span>
+            <span class="badge badge-masc">MASCULIN</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">Mexico</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Countries ending in -e are feminine (la France, l'Italie), but le Mexique is MASCULINE!
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[luh mehk-SEEK]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(mehk • SEEK)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'mehk' + 'SEEK' like 'seek' in English.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> One of the famous 6 masculine -e countries (along with Cambodge, Mozambique, Zimbabwe, Zaïre, Bélize).
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Le Mexique possède un patrimoine archéologique précolombien exceptionnel. »</div>
+        <div style="color: #64748b; font-size: 7pt;">Mexico possesses exceptional pre-Columbian archaeological heritage.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #4f46e5; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #f0f4ff; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="32" r="22" stroke="#4f46e5" stroke-width="2.5" fill="#eef2ff"/>
+          <text x="32" y="42" fill="#4338ca" font-family="'Playfair Display', serif" font-weight="bold" font-size="28" text-anchor="middle">?</text>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">le problème</span>
+            <span class="badge badge-masc">MASCULIN</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">problem</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in silent -e, but is MASCULINE from ancient Greek neuter in -ma (problema).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[luh proh-BLEHM]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(proh • BLEHM)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'proh' + 'BLEHM' rhyming with 'hem' or 'gem'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> No problem! Say 'Pas de problème' (problème is always masculine).
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Nous avons analysé ce problème complexe sous tous ses angles. »</div>
+        <div style="color: #64748b; font-size: 7pt;">We analyzed this complex problem from all angles.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #4f46e5; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #f0f4ff; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="28" cy="28" r="10" stroke="#0284c7" stroke-width="2.5" fill="none"/>
+          <circle cx="42" cy="40" r="7" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+          <path d="M28 14v4M28 38v4M14 28h4M38 28h4" stroke="#0284c7" stroke-width="2"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">le système</span>
+            <span class="badge badge-masc">MASCULIN</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">system</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -e, but is MASCULINE from Greek systema.
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[luh sees-TEHM]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(sees • TEHM)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'sees' + 'TEHM' rhyming with 'stem'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Greek scientific systems are MASCULINE.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Ce nouveau système solaire miniature est fascinant à observer. »</div>
+        <div style="color: #64748b; font-size: 7pt;">This new miniature solar system is fascinating to observe.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #4f46e5; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #f0f4ff; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 50V24l8-4v30M42 50V20l8 4v26M22 28h20v22H22V28z" fill="#cbd5e1" stroke="#475569" stroke-width="2"/>
+          <path d="M28 50V38h8v12" fill="#1e293b"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">le bastion</span>
+            <span class="badge badge-masc">MASCULIN</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">bastion / stronghold</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -tion are 99% feminine, but le bastion is MASCULINE (Italian bastione).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[luh bahs-TYOHN]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(bahs • TYOHN)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Nasal 'tyohn'. A stone fortress bastion.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> A masculine stone fortress standing against enemy attack.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« La vieille forteresse médiévale servait de dernier bastion de défense. »</div>
+        <div style="color: #64748b; font-size: 7pt;">The old medieval fortress served as the last bastion of defense.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 14L12 30h8v20h24V30h8L32 14z" fill="#fee2e2" stroke="#e11d48" stroke-width="2.2"/>
+          <rect x="28" y="38" width="8" height="12" fill="#e11d48"/>
+          <rect x="38" y="20" width="4" height="6" fill="#94a3b8"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la maison</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">house / home</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -on are predominantly masculine (le salon, le pont), but la maison is FEMININE (Latin mansio).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah may-ZOHN]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(may • ZOHN)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'may' + nasal 'ZOHN' like 'zone' through the nose.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Home sweet home: LA MAISON de famille.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Notre maison de campagne possède un vaste verger de pommiers. »</div>
+        <div style="color: #64748b; font-size: 7pt;">Our country house possesses a vast apple orchard.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="46" r="6" fill="#ec4899"/>
+          <circle cx="44" cy="38" r="6" fill="#ec4899"/>
+          <path d="M28 46V20l22-8v26" stroke="#db2777" stroke-width="3"/>
+          <path d="M28 20l22-8" stroke="#db2777" stroke-width="4"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la chanson</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">song</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -on, yet is strictly FEMININE (Latin cantio).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah shahn-SOHN]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(shahn • SOHN)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Two nasal vowels: 'shahn' + 'SOHN'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Singing a melodious French chanson d'amour.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Elle fredonne une chanson entraînante tout en cuisinant. »</div>
+        <div style="color: #64748b; font-size: 7pt;">She hums a catchy song while cooking.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 16h24l-4 36H24L20 16z" stroke="#0284c7" stroke-width="2.2" fill="#e0f2fe"/>
+          <path d="M36 10l-4 12" stroke="#f43f5e" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la boisson</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">drink / beverage</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -on, yet is strictly FEMININE.
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah bwah-SOHN]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(bwah • SOHN)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'bwah' (like 'boire') + nasal 'SOHN'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> A refreshing feminine beverage on a hot summer terrace.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Le café sert une boisson fraîche à base de menthe et de citron. »</div>
+        <div style="color: #64748b; font-size: 7pt;">The café serves a chilled beverage made of mint and lemon.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="32" r="14" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+          <path d="M32 10v6M32 48v6M10 32h6M48 32h6" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la saison</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">season</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -on, yet is strictly FEMININE (Latin satio).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah say-ZOHN]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(say • ZOHN)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'say' + nasal 'ZOHN'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> The four seasons (les quatre saisons) of the turning year.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« L'automne est une saison magnifique aux couleurs flamboyantes. »</div>
+        <div style="color: #64748b; font-size: 7pt;">Autumn is a magnificent season with flamboyant colors.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #4f46e5; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #f0f4ff; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="14" y="24" width="36" height="20" rx="3" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+          <circle cx="22" cy="18" r="3" fill="#4f46e5"/>
+          <circle cx="32" cy="18" r="3" fill="#4f46e5"/>
+          <circle cx="42" cy="18" r="3" fill="#4f46e5"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">le comité</span>
+            <span class="badge badge-masc">MASCULIN</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">committee</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Nouns in -té are feminine (la liberté, la vérité), but le comité is MASCULINE!
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[luh koh-mee-TAY]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(koh • mee • TAY)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'koh' + 'mee' + 'TAY'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> The steering committee (le comité) meets in the boardroom.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Le comité scientifique a validé les conclusions de cette étude. »</div>
+        <div style="color: #64748b; font-size: 7pt;">The scientific committee validated the conclusions of this study.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #4f46e5; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #f0f4ff; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 14h28v36H18V14z" stroke="#475569" stroke-width="2" fill="#ffffff"/>
+          <path d="M24 24h16M24 32h16M24 40h10" stroke="#94a3b8" stroke-width="1.8"/>
+          <circle cx="40" cy="42" r="4" fill="#dc2626"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">le traité</span>
+            <span class="badge badge-masc">MASCULIN</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">treaty</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -té, yet is MASCULINE (past participle noun derivative).
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[luh tray-TAY]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(tray • TAY)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'tray' + 'TAY'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Diplomats sign a formal peace treaty (le traité).
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Le traité de Versailles a marqué un tournant géopolitique majeur. »</div>
+        <div style="color: #64748b; font-size: 7pt;">The Treaty of Versailles marked a major geopolitical turning point.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #e11d48; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #fff5f5; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="32" r="18" fill="#1e293b"/>
+          <rect x="18" y="26" width="28" height="10" rx="3" fill="#ffffff"/>
+          <circle cx="26" cy="31" r="2.5" fill="#0f172a"/>
+          <circle cx="38" cy="31" r="2.5" fill="#0f172a"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">la crapule</span>
+            <span class="badge badge-fem">FÉMININ</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">scoundrel / crook (applied to men)</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Grammatically FEMININE even when describing a villainous man!
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[lah krah-POOL]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(krah • POOL)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> 'krah' + 'POOL' like swimming pool.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Historical feminine insult for a corrupt male villain.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Ce malfaiteur sans scrupules est une crapule de la pire espèce. »</div>
+        <div style="color: #64748b; font-size: 7pt;">This unscrupulous criminal is a scoundrel of the worst kind.</div>
+      </div>
+    </div>
+    
+    <div class="exception-visual-card" style="border-left: 4px solid #4f46e5; background: #ffffff;">
+      <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 8px;">
+        <div class="exception-svg-wrap" style="background: #f0f4ff; padding: 6px; border-radius: 8px; flex-shrink: 0;">
+          <svg viewBox="0 0 64 64" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 48h32M24 48V28l8-10 8 10v20M32 18v30" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+        </div>
+        <div style="flex-grow: 1;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13pt; font-weight: 700; color: #0f172a;">le Cambodge</span>
+            <span class="badge badge-masc">MASCULIN</span>
+          </div>
+          <div style="font-size: 8.5pt; font-weight: 600; color: #334155;">Cambodia</div>
+        </div>
+      </div>
+
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 5px 8px; font-size: 7.5pt; color: #92400e; margin-bottom: 8px;">
+        <strong>⚠️ Piège :</strong> Ends in -e, but is MASCULINE!
+      </div>
+
+      <div style="background: #f8fafc; border-radius: 5px; padding: 6px 8px; margin-bottom: 8px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 8pt; font-weight: 700; color: #4338ca;">🔊 Prononciation :</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; font-weight: 700; color: #0f172a;">[luh kahn-BOHDZH]</span>
+          <span style="font-size: 7.5pt; color: #64748b; font-style: italic;">(kahn • BOHDZH)</span>
+        </div>
+        <div style="font-size: 7pt; color: #475569; margin-top: 2px;">
+          <strong>Guide phonétique :</strong> Nasal 'kahn' + 'BOHDZH' with soft 'zh'.
+        </div>
+      </div>
+
+      <div style="font-size: 7.5pt; color: #334155; margin-bottom: 6px;">
+        <strong>Astuce Mémoire :</strong> Ancient Angkor Wat rises in LE CAMBODGE.
+      </div>
+
+      <div style="border-top: 1px dashed #e2e8f0; padding-top: 5px; font-size: 7.5pt;">
+        <div style="font-style: italic; color: #1e293b;">« Le Cambodge attire des voyageurs du monde entier pour ses temples. »</div>
+        <div style="color: #64748b; font-size: 7pt;">Cambodia attracts travelers from all over the world for its temples.</div>
+      </div>
+    </div>
+    
+      </div>
+    </div>
+    
+</body>
+</html>
