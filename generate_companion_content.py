@@ -1,0 +1,1430 @@
+#!/usr/bin/env python3
+"""
+generate_companion_content.py
+
+Compiles rich, pedagogically authentic French A1 immersion companion data for all 33 units.
+Consumes:
+  - chapters_extracted.json
+  - chapters_batch_1.json
+  - chapters_batch_2.json
+  - chapters_batch_3.json
+Produces:
+  - companion_data.json (mapping '1' through '33')
+"""
+
+import json
+import os
+import sys
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+EXTRACTED_FILE = os.path.join(BASE_DIR, "chapters_extracted.json")
+BATCH_FILES = [
+    os.path.join(BASE_DIR, "chapters_batch_1.json"),
+    os.path.join(BASE_DIR, "chapters_batch_2.json"),
+    os.path.join(BASE_DIR, "chapters_batch_3.json"),
+]
+OUTPUT_FILE = os.path.join(BASE_DIR, "companion_data.json")
+
+# Master pedagogical assets for all 33 chapters
+CHAPTER_COMPANION_ASSETS = {
+    1: {
+        "theme_badge": "L'IDENTITÉ & LES RENCONTRES",
+        "scenario_title": "Première Rencontre au Café de Flore",
+        "scenario_context": "Paul rencontre Sophie pour la première fois à la terrasse d'un café parisien.",
+        "dialogue_or_story": [
+            {"speaker": "Paul", "fr": "<b>Bonjour Madame</b> ! Excusez-moi de vous déranger, cette place est libre ?", "en": "Good morning ma'am! Excuse me for disturbing you, is this seat free?"},
+            {"speaker": "Sophie", "fr": "<b>Bonjour Monsieur</b> ! Oui, <b>je vous en prie</b>, installez-vous.", "en": "Good morning sir! Yes, please, have a seat."},
+            {"speaker": "Paul", "fr": "Merci. <b>Je m'appelle</b> Paul Girard. Et vous, comment <b>vous vous appelez</b> ?", "en": "Thank you. My name is Paul Girard. And you, what is your name?"},
+            {"speaker": "Sophie", "fr": "<b>Enchantée</b> Paul ! Moi, c'est Sophie. Quel est votre <b>prénom</b> déjà ?", "en": "Nice to meet you Paul! I am Sophie. What was your first name again?"},
+            {"speaker": "Paul", "fr": "C'est Paul, P-A-U-L. <b>Bonne journée</b> et <b>au revoir</b> Sophie !", "en": "It's Paul, P-A-U-L. Have a good day and goodbye Sophie!"},
+            {"speaker": "Sophie", "fr": "Merci, <b>à bientôt</b> Paul !", "en": "Thank you, see you soon Paul!"}
+        ],
+        "cultural_tip": "En France, la formule « Bonjour Madame » ou « Bonjour Monsieur » est la règle d'or quand on s'adresse à un commerçant ou un inconnu. Ne commencez jamais directement par une requête sans cette salutation préalable !",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Bonjour Monsieur, comment vous vous _______________ ? (appeler)",
+                "2. Je vous présente mon collègue Julien. — _______________ Julien, ravi de te rencontrer !",
+                "3. Merci beaucoup pour votre aide précieuse. — Je vous en _______________ !"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Rédigez une phrase de politesse avec les mots « enchanté » et « prénom ».",
+                "2. Rédigez une formule de départ avec les mots « au revoir » et « demain »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Bonjour • Bonsoir • Merci • Salut",
+                "2. S'il vous plaît • De rien • Je vous en prie • Avec plaisir",
+                "3. Le prénom • Le nom • La signature • La boulangerie"
+            ]
+        },
+        "answers": "Ex 1: 1. appelez | 2. Enchanté | 3. prie • Ex 2: Modèles : « Enchanté, mon prénom est Marc. » / « Au revoir et à demain matin ! » • Ex 3: 1. Merci (remerciement, les 3 autres sont des salutations) | 2. S'il vous plaît (demande polie, les 3 autres sont des réponses à un merci) | 3. La boulangerie (lieu de commerce, les 3 autres sont des données d'état civil)"
+    },
+    2: {
+        "theme_badge": "LES NOMBRES & LE CALENDRIER",
+        "scenario_title": "L'Inscription à la Médiathèque Municipale",
+        "scenario_context": "Marc remplit sa fiche d'adhésion auprès de la bibliothécaire à Lyon.",
+        "dialogue_or_story": [
+            {"speaker": "L'agente", "fr": "Bonjour. Quelle est votre <b>date de naissance</b>, s'il vous plaît ?", "en": "Hello. What is your date of birth, please?"},
+            {"speaker": "Marc", "fr": "Je suis <b>né le</b> quatorze <b>juillet</b> mille neuf cent quatre-vingt-quinze.", "en": "I was born on July 14th, 1995."},
+            {"speaker": "L'agente", "fr": "Parfait. Donc vous avez <b>vingt-neuf ans</b>. Et votre <b>lieu de naissance</b> ?", "en": "Perfect. So you are twenty-nine years old. And your place of birth?"},
+            {"speaker": "Marc", "fr": "Je suis né à Bordeaux, <b>en été</b>. Mon <b>anniversaire</b> tombe le jour de la fête nationale !", "en": "I was born in Bordeaux, in summer. My birthday falls on the national holiday!"},
+            {"speaker": "L'agente", "fr": "C'est noté ! Votre carte d'adhérent est valide dès cet <b>automne</b>.", "en": "Noted! Your membership card is valid starting this autumn."}
+        ],
+        "cultural_tip": "En français, on utilise le verbe « avoir » pour l'âge (« J'ai 25 ans », jamais « Je suis 25 ») et on mentionne toujours le mot « ans ». Pour les dates, seul le premier jour du mois utilise un nombre ordinal (« le 1er mai »), tous les suivants sont cardinaux (« le 2 mai », « le 14 juillet »).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Quel âge _______________ -vous ? — J'ai trente ans. (verbe avoir)",
+                "2. Je suis né _______________ quinze mars à Nantes. (article défini)",
+                "3. En France, la rentrée scolaire a lieu _______________ septembre. (préposition temporelle)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Indiquez votre âge et votre date de naissance avec « avoir ... ans » et « né(e) le ».",
+                "2. Mentionnez votre saison favorite en utilisant « en été » ou « en hiver »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Printemps • Été • Automne • Janvier",
+                "2. Vingt • Quarante • Soixante • Mercredi",
+                "3. Janvier • Février • Mars • Demain"
+            ]
+        },
+        "answers": "Ex 1: 1. avez | 2. le | 3. en • Ex 2: Modèles : « J'ai vingt-quatre ans et je suis né le 12 août. » / « J'adore voyager en été quand les journées sont longues. » • Ex 3: 1. Janvier (mois du calendrier, les 3 autres sont des saisons) | 2. Mercredi (jour de semaine, les 3 autres sont des dizaines de nombres) | 3. Demain (adverbe temporel, les 3 autres sont des mois)"
+    },
+    3: {
+        "theme_badge": "LES ORIGINES & L'ADRESSE",
+        "scenario_title": "Enregistrement à la Résidence Internationale",
+        "scenario_context": "Maria, étudiante espagnole, s'installe à la Cité Universitaire de Paris.",
+        "dialogue_or_story": [
+            {"speaker": "Le concierge", "fr": "Bienvenue ! Vous êtes de <b>nationalité</b> française ?", "en": "Welcome! Are you of French nationality?"},
+            {"speaker": "Maria", "fr": "Non, je suis <b>espagnole</b>, je viens <b>d'Espagne</b>. Mais j'étudie à Paris.", "en": "No, I am Spanish, I come from Spain. But I study in Paris."},
+            {"speaker": "Le concierge", "fr": "Très bien. Quelle est votre <b>adresse</b> permanente à Madrid ?", "en": "Very good. What is your permanent address in Madrid?"},
+            {"speaker": "Maria", "fr": "J'habite au 12, <b>rue</b> Cervantes, avec le <b>code postal</b> 28001.", "en": "I live at 12 Cervantes Street, with postal code 28001."},
+            {"speaker": "Le concierge", "fr": "Parfait. Ici, vous logerez <b>avenue</b> des Nations Unies, <b>en France</b>.", "en": "Perfect. Here, you will stay on Avenue of the United Nations, in France."}
+        ],
+        "cultural_tip": "Attention aux prépositions de pays : « en » devant les pays féminins (« en France », « en Espagne »), « au » devant les pays masculins (« au Canada », « au Japon ») et « aux » devant les pays pluriels (« aux États-Unis »). Pour une ville, utilisez toujours « à » (« à Paris », « à Montréal »).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Thomas habite _______________ Canada depuis trois ans. (au / en / aux)",
+                "2. Sophie est née _______________ France mais vit actuellement en Italie. (au / en / à)",
+                "3. Donnez-moi votre _______________ postal et le nom de votre ville. (numéro administratif)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Déclarez votre nationalité et votre pays d'origine avec « être » et « venir de ».",
+                "2. Rédigez votre adresse complète avec « rue », « code postal » et « ville »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Français • Espagnol • Allemand • Madrid",
+                "2. La rue • Le boulevard • L'avenue • Le passeport",
+                "3. En France • Au Japon • Aux États-Unis • Paris"
+            ]
+        },
+        "answers": "Ex 1: 1. au | 2. en | 3. code • Ex 2: Modèles : « Je suis canadien et je viens du Canada. » / « J'habite au 25, rue de la Paix, code postal 75002 Paris. » • Ex 3: 1. Madrid (capitale/ville, les 3 autres sont des nationalités) | 2. Le passeport (document administratif, les 3 autres sont des types de voies publiques) | 3. Paris (nom de ville avec préposition 'à', les 3 autres sont des pays)"
+    },
+    4: {
+        "theme_badge": "LE CORPS & LES ÂGES DE LA VIE",
+        "scenario_title": "À la Consultation Médicale",
+        "scenario_context": "Julien consulte le médecin après un entraînement de semi-marathon.",
+        "dialogue_or_story": [
+            {"speaker": "Le médecin", "fr": "Bonjour Julien. Où avez-vous <b>mal</b> exactement ?", "en": "Hello Julien. Where does it hurt exactly?"},
+            {"speaker": "Julien", "fr": "J'ai très <b>mal au dos</b> et à <b>la jambe</b> droite depuis hier.", "en": "My back hurts very badly, as well as my right leg since yesterday."},
+            {"speaker": "Le médecin", "fr": "Levez <b>les bras</b> et tournez doucement <b>la tête</b> vers la gauche.", "en": "Raise your arms and gently turn your head to the left."},
+            {"speaker": "Julien", "fr": "Aïe, ça tire dans <b>l'épaule</b> et au niveau du <b>genou</b>.", "en": "Ouch, it pulls in my shoulder and around the knee."},
+            {"speaker": "Le médecin", "fr": "Ce n'est pas grave, juste une fatigue musculaire liée à votre <b>âge adulte</b>. Reposez votre <b>corps</b> !", "en": "It's nothing serious, just muscular fatigue related to your adult age. Rest your body!"}
+        ],
+        "cultural_tip": "Pour formuler une sensation douloureuse, la locution est « avoir mal à » contractée avec l'article défini : « mal au » (+ masc. : dos, ventre), « mal à la » (+ fém. : jambe, tête), « mal à l' » (+ voyelle : œil, épaule) et « mal aux » (+ pluriel : pieds, oreilles, dents).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. J'ai trop lu sans lunettes, j'ai mal _______________ yeux. (au / à la / aux)",
+                "2. Après le marathon, Lucas a mal _______________ jambe gauche. (au / à la / aux)",
+                "3. Pendant _______________ enfance, les enfants apprennent à marcher. (l' / le / la)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Décrivez deux douleurs corporelles avec « avoir mal au... » et « avoir mal à la... ».",
+                "2. Évoquez une période de la vie avec les termes « jeunesse » ou « âge adulte »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Le bras • La jambe • Le pied • La voiture",
+                "2. L'enfance • L'adolescence • L'âge adulte • Le genou",
+                "3. La tête • Les yeux • Le nez • Le cahier"
+            ]
+        },
+        "answers": "Ex 1: 1. aux | 2. à la | 3. l' • Ex 2: Modèles : « J'ai mal au dos et mal à la tête après le travail. » / « À l'âge adulte, on apprend à gérer ses responsabilités. » • Ex 3: 1. La voiture (véhicule, les 3 autres sont des membres anatomiques) | 2. Le genou (articulation du corps, les 3 autres sont des stades de l'existence) | 3. Le cahier (fourniture scolaire, les 3 autres sont des parties du visage)"
+    },
+    5: {
+        "theme_badge": "LE PORTRAIT & LA PERSONNALITÉ",
+        "scenario_title": "Retrouvailles sur le Quai de la Gare",
+        "scenario_context": "Léa décrit son ami Sébastien à sa sœur pour qu'elle le reconnaisse à son arrivée.",
+        "dialogue_or_story": [
+            {"speaker": "Camille", "fr": "Comment est Sébastien physiquement ? Je ne l'ai jamais vu !", "en": "What does Sébastien look like physically? I've never seen him!"},
+            {"speaker": "Léa", "fr": "Il est très <b>grand</b> et <b>mince</b>. Il a les <b>cheveux courts</b> et <b>bruns</b>.", "en": "He is very tall and slim. He has short, dark brown hair."},
+            {"speaker": "Camille", "fr": "Et ses yeux ? Il porte des lunettes ?", "en": "And his eyes? Does he wear glasses?"},
+            {"speaker": "Léa", "fr": "Oui, il a de beaux <b>yeux bleus</b> et il porte une jolie <b>barbe</b> soignée.", "en": "Yes, he has beautiful blue eyes and wears a nice, neat beard."},
+            {"speaker": "Camille", "fr": "Et au niveau du caractère, il est comment ?", "en": "And personality-wise, what is he like?"},
+            {"speaker": "Léa", "fr": "Il est extrêmement <b>sympathique</b>, <b>généreux</b> et très <b>drôle</b> !", "en": "He is extremely friendly, generous, and very funny!"}
+        ],
+        "cultural_tip": "L'acronyme mnémotechnique BAGS régit la place des adjectifs français : Beauty (beau, joli), Age (jeune, vieux, nouveau), Goodness (bon, mauvais), Size (grand, petit) se placent généralement AVANT le nom. Les adjectifs de couleur, de forme ou de caractère moral se placent toujours APRÈS le nom (« un pull rouge », « un ami généreux »).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. C'est une _______________ robe élégante qu'elle porte ce soir. (beau / belle / beaux)",
+                "2. Mon frère a les cheveux _______________ et les yeux noirs. (court / courts / courte)",
+                "3. Notre nouveau professeur est patient et _______________. (sympathique / marron / grand)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Décrivez l'apparence physique de quelqu'un avec « grand(e) » et « cheveux ».",
+                "2. Décrivez le tempérament d'un proche avec « travailleur » ou « généreux »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Grand • Petit • Gros • Sympathique",
+                "2. Rouge • Bleu • Marron • Vert",
+                "3. Beau • Vieux • Nouveau • Intelligent"
+            ]
+        },
+        "answers": "Ex 1: 1. belle | 2. courts | 3. sympathique • Ex 2: Modèles : « Ma sœur est grande avec de longs cheveux châtains. » / « Mon collègue Marc est travailleur et toujours très ponctuel. » • Ex 3: 1. Sympathique (qualité morale/psychologique, les 3 autres sont des gabarits physiques) | 2. Marron (adjectif de couleur invariable ne prenant jamais de 's', les 3 autres s'accordent) | 3. Intelligent (adjectif placé APRÈS le nom, les 3 autres sont des adjectifs BAGS placés AVANT le nom)"
+    },
+    6: {
+        "theme_badge": "LES SENS & LES ÉMOTIONS",
+        "scenario_title": "Une Promenade au Jardin du Luxembourg",
+        "scenario_context": "Antoine et Claire profitent d'une belle journée printanière au parc.",
+        "dialogue_or_story": [
+            {"speaker": "Antoine", "fr": "Regarde ces rosiers ! Je <b>vois</b> des fleurs éclatantes et je <b>sens</b> un parfum délicat.", "en": "Look at these rose bushes! I see vibrant flowers and I smell a delicate fragrance."},
+            {"speaker": "Claire", "fr": "Tu <b>entends</b> le chant des oiseaux près du bassin ? C'est tellement apaisant.", "en": "Do you hear the birds singing near the fountain basin? It's so soothing."},
+            {"speaker": "Antoine", "fr": "Oui, je ressens une vraie <b>joie</b> et un calme profond. Et toi, tu as froid ?", "en": "Yes, I feel true joy and a deep calm. And you, are you cold?"},
+            {"speaker": "Claire", "fr": "Non, mais j'ai <b>faim</b> et j'ai <b>soif</b> après cette marche d'une heure !", "en": "No, but I am hungry and thirsty after this one-hour walk!"},
+            {"speaker": "Antoine", "fr": "Allons au salon de thé pour <b>goûter</b> une bonne tarte aux poires.", "en": "Let's go to the tea shop to taste a good pear tart."}
+        ],
+        "cultural_tip": "En français, les sensations physiques fondamentales s'expriment avec le verbe « avoir » : « avoir faim » (hungry), « avoir soif » (thirsty), « avoir chaud » (hot), « avoir froid » (cold), « avoir sommeil » (sleepy). Utiliser « être » (« je suis chaud/froid ») est une erreur courante qui produit un contresens gênant !",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Après trois heures de marche, les enfants _______________ très soif. (ont / sont / font)",
+                "2. Avec le nez, on peut _______________ l'odeur du pain chaud. (sentir / entendre / voir)",
+                "3. Quand un violent orage éclate, le chaton a _______________. (peur / faim / joie)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Exprimez deux sensations physiologiques avec « avoir faim » et « avoir froid ».",
+                "2. Formulez une perception sensorielle avec le verbe « voir » ou « entendre »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. La vue • L'ouïe • L'odorat • La chaise",
+                "2. La joie • La tristesse • La colère • Le chapeau",
+                "3. Avoir faim • Avoir soif • Avoir sommeil • Être médecin"
+            ]
+        },
+        "answers": "Ex 1: 1. ont | 2. sentir | 3. peur • Ex 2: Modèles : « En plein hiver, j'ai souvent froid et très faim en rentrant. » / « Par la fenêtre ouverte, j'entends les cloches de l'église. » • Ex 3: 1. La chaise (meuble, les 3 autres sont des cinq sens) | 2. Le chapeau (accessoire d'habillement, les 3 autres sont des émotions) | 3. Être médecin (statut professionnel avec 'être', les 3 autres sont des sensations corporelles avec 'avoir')"
+    },
+    7: {
+        "theme_badge": "LA FAMILLE & LES LIENS DE VIE",
+        "scenario_title": "L'Album Photo du Déjeuner Familial",
+        "scenario_context": "Thomas fait découvrir les membres de sa famille à son ami d'études Pablo.",
+        "dialogue_or_story": [
+            {"speaker": "Pablo", "fr": "Tu as une grande <b>famille</b>, Thomas ?", "en": "Do you have a big family, Thomas?"},
+            {"speaker": "Thomas", "fr": "Oui ! Voici mes <b>parents</b> : mon <b>père</b> Philippe et ma <b>mère</b> Sylvie.", "en": "Yes! Here are my parents: my father Philippe and my mother Sylvie."},
+            {"speaker": "Pablo", "fr": "Et qui sont les personnes au milieu sur la photo ?", "en": "And who are the people in the middle of the photo?"},
+            {"speaker": "Thomas", "fr": "Ce sont mes <b>grands-parents</b>. Ils sont <b>mariés</b> depuis cinquante ans !", "en": "Those are my grandparents. They have been married for fifty years!"},
+            {"speaker": "Pablo", "fr": "Tu as des <b>frères et sœurs</b> ?", "en": "Do you have brothers and sisters?"},
+            {"speaker": "Thomas", "fr": "J'ai un <b>frère</b> aîné et une <b>sœur</b> cadette. Mon frère vit avec sa <b>conjointe</b> et leur <b>fils</b>.", "en": "I have an older brother and a younger sister. My brother lives with his partner and their son."}
+        ],
+        "cultural_tip": "La société française reconnaît plusieurs formes de couple : le mariage civil républicain célébré en mairie (« être marié »), le PACS (Pacte Civil de Solidarité, contrat d'union très répandu) et l'union libre ou concubinage. On désigne fréquemment son partenaire par « mon compagnon / ma compagne » ou « mon conjoint / ma conjointe ».",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Le père de mon père est mon _______________. (grand-père / oncle / cousin)",
+                "2. La fille de ma tante maternelle est ma _______________. (cousine / nièce / sœur)",
+                "3. Mes parents sont _______________ depuis trente ans à la mairie. (mariés / célibataires)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Présentez deux personnes de votre entourage avec « mon père » et « ma mère ».",
+                "2. Indiquez la situation familiale d'un proche avec « célibataire » ou « marié(e) »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Le père • La mère • Le fils • Le professeur",
+                "2. L'oncle • La tante • Le cousin • L'ordinateur",
+                "3. Marié • Célibataire • Divorcé • Fatigué"
+            ]
+        },
+        "answers": "Ex 1: 1. grand-père | 2. cousine | 3. mariés • Ex 2: Modèles : « Mon père s'appelle Jean et ma mère est médecin. » / « Ma sœur aînée est mariée et a deux enfants. » • Ex 3: 1. Le professeur (métier, les 3 autres sont des liens de parenté directe) | 2. L'ordinateur (appareil technologique, les 3 autres sont des membres de la famille élargie) | 3. Fatigué (état de santé passager, les 3 autres sont des statuts matrimoniaux civils)"
+    },
+    8: {
+        "theme_badge": "LE SPORT & LES ENTRAÎNEMENTS",
+        "scenario_title": "Au Forum des Associations Sportives",
+        "scenario_context": "Maxime et Julie choisissent leur discipline sportive pour la nouvelle saison à Nantes.",
+        "dialogue_or_story": [
+            {"speaker": "Maxime", "fr": "Tu as envie de <b>faire du sport</b> avec moi cette année, Julie ?", "en": "Do you want to play sports with me this year, Julie?"},
+            {"speaker": "Julie", "fr": "Oui ! J'aimerais <b>faire de la natation</b> à la <b>piscine</b> municipale deux soirs par semaine.", "en": "Yes! I'd like to do swimming at the municipal pool two evenings a week."},
+            {"speaker": "Maxime", "fr": "Super idée ! Moi, je préfère <b>jouer au football</b> ou <b>jouer au tennis</b> sur un <b>court</b>.", "en": "Great idea! As for me, I prefer playing football or playing tennis on a court."},
+            {"speaker": "Julie", "fr": "Il te faut une bonne <b>raquette</b> et des <b>chaussures de sport</b> adaptées.", "en": "You need a good racket and proper sports shoes."},
+            {"speaker": "Maxime", "fr": "Oui, et un <b>ballon</b> neuf pour les <b>entraînements</b> au <b>stade</b> !", "en": "Yes, and a new ball for training sessions at the stadium!"}
+        ],
+        "cultural_tip": "La règle d'or des verbes sportifs en français : employez « FAIRE DE » (+ partitif : du, de la, de l') pour les disciplines individuelles, d'entraînement ou de plein air (« faire du vélo », « faire de la voile »), et « JOUER À » (+ article contracté : au, à la, aux) pour les sports collectifs, jeux de ballon ou de raquette (« jouer au rugby », « jouer aux cartes »).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Le samedi, Lucas aime jouer _______________ tennis avec un collègue. (au / du / à la)",
+                "2. Tous les mercredis, Sarah fait _______________ natation à la piscine. (de la / à la / du)",
+                "3. Pour disputer un match de football, l'équipe entre sur le _______________. (stade / musée / cinéma)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Exprimez vos loisirs sportifs avec l'expression « faire du / de la ».",
+                "2. Évoquez un sport de balle en équipe avec le verbe « jouer au »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Le football • Le rugby • Le basketball • Le violon",
+                "2. La raquette • Le ballon • Les baskets • Le micro-ondes",
+                "3. La piscine • Le stade • Le gymnase • La bibliothèque"
+            ]
+        },
+        "answers": "Ex 1: 1. au | 2. de la | 3. stade • Ex 2: Modèles : « Je fais du vélo en forêt tous les dimanches matin. » / « Mes enfants jouent au basket dans la cour de récréation. » • Ex 3: 1. Le violon (instrument de musique, les 3 autres sont des sports de ballon) | 2. Le micro-ondes (appareil électroménager, les 3 autres sont des accessoires sportifs) | 3. La bibliothèque (lieu de lecture silencieuse, les 3 autres sont des équipements sportifs)"
+    },
+    9: {
+        "theme_badge": "LA CULTURE & LES SPECTACLES",
+        "scenario_title": "Soirée Culturelle au Quartier de l'Opéra",
+        "scenario_context": "Chloé et Romain sélectionnent leur sortie artistique du week-end à Paris.",
+        "dialogue_or_story": [
+            {"speaker": "Chloé", "fr": "Qu'est-ce qu'on fait samedi soir ? On va au <b>cinéma</b> ou au <b>théâtre</b> ?", "en": "What are we doing Saturday evening? Are we going to the cinema or the theatre?"},
+            {"speaker": "Romain", "fr": "J'aimerais beaucoup voir une <b>pièce de théâtre</b>, ou visiter une <b>exposition</b> au <b>musée</b>.", "en": "I'd really like to see a play, or visit an exhibition at the museum."},
+            {"speaker": "Chloé", "fr": "Regarde, il y a aussi un magnifique <b>concert de musique classique</b> dimanche.", "en": "Look, there is also a magnificent classical music concert on Sunday."},
+            {"speaker": "Romain", "fr": "Génial ! Tu <b>joues d'un instrument</b>, toi ?", "en": "Awesome! Do you play an instrument yourself?"},
+            {"speaker": "Chloé", "fr": "Oui, je <b>joues du piano</b> depuis l'enfance, et mon frère <b>joue de la guitare</b>.", "en": "Yes, I've played piano since childhood, and my brother plays guitar."}
+        ],
+        "cultural_tip": "Pour les instruments musicaux, on utilise toujours la structure « JOUER DE » (+ partitif : du piano, de la guitare, du violon, de la flûte). À la différence des sports (« jouer au tennis »), jouer d'un instrument nécessite toujours la préposition « de » contractée !",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Julien adore la musique, il joue _______________ piano tous les soirs. (au / du / de la)",
+                "2. Nous avons réservé des places pour voir un beau _______________ au théâtre. (spectacle / train)",
+                "3. Cet après-midi, nous allons visiter une _______________ de peinture au Louvre. (exposition / ordonnance)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Mentionnez un instrument que vous pratiquez ou appréciez avec « jouer du / de la ».",
+                "2. Proposez une sortie artistique avec « aller au cinéma » ou « aller au musée »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Le piano • La guitare • Le violon • La raquette",
+                "2. Le musée • Le théâtre • L'opéra • Le garage",
+                "3. Une exposition • Un concert • Un spectacle • Un rhume"
+            ]
+        },
+        "answers": "Ex 1: 1. du | 2. spectacle | 3. exposition • Ex 2: Modèles : « Ma fille joue de la flûte au conservatoire de musique. » / « Samedi soir, nous allons au cinéma voir une comédie française. » • Ex 3: 1. La raquette (équipement de sport, les 3 autres sont des instruments de musique) | 2. Le garage (local automobile, les 3 autres sont des lieux de culture) | 3. Un rhume (affection respiratoire, les 3 autres sont des manifestations artistiques)"
+    },
+    10: {
+        "theme_badge": "LE TEMPS & LES HORAIRES",
+        "scenario_title": "Fixer l'Heure du Rendez-Vous",
+        "scenario_context": "Lucas et Camille vérifient leur emploi du temps avant une réunion importante.",
+        "dialogue_or_story": [
+            {"speaker": "Lucas", "fr": "Pardon Camille, <b>quelle heure est-il</b> exactement à ta montre ?", "en": "Excuse me Camille, what time is it exactly on your watch?"},
+            {"speaker": "Camille", "fr": "Il est <b>dix heures et quart</b> du matin. Nous sommes bien à l'heure !", "en": "It's a quarter past ten in the morning. We are right on time!"},
+            {"speaker": "Lucas", "fr": "Parfait. Notre réunion d'équipe est fixée à <b>midi et demi</b>, n'est-ce pas ?", "en": "Perfect. Our team meeting is set for twelve thirty, isn't it?"},
+            {"speaker": "Camille", "fr": "Oui. Et <b>l'après-midi</b>, à <b>quatorze heures quarante-cinq</b>, nous voyons le client.", "en": "Yes. And in the afternoon, at 2:45 PM, we see the client."},
+            {"speaker": "Lucas", "fr": "Très bien, et <b>le soir</b> vers <b>vingt heures</b>, nous pourrons fêter le succès !", "en": "Very good, and in the evening around 8:00 PM, we can celebrate success!"}
+        ],
+        "cultural_tip": "En France, les horaires officiels (trains, travail, médias, cinéma) utilisent couramment l'horloge sur 24 heures : « le train part à 17h45 » (dix-sept heures quarante-cinq). Dans le registre informel, on utilise les repères « et quart », « et demie », « moins le quart » avec le cycle de 12 heures (« cinq heures et quart »).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Le train pour Marseille part en gare à midi moins le _______________. (demi / quart / heure)",
+                "2. La banque ouvre ses portes chaque matin à neuf _______________ et demie. (heures / jours)",
+                "3. Les commerces de la ville ferment à dix-neuf heures le _______________. (matin / soir / midi)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Indiquez l'heure précise du début de votre journée avec « à ... heures ».",
+                "2. Citez deux jours de la semaine accompagnés de vos activités habituelles."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Lundi • Mercredi • Samedi • Janvier",
+                "2. Le matin • Le midi • Le soir • La fourchette",
+                "3. Et quart • Et demie • Moins le quart • Beaucoup"
+            ]
+        },
+        "answers": "Ex 1: 1. quart | 2. heures | 3. soir • Ex 2: Modèles : « Je commence le travail à huit heures et demie pile. » / « Le samedi matin, je vais au marché, et le dimanche je me repose. » • Ex 3: 1. Janvier (mois de l'année, les 3 autres sont des jours de la semaine) | 2. La fourchette (couvert de table, les 3 autres sont des moments de la journée) | 3. Beaucoup (adverbe quantitatif indéfini, les 3 autres sont des fractions d'horloge)"
+    },
+    11: {
+        "theme_badge": "LA ROUTINE & LE LOGIS",
+        "scenario_title": "Le Rythme Quotidien chez les Mercier",
+        "scenario_context": "Élodie décrit le déroulement de ses journées entre travail et tâches domestiques.",
+        "dialogue_or_story": [
+            {"speaker": "Élodie", "fr": "En semaine, je <b>me réveille</b> à six heures et demie et je <b>me lève</b> immédiatement.", "en": "On weekdays, I wake up at six thirty and get up immediately."},
+            {"speaker": "Nicolas", "fr": "Tu as le temps de prendre une <b>douche</b> avant de partir ?", "en": "Do you have time to take a shower before leaving?"},
+            {"speaker": "Élodie", "fr": "Oui, je <b>me lave</b>, je <b>m'habille</b>, puis je prends un bon café noir dans la cuisine.", "en": "Yes, I wash up, get dressed, then have a good black coffee in the kitchen."},
+            {"speaker": "Nicolas", "fr": "Et le soir après le bureau, qui <b>fait le ménage</b> ?", "en": "And in the evening after the office, who does the housework?"},
+            {"speaker": "Élodie", "fr": "Nous partageons tout ! Mon mari <b>fait la vaisselle</b> et moi je <b>passe l'aspirateur</b> avant de <b>me coucher</b>.", "en": "We share everything! My husband does the dishes and I vacuum before going to bed."}
+        ],
+        "cultural_tip": "Les verbes pronominaux réflexifs (« se réveiller », « se lever », « se brosser les dents », « se coucher ») constituent la colonne vertébrale de la routine quotidienne. Au passé composé, tous ces verbes se conjuguent obligatoirement avec l'auxiliaire « être » (« je me suis lavé(e) »).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Tous les matins, je me _______________ à sept heures sonnantes. (réveille / réveillons / réveiller)",
+                "2. Après le dîner, mon colocataire fait la _______________ dans la cuisine. (lessive / vaisselle / douche)",
+                "3. Avant d'aller dormir, les enfants se _______________ les dents. (brossent / passent / font)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Décrivez deux gestes matinaux avec des verbes pronominaux (ex: « se lever », « se doucher »).",
+                "2. Nommez une corvée ménagère avec « faire le ménage » ou « faire la vaisselle »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Se réveiller • Se lever • Se doucher • L'imprimante",
+                "2. Faire la vaisselle • Passer l'aspirateur • Repasser le linge • Écouter un concert",
+                "3. Le savon • La brosse à dents • La serviette • La formule 1"
+            ]
+        },
+        "answers": "Ex 1: 1. réveille | 2. vaisselle | 3. brossent • Ex 2: Modèles : « Je me réveille à sept heures et je me douche aussitôt. » / « Le dimanche soir, nous faisons la vaisselle et nous rangeons le séjour. » • Ex 3: 1. L'imprimante (appareil bureautique, les 3 autres sont des verbes réflexifs du réveil) | 2. Écouter un concert (loisir culturel, les 3 autres sont des tâches ménagères) | 3. La formule 1 (discipline sportive automobile, les 3 autres sont des accessoires de salle de bains)"
+    },
+    12: {
+        "theme_badge": "LES ÉTUDES & LES DIPLÔMES",
+        "scenario_title": "L'Entretien d'Orientation Scolaire",
+        "scenario_context": "Madame Leroy, professeure principale, fait le point sur le parcours d'une collégienne.",
+        "dialogue_or_story": [
+            {"speaker": "La professeure", "fr": "Bonjour Clara. Tu termines brillamment ton année de <b>collège</b> !", "en": "Hello Clara. You are brilliantly finishing your middle school year!"},
+            {"speaker": "Clara", "fr": "Merci Madame. Je vais entrer au <b>lycée</b> général en septembre prochain.", "en": "Thank you ma'am. I am going to general high school next September."},
+            {"speaker": "La professeure", "fr": "Exactement. Au lycée, tu vas préparer le <b>baccalauréat</b> sur trois années d'études.", "en": "Exactly. In high school, you will prepare for the Baccalaureate over three years of study."},
+            {"speaker": "Le père", "fr": "Et après le bac, Clara envisage des études supérieures à <b>l'université</b>.", "en": "And after the bac, Clara is considering higher studies at university."},
+            {"speaker": "La professeure", "fr": "C'est un excellent projet pour réussir ses <b>examens</b> et décrocher un beau <b>diplôme</b>.", "en": "It's an excellent plan to pass exams and obtain a fine degree."}
+        ],
+        "cultural_tip": "Le système scolaire français se compose de trois cycles majeurs : l'école élémentaire (6 à 11 ans), le collège (11 à 15 ans, couronné par le Diplôme National du Brevet), puis le lycée (15 à 18 ans, sanctionné par le Baccalauréat ou « Bac », indispensable pour accéder à l'enseignement supérieur).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. À quatorze ans, les adolescents étudient encore au _______________. (collège / lycée / crèche)",
+                "2. Pour entrer à l'université en France, il faut obtenir le _______________. (baccalauréat / permis / passeport)",
+                "3. Mon frère aîné est _______________ en faculté de droit à Bordeaux. (étudiant / élève / artisan)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Rédigez une phrase sur vos études avec les mots « école » ou « université ».",
+                "2. Évoquez la préparation d'un contrôle avec les mots « réviser » et « examen »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. L'école primaire • Le collège • Le lycée • L'usine",
+                "2. Le brevet • Le baccalauréat • Le diplôme • Le stylo",
+                "3. Un élève • Un étudiant • Un collégien • Un médecin"
+            ]
+        },
+        "answers": "Ex 1: 1. collège | 2. baccalauréat | 3. étudiant • Ex 2: Modèles : « J'ai étudié les sciences économiques à l'université. » / « Les lycéens révisent intensivement pour réussir leur examen final. » • Ex 3: 1. L'usine (site de production industrielle, les 3 autres sont des établissements d'enseignement) | 2. Le stylo (fourniture de papeterie, les 3 autres sont des titres académiques) | 3. Un médecin (professionnel de santé, les 3 autres sont des statuts d'apprenants scolaires)"
+    },
+    13: {
+        "theme_badge": "LA CLASSE & LE MATÉRIEL",
+        "scenario_title": "Premier Jour dans la Salle de Classe",
+        "scenario_context": "En cours de français langue étrangère, Léa et Karim vérifient leur matériel.",
+        "dialogue_or_story": [
+            {"speaker": "Karim", "fr": "Zut ! J'ai oublié ma <b>trousse</b> à la maison. Tu peux me dépanner, Léa ?", "en": "Darn! I forgot my pencil case at home. Can you help me out, Léa?"},
+            {"speaker": "Léa", "fr": "Bien sûr ! J'ai un <b>stylo</b> bleu, un <b>crayon à papier</b> et une <b>gomme</b> dans mon cartable.", "en": "Of course! I have a blue pen, a pencil, and an eraser in my schoolbag."},
+            {"speaker": "Karim", "fr": "Merci beaucoup ! Tu aurais aussi une <b>règle</b> et des <b>ciseaux</b> ?", "en": "Thank you so much! Would you also have a ruler and scissors?"},
+            {"speaker": "Léa", "fr": "Oui, tiens. Ouvre ton <b>cahier</b> et prends ton <b>manuel</b> de cours à la page dix.", "en": "Yes, here you go. Open your notebook and take your course textbook to page ten."},
+            {"speaker": "Karim", "fr": "Parfait. J'adore apprendre les <b>langues vivantes</b> et <b>l'histoire</b> !", "en": "Perfect. I love learning modern languages and history!"}
+        ],
+        "cultural_tip": "Chaque automne en France, la « rentrée des classes » est marquée par une liste officielle de fournitures scolaires. Les écoliers français écrivent traditionnellement sur des cahiers au lignage spécial « Seyès » (grands carreaux de 8x2 mm) facilitant une écriture cursive soignée.",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Pour effacer un mot tracé au crayon, on utilise une _______________. (gomme / règle / trousse)",
+                "2. Range tes feutres et tes stylos dans ta _______________. (trousse / chaise / fenêtre)",
+                "3. Les élèves notent le résumé de la leçon dans leur _______________. (cahier / tableau / rideau)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Citez trois objets de papeterie indispensables avec « avoir besoin d'un(e)... ».",
+                "2. Exprimez votre goût pour une discipline scolaire avec le verbe « aimer » ou « préférer »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Le stylo • Le crayon • La règle • Le steak",
+                "2. Le cahier • Le manuel • Le classeur • Le canapé",
+                "3. Les mathématiques • La géographie • Les sciences • Le lave-vaisselle"
+            ]
+        },
+        "answers": "Ex 1: 1. gomme | 2. trousse | 3. cahier • Ex 2: Modèles : « Pour le cours de dessin, j'ai besoin d'une règle et d'un crayon. » / « Je préfère les cours de géographie et de langues vivantes. » • Ex 3: 1. Le steak (viande rouge alimentaire, les 3 autres sont des fournitures de trousse) | 2. Le canapé (meuble de salon, les 3 autres sont des supports de cours en papeterie) | 3. Le lave-vaisselle (appareil électroménager, les 3 autres sont des matières d'enseignement)"
+    },
+    14: {
+        "theme_badge": "LES MÉTIERS & L'ENTREPRISE",
+        "scenario_title": "Visite des Bureaux au Siège Social",
+        "scenario_context": "Valérie accueille son nouveau collègue Thomas dans les locaux de l'entreprise à Paris.",
+        "dialogue_or_story": [
+            {"speaker": "Valérie", "fr": "Bonjour Thomas, bienvenue dans <b>l'entreprise</b> ! Ton <b>bureau</b> te plaît ?", "en": "Hello Thomas, welcome to the company! Do you like your office?"},
+            {"speaker": "Thomas", "fr": "Oui, beaucoup ! Les <b>collègues</b> de l'équipe marketing sont très prévenants.", "en": "Yes, very much! The colleagues on the marketing team are very considerate."},
+            {"speaker": "Valérie", "fr": "Formidable. Je suis <b>ingénieure</b> en chef et je coordonne les projets techniques.", "en": "Great. I am the chief engineer and I coordinate technical projects."},
+            {"speaker": "Thomas", "fr": "Enchanté ! Moi, je travaille comme <b>comptable</b> avec le pôle financier.", "en": "Pleased to meet you! As for me, I work as an accountant with the finance division."},
+            {"speaker": "Valérie", "fr": "Nous avons un bon <b>salaire</b>, des horaires stables et cinq semaines de <b>congés payés</b> par an.", "en": "We have a good salary, stable hours, and five weeks of paid leave per year."}
+        ],
+        "cultural_tip": "Règle grammaticale fondamentale : en français, on ne place PAS d'article indéfini (un/une) devant la profession après le verbe être (« Je suis avocat », « Elle est médecin », et JAMAIS « Je suis un avocat »). L'article ne s'emploie que si l'on qualifie le métier par un adjectif (« C'est un avocat réputé »).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Mon oncle travaille dans un cabinet juridique, il est _______________. (avocat / un avocat / l'avocat)",
+                "2. Tous les lundis matins, les salariés se réunissent en salle de _______________. (réunion / bain / jeu)",
+                "3. En France, les employés bénéficient de cinq semaines de _______________ payés. (congés / repas / impôts)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Indiquez votre activité professionnelle actuelle avec « être » (sans article indéfini).",
+                "2. Décrivez votre environnement professionnel avec « travailler dans un bureau / une entreprise »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Un avocat • Un médecin • Un ingénieur • Une valise",
+                "2. Le bureau • La salle de réunion • L'entreprise • La piscine",
+                "3. Le salaire • Le contrat • L'embauche • Le gâteau"
+            ]
+        },
+        "answers": "Ex 1: 1. avocat | 2. réunion | 3. congés • Ex 2: Modèles : « Je suis architecte depuis cinq ans. » / « Je travaille dans un grand bureau avec mes collègues. » • Ex 3: 1. Une valise (bagage de voyage, les 3 autres sont des professions) | 2. La piscine (bassin de loisir aquatique, les 3 autres sont des espaces professionnels) | 3. Le gâteau (pâtisserie sucrée, les 3 autres sont des termes de contrat d'emploi)"
+    },
+    15: {
+        "theme_badge": "L'HABITAT & L'IMMOBILIER",
+        "scenario_title": "Visite d'un Deux-Pièces Lumineux",
+        "scenario_context": "Marc visite un appartement à louer avec l'agent immobilier dans le centre de Lyon.",
+        "dialogue_or_story": [
+            {"speaker": "L'agent", "fr": "Voici l'<b>immeuble</b>. L'<b>appartement</b> se trouve au <b>deuxième étage</b>.", "en": "Here is the building. The apartment is located on the second floor."},
+            {"speaker": "Marc", "fr": "Il y a un <b>ascenseur</b> ou seulement un escalier ?", "en": "Is there an elevator or only a staircase?"},
+            {"speaker": "L'agent", "fr": "Il y a un bel ascenseur. Entrons dans le <b>salon</b>, très lumineux avec son <b>balcon</b>.", "en": "There is a fine elevator. Let's enter the living room, very bright with its balcony."},
+            {"speaker": "Marc", "fr": "C'est charmant ! Où sont <b>la chambre</b> et <b>la salle de bains</b> ?", "en": "It's charming! Where are the bedroom and the bathroom?"},
+            {"speaker": "L'agent", "fr": "Au fond du couloir, à côté de la <b>cuisine</b>. Le <b>loyer</b> est de sept cents euros par mois.", "en": "At the end of the hall, next to the kitchen. The rent is seven hundred euros per month."}
+        ],
+        "cultural_tip": "Le système d'étages en France commence au niveau du sol avec le « rez-de-chaussée » (souvent noté RDC ou 0). Le « premier étage » désigne le niveau situé au-dessus après une volée d'escalier (correspondant au 2nd floor en anglais américain) !",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Dans cet immeuble sans _______________, il faut monter au 4e étage à pied. (ascenseur / balcon)",
+                "2. Pour préparer le dîner du soir, je m'installe dans la _______________. (cuisine / chambre / garage)",
+                "3. Le locataire paie son _______________ au propriétaire le 5 de chaque mois. (loyer / meuble / lit)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Présentez votre habitat actuel en choisissant entre « maison » et « appartement ».",
+                "2. Mentionnez vos deux pièces favorites avec « le salon » et « la chambre »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. La cuisine • La chambre • Le salon • Le stylo",
+                "2. Un appartement • Une maison • Un studio • Un avion",
+                "3. L'ascenseur • L'escalier • Le couloir • La salade"
+            ]
+        },
+        "answers": "Ex 1: 1. ascenseur | 2. cuisine | 3. loyer • Ex 2: Modèles : « J'habite dans un bel appartement au troisième étage. » / « J'aime lire tranquillement dans mon salon ou dans ma chambre. » • Ex 3: 1. Le stylo (papeterie d'écriture, les 3 autres sont des pièces de logement) | 2. Un avion (moyen de transport aérien, les 3 autres sont des types d'habitations) | 3. La salade (plante potagère, les 3 autres sont des parties de circulation d'un immeuble)"
+    },
+    16: {
+        "theme_badge": "LE MOBILIER & LES APPAREILS",
+        "scenario_title": "Aménagement du Nouvel Appartement",
+        "scenario_context": "Camille et Julien achètent le mobilier et les équipements nécessaires pour leur intérieur.",
+        "dialogue_or_story": [
+            {"speaker": "Camille", "fr": "Nous devons choisir un grand <b>canapé</b> d'angle pour le séjour.", "en": "We need to choose a large corner sofa for the living room."},
+            {"speaker": "Julien", "fr": "Oui, et une <b>table basse</b> en chêne avec deux <b>fauteuils</b> assortis.", "en": "Yes, and an oak coffee table with two matching armchairs."},
+            {"speaker": "Camille", "fr": "Dans la cuisine, le propriétaire laisse le <b>réfrigérateur</b> et le <b>four</b>.", "en": "In the kitchen, the landlord is leaving the refrigerator and the oven."},
+            {"speaker": "Julien", "fr": "Parfait ! Il nous manque un <b>lave-linge</b> et un <b>four à micro-ondes</b>.", "en": "Perfect! We still need a washing machine and a microwave oven."},
+            {"speaker": "Camille", "fr": "Et installons une grande <b>armoire</b> dans la chambre pour ranger les habits.", "en": "And let's install a large wardrobe in the bedroom to store clothes."}
+        ],
+        "cultural_tip": "Le droit locatif français distingue strictement le logement non meublé (bail classique de 3 ans) et le logement loué en « meublé » (bail d'un an renouvelable), qui doit obligatoirement inclure un inventaire complet : literie, plaques de cuisson, four ou micro-ondes, réfrigérateur, vaisselle et sièges.",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Conservez la viande et le fromage au frais dans le _______________. (réfrigérateur / four / lit)",
+                "2. Après le travail, j'aime m'étendre sur le _______________ pour regarder la télévision. (canapé / placard)",
+                "3. Range tous tes costumes dans la grande _______________ de la chambre. (armoire / cuisinière)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Décrivez votre salon en associant les mots « canapé » et « table ».",
+                "2. Mentionnez un équipement ménager avec « réfrigérateur » ou « lave-linge »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Le canapé • Le fauteuil • La chaise • La voiture",
+                "2. Le réfrigérateur • Le lave-vaisselle • Le four • Le passeport",
+                "3. Le lit • L'armoire • La table de chevet • Le train"
+            ]
+        },
+        "answers": "Ex 1: 1. réfrigérateur | 2. canapé | 3. armoire • Ex 2: Modèles : « Nous avons installé un canapé moderne près de la table basse. » / « Le réfrigérateur conserve nos aliments frais pour la semaine. » • Ex 3: 1. La voiture (véhicule roulant, les 3 autres sont des assises d'ameublement) | 2. Le passeport (document officiel d'identité, les 3 autres sont des appareils électroménagers) | 3. Le train (convoi ferroviaire, les 3 autres sont des meubles de chambre à coucher)"
+    },
+    17: {
+        "theme_badge": "LES TRANSPORTS EN COMMUN",
+        "scenario_title": "Au Guichet de la Gare SNCF",
+        "scenario_context": "Céline organise son déplacement en province et s'informe sur le réseau ferré.",
+        "dialogue_or_story": [
+            {"speaker": "Céline", "fr": "Bonjour Monsieur. Je voudrais un <b>billet de train</b> aller-retour pour Nantes.", "en": "Hello sir. I would like a round-trip train ticket to Nantes."},
+            {"speaker": "L'agent SNCF", "fr": "Bien sûr. Le <b>TGV</b> de quatorze heures part du <b>quai</b> numéro trois.", "en": "Of course. The 2:00 PM high-speed train departs from platform number three."},
+            {"speaker": "Céline", "fr": "Et pour arriver à Montparnasse, quelle <b>ligne de métro</b> dois-je prendre ?", "en": "And to reach Montparnasse, which metro line should I take?"},
+            {"speaker": "L'agent", "fr": "Prenez la ligne 4, puis faites une <b>correspondance</b> rapide avec le <b>RER</b>.", "en": "Take line 4, then make a quick connection to the RER."},
+            {"speaker": "Céline", "fr": "Merci. Dois-je <b>valider mon titre de transport</b> avant de monter ?", "en": "Thank you. Must I validate my transit ticket before boarding?"},
+            {"speaker": "L'agent", "fr": "Oui, le compostage est obligatoire sous peine d'<b>amende</b> par le contrôleur !", "en": "Yes, punching/validating is mandatory under penalty of a fine by the inspector!"}
+        ],
+        "cultural_tip": "Dans les transports français (métro, RER, TER, bus), il faut toujours composter ou biper son titre de transport avant d'accéder au quai ou dès l'entrée dans le véhicule. En l'absence de validation, les contrôleurs appliquent une amende forfaitaire immédiate (« amende pour défaut de titre »).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Le train pour Marseille arrive sur le _______________ numéro deux. (quai / guichet / wagon)",
+                "2. Pour passer d'une ligne à l'autre, suivez les panneaux de _______________. (correspondance / retard)",
+                "3. N'oubliez jamais de _______________ votre titre de transport à la borne. (valider / perdre / acheter)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Demandez un titre de transport au guichet avec « aller-retour » et « billet ».",
+                "2. Mentionnez votre trajet quotidien avec « prendre le bus » ou « prendre le métro »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Le métro • Le tramway • Le bus • La chambre",
+                "2. Le quai • La voie • Le guichet • La poêle",
+                "3. Valider • Composter • Embarquer • Dormir"
+            ]
+        },
+        "answers": "Ex 1: 1. quai | 2. correspondance | 3. valider • Ex 2: Modèles : « Je voudrais acheter un billet aller-retour pour Lyon, s'il vous plaît. » / « Tous les matins, je prends le métro pour aller travailler. » • Ex 3: 1. La chambre (pièce d'habitation, les 3 autres sont des transports en commun) | 2. La poêle (ustensile culinaire, les 3 autres sont des zones de gare) | 3. Dormir (action de repos physiologique, les 3 autres sont des démarches liées au titre de transport)"
+    },
+    18: {
+        "theme_badge": "LA ROUTE & LA CONDUITE",
+        "scenario_title": "Départ en Voiture sur l'Autoroute",
+        "scenario_context": "Antoine et Sarah prennent la route pour leurs vacances dans le sud de la France.",
+        "dialogue_or_story": [
+            {"speaker": "Antoine", "fr": "Tu as bien attaché ta <b>ceinture de sécurité</b> avant que j'allume le moteur ?", "en": "Did you fasten your seatbelt before I turn on the engine?"},
+            {"speaker": "Sarah", "fr": "Oui, tout est verrouillé ! Vérifie bien tes rétroviseurs et le <b>volant</b>.", "en": "Yes, everything is locked! Check your rear-view mirrors and steering wheel carefully."},
+            {"speaker": "Antoine", "fr": "Au <b>rond-point</b>, attention : les véhicules engagés ont la <b>priorité à gauche</b>.", "en": "At the roundabout, careful: vehicles already in have priority to the left."},
+            {"speaker": "Sarah", "fr": "Ensuite, nous empruntons l'<b>autoroute</b>. Respecte la <b>vitesse maximale</b> de 130 km/h !", "en": "Then, we take the motorway. Respect the maximum speed of 130 km/h!"},
+            {"speaker": "Antoine", "fr": "Absolument. J'ai rangé mon <b>permis de conduire</b> et la carte grise dans la boîte à gants.", "en": "Absolutely. I stowed my driver's license and registration in the glove box."}
+        ],
+        "cultural_tip": "Sur les routes françaises, deux règles régissent les intersections : la priorité à droite par défaut en l'absence de panneau, et la priorité absolue aux usagers déjà engagés sur l'anneau dans les carrefours à sens giratoire (ronds-points). Sur autoroute sèche, la limite est de 130 km/h (réduite à 110 km/h par temps pluvieux).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Dès qu'on monte en voiture, on attache sa _______________ de sécurité. (ceinture / clé / porte)",
+                "2. Dans un carrefour giratoire, on cède le passage avant d'entrer dans le _______________. (rond-point / quai)",
+                "3. Pour conduire en toute légalité, il faut posséder son _______________ de conduire. (permis / brevet)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Formulez une règle de conduite avec les mots « ceinture » et « vitesse ».",
+                "2. Évoquez vos déplacements individuels avec « en voiture » ou « à vélo »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Le volant • Le frein • La roue • Le billet de train",
+                "2. La voiture • Le camion • La moto • L'escalier",
+                "3. L'essence • Le gazole • L'électricité • L'amende"
+            ]
+        },
+        "answers": "Ex 1: 1. ceinture | 2. rond-point | 3. permis • Ex 2: Modèles : « Il faut attacher sa ceinture et respecter la vitesse autorisée. » / « En ville, je me déplace souvent à vélo pour éviter les bouchons. » • Ex 3: 1. Le billet de train (titre de transport collectif, les 3 autres sont des pièces de mécanique automobile) | 2. L'escalier (ouvrage d'architecture, les 3 autres sont des véhicules à moteur) | 3. L'amende (pénalité pécuniaire, les 3 autres sont des carburants d'alimentation énergétique)"
+    },
+    19: {
+        "theme_badge": "LE VOYAGE & LA MÉTÉO",
+        "scenario_title": "Conseils à l'Office de Tourisme de Nice",
+        "scenario_context": "Des voyageurs préparent leur circuit d'excursions le long de la côte méditerranéenne.",
+        "dialogue_or_story": [
+            {"speaker": "Le conseiller", "fr": "Bonjour ! Bienvenue sur la Côte d'Azur. Quel genre de <b>visite</b> cherchez-vous ?", "en": "Hello! Welcome to the French Riviera. What kind of tour are you looking for?"},
+            {"speaker": "Laura", "fr": "Nous souhaitons découvrir les <b>monuments historiques</b> et le littoral.", "en": "We wish to discover the historical monuments and the coastline."},
+            {"speaker": "Le conseiller", "fr": "C'est parfait ! Avez-vous regardé la <b>météo</b> ce matin ?", "en": "That's perfect! Did you check the weather forecast this morning?"},
+            {"speaker": "Laura", "fr": "Oui ! Il fait un magnifique <b>soleil</b>, vingt-cinq degrés, sans le moindre <b>nuage</b>.", "en": "Yes! It is beautifully sunny, twenty-five degrees, without a single cloud."},
+            {"speaker": "Le conseiller", "fr": "Voici un <b>plan de la ville</b>. Emportez vos <b>lunettes de soleil</b> et un chapeau !", "en": "Here is a city map. Take your sunglasses and a hat along!"}
+        ],
+        "cultural_tip": "Pour décrire les conditions atmosphériques, le français recourt à la tournure impersonnelle « Il fait... » : « Il fait beau », « Il fait mauvais », « Il fait chaud », « Il fait froid ». Pour les précipitations, on utilise les verbes conjugués à la 3e personne : « Il pleut » (pleuvoir) et « Il neige » (neiger).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Prenez un parapluie car le ciel s'assombrit et il _______________ des averses. (pleut / neige / fait)",
+                "2. En plein été sur la côte méditerranéenne, il fait très _______________. (chaud / froid / neige)",
+                "3. À l'office de tourisme, demandez une brochure et un _______________ gratuit de la ville. (plan / train)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Décrivez la météo d'aujourd'hui avec « il fait beau » ou « il pleut ».",
+                "2. Évoquez vos activités de vacances avec « visiter des monuments » ou « aller à la plage »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Le soleil • La pluie • Le vent • L'ordinateur",
+                "2. La valise • Le passeport • Le guide touristique • Le réfrigérateur",
+                "3. Il pleut • Il neige • Il fait froid • Il mange"
+            ]
+        },
+        "answers": "Ex 1: 1. pleut | 2. chaud | 3. plan • Ex 2: Modèles : « Aujourd'hui à Paris, il fait beau et le ciel est bleu. » / « Pendant mes vacances d'été, j'aime visiter des monuments célèbres. » • Ex 3: 1. L'ordinateur (matériel informatique, les 3 autres sont des éléments météorologiques) | 2. Le réfrigérateur (électroménager, les 3 autres sont des accessoires de voyage) | 3. Il mange (verbe d'alimentation humaine, les 3 autres sont des formules météorologiques impersonnelles)"
+    },
+    20: {
+        "theme_badge": "L'HÔTELLERIE & LE SÉJOUR",
+        "scenario_title": "Arrivée et Check-in à l'Hôtel",
+        "scenario_context": "Marc et Sophie s'enregistrent à la réception d'un hôtel de charme à Annecy.",
+        "dialogue_or_story": [
+            {"speaker": "Le réceptionniste", "fr": "Bonsoir Madame, bonsoir Monsieur. Avez-vous une <b>réservation</b> ?", "en": "Good evening ma'am, good evening sir. Do you have a reservation?"},
+            {"speaker": "Marc", "fr": "Oui, au nom de Martin. Nous avons réservé une <b>chambre double</b>.", "en": "Yes, under the name Martin. We reserved a double room."},
+            {"speaker": "Le réceptionniste", "fr": "Parfait. Un séjour de trois <b>nuits</b> avec <b>petit-déjeuner compris</b>.", "en": "Perfect. A stay of three nights with breakfast included."},
+            {"speaker": "Sophie", "fr": "À quelle heure le buffet du matin est-il servi ?", "en": "What time is the morning buffet served?"},
+            {"speaker": "Le réceptionniste", "fr": "De sept heures à dix heures. Voici votre <b>clé</b> pour la chambre 204.", "en": "From 7:00 to 10:00 AM. Here is your key for room 204."},
+            {"speaker": "Marc", "fr": "Merci ! Y a-t-il une connexion <b>Wi-Fi gratuite</b> dans les étages ?", "en": "Thank you! Is there a free Wi-Fi connection on the upper floors?"}
+        ],
+        "cultural_tip": "La France offre une grande diversité d'hébergements de vacances : les hôtels homologués de 1 à 5 étoiles, les campings aménagés, mais aussi les « chambres d'hôtes » (bed & breakfast chez l'habitant) et les « gîtes ruraux » (maisons de campagne louées à la semaine, souvent labellisées Gîtes de France).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Le réceptionniste nous a confié la _______________ de notre chambre. (clé / table / fourchette)",
+                "2. Cet été, nous préférons planter la tente dans un _______________ en bord de mer. (camping / métro)",
+                "3. Le tarif de la nuitée comprend la chambre et le _______________ du matin. (petit-déjeuner / passeport)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Demandez la réservation d'un séjour avec « réserver une chambre » et « nuit(s) ».",
+                "2. Exprimez votre préférence d'hébergement avec « hôtel » ou « camping »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. La chambre • La réception • La clé • La casserole",
+                "2. La tente • Le sac de couchage • Le camping • L'imprimante",
+                "3. Une chambre simple • Une chambre double • Une suite • Un ticket de métro"
+            ]
+        },
+        "answers": "Ex 1: 1. clé | 2. camping | 3. petit-déjeuner • Ex 2: Modèles : « Je souhaite réserver une chambre double pour deux nuits. » / « Pour nos vacances en pleine nature, nous préférons le camping. » • Ex 3: 1. La casserole (ustensile culinaire, les 3 autres sont des éléments de l'hôtellerie) | 2. L'imprimante (outil d'impression bureautique, les 3 autres sont des matériels de camping) | 3. Un ticket de métro (titre de transport urbain, les 3 autres sont des types de chambres hôtelières)"
+    },
+    21: {
+        "theme_badge": "LE MARCHÉ & LES PRIMEURS",
+        "scenario_title": "Achats Frais au Marché de Plein Vent",
+        "scenario_context": "Juliette achète ses fruits et légumes de saison auprès d'un producteur local.",
+        "dialogue_or_story": [
+            {"speaker": "Le maraîcher", "fr": "Bonjour Madame ! Qu'est-ce qui vous ferait plaisir ce matin ?", "en": "Good morning ma'am! What would please you this morning?"},
+            {"speaker": "Juliette", "fr": "Bonjour ! Je voudrais un <b>kilo de pommes</b> et une barquette de <b>fraises</b>.", "en": "Hello! I would like one kilo of apples and a punnet of strawberries."},
+            {"speaker": "Le maraîcher", "fr": "Regardez ces <b>tomates</b> bien mûres et ces <b>salades</b> croquantes !", "en": "Look at these ripe tomatoes and crisp lettuces!"},
+            {"speaker": "Juliette", "fr": "Ajoutez deux kilos de <b>carottes</b> et un beau <b>concombre</b>, s'il vous plaît.", "en": "Add two kilos of carrots and a nice cucumber, please."},
+            {"speaker": "Le maraîcher", "fr": "Très bien. Et avec ceci, ce sera tout ?", "en": "Very good. And with this, will that be all?"},
+            {"speaker": "Juliette", "fr": "Oui merci, <b>combien ça coûte</b> au total ?", "en": "Yes thank you, how much does it cost in total?"}
+        ],
+        "cultural_tip": "Faire le marché (« aller au marché ») le week-end est une tradition vivace en France. On y achète les produits au poids en kilogrammes (« un kilo de », « cinq cents grammes de »). Les Français apprécient la fraîcheur des circuits courts et la discussion cordiale avec le producteur maraîcher.",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Bonjour, je voudrais deux kilos de _______________ pour préparer une tarte. (pommes / poissons / stylos)",
+                "2. Pour concocter un potage, il nous faut des carottes et des pommes de _______________. (terre / mer / ciel)",
+                "3. S'il vous plaît, combien _______________ ce cageot de fruits ? (coûte / mesure / pèse)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Passez commande auprès du marchand avec l'expression « Je voudrais un kilo de... ».",
+                "2. Mentionnez deux fruits ou légumes que vous appréciez avec « aimer » ou « préférer »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. La pomme • La poire • La fraise • La sardine",
+                "2. La carotte • La tomate • La salade • Le cahier",
+                "3. Un kilo • Cinq cents grammes • Une barquette • Un ticket de train"
+            ]
+        },
+        "answers": "Ex 1: 1. pommes | 2. terre | 3. coûte • Ex 2: Modèles : « Bonjour, je voudrais un kilo de poires bien mûres. » / « J'aime cuisiner les carottes et les courgettes en été. » • Ex 3: 1. La sardine (poisson marin, les 3 autres sont des fruits sucrés) | 2. Le cahier (article de papeterie, les 3 autres sont des légumes de potager) | 3. Un ticket de train (titre de voyage, les 3 autres sont des mesures marchandes quantitatives)"
+    },
+    22: {
+        "theme_badge": "LA BOUCHERIE & LA POISSONNERIE",
+        "scenario_title": "Chez le Boucher et le Poissonnier",
+        "scenario_context": "Nicolas prépare un dîner gourmand et fait le tour des commerces de bouche.",
+        "dialogue_or_story": [
+            {"speaker": "Le boucher", "fr": "Bonjour Monsieur ! Que préparez-vous de bon pour ce soir ?", "en": "Hello sir! What good meal are you cooking for tonight?"},
+            {"speaker": "Nicolas", "fr": "Bonjour ! Je vais prendre quatre <b>filets de bœuf</b> et un <b>poulet fermier</b>.", "en": "Hello! I'll take four beef fillets and a free-range chicken."},
+            {"speaker": "Le boucher", "fr": "Excellente coupe ! Désirez-vous aussi du <b>jambon blanc</b> ou des <b>saucisses</b> ?", "en": "Excellent cut! Would you also like some cooked ham or sausages?"},
+            {"speaker": "Nicolas", "fr": "Deux tranches de jambon, merci. Je passe ensuite à la <b>poissonnerie</b> chercher du <b>saumon</b>.", "en": "Two slices of ham, thank you. I'm stopping next at the fishmonger for salmon."},
+            {"speaker": "Le boucher", "fr": "N'oubliez pas votre <b>baguette de pain</b> croustillante chez le boulanger !", "en": "Don't forget your crusty baguette at the baker's!"}
+        ],
+        "cultural_tip": "En France, les commerces de bouche spécialisés sont réputés pour leur savoir-faire artisanal : la boucherie (viandes rouges et blanches), la charcuterie (produits à base de porc et salaisons), la poissonnerie (produits de la mer) et la boulangerie (pains cuits sur place et viennoiseries).",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Pour le repas, je cuisinerai deux beaux pavés de _______________ frais. (saumon / boulanger / table)",
+                "2. Tous les matins, les Français achètent une _______________ dorée et croustillante. (baguette / viande / fleur)",
+                "3. Pour le brunch du dimanche, nous préparons des _______________ au plat. (œufs / bouteilles / chaises)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Commandez un produit chez le boucher avec « Je vais prendre... ».",
+                "2. Nommez votre produit de boulangerie favori avec « baguette » ou « croissant »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Le bœuf • Le poulet • Le porc • La pomme",
+                "2. Le saumon • Le thon • La crevette • Le stylo",
+                "3. La boulangerie • La boucherie • La poissonnerie • L'autoroute"
+            ]
+        },
+        "answers": "Ex 1: 1. saumon | 2. baguette | 3. œufs • Ex 2: Modèles : « Je vais prendre deux escalopes de poulet très tendres. » / « Le matin, j'achète une baguette tradition bien cuite. » • Ex 3: 1. La pomme (fruit végétal, les 3 autres sont des viandes animales) | 2. Le stylo (outil d'écriture, les 3 autres sont des produits marins) | 3. L'autoroute (voie rapide de circulation, les 3 autres sont des commerces alimentaires de quartier)"
+    },
+    23: {
+        "theme_badge": "LES FROMAGES & LES BOISSONS",
+        "scenario_title": "La Sélection du Plateau de Fromages",
+        "scenario_context": "Sophie compose un assortiment de fromages et de boissons pour ses convives.",
+        "dialogue_or_story": [
+            {"speaker": "La fromagère", "fr": "Bonjour Madame ! Quel style de <b>fromage</b> recherchez-vous ?", "en": "Hello ma'am! What style of cheese are you looking for?"},
+            {"speaker": "Sophie", "fr": "Je voudrais un bon <b>camembert</b> crémeux et un <b>fromage de chèvre</b>.", "en": "I would like a good creamy camembert and a goat cheese."},
+            {"speaker": "La fromagère", "fr": "Très bien. Nous avons aussi du <b>comté</b> affiné et du <b>beurre doux</b> de Normandie.", "en": "Very good. We also have aged Comté and unsalted butter from Normandy."},
+            {"speaker": "Sophie", "fr": "Parfait ! Ajoutez deux cents grammes de comté, un pot de <b>crème fraîche</b> et des <b>yaourts</b>.", "en": "Perfect! Add two hundred grams of Comté, a pot of crème fraîche, and some yogurts."},
+            {"speaker": "La fromagère", "fr": "Et comme boisson pour le dîner : de l'<b>eau minérale</b> ou une bouteille de <b>vin rouge</b> ?", "en": "And as a beverage for dinner: mineral water or a bottle of red wine?"}
+        ],
+        "cultural_tip": "La France compte plus de 1 200 variétés de fromages répertoriées ! Lors d'un repas traditionnel français, le plateau de fromages se présente toujours entre le plat principal et le dessert, dégusté avec du pain frais (baguette) et accompagné d'un vin adapté au terroir.",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. En France, le camembert et le comté sont deux célèbres _______________. (fromages / gâteaux / légumes)",
+                "2. Au petit-déjeuner, les enfants boivent souvent un bol de _______________ tiède. (lait / vin / vinaigre)",
+                "3. À table au bistrot, on sert couramment une carafe d'_______________ fraîche. (eau / huile / essence)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Commandez poliment une boisson avec « Je voudrais... s'il vous plaît ».",
+                "2. Évoquez vos habitudes laitières avec « manger du fromage » ou « yaourt »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Le camembert • Le comté • Le roquefort • La voiture",
+                "2. Le lait • Le yaourt • Le beurre • La bicyclette",
+                "3. Le vin rouge • L'eau minérale • Le jus d'orange • La fourchette"
+            ]
+        },
+        "answers": "Ex 1: 1. fromages | 2. lait | 3. eau • Ex 2: Modèles : « Je voudrais une carafe d'eau fraîche, s'il vous plaît. » / « J'aime manger un peu de fromage de chèvre avec du pain. » • Ex 3: 1. La voiture (moyen de transport, les 3 autres sont des fromages traditionnels français) | 2. La bicyclette (cycle à roues, les 3 autres sont des produits issus du lait) | 3. La fourchette (couvert métallique de table, les 3 autres sont des boissons de consommation)"
+    },
+    24: {
+        "theme_badge": "LES REPAS & LA TABLE",
+        "scenario_title": "Dresser le Couvert pour le Dîner",
+        "scenario_context": "Catherine explique les règles de l'art de la table à son fils avant l'arrivée des invités.",
+        "dialogue_or_story": [
+            {"speaker": "Catherine", "fr": "Lucas, viens m'aider à <b>mettre la table</b> pour le <b>dîner</b> de fête !", "en": "Lucas, come help me set the table for the festive dinner!"},
+            {"speaker": "Lucas", "fr": "D'accord maman ! Combien d'<b>assiettes</b> faut-il installer ?", "en": "Okay mom! How many plates should I set out?"},
+            {"speaker": "Catherine", "fr": "Pose six assiettes plates, puis la <b>fourchette</b> à gauche et le <b>couteau</b> à droite.", "en": "Lay six dinner plates, then the fork to the left and the knife to the right."},
+            {"speaker": "Lucas", "fr": "Et la <b>petite cuillère</b> pour le gâteau ?", "en": "And the small spoon for the cake?"},
+            {"speaker": "Catherine", "fr": "Mets-la au-dessus de l'assiette. N'oublie pas les <b>verres à eau</b> et une <b>serviette</b> propre.", "en": "Put it above the plate. Don't forget the water glasses and a clean napkin."}
+        ],
+        "cultural_tip": "Le repas gastronomique des Français est classé au patrimoine immatériel de l'UNESCO. Les règles de savoir-vivre imposent de placer le couteau à droite (tranchant vers l'assiette), la fourchette à gauche (pointes vers le haut selon la tradition française) et les verres en haut à droite.",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. À table, disposez la fourchette à gauche et le _______________ à droite. (couteau / canapé / crayon)",
+                "2. Essuyez-vous délicatement les lèvres avec votre _______________ en tissu. (serviette / livre / cravate)",
+                "3. À midi, les collègues se retrouvent pour partager le _______________. (déjeuner / petit-déjeuner / goûter)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Citez trois éléments de table avec « assiette », « couteau » et « fourchette ».",
+                "2. Indiquez l'horaire de votre dîner avec « dîner à ... heures »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. L'assiette • La fourchette • Le couteau • L'ordinateur",
+                "2. Le petit-déjeuner • Le déjeuner • Le dîner • La valise",
+                "3. Le verre à eau • La tasse à café • Le bol • Le parapluie"
+            ]
+        },
+        "answers": "Ex 1: 1. couteau | 2. serviette | 3. déjeuner • Ex 2: Modèles : « Je dispose avec soin l'assiette, la fourchette et le couteau. » / « En famille, nous dînons d'habitude à vingt heures précises. » • Ex 3: 1. L'ordinateur (équipement informatique, les 3 autres sont des pièces de vaisselle de table) | 2. La valise (bagage de voyage, les 3 autres sont des moments de repas de la journée) | 3. Le parapluie (protection contre la pluie, les 3 autres sont des récipients de boisson)"
+    },
+    25: {
+        "theme_badge": "AU RESTAURANT & AU BISTROT",
+        "scenario_title": "Déjeuner Gourmand au Bistrot Parisien",
+        "scenario_context": "Paul et Claire s'installent en terrasse et passent commande auprès du serveur.",
+        "dialogue_or_story": [
+            {"speaker": "Le serveur", "fr": "Bonjour ! Avez-vous arrêté votre choix sur le <b>menu du jour</b> ?", "en": "Hello! Have you made your choice from the menu of the day?"},
+            {"speaker": "Paul", "fr": "Oui, en <b>entrée</b>, je vais prendre la soupe à l'oignon gratinée.", "en": "Yes, as a starter, I'll take the gratin French onion soup."},
+            {"speaker": "Claire", "fr": "Et comme <b>plat principal</b>, nous prendrons deux steaks-frites savoureux.", "en": "And as a main course, we'll have two flavorful steaks and fries."},
+            {"speaker": "Le serveur", "fr": "Très bien. Quelle <b>cuisson</b> pour la viande : <b>saignant</b> ou <b>à point</b> ?", "en": "Very good. What doneness for the meat: rare or medium?"},
+            {"speaker": "Paul", "fr": "Saignant pour moi, s'il vous plaît. Et une carafe d'eau du robinet.", "en": "Rare for me, please. And a pitcher of tap water."},
+            {"speaker": "Claire", "fr": "Et en fin de repas : <b>l'addition</b>, s'il vous plaît !", "en": "And at the end of the meal: the bill, please!"}
+        ],
+        "cultural_tip": "Dans les restaurants en France, le pourboire n'est jamais obligatoire car « le service est compris » à hauteur de 15% dans l'addition finale. Si le service s'avère particulièrement agréable, il est d'usage de laisser un petit pourboire de 1 à 3 euros en espèces sur la table.",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Pour commencer le repas, nous commandons une salade en _______________. (entrée / dessert / addition)",
+                "2. Comment aimez-vous votre bœuf : saignant ou bien à _______________ ? (point / carreau / pied)",
+                "3. Monsieur, apportez-nous l'_______________, nous allons régler par carte. (addition / ordonnance / facture)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Passez commande auprès du serveur avec « Je voudrais le menu... ».",
+                "2. Demandez la note en fin de repas avec la locution « l'addition, s'il vous plaît »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. L'entrée • Le plat principal • Le dessert • Le feu rouge",
+                "2. Le serveur • Le chef cuisinier • Le maître d'hôtel • Le conducteur de train",
+                "3. La carte • Le menu • La formule du jour • La bicyclette"
+            ]
+        },
+        "answers": "Ex 1: 1. entrée | 2. point | 3. addition • Ex 2: Modèles : « Je voudrais le menu du jour avec un verre de vin rouge. » / « L'addition, s'il vous plaît, nous allons payer ensemble. » • Ex 3: 1. Le feu rouge (signal routier, les 3 autres sont les services d'un repas) | 2. Le conducteur de train (métier du chemin de fer, les 3 autres travaillent en restauration) | 3. La bicyclette (véhicule deux-roues, les 3 autres sont des propositions de cartes gastronomiques)"
+    },
+    26: {
+        "theme_badge": "LES COURSES & LES COMMERCES",
+        "scenario_title": "La Tournée des Commerces de Proximité",
+        "scenario_context": "Marine effectue ses courses hebdomadaires entre petites échoppes et grande surface.",
+        "dialogue_or_story": [
+            {"speaker": "Marine", "fr": "J'ai plusieurs <b>courses</b> à faire ce matin. D'abord, arrêt à la <b>boulangerie</b>.", "en": "I have several errands to run this morning. First, a stop at the bakery."},
+            {"speaker": "Julien", "fr": "Tu passes aussi à la <b>pharmacie</b> chercher les pastilles et à la <b>librairie</b> ?", "en": "Are you also stopping by the pharmacy for lozenges and at the bookstore?"},
+            {"speaker": "Marine", "fr": "Oui, puis je termine au grand <b>supermarché</b> pour remplir le <b>caddie</b> de provisions.", "en": "Yes, then I finish at the large supermarket to fill the cart with groceries."},
+            {"speaker": "Julien", "fr": "Il y a souvent une longue attente à la <b>caisse</b> le samedi matin.", "en": "There is often a long wait at the checkout counter on Saturday morning."},
+            {"speaker": "Marine", "fr": "Ce n'est rien, je vais <b>payer par carte bancaire</b> sans contact et récupérer mon <b>ticket de caisse</b>.", "en": "It's fine, I'll pay by contactless bank card and get my receipt."}
+        ],
+        "cultural_tip": "En France, les commerces de quartier ferment souvent entre 12h30 et 14h00 en province ainsi que le dimanche après-midi. Pensez à apporter votre propre cabas ou sac réutilisable, car les sacs plastiques à usage unique sont bannis des caisses des magasins.",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Pour acheter le journal du jour ou des timbres, on va au bureau de _______________. (tabac / boucherie / cinéma)",
+                "2. Déposez vos articles sur le tapis roulant devant la _______________. (caisse / cuisine / fenêtre)",
+                "3. Souhaitez-vous régler votre achat en liquide ou par _______________ bancaire ? (carte / quai / lettre)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Nommez deux commerces de quartier avec les formules « aller à la... » ou « chez le... ».",
+                "2. Précisez votre moyen de paiement habituel avec « payer en espèces » ou « payer par carte »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. La boulangerie • La boucherie • La pharmacie • L'avion",
+                "2. La caisse • Le chariot • Le ticket de caisse • La montagne",
+                "3. Payer en espèces • Payer par carte • Payer sans contact • Dormir à l'hôtel"
+            ]
+        },
+        "answers": "Ex 1: 1. tabac | 2. caisse | 3. carte • Ex 2: Modèles : « Je vais à la boulangerie puis chez le boucher du quartier. » / « Pour mes achats quotidiens, je préfère payer par carte bancaire. » • Ex 3: 1. L'avion (moyen de transport aérien, les 3 autres sont des commerces de proximité) | 2. La montagne (relief naturel géographique, les 3 autres sont des éléments de caisse de supermarché) | 3. Dormir à l'hôtel (action d'hébergement, les 3 autres sont des modalités de paiement marchand)"
+    },
+    27: {
+        "theme_badge": "LA MODE & L'HABILLEMENT",
+        "scenario_title": "Essayage dans une Boutique de Prêt-à-Porter",
+        "scenario_context": "Lucas choisit une tenue habillée pour un entretien professionnel.",
+        "dialogue_or_story": [
+            {"speaker": "La vendeuse", "fr": "Bonjour Monsieur ! Avez-vous besoin d'un conseil ?", "en": "Hello sir! Do you need some assistance?"},
+            {"speaker": "Lucas", "fr": "Oui, je cherche une <b>chemise blanche</b> et un <b>pantalon noir</b> classique.", "en": "Yes, I am looking for a white shirt and classic black trousers."},
+            {"speaker": "La vendeuse", "fr": "Quelle est votre <b>taille</b> pour la chemise ? Du 40 ou du 42 ?", "en": "What is your size for the shirt? 40 or 42?"},
+            {"speaker": "Lucas", "fr": "Du 40, merci. Puis-je <b>essayer</b> dans la <b>cabine d'essayage</b> ?", "en": "40, thank you. May I try it on in the fitting room?"},
+            {"speaker": "La vendeuse", "fr": "Certainement ! Les cabines sont au fond. Voyez aussi cette belle <b>veste</b> et ces <b>chaussures en cuir</b>.", "en": "Certainly! The booths are at the back. See also this handsome jacket and these leather shoes."}
+        ],
+        "cultural_tip": "En matière vestimentaire en France, on emploie le terme « taille » pour les vêtements de corps (38, 40, 42 ou S, M, L) et le mot spécifique « pointure » pour les chaussures (39, 41, 43). Pour tester un habit, on utilise le verbe « essayer » dans une « cabine d'essayage ».",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Pour vérifier que cette veste vous va, allez l'_______________ en cabine. (essayer / payer / laver)",
+                "2. Quelle est votre _______________ de chaussures ? — Je chausse du 43. (pointure / taille / prix)",
+                "3. Quand souffle la bise hivernale, nouez une _______________ autour du cou. (écharpe / assiette / chaise)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Décrivez votre tenue du jour en associant deux vêtements et leurs couleurs respectives.",
+                "2. Demandez poliment à tester un article en magasin avec « Puis-je essayer... ? »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Le pantalon • La chemise • La jupe • La fourchette",
+                "2. Les baskets • Les bottes • Les sandales • Le cahier",
+                "3. Le chapeau • L'écharpe • La ceinture • Le micro-ondes"
+            ]
+        },
+        "answers": "Ex 1: 1. essayer | 2. pointure | 3. écharpe • Ex 2: Modèles : « Aujourd'hui, je porte un pantalon beige et un pull bleu marine. » / « Pardon Madame, puis-je essayer cette robe en taille 38 ? » • Ex 3: 1. La fourchette (couvert de table, les 3 autres sont des pièces vestimentaires) | 2. Le cahier (support scolaire d'écriture, les 3 autres sont des types de chaussures) | 3. Le micro-ondes (appareil culinaire, les 3 autres sont des accessoires de mode)"
+    },
+    28: {
+        "theme_badge": "LA SANTÉ & LES SYMPTÔMES",
+        "scenario_title": "Consultation Médicale pour Infection Hivernale",
+        "scenario_context": "Julien se rend chez son médecin de famille car il présente des signes grippaux.",
+        "dialogue_or_story": [
+            {"speaker": "Le médecin", "fr": "Bonjour Julien. Quels symptômes ressentez-vous aujourd'hui ?", "en": "Hello Julien. What symptoms are you experiencing today?"},
+            {"speaker": "Julien", "fr": "Docteur, je <b>suis malade</b> : j'ai de la <b>fièvre</b>, une forte <b>toux</b> et un gros <b>rhume</b>.", "en": "Doctor, I am sick: I have a fever, a bad cough, and a heavy head cold."},
+            {"speaker": "Le médecin", "fr": "Avez-vous des frissons ou des courbatures dans les membres ?", "en": "Do you have chills or body aches in your limbs?"},
+            {"speaker": "Julien", "fr": "Oui, j'ai <b>mal à la gorge</b> et des maux de tête. Je me sens très <b>fatigué</b>.", "en": "Yes, I have a sore throat and headaches. I feel very fatigued."},
+            {"speaker": "Le médecin", "fr": "C'est un état grippal. Je vous prescris du repos et un <b>arrêt de travail</b> de trois jours.", "en": "It's a flu-like condition. I prescribe rest and a three-day sick leave."}
+        ],
+        "cultural_tip": "En France, lorsqu'un médecin prescrit un arrêt maladie, il délivre un formulaire officiel d'« arrêt de travail ». L'assuré doit impérativement transmettre les volets 1 et 2 à sa caisse d'Assurance Maladie (CPAM) et le volet 3 à son employeur dans un délai strict de 48 heures.",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. La température monte à trente-neuf degrés, l'enfant a de la _______________. (fièvre / faim / joie)",
+                "2. Après avoir marché sous la pluie, Julien a attrapé un mauvais _______________. (rhume / train / gâteau)",
+                "3. Le docteur a signé un arrêt de _______________ d'une semaine complète. (travail / route / table)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Décrivez deux manifestations de maladie avec « avoir de la fièvre » et « tousser ».",
+                "2. Formulez une douleur corporelle précise avec « avoir mal à la gorge / tête »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. La fièvre • La toux • Le rhume • Le soleil",
+                "2. Une blessure • Une fracture • Une entorse • Une glace",
+                "3. Le paracétamol • Le sirop • L'aspirine • Le fauteuil"
+            ]
+        },
+        "answers": "Ex 1: 1. fièvre | 2. rhume | 3. travail • Ex 2: Modèles : « J'ai beaucoup de fièvre et je tousse toute la nuit. » / « J'ai très mal à la gorge depuis hier soir. » • Ex 3: 1. Le soleil (astre céleste météo, les 3 autres sont des symptômes cliniques de maladie) | 2. Une glace (confiserie glacée, les 3 autres sont des traumatismes corporels) | 3. Le fauteuil (meuble de repos, les 3 autres sont des substances médicamenteuses)"
+    },
+    29: {
+        "theme_badge": "LE MONDE MÉDICAL & L'HÔPITAL",
+        "scenario_title": "À l'Officine avec une Ordonnance",
+        "scenario_context": "Sarah présente sa prescription médicale au pharmacien du quartier.",
+        "dialogue_or_story": [
+            {"speaker": "Le pharmacien", "fr": "Bonjour Madame. Que puis-je vous délivrer aujourd'hui ?", "en": "Hello ma'am. What may I dispense to you today?"},
+            {"speaker": "Sarah", "fr": "Bonjour. Voici l'<b>ordonnance</b> de mon <b>médecin traitant</b>.", "en": "Hello. Here is the prescription from my attending physician."},
+            {"speaker": "Le pharmacien", "fr": "Très bien. Avez-vous votre <b>carte Vitale</b> et votre carte de <b>mutuelle</b> ?", "en": "Very good. Do you have your Carte Vitale and complementary health card?"},
+            {"speaker": "Sarah", "fr": "Oui, les voici. Comment dois-je prendre ces <b>médicaments</b> ?", "en": "Yes, here they are. How should I take these medications?"},
+            {"speaker": "Le pharmacien", "fr": "Prenez ce <b>sirop</b> après chaque repas et ces <b>comprimés</b> le matin avec un grand verre d'eau.", "en": "Take this syrup after each meal and these tablets in the morning with a large glass of water."}
+        ],
+        "cultural_tip": "La « carte Vitale » verte à puce électronique est le symbole de l'Assurance Maladie universelle en France. Elle permet la télétransmission électronique et dispense souvent de l'avance des frais médicaux remboursables (système du « tiers payant »). Les pharmacies françaises se repèrent à leur croix verte lumineuse.",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Pour obtenir certains antibiotiques, il faut présenter une _______________ médicale. (ordonnance / facture / lettre)",
+                "2. Présentez votre carte _______________ verte pour être remboursé par la Sécurité Sociale. (Vitale / postale / d'identité)",
+                "3. En cas de détresse médicale urgente, les secours transportent le blessé à l'_______________. (hôpital / aéroport / usine)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Présentez une demande au comptoir de la pharmacie avec « ordonnance » et « médicament ».",
+                "2. Nommez deux soignants avec les termes « médecin » et « infirmier(e) »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Le médecin • L'infirmier • Le dentiste • Le boulanger",
+                "2. L'hôpital • La clinique • La pharmacie • Le musée",
+                "3. Une ordonnance • Un pansement • Un comprimé • Un passeport"
+            ]
+        },
+        "answers": "Ex 1: 1. ordonnance | 2. Vitale | 3. hôpital • Ex 2: Modèles : « Bonjour, j'ai une ordonnance pour récupérer des médicaments. » / « Le médecin prescrit le traitement et l'infirmière effectue les soins. » • Ex 3: 1. Le boulanger (artisan de l'alimentation, les 3 autres sont des professionnels de santé) | 2. Le musée (établissement d'art, les 3 autres sont des structures de soins médicaux) | 3. Un passeport (titre de circulation internationale, les 3 autres sont des éléments pharmaceutiques)"
+    },
+    30: {
+        "theme_badge": "LA VILLE & L'ORIENTATION",
+        "scenario_title": "Demander son Itinéraire dans le Centre Ancien",
+        "scenario_context": "Un passant désorienté demande son chemin à une habitante dans les ruelles de Tours.",
+        "dialogue_or_story": [
+            {"speaker": "Le passant", "fr": "Pardon Madame, excusez-moi. Pour aller à la <b>mairie</b>, s'il vous plaît ?", "en": "Excuse me ma'am, sorry. How do I get to town hall, please?"},
+            {"speaker": "L'habitante", "fr": "Ce n'est pas compliqué ! Descendez cette <b>rue</b> jusqu'au <b>carrefour</b>.", "en": "It's not complicated! Walk down this street until the intersection."},
+            {"speaker": "Le passant", "fr": "Et au carrefour, quelle direction dois-je prendre ?", "en": "And at the intersection, which direction should I take?"},
+            {"speaker": "L'habitante", "fr": "Continuez <b>tout droit</b>, puis <b>tournez à gauche</b> devant le <b>bureau de poste</b>.", "en": "Continue straight ahead, then turn left in front of the post office."},
+            {"speaker": "Le passant", "fr": "C'est bien sur la grande <b>place</b> pavée ?", "en": "Is it indeed on the large cobblestone square?"},
+            {"speaker": "L'habitante", "fr": "Exactement, la mairie se dresse en face de la <b>banque</b> et du <b>commissariat</b>.", "en": "Exactly, town hall stands across from the bank and the police station."}
+        ],
+        "cultural_tip": "Attention au piège phonétique classique : « tout droit » signifie straight ahead (avancer en ligne directe), tandis que « à droite » signifie to the right ! La mairie (ou Hôtel de Ville dans les grandes métropoles) est le centre névralgique de chaque commune de France pour l'état civil et les affaires publiques.",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Pour rejoindre la cathédrale, marchez tout _______________ pendant trois cents mètres. (droit / gauche / loin)",
+                "2. Arrivé au feu de signalisation, tournez à _______________ sur l'avenue. (droite / tout / direct)",
+                "3. En France, les déclarations de mariage et de naissance se font à la _______________. (mairie / pharmacie / poste)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Donnez une consigne de guidage en combinant « aller tout droit » et « tourner à gauche ».",
+                "2. Citez deux édifices d'intérêt public avec « la mairie » et « la poste »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. La rue • Le boulevard • L'avenue • La saucisse",
+                "2. La mairie • La poste • La banque • La forêt",
+                "3. Tourner à droite • Tourner à gauche • Aller tout droit • Manger du fromage"
+            ]
+        },
+        "answers": "Ex 1: 1. droit | 2. droite | 3. mairie • Ex 2: Modèles : « Allez tout droit jusqu'au parc puis tournez à gauche. » / « La mairie et la poste sont situées de part et d'autre de la grande place. » • Ex 3: 1. La saucisse (produit charcutier, les 3 autres sont des voies urbaines) | 2. La forêt (espace végétal sauvage, les 3 autres sont des bâtiments de services urbains) | 3. Manger du fromage (action d'alimentation, les 3 autres sont des indications de repérage spatial)"
+    },
+    31: {
+        "theme_badge": "LA NATURE & LA CAMPAGNE",
+        "scenario_title": "Échappée Pédestre sur les Sentiers de Campagne",
+        "scenario_context": "Marc et Élodie se promènent dans le paysage bocager et forestier du Périgord.",
+        "dialogue_or_story": [
+            {"speaker": "Marc", "fr": "Quel bonheur d'apprécier le calme de la <b>campagne</b> loin des bruits de la ville !", "en": "What joy to appreciate the calm of the countryside far from city noise!"},
+            {"speaker": "Élodie", "fr": "Regarde dans cette prairie, il y a des <b>vaches</b> et des <b>moutons</b> qui broutent paisiblement.", "en": "Look in this meadow, there are cows and sheep grazing peacefully."},
+            {"speaker": "Marc", "fr": "Et en lisière de la <b>forêt</b>, j'entends l'eau vive d'une petite <b>rivière</b>.", "en": "And on the edge of the forest, I hear the rushing water of a small river."},
+            {"speaker": "Élodie", "fr": "Écoute ! Perché sur cette haute branche d'<b>arbre</b>, un <b>oiseau</b> chante gaiement.", "en": "Listen! Perched on that high tree branch, a bird is singing cheerfully."},
+            {"speaker": "Marc", "fr": "La <b>nature</b> est si belle ici. Suivons ce sentier bordé de fleurs sauvages.", "en": "Nature is so beautiful here. Let's follow this path lined with wildflowers."}
+        ],
+        "cultural_tip": "La France compte plus de 180 000 kilomètres de sentiers balisés dédiés à la randonnée : les GR (sentiers de Grande Randonnée, balisés de deux traits horizontaux blanc et rouge) et les PR (sentiers de Promenade et Randonnée, balisés en jaune). Les randonneurs veillent au respect de la faune et de la flore.",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Les troupeaux paissent tranquillement dans les prairies de la _______________. (campagne / chambre / gare)",
+                "2. Les promeneurs suivent le chemin ombragé qui serpente dans la _______________. (forêt / assiette / usine)",
+                "3. Dans l'enclos de la ferme, l'agriculteur nourrit ses _______________. (moutons / feux / stylos)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Racontez une sortie en plein air avec « randonnée » et « forêt ».",
+                "2. Citez deux animaux ruraux avec « la vache » ou « le cheval »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. La vache • Le mouton • Le cheval • La télévision",
+                "2. La forêt • La rivière • La montagne • Le parking",
+                "3. Un arbre • Une fleur • Une feuille • Un billet de train"
+            ]
+        },
+        "answers": "Ex 1: 1. campagne | 2. forêt | 3. moutons • Ex 2: Modèles : « J'aime faire une randonnée en forêt chaque dimanche matin. » / « Dans le pré voisin, on observe des vaches et des chevaux. » • Ex 3: 1. La télévision (appareil électronique de salon, les 3 autres sont des animaux de la ferme) | 2. Le parking (aire de stationnement automobile, les 3 autres sont des milieux naturels) | 3. Un billet de train (titre de voyage collectif, les 3 autres sont des éléments végétaux)"
+    },
+    32: {
+        "theme_badge": "LE NUMÉRIQUE & LES MESSAGES",
+        "scenario_title": "Configuration Numérique et Correspondance",
+        "scenario_context": "Julien aide son grand-père à paramétrer son équipement pour communiquer avec ses proches.",
+        "dialogue_or_story": [
+            {"speaker": "Le grand-père", "fr": "Julien, mon <b>ordinateur portable</b> n'arrive pas à se connecter à <b>Internet</b>.", "en": "Julien, my laptop cannot connect to the Internet."},
+            {"speaker": "Julien", "fr": "Regardons le réseau <b>Wi-Fi</b> et vérifions ton <b>mot de passe</b> sécurisé.", "en": "Let's check the Wi-Fi network and verify your secure password."},
+            {"speaker": "Le grand-père", "fr": "Formidable, la liaison est établie ! Comment rédiger un <b>courriel</b> à ton oncle ?", "en": "Wonderful, the connection is established! How do I write an email to your uncle?"},
+            {"speaker": "Julien", "fr": "Clique sur 'Nouveau message', saisis son adresse et ajoute ta photo en <b>pièce jointe</b>.", "en": "Click on 'New message', enter his address, and attach your photo as an attachment."},
+            {"speaker": "Le grand-père", "fr": "C'est si simple. Et pour expédier ce paquet par la <b>poste</b> ?", "en": "It's so simple. And to ship this package through the post office?"},
+            {"speaker": "Julien", "fr": "On achète un affranchissement en ligne pour le <b>colis</b> avec un <b>timbre</b> numérique !", "en": "We buy postage online for the parcel with a digital stamp!"}
+        ],
+        "cultural_tip": "En France, les institutions de la langue recommandent des équivalents officiels aux anglicismes informatiques courants : « courriel » ou « mél » pour email, « mot de passe » pour password, « pièce jointe » pour attachment, « logiciel » pour software et « internaute » pour web user.",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Pour préserver vos données personnelles, créez un _______________ de passe complexe. (mot / livre / lit)",
+                "2. Veuillez trouver le document contractuel en pièce _______________ de ce courriel. (jointe / pliée / coupée)",
+                "3. Pour expédier une carte postale par voie postale, collez un _______________ sur l'enveloppe. (timbre / billet / menu)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Évoquez votre communication quotidienne avec « envoyer un courriel » ou « se connecter à Internet ».",
+                "2. Rédigez une phrase sur l'usage de votre « smartphone » ou « ordinateur »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. Un courriel • Un mot de passe • Un fichier • Une salade",
+                "2. Un ordinateur • Un smartphone • Une tablette • Un mouton",
+                "3. Un colis • Une lettre • Un timbre • Un steak"
+            ]
+        },
+        "answers": "Ex 1: 1. mot | 2. jointe | 3. timbre • Ex 2: Modèles : « J'envoie un courriel à mes collègues tous les matins. » / « Mon smartphone me permet de me connecter à Internet partout. » • Ex 3: 1. Une salade (plante maraîchère comestible, les 3 autres sont des notions informatiques) | 2. Un mouton (mammifère d'élevage rural, les 3 autres sont des terminaux technologiques) | 3. Un steak (viande de boucherie, les 3 autres sont des objets d'acheminement postal)"
+    },
+    33: {
+        "theme_badge": "LES FORMALITÉS ADMINISTRATIVES",
+        "scenario_title": "Dépôt de Dossier au Guichet de la Préfecture",
+        "scenario_context": "Amira se présente au guichet du service des étrangers pour régulariser sa situation administrative.",
+        "dialogue_or_story": [
+            {"speaker": "L'agent", "fr": "Bonjour Madame. Vous venez pour le <b>renouvellement de votre titre de séjour</b> ?", "en": "Good morning ma'am. Are you here for the renewal of your residence permit?"},
+            {"speaker": "Amira", "fr": "Oui Monsieur. Voici mon <b>formulaire de demande</b> dûment complété et signé.", "en": "Yes sir. Here is my application form duly completed and signed."},
+            {"speaker": "L'agent", "fr": "Avez-vous réuni tous vos <b>justificatifs de domicile</b> de moins de trois mois ?", "en": "Have you gathered all your proofs of address less than three months old?"},
+            {"speaker": "Amira", "fr": "Oui, voici mes trois dernières <b>quittances de loyer</b>, mon <b>passeport</b> et mes <b>photos d'identité</b>.", "en": "Yes, here are my last three rent receipts, my passport, and regulatory identity photos."},
+            {"speaker": "L'agent", "fr": "Très bien, votre <b>dossier</b> est recevable. Voici votre <b>récépissé</b> officiel en attendant la carte.", "en": "Very good, your file is admissible. Here is your official receipt pending card delivery."}
+        ],
+        "cultural_tip": "Toute démarche administrative en France exige systématiquement un « justificatif de domicile » de moins de 3 mois (facture d'électricité, de gaz, quittance de loyer émise par une agence). Conservez précieusement le « récépissé » remis au guichet : il atteste de la régularité juridique de votre situation pendant l'instruction.",
+        "exercise_1": {
+            "title": "Exercice 1 — Complétion Contextuelle",
+            "instruction": "Complétez chaque phrase avec le terme manquant approprié :",
+            "items": [
+                "1. Pour renouveler votre carte de séjour, vous devez déposer un _______________ complet. (dossier / roman / verre)",
+                "2. Présentez une quittance de loyer récente comme _______________ de domicile. (justificatif / menu / ticket)",
+                "3. L'agent administratif vous remet un _______________ prouvant le dépôt de votre demande. (récépissé / sandwich)"
+            ]
+        },
+        "exercise_2": {
+            "title": "Exercice 2 — Défi Créatif",
+            "instruction": "Rédigez deux phrases complètes en intégrant les mots imposés :",
+            "prompts": [
+                "1. Décrivez une obligation administrative avec « remplir un formulaire » et « signer ».",
+                "2. Citez deux pièces officielles avec « passeport » et « justificatif de domicile »."
+            ]
+        },
+        "exercise_3": {
+            "title": "Exercice 3 — Chasse à l'Intrus",
+            "instruction": "Identifiez l'intrus dans chaque série et justifiez brièvement :",
+            "items": [
+                "1. La préfecture • La mairie • Le commissariat • La boulangerie",
+                "2. Le passeport • La carte d'identité • Le titre de séjour • Le croissant",
+                "3. Remplir un formulaire • Fournir un justificatif • Signer un document • Prendre un café en terrasse"
+            ]
+        },
+        "answers": "Ex 1: 1. dossier | 2. justificatif | 3. récépissé • Ex 2: Modèles : « Il faut remplir le formulaire officiel et signer en bas de page. » / « J'apporte mon passeport valide et un justificatif de domicile récent. » • Ex 3: 1. La boulangerie (commerce alimentaire privé, les 3 autres sont des institutions administratives d'État) | 2. Le croissant (viennoiserie de boulangerie, les 3 autres sont des titres d'identité officiels) | 3. Prendre un café en terrasse (moment de convivialité bistrot, les 3 autres sont des démarches administratives formelles)"
+    }
+}
+
+
+def load_input_sources():
+    """Loads extracted text and batches 1, 2, 3."""
+    print("Loading extracted chapters...")
+    with open(EXTRACTED_FILE, "r", encoding="utf-8") as f:
+        extracted = json.load(f)
+
+    batches = {}
+    for batch_file in BATCH_FILES:
+        print(f"Loading {os.path.basename(batch_file)}...")
+        with open(batch_file, "r", encoding="utf-8") as f:
+            batch_data = json.load(f)
+            batches.update(batch_data)
+
+    print(f"Loaded {len(extracted)} extracted chapters and {len(batches)} batch chapters.")
+    return extracted, batches
+
+
+def build_companion_database(extracted, batches):
+    """Combines metadata from batches with master companion pedagogical assets."""
+    database = {}
+
+    for ch_num in range(1, 34):
+        key = str(ch_num)
+        batch_ch = batches.get(key, {})
+
+        # Read canonical titles from batch data
+        title_fr = batch_ch.get("title_fr", f"Chapitre {ch_num}")
+        title_en = batch_ch.get("title_en", f"Chapter {ch_num}")
+
+        # Retrieve companion assets
+        assets = CHAPTER_COMPANION_ASSETS.get(ch_num)
+        if not assets:
+            raise ValueError(f"Missing companion assets for chapter {ch_num}")
+
+        database[key] = {
+            "ch_num": ch_num,
+            "title_fr": title_fr,
+            "title_en": title_en,
+            "theme_badge": assets["theme_badge"],
+            "scenario_title": assets["scenario_title"],
+            "scenario_context": assets["scenario_context"],
+            "dialogue_or_story": assets["dialogue_or_story"],
+            "cultural_tip": assets["cultural_tip"],
+            "exercise_1": assets["exercise_1"],
+            "exercise_2": assets["exercise_2"],
+            "exercise_3": assets["exercise_3"],
+            "answers": assets["answers"]
+        }
+
+    return database
+
+
+def main():
+    print("=== Generating French A1 Companion Content ===")
+    extracted, batches = load_input_sources()
+
+    companion_data = build_companion_database(extracted, batches)
+    print(f"Compiled companion data for {len(companion_data)} chapters.")
+
+    print(f"Writing output to {OUTPUT_FILE}...")
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        json.dump(companion_data, f, ensure_ascii=False, indent=2)
+
+    print("Generation complete! companion_data.json successfully created.")
+
+
+if __name__ == "__main__":
+    main()
