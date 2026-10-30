@@ -1,5 +1,6 @@
 import unittest
 import os
+import re
 from bs4 import BeautifulSoup
 
 class TestA2HTML(unittest.TestCase):
@@ -50,23 +51,58 @@ class TestA2HTML(unittest.TestCase):
         self.assertTrue(os.path.exists(self.html_path), "A2 HTML file missing")
         with open(self.html_path, "r", encoding="utf-8") as f:
             content = f.read()
+            soup = BeautifulSoup(content, "html.parser")
+            text = soup.get_text()
+
         # Verify distinctive keywords across modules
-        self.assertIn("Overall Objectives of A2 Level", content)
-        self.assertIn("Real-Life Outcomes at CEFR A2", content)
-        self.assertIn("A2 French – Core Communicative Functions", content)
-        self.assertIn("A2 Grammar: Nouns, Gender Rules & Plural Patterns", content)
-        self.assertIn("A2 Thematic Vocabulary: Biography & Life Milestones", content)
-        self.assertIn("A2 Speaking Mastery: Continuous Monologue", content)
-        self.assertIn("Ready to Move to B1", content)
+        self.assertIn("Overall Objectives of A2 Level", text)
+        self.assertIn("Real-Life Outcomes at CEFR A2", text)
+        self.assertIn("A2 French – Core Communicative Functions", text)
+        self.assertIn("A2 Grammar: Nouns, Gender Rules & Plural Patterns", text)
+        self.assertIn("A2 Thematic Vocabulary: Biography & Life Milestones", text)
+        self.assertIn("A2 Speaking Mastery: Continuous Monologue", text)
+        self.assertIn("B1 Transition Benchmark", text)
+        self.assertIn("Félicitations pour votre parcours", text)
+
+        # Verify proper HTML escaping of ampersands in markup
+        self.assertIn("A2 Grammar: Nouns, Gender Rules &amp; Plural Patterns", content)
+        self.assertIn("Roadmap &amp; Checklist", content)
 
     def test_badge_numbers(self):
         self.assertTrue(os.path.exists(self.html_path), "A2 HTML file missing")
         with open(self.html_path, "r", encoding="utf-8") as f:
-            soup = BeautifulSoup(f.read(), "html.parser")
+            content = f.read()
+            soup = BeautifulSoup(content, "html.parser")
+
+        # Verify .page-badge CSS positioning within page bounds (902px x 1166px)
+        badge_css_match = re.search(r'\.page-badge\s*\{([^}]+)\}', content)
+        self.assertIsNotNone(badge_css_match, ".page-badge CSS rule missing")
+        badge_css = badge_css_match.group(1)
+
+        m_left = re.search(r'left:\s*([\d\.]+)px', badge_css)
+        m_top = re.search(r'top:\s*([\d\.]+)px', badge_css)
+        self.assertIsNotNone(m_left, ".page-badge missing left coordinate")
+        self.assertIsNotNone(m_top, ".page-badge missing top coordinate")
+        left_val = float(m_left.group(1))
+        top_val = float(m_top.group(1))
+        self.assertGreaterEqual(left_val, 0.0)
+        self.assertLessEqual(left_val, 902.0)
+        self.assertGreaterEqual(top_val, 0.0)
+        self.assertLessEqual(top_val, 1166.0)
+
+        # Verify all pages 2..71 badge DOM structure and values
         for i in range(2, 72):
             p = soup.find(id=f"page{i}")
-            badge_text = str(i - 1)
-            self.assertIn(badge_text, p.get_text(), f"Page {i} missing badge number {badge_text}")
+            badge_div = p.find("div", class_="page-badge")
+            self.assertIsNotNone(badge_div, f"Page {i} missing .page-badge element")
+            expected_num = str(i - 1)
+            self.assertEqual(badge_div.get_text().strip(), expected_num, f"Page {i} badge text mismatch")
+
+            # Verify no nested child spans with absolute coordinates causing double offsets
+            nested_abs = badge_div.find_all(lambda tag: tag.has_attr("style") and "left:" in tag["style"])
+            self.assertEqual(len(nested_abs), 0, f"Page {i} badge has nested element with duplicate offset style")
+            nested_spans_a = badge_div.find_all("span", class_="a")
+            self.assertEqual(len(nested_spans_a), 0, f"Page {i} badge has child span.a causing double offset")
 
 if __name__ == "__main__":
     unittest.main()

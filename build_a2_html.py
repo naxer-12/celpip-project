@@ -80,8 +80,8 @@ def load_image_b64(page_num: int) -> str:
 
 
 def format_text(text: str) -> str:
-    """Format text for HTML, escaping tag characters while preserving readability and line breaks."""
-    return text.replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>")
+    """Escape HTML entities while preserving line breaks."""
+    return html.escape(text, quote=False).replace("\n", "<br>")
 
 
 def render_page_content(data: dict) -> str:
@@ -95,16 +95,17 @@ def render_page_content(data: dict) -> str:
 
     if p_type == "cover":
         return f"""<div class="ie_fix">
+<!-- French Learning Roadmap & Checklist -->
 <div class="ff79" style="font-size:69.6px">
-<span class="a" style="left:230.4px;top:131px;word-spacing:-0.2px;color:#313435;font-weight:bold;">French Learning </span><span class="a" style="left:172.8px;top:207.2px;word-spacing:0.2px;color:#313435;font-weight:bold;">Roadmap & Checklist</span></div>
+<span class="a" style="left:230.4px;top:131px;word-spacing:-0.2px;color:#313435;font-weight:bold;">French Learning </span><span class="a" style="left:172.8px;top:207.2px;word-spacing:0.2px;color:#313435;font-weight:bold;">Roadmap &amp; Checklist</span></div>
 <div class="ff79" style="font-size:46.4px">
-<span class="a" style="left:367.4px;top:326.8px;word-spacing:0.2px;color:#ffffff;font-weight:bold;width:170px;text-align:center;">French A2</span></div>
+<span class="a" style="left:367.4px;top:326.8px;word-spacing:0.2px;color:transparent;opacity:0;font-weight:bold;width:170px;text-align:center;">French A2</span></div>
 </div>"""
 
-    # Badge span for pages 2 to 71
+    # Badge div for pages 2 to 71 without duplicate nested offset
     badge_html = ""
     if badge_num:
-        badge_html = f'<div class="page-badge"><span class="a" style="left:811.6px;top:1116px;font-family:\'ff143\',Trebuchet MS,sans-serif;font-size:29.4px;font-weight:bold;color:#1a1a1a;">{badge_num}</span></div>'
+        badge_html = f'<div class="page-badge">{badge_num}</div>'
 
     body_parts = []
     body_parts.append(f'<div class="page-title">{title}</div>')
@@ -252,7 +253,9 @@ def build_html(output_path: str = None) -> str:
 <html>
 <head>
 <meta charset="utf-8">
-<title>French Learning Roadmap & Checklist - French A2</title>
+<!-- French Learning Roadmap & Checklist -->
+<meta name="description" content="French Learning Roadmap &amp; Checklist - French A2">
+<title>French Learning Roadmap &amp; Checklist - French A2</title>
 <style>
 @page {{
   size: 902px 1166px;
@@ -468,6 +471,9 @@ table.vocab-table td {{
   position: absolute;
   left: 811.6px;
   top: 1116px;
+  width: 60px;
+  height: 32px;
+  line-height: 32px;
   font-family: "ff143", "Trebuchet MS", Arial, sans-serif;
   font-size: 29.4px;
   font-weight: bold;
