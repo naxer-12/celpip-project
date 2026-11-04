@@ -287,7 +287,7 @@ QUESTIONS: list[dict] = [
         "prompt": "Traduisez en français en utilisant le futur proche : « We are going to watch a film tonight. »",
         "options": [],
         "answer": "Nous allons regarder un film ce soir.",
-        "explanation": "Le futur proche se forme avec le verbe « aller » conjugué au présent (« allons ») suivi de l'infinitif (« regarder »).",
+        "explanation": "Futur proche : « aller » au présent (« allons ») + infinitif (« regarder »). La variante courante « On va regarder un film ce soir » est également acceptée.",
     },
     {
         "id": 25,

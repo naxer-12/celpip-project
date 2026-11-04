@@ -28,6 +28,7 @@ def compile_pdf():
             path=PDF_PATH,
             format="A4",
             print_background=True,
+            prefer_css_page_size=True,
             margin={"top": "18mm", "right": "18mm", "bottom": "20mm", "left": "18mm"},
         )
         browser.close()
