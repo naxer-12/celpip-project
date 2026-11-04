@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>French Grammar Practice Workbook (A1–A2) — English Edition</title>
+  <style>
+
+    :root {
+      --font-stack: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --text-main: #111827;
+      --text-muted: #4b5563;
+      --text-gloss: #6b7280;
+      --border-hairline: #f0f1f3;
+      --bg-a1: #e6f4ea;
+      --text-a1: #137333;
+      --bg-a2: #e8f0fe;
+      --text-a2: #1a73e8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-stack);
+      color: var(--text-main);
+      background-color: #ffffff;
+      line-height: 1.5;
+      font-size: 10pt;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 18mm 18mm 20mm 18mm;
+    }
+
+    .workbook-container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 36px 24px;
+    }
+
+    /* Header */
+    .doc-header {
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1.5px solid #e5e7eb;
+    }
+
+    .doc-title {
+      font-size: 22pt;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: #111827;
+      margin-bottom: 6px;
+    }
+
+    .doc-subtitle {
+      font-size: 11pt;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .edition-badge {
+      display: inline-block;
+      font-size: 8pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      background-color: #f3f4f6;
+      color: #374151;
+      border: 1px solid #e5e7eb;
+    }
+
+    /* Modules */
+    .topic-section {
+      margin-bottom: 36px;
+      break-inside: auto;
+    }
+
+    .topic-header {
+      margin-top: 28px;
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px solid #e5e7eb;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    .topic-title {
+      font-size: 15pt;
+      font-weight: 600;
+      color: #1f2937;
+      letter-spacing: -0.015em;
+    }
+
+    .topic-desc {
+      font-size: 9pt;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* Questions */
+    .question-item {
+      padding: 13px 0 15px 0;
+      border-bottom: 1px solid var(--border-hairline);
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .question-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .q-number {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #4b5563;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 1px 7px;
+      border-radius: 9999px;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-a1 {
+      background-color: var(--bg-a1);
+      color: var(--text-a1);
+    }
+
+    .badge-a2 {
+      background-color: var(--bg-a2);
+      color: var(--text-a2);
+    }
+
+    .scenario-tag {
+      font-size: 8.5pt;
+      color: #9ca3af;
+      margin-left: auto;
+      font-style: italic;
+    }
+
+    .prompt-fr {
+      font-size: 10.5pt;
+      font-weight: 500;
+      color: #111827;
+      line-height: 1.45;
+      margin-bottom: 3px;
+    }
+
+    /* Underline / Sub-line English Translation */
+    .prompt-en {
+      font-size: 9pt;
+      font-style: italic;
+      color: var(--text-gloss);
+      line-height: 1.4;
+      margin-bottom: 8px;
+      padding-left: 2px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px 16px;
+      margin-top: 6px;
+      margin-bottom: 4px;
+    }
+
+    .option-pill {
+      font-size: 9.5pt;
+      color: #374151;
+      padding: 3px 6px;
+      background-color: #fafafa;
+      border-radius: 4px;
+    }
+
+    .response-line {
+      margin-top: 8px;
+      border-bottom: 1px dashed #d1d5db;
+      height: 18px;
+      width: 100%;
+    }
+
+    /* Answer Key */
+    .answer-key-section {
+      page-break-before: always;
+      break-before: page;
+      margin-top: 40px;
+      padding-top: 24px;
+    }
+
+    .ak-header {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1.5px solid #111827;
+    }
+
+    .ak-title {
+      font-size: 16pt;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #111827;
+    }
+
+    .ak-subtitle {
+      font-size: 9pt;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .ak-grid {
+      column-count: 4;
+      column-gap: 16px;
+      column-fill: balance;
+    }
+
+    .ak-entry {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      margin-bottom: 11px;
+      font-size: 8pt;
+      line-height: 1.35;
+      padding-bottom: 7px;
+      border-bottom: 1px dotted #e5e7eb;
+    }
+
+    .ak-qnum {
+      font-weight: 700;
+      color: #374151;
+      margin-right: 4px;
+    }
+
+    .ak-ans {
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .ak-badge {
+      font-size: 6.5pt;
+      padding: 1px 4px;
+      margin-left: 3px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .ak-exp {
+      display: block;
+      color: #4b5563;
+      font-size: 7.5pt;
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+
+    @media print {
+      body {
+        font-size: 9.5pt;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .workbook-container {
+        max-width: 100%;
+        padding: 0;
+      }
+      .question-item {
+        padding: 9px 0 11px 0;
+      }
+      .prompt-fr {
+        font-size: 10pt;
+      }
+      .prompt-en {
+        font-size: 8.5pt;
+      }
+      .ak-grid {
+        column-count: 4;
+        column-gap: 14px;
+      }
+      .ak-entry {
+        font-size: 7.5pt;
+        margin-bottom: 8px;
+        padding-bottom: 5px;
+      }
+      .ak-exp {
+        font-size: 7pt;
+      }
+    }
+
+    @media screen and (max-width: 820px) {
+      .ak-grid {
+        column-count: 2;
+      }
+    }
+
+    @media screen and (max-width: 520px) {
+      .ak-grid {
+        column-count: 1;
+      }
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="workbook-container">
+    <header class="doc-header">
+      <span class="edition-badge">English Edition · Bilingual Gloss &amp; Explanations</span>
+      <h1 class="doc-title">French Grammar Practice Workbook (A1–A2)</h1>
+      <p class="doc-subtitle">Minimalist contextual practice with sub-line English translations and complete grammar notes for English speakers.</p>
+    </header>
+
+    <main>
+      
+      <section class="topic-section">
+        <header class="topic-header">
+          <h2 class="topic-title">Module 01 : Les Articles &amp; Les Déterminants</h2>
+          <div class="topic-desc">Definite, indefinite, partitive, possessive, and demonstrative determiners · Q1–Q20</div>
+        </header>
+        <div class="questions-list">
+          
+        <article class="question-item" id="q1">
+          <div class="question-meta">
+            <span class="q-number">Q1.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Dans une boulangerie · At a bakery</span>
+          </div>
+          <div class="prompt-fr">Complétez avec l&#x27;article partitif qui convient : « Bonjour madame, je voudrais ______ beurre salé s&#x27;il vous plaît. »</div>
+          <div class="prompt-en">Fill in with the appropriate partitive article: &quot;Hello madam, I would like [some] salted butter, please.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q2">
+          <div class="question-meta">
+            <span class="q-number">Q2.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Au marché du quartier · At the local market</span>
+          </div>
+          <div class="prompt-fr">Choisissez le bon article indéfini : « Nous achetons ______ pommes fraîches pour le dessert. »</div>
+          <div class="prompt-en">Choose the correct indefinite article: &quot;We are buying [some] fresh apples for dessert.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) de la</div><div class="option-pill">b) des</div><div class="option-pill">c) les</div><div class="option-pill">d) une</div></div>
+        </article>
+
+        <article class="question-item" id="q3">
+          <div class="question-meta">
+            <span class="q-number">Q3.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Présentation de la famille · Introducing family</span>
+          </div>
+          <div class="prompt-fr">Complétez avec l&#x27;adjectif possessif : « Voici ______ sœur, elle s&#x27;appelle Claire. »</div>
+          <div class="prompt-en">Complete with the possessive adjective: &quot;Here is [my] sister, her name is Claire.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q4">
+          <div class="question-meta">
+            <span class="q-number">Q4.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Dans un magasin de vêtements · In a clothing store</span>
+          </div>
+          <div class="prompt-fr">Choisissez le bon adjectif démonstratif : « J&#x27;aime beaucoup ______ chemise blanche. »</div>
+          <div class="prompt-en">Choose the correct demonstrative adjective: &quot;I really like [this] white shirt.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) ce</div><div class="option-pill">b) cet</div><div class="option-pill">c) cette</div><div class="option-pill">d) ces</div></div>
+        </article>
+
+        <article class="question-item" id="q5">
+          <div class="question-meta">
+            <span class="q-number">Q5.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Au restaurant au moment de la commande · At a restaurant when ordering</span>
+          </div>
+          <div class="prompt-fr">Mettez à la forme négative avec l&#x27;article correct : « Je prends du sucre. » → « Je ne prends pas ______ sucre. »</div>
+          <div class="prompt-en">Put into the negative form with the correct article: &quot;I take sugar.&quot; → &quot;I do not take [any] sugar.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q6">
+          <div class="question-meta">
+            <span class="q-number">Q6.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Conversation entre collègues · Colleague conversation</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;erreur dans la phrase suivante : « Je cherche un collègue qui a le livre de mon ami, mais je n&#x27;ai pas des stylos. »</div>
+          <div class="prompt-en">Correct the error in the sentence: &quot;I&#x27;m looking for a colleague who has my friend&#x27;s book, but I don&#x27;t have [any] pens.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q7">
+          <div class="question-meta">
+            <span class="q-number">Q7.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Commande au café · Ordering at a café</span>
+          </div>
+          <div class="prompt-fr">Traduisez en français : « I would like a coffee and a croissant, please. »</div>
+          <div class="prompt-en">Translate into French: &quot;I would like a coffee and a croissant, please.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q8">
+          <div class="question-meta">
+            <span class="q-number">Q8.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Description d&#x27;un salon · Describing a living room</span>
+          </div>
+          <div class="prompt-fr">Choisissez le déterminant possessif pluriel : « Les enfants rangent ______ jouets dans le coffre. »</div>
+          <div class="prompt-en">Choose the plural possessive determiner: &quot;The children are putting away [their] toys in the chest.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) son</div><div class="option-pill">b) leur</div><div class="option-pill">c) leurs</div><div class="option-pill">d) ses</div></div>
+        </article>
+
+        <article class="question-item" id="q9">
+          <div class="question-meta">
+            <span class="q-number">Q9.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Dans un hôtel · In a hotel</span>
+          </div>
+          <div class="prompt-fr">Complétez avec l&#x27;article défini contracté : « Vous devez donner la clé ______ réceptionniste (masculin). »</div>
+          <div class="prompt-en">Complete with the contracted definite article: &quot;You must give the key [to the] receptionist (masculine).&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q10">
+          <div class="question-meta">
+            <span class="q-number">Q10.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Discussion sur les loisirs · Discussing hobbies</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;erreur : « J&#x27;aime beaucoup de écouter la musique classique le soir. »</div>
+          <div class="prompt-en">Correct the error: &quot;I really like listening to classical music in the evening.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q11">
+          <div class="question-meta">
+            <span class="q-number">Q11.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Préparation d&#x27;une recette · Preparing a recipe</span>
+          </div>
+          <div class="prompt-fr">Complétez avec l&#x27;expression de quantité : « Pour cette vinaigrette, il faut verser une cuillère à soupe ______ huile d&#x27;olive. »</div>
+          <div class="prompt-en">Complete with the quantity expression: &quot;For this dressing, you need to pour a tablespoon [of] olive oil.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q12">
+          <div class="question-meta">
+            <span class="q-number">Q12.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Voyage international · International travel</span>
+          </div>
+          <div class="prompt-fr">Choisissez le bon article pour ce pays masculin : « L&#x27;été prochain, mes cousins vont voyager ______ Canada. »</div>
+          <div class="prompt-en">Choose the correct preposition/article for this masculine country: &quot;Next summer, my cousins will travel [to] Canada.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) en</div><div class="option-pill">b) au</div><div class="option-pill">c) dans le</div><div class="option-pill">d) à</div></div>
+        </article>
+
+        <article class="question-item" id="q13">
+          <div class="question-meta">
+            <span class="q-number">Q13.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Au bureau avec une collègue · At the office with a colleague</span>
+          </div>
+          <div class="prompt-fr">Complétez avec le possessif adapté devant voyelle : « Je vous présente Sophie, c&#x27;est ______ amie québécoise. »</div>
+          <div class="prompt-en">Complete with the possessive adjusted before a vowel: &quot;Let me introduce Sophie, she is [my] Quebecois friend.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q14">
+          <div class="question-meta">
+            <span class="q-number">Q14.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Goûts et préférences culinaires · Culinary tastes and preferences</span>
+          </div>
+          <div class="prompt-fr">Choisissez l&#x27;article qui convient : « J&#x27;adore boire du thé, mais je déteste ______ café noir. »</div>
+          <div class="prompt-en">Choose the appropriate article: &quot;I love drinking tea, but I hate [black] coffee.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) du</div><div class="option-pill">b) le</div><div class="option-pill">c) un</div><div class="option-pill">d) de</div></div>
+        </article>
+
+        <article class="question-item" id="q15">
+          <div class="question-meta">
+            <span class="q-number">Q15.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Conversation professionnelle · Professional conversation</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;erreur liée à la profession : « Mon oncle habite à Lyon et il est un médecin généraliste réputé. »</div>
+          <div class="prompt-en">Correct the profession error: &quot;My uncle lives in Lyon and he is [a] renowned general practitioner.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q16">
+          <div class="question-meta">
+            <span class="q-number">Q16.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Visite d&#x27;un appartement · Apartment viewing</span>
+          </div>
+          <div class="prompt-fr">Choisissez le bon déterminant devant l&#x27;adjectif antéposé pluriel : « Ce salon possède ______ grandes fenêtres lumineuses. »</div>
+          <div class="prompt-en">Choose the correct determiner before the preceding plural adjective: &quot;This living room has [large], bright windows.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) des</div><div class="option-pill">b) de</div><div class="option-pill">c) les</div><div class="option-pill">d) une</div></div>
+        </article>
+
+        <article class="question-item" id="q17">
+          <div class="question-meta">
+            <span class="q-number">Q17.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Conversation dans une boutique de souvenirs · Souvenir shop conversation</span>
+          </div>
+          <div class="prompt-fr">Traduisez en français en respectant le masculin débutant par un son voyelle : « This elegant hotel is very famous. »</div>
+          <div class="prompt-en">Translate into French, observing the masculine noun starting with a vowel sound: &quot;This elegant hotel is very famous.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q18">
+          <div class="question-meta">
+            <span class="q-number">Q18.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Récit de voyage · Travel story</span>
+          </div>
+          <div class="prompt-fr">Complétez avec le déterminant possessif : « Les étudiants ont oublié ______ passeports à l&#x27;auberge de jeunesse. »</div>
+          <div class="prompt-en">Complete with the possessive determiner: &quot;The students forgot [their] passports at the youth hostel.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q19">
+          <div class="question-meta">
+            <span class="q-number">Q19.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Dans une pharmacie · In a pharmacy</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;erreur de quantité : « Je voudrais un peu des conseils pour calmer cette toux. »</div>
+          <div class="prompt-en">Correct the quantity error: &quot;I would like a little advice to soothe this cough.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q20">
+          <div class="question-meta">
+            <span class="q-number">Q20.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Discussion sur les voyages en Europe · Discussing European travels</span>
+          </div>
+          <div class="prompt-fr">Traduisez en français en veillant à l&#x27;article géographique : « They live in the Netherlands and work in Belgium. »</div>
+          <div class="prompt-en">Translate into French, paying attention to country prepositions: &quot;They live in the Netherlands and work in Belgium.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+        </div>
+      </section>
+      <section class="topic-section">
+        <header class="topic-header">
+          <h2 class="topic-title">Module 02 : Les Temps Verbaux &amp; Conjugaisons</h2>
+          <div class="topic-desc">Present, near future, imperative, passé composé, and imperfect tenses · Q21–Q40</div>
+        </header>
+        <div class="questions-list">
+          
+        <article class="question-item" id="q21">
+          <div class="question-meta">
+            <span class="q-number">Q21.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Présentation des habitudes quotidiennes · Daily habits</span>
+          </div>
+          <div class="prompt-fr">Conjuguez le verbe au présent de l&#x27;indicatif : « Chaque matin, nous (prendre) ______ le métro de huit heures. »</div>
+          <div class="prompt-en">Conjugate the verb in the present tense: &quot;Every morning, we (take) [take] the 8 o&#x27;clock metro.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q22">
+          <div class="question-meta">
+            <span class="q-number">Q22.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Organisation du travail d&#x27;équipe · Teamwork organization</span>
+          </div>
+          <div class="prompt-fr">Choisissez la forme correcte du verbe « faire » : « Vous ______ les exercices maintenant ? »</div>
+          <div class="prompt-en">Choose the correct form of the verb &#x27;faire&#x27;: &quot;Are you [doing] the exercises now?&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) faisez</div><div class="option-pill">b) faites</div><div class="option-pill">c) faisons</div><div class="option-pill">d) font</div></div>
+        </article>
+
+        <article class="question-item" id="q23">
+          <div class="question-meta">
+            <span class="q-number">Q23.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Demande de renseignements · Asking for information</span>
+          </div>
+          <div class="prompt-fr">Conjuguez le verbe « aller » au présent : « Marc et Thomas (aller) ______ à la bibliothèque municipale. »</div>
+          <div class="prompt-en">Conjugate the verb &#x27;aller&#x27; in the present tense: &quot;Marc and Thomas (are going) [are going] to the public library.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q24">
+          <div class="question-meta">
+            <span class="q-number">Q24.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Projets de week-end · Weekend plans</span>
+          </div>
+          <div class="prompt-fr">Traduisez en français en utilisant le futur proche : « We are going to watch a film tonight. »</div>
+          <div class="prompt-en">Translate into French using the near future tense: &quot;We are going to watch a film tonight.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q25">
+          <div class="question-meta">
+            <span class="q-number">Q25.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Dans un café · In a café</span>
+          </div>
+          <div class="prompt-fr">Choisissez la forme correcte du verbe « vouloir » : « Je ______ un verre d&#x27;eau minérale, s&#x27;il vous plaît. »</div>
+          <div class="prompt-en">Choose the correct form of the verb &#x27;vouloir&#x27;: &quot;I [want / would like] a glass of mineral water, please.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) veux</div><div class="option-pill">b) veut</div><div class="option-pill">c) voulez</div><div class="option-pill">d) voulons</div></div>
+        </article>
+
+        <article class="question-item" id="q26">
+          <div class="question-meta">
+            <span class="q-number">Q26.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Échange amical au téléphone · Friendly phone call</span>
+          </div>
+          <div class="prompt-fr">Conjuguez le verbe « pouvoir » au présent : « Est-ce que tu (pouvoir) ______ venir dîner à la maison ce soir ? »</div>
+          <div class="prompt-en">Conjugate the verb &#x27;pouvoir&#x27; in the present tense: &quot;(Can) [Can you] come to dinner at my place tonight?&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q27">
+          <div class="question-meta">
+            <span class="q-number">Q27.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Conseil d&#x27;un ami pour la santé · A friend&#x27;s health advice</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;erreur à l&#x27;impératif pour un verbe en -er : « Manges des légumes verts pour être en forme ! »</div>
+          <div class="prompt-en">Correct the imperative error for an -er verb: &quot;Eat green vegetables to stay in shape!&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q28">
+          <div class="question-meta">
+            <span class="q-number">Q28.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Récit d&#x27;une activité hier soir · Recounting last night&#x27;s activity</span>
+          </div>
+          <div class="prompt-fr">Complétez au passé composé avec l&#x27;auxiliaire avoir : « Hier soir, nous (regarder) ______ un documentaire passionnant. »</div>
+          <div class="prompt-en">Complete in the passé composé with auxiliary &#x27;avoir&#x27;: &quot;Yesterday evening, we (watched) [watched] an exciting documentary.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q29">
+          <div class="question-meta">
+            <span class="q-number">Q29.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Dans la rue, demande d&#x27;itinéraire · Asking for directions on the street</span>
+          </div>
+          <div class="prompt-fr">Traduisez en français en utilisant l&#x27;impératif poli (vous) : « Turn left and take the first street. »</div>
+          <div class="prompt-en">Translate into French using polite imperative (vous): &quot;Turn left and take the first street.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q30">
+          <div class="question-meta">
+            <span class="q-number">Q30.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Récit d&#x27;un voyage à Paris · Travel account in Paris</span>
+          </div>
+          <div class="prompt-fr">Choisissez le bon participe passé irrégulier du verbe « voir » : « J&#x27;ai ______ la tour Eiffel pour la première fois. »</div>
+          <div class="prompt-en">Choose the correct irregular past participle of &#x27;voir&#x27;: &quot;I (saw) [saw] the Eiffel Tower for the first time.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) vu</div><div class="option-pill">b) voyé</div><div class="option-pill">c) vus</div><div class="option-pill">d) voi</div></div>
+        </article>
+
+        <article class="question-item" id="q31">
+          <div class="question-meta">
+            <span class="q-number">Q31.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Retour de vacances à la gare · Returning from vacation at the train station</span>
+          </div>
+          <div class="prompt-fr">Conjuguez au passé composé avec l&#x27;auxiliaire être (sujet masculin pluriel) : « Après dix heures de train, nous (arriver) ______ à destination. »</div>
+          <div class="prompt-en">Conjugate in the passé composé with auxiliary &#x27;être&#x27; (masculine plural subject): &quot;After ten hours on the train, we (arrived) [arrived] at our destination.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q32">
+          <div class="question-meta">
+            <span class="q-number">Q32.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Routine matinale · Morning routine</span>
+          </div>
+          <div class="prompt-fr">Choisissez la forme correcte du verbe pronominal au passé composé : « Ce matin, Marie (se réveiller) ______ à six heures. »</div>
+          <div class="prompt-en">Choose the correct form of the reflexive verb in the passé composé: &quot;This morning, Marie (woke up) [woke up] at six o&#x27;clock.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) s&#x27;est réveillé</div><div class="option-pill">b) a réveillé</div><div class="option-pill">c) s&#x27;est réveillée</div><div class="option-pill">d) est réveillée</div></div>
+        </article>
+
+        <article class="question-item" id="q33">
+          <div class="question-meta">
+            <span class="q-number">Q33.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Souvenirs d&#x27;enfance · Childhood memories</span>
+          </div>
+          <div class="prompt-fr">Conjuguez à l&#x27;imparfait pour exprimer une habitude passée : « Quand j&#x27;étais enfant, nous (passer) ______ nos étés en Bretagne. »</div>
+          <div class="prompt-en">Conjugate in the imperfect to express a past habit: &quot;When I was a child, we (used to spend) [spent] our summers in Brittany.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q34">
+          <div class="question-meta">
+            <span class="q-number">Q34.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Récit d&#x27;un événement soudain · Recounting a sudden event</span>
+          </div>
+          <div class="prompt-fr">Choisissez le bon temps pour l&#x27;action ponctuelle interrompant le décor : « Je lisais tranquillement quand soudain le téléphone ______ . »</div>
+          <div class="prompt-en">Choose the right tense for the sudden event interrupting the background: &quot;I was reading quietly when suddenly the phone [rang].&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) sonnait</div><div class="option-pill">b) a sonné</div><div class="option-pill">c) sonne</div><div class="option-pill">d) va sonner</div></div>
+        </article>
+
+        <article class="question-item" id="q35">
+          <div class="question-meta">
+            <span class="q-number">Q35.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Conversation entre amis · Conversation between friends</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;erreur d&#x27;accord dans cette phrase : « Elles sont allé au cinéma voir la nouvelle comédie française hier soir. »</div>
+          <div class="prompt-en">Correct the agreement error: &quot;They [feminine] went to the movies to see the new French comedy yesterday evening.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q36">
+          <div class="question-meta">
+            <span class="q-number">Q36.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Courriel professionnel d&#x27;explication · Professional explanatory email</span>
+          </div>
+          <div class="prompt-fr">Traduisez en combinant imparfait et passé composé : « Yesterday, I was tired so I stayed home. »</div>
+          <div class="prompt-en">Translate combining imperfect and passé composé: &quot;Yesterday, I was tired so I stayed home.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q37">
+          <div class="question-meta">
+            <span class="q-number">Q37.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Départ en vacances · Vacation departure</span>
+          </div>
+          <div class="prompt-fr">Choisissez le bon auxiliaire pour le verbe « descendre » employé transitivement avec un COD : « Ils ______ les valises au rez-de-chaussée. »</div>
+          <div class="prompt-en">Choose the correct auxiliary for &#x27;descendre&#x27; used transitively with a direct object: &quot;They [brought down] the suitcases to the ground floor.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) sont descendu</div><div class="option-pill">b) ont descendu</div><div class="option-pill">c) sont descendus</div><div class="option-pill">d) ont descendus</div></div>
+        </article>
+
+        <article class="question-item" id="q38">
+          <div class="question-meta">
+            <span class="q-number">Q38.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Récit d&#x27;un voyage à Rome · Trip to Rome narrative</span>
+          </div>
+          <div class="prompt-fr">Conjuguez le verbe au passé composé : « Pendant notre séjour en Italie, nous (faire) ______ de magnifiques visites. »</div>
+          <div class="prompt-en">Conjugate the verb &#x27;faire&#x27; in the passé composé: &quot;During our stay in Italy, we (did / made) [did] wonderful sightseeing tours.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q39">
+          <div class="question-meta">
+            <span class="q-number">Q39.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Description météorologique passée · Past weather description</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;erreur de temps verbal pour décrire le temps : « Quand nous sommes sortis ce matin, il a fait très froid et il a neigé sans arrêt. »</div>
+          <div class="prompt-en">Correct the tense error for describing weather conditions: &quot;When we went out this morning, it was very cold and snowing continuously.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q40">
+          <div class="question-meta">
+            <span class="q-number">Q40.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Projets professionnels · Professional future plans</span>
+          </div>
+          <div class="prompt-fr">Traduisez en utilisant le futur proche avec un verbe pronominal : « We are going to get ready before the meeting. »</div>
+          <div class="prompt-en">Translate using the near future with a reflexive verb: &quot;We are going to get ready before the meeting.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+        </div>
+      </section>
+      <section class="topic-section">
+        <header class="topic-header">
+          <h2 class="topic-title">Module 03 : Les Prépositions</h2>
+          <div class="topic-desc">Spatial, temporal, geographic, and verb-dependent prepositions · Q41–Q60</div>
+        </header>
+        <div class="questions-list">
+          
+        <article class="question-item" id="q41">
+          <div class="question-meta">
+            <span class="q-number">Q41.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Localisation d&#x27;objets sur un bureau · Locating objects on a desk</span>
+          </div>
+          <div class="prompt-fr">Complétez avec la préposition spatiale qui convient : « Les dossiers importants sont rangés ______ le tiroir en bois. »</div>
+          <div class="prompt-en">Complete with the appropriate spatial preposition: &quot;The important files are stored [in] the wooden drawer.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q42">
+          <div class="question-meta">
+            <span class="q-number">Q42.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Rendez-vous à la sortie du travail · Meeting up after work</span>
+          </div>
+          <div class="prompt-fr">Choisissez la préposition de lieu contractée correcte : « Nous nous retrouvons ce soir ______ cinéma de la place centrale. »</div>
+          <div class="prompt-en">Choose the correct contracted preposition of place: &quot;We are meeting tonight [at the] cinema in the central square.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) à la</div><div class="option-pill">b) au</div><div class="option-pill">c) dans</div><div class="option-pill">d) chez</div></div>
+        </article>
+
+        <article class="question-item" id="q43">
+          <div class="question-meta">
+            <span class="q-number">Q43.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Rendez-vous chez un ami · Meeting at a friend&#x27;s place</span>
+          </div>
+          <div class="prompt-fr">Complétez avec la préposition marquant le domicile ou le lieu d&#x27;une personne : « Ce week-end, nous allons dîner ______ Thomas et Julie. »</div>
+          <div class="prompt-en">Complete with the preposition indicating someone&#x27;s home or place: &quot;This weekend, we are going to have dinner [at] Thomas and Julie&#x27;s [place].&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q44">
+          <div class="question-meta">
+            <span class="q-number">Q44.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Horaires de bureau · Office working hours</span>
+          </div>
+          <div class="prompt-fr">Choisissez la préposition temporelle d&#x27;heure : « La réunion d&#x27;équipe commence précisément ______ neuf heures et demie. »</div>
+          <div class="prompt-en">Choose the temporal preposition for clock time: &quot;The team meeting begins precisely [at] half past nine.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) à</div><div class="option-pill">b) en</div><div class="option-pill">c) dans</div><div class="option-pill">d) sur</div></div>
+        </article>
+
+        <article class="question-item" id="q45">
+          <div class="question-meta">
+            <span class="q-number">Q45.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Orientation dans le centre-ville · Downtown orientation</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;erreur de préposition spatiale : « La pharmacie se trouve en face à la banque postale. »</div>
+          <div class="prompt-en">Correct the spatial preposition error: &quot;The pharmacy is located opposite [to] the post bank.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q46">
+          <div class="question-meta">
+            <span class="q-number">Q46.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Déplacement urbain · Urban transit</span>
+          </div>
+          <div class="prompt-fr">Complétez avec la préposition pour un moyen de transport fermé : « Je vais au travail tous les matins ______ métro. »</div>
+          <div class="prompt-en">Complete with the preposition for an enclosed means of transport: &quot;I go to work every morning [by] metro.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q47">
+          <div class="question-meta">
+            <span class="q-number">Q47.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Destination de vacances en ville · City vacation destination</span>
+          </div>
+          <div class="prompt-fr">Traduisez en français en choisissant la préposition de ville : « We are spending the weekend in Lyon. »</div>
+          <div class="prompt-en">Translate into French choosing the city preposition: &quot;We are spending the weekend in Lyon.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q48">
+          <div class="question-meta">
+            <span class="q-number">Q48.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Positionnement dans une pièce · Room positioning</span>
+          </div>
+          <div class="prompt-fr">Choisissez la préposition signifiant « between » : « La table basse est placée ______ le canapé et la télévision. »</div>
+          <div class="prompt-en">Choose the preposition meaning &#x27;between&#x27;: &quot;The coffee table is placed [between] the sofa and the television.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) parmi</div><div class="option-pill">b) sous</div><div class="option-pill">c) entre</div><div class="option-pill">d) derrière</div></div>
+        </article>
+
+        <article class="question-item" id="q49">
+          <div class="question-meta">
+            <span class="q-number">Q49.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Conversation au restaurant · Restaurant conversation</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;erreur de préposition pour le transport non fermé : « Les dimanches ensoleillés, j&#x27;adore me promener en vélo au bord de la rivière. »</div>
+          <div class="prompt-en">Correct the preposition error for open-air transport: &quot;On sunny Sundays, I love riding [by] bicycle along the river.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q50">
+          <div class="question-meta">
+            <span class="q-number">Q50.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Planification annuelle · Annual planning</span>
+          </div>
+          <div class="prompt-fr">Complétez avec la préposition de saison : « Les journées sont très chaudes et ensoleillées ______ été. »</div>
+          <div class="prompt-en">Complete with the season preposition: &quot;The days are very warm and sunny [in] summer.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q51">
+          <div class="question-meta">
+            <span class="q-number">Q51.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Expression d&#x27;une durée continue · Expressing ongoing duration</span>
+          </div>
+          <div class="prompt-fr">Complétez avec le marqueur temporel marquant une action continue commencée dans le passé : « J&#x27;apprends le français ______ six mois et je fais de réels progrès. »</div>
+          <div class="prompt-en">Complete with the temporal marker for an ongoing action started in the past: &quot;I have been learning French [for] six months and I am making real progress.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q52">
+          <div class="question-meta">
+            <span class="q-number">Q52.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Récit d&#x27;un stage à l&#x27;étranger · Internship abroad narrative</span>
+          </div>
+          <div class="prompt-fr">Choisissez le marqueur de durée complètement révolue : « L&#x27;année dernière, Sophie a habité à Madrid ______ un an. »</div>
+          <div class="prompt-en">Choose the marker for a completely finished duration: &quot;Last year, Sophie lived in Madrid [for] a year.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) depuis</div><div class="option-pill">b) pendant</div><div class="option-pill">c) dans</div><div class="option-pill">d) en</div></div>
+        </article>
+
+        <article class="question-item" id="q53">
+          <div class="question-meta">
+            <span class="q-number">Q53.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Voyage en Asie · Travel in Asia</span>
+          </div>
+          <div class="prompt-fr">Complétez avec la préposition pour un pays masculin : « Mon frère part faire un voyage d&#x27;affaires ______ Japon. »</div>
+          <div class="prompt-en">Complete with the preposition for a masculine country: &quot;My brother is leaving for a business trip [to] Japan.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q54">
+          <div class="question-meta">
+            <span class="q-number">Q54.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Départ pour un vol · Airport flight departure</span>
+          </div>
+          <div class="prompt-fr">Choisissez la préposition temporelle marquant le temps dans le futur : « Dépêchez-vous, l&#x27;avion décolle ______ trente minutes ! »</div>
+          <div class="prompt-en">Choose the temporal preposition marking future countdown: &quot;Hurry up, the plane takes off [in] thirty minutes!&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) en</div><div class="option-pill">b) dans</div><div class="option-pill">c) depuis</div><div class="option-pill">d) pour</div></div>
+        </article>
+
+        <article class="question-item" id="q55">
+          <div class="question-meta">
+            <span class="q-number">Q55.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Discussion sur les centres d&#x27;intérêt · Discussing personal interests</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;erreur de régime prépositionnel du verbe : « Paul s&#x27;intéresse beaucoup pour l&#x27;histoire médiévale. »</div>
+          <div class="prompt-en">Correct the dependent preposition error: &quot;Paul is very interested [in] medieval history.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q56">
+          <div class="question-meta">
+            <span class="q-number">Q56.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Gestion du temps de travail · Managing work time</span>
+          </div>
+          <div class="prompt-fr">Traduisez en français en distinguant la durée nécessaire : « She finished her complete report in two hours. »</div>
+          <div class="prompt-en">Translate into French expressing the duration required to complete an action: &quot;She finished her complete report in two hours.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q57">
+          <div class="question-meta">
+            <span class="q-number">Q57.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Décision de reconversion · Career change decision</span>
+          </div>
+          <div class="prompt-fr">Complétez avec la préposition requise par le verbe « décider » suivi d&#x27;un infinitif : « Après mûre réflexion, elle a décidé ______ changer de carrière. »</div>
+          <div class="prompt-en">Complete with the preposition required by &#x27;décider&#x27; before an infinitive: &quot;After careful reflection, she decided [to] change careers.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q58">
+          <div class="question-meta">
+            <span class="q-number">Q58.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Discussion d&#x27;opinion · Discussing opinions</span>
+          </div>
+          <div class="prompt-fr">Choisissez la bonne préposition pour demander un avis/opinion : « Que penses-tu ______ cette proposition de projet ? »</div>
+          <div class="prompt-en">Choose the correct preposition to ask for someone&#x27;s opinion: &quot;What do you think [of / about] this project proposal?&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) à</div><div class="option-pill">b) de</div><div class="option-pill">c) sur</div><div class="option-pill">d) pour</div></div>
+        </article>
+
+        <article class="question-item" id="q59">
+          <div class="question-meta">
+            <span class="q-number">Q59.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Conversation lors d&#x27;une fête · Party conversation</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;erreur de durée dans cette phrase : « J&#x27;habite dans cette charmante ville depuis cinq ans l&#x27;année dernière. »</div>
+          <div class="prompt-en">Correct the duration marker error: &quot;I lived in this charming city for five years last year.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q60">
+          <div class="question-meta">
+            <span class="q-number">Q60.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Voyage au Moyen-Orient · Travel to the Middle East</span>
+          </div>
+          <div class="prompt-fr">Traduisez en français en tenant compte du pays masculin débutant par une voyelle : « They went on vacation to Iran and to Egypt. »</div>
+          <div class="prompt-en">Translate into French, observing masculine countries starting with a vowel: &quot;They went on vacation to Iran and to Egypt.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+        </div>
+      </section>
+      <section class="topic-section">
+        <header class="topic-header">
+          <h2 class="topic-title">Module 04 : Les Pronoms</h2>
+          <div class="topic-desc">Subject, tonic, direct (COD), indirect (COI), relative, and adverbial pronouns · Q61–Q80</div>
+        </header>
+        <div class="questions-list">
+          
+        <article class="question-item" id="q61">
+          <div class="question-meta">
+            <span class="q-number">Q61.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Conversation informelle · Informal conversation</span>
+          </div>
+          <div class="prompt-fr">Complétez avec le pronom tonique d&#x27;insistance : « ______ , je préfère prendre le train plutôt que la voiture. »</div>
+          <div class="prompt-en">Complete with the disjunctive/tonic pronoun for emphasis: &quot;[As for me], I prefer taking the train rather than the car.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q62">
+          <div class="question-meta">
+            <span class="q-number">Q62.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Invitation à une sortie · Inviting someone out</span>
+          </div>
+          <div class="prompt-fr">Choisissez le bon pronom après la préposition « avec » : « Est-ce que tu veux venir au concert avec ______ (3e personne singulier masculin) ? »</div>
+          <div class="prompt-en">Choose the correct pronoun after preposition &#x27;avec&#x27;: &quot;Do you want to come to the concert with [him]?&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) il</div><div class="option-pill">b) le</div><div class="option-pill">c) lui</div><div class="option-pill">d) se</div></div>
+        </article>
+
+        <article class="question-item" id="q63">
+          <div class="question-meta">
+            <span class="q-number">Q63.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Recherche d&#x27;un objet perdu · Searching for a lost item</span>
+          </div>
+          <div class="prompt-fr">Remplacez le nom par le pronom COD qui convient : « Tu vois mon sac à dos noir ? » → « Oui, je ______ vois sur la chaise. »</div>
+          <div class="prompt-en">Replace the noun with the direct object pronoun (COD): &quot;Do you see my black backpack?&quot; → &quot;Yes, I see [it] on the chair.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q64">
+          <div class="question-meta">
+            <span class="q-number">Q64.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Sortie entre amis · Outing with friends</span>
+          </div>
+          <div class="prompt-fr">Choisissez le pronom sujet équivalent familier de « nous » : « Ce soir, ______ va manger une pizza au restaurant. »</div>
+          <div class="prompt-en">Choose the informal subject pronoun equivalent to &#x27;nous&#x27;: &quot;Tonight, [we] are going to eat a pizza at the restaurant.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) on</div><div class="option-pill">b) nous</div><div class="option-pill">c) ils</div><div class="option-pill">d) vous</div></div>
+        </article>
+
+        <article class="question-item" id="q65">
+          <div class="question-meta">
+            <span class="q-number">Q65.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Dans un magasin de chaussures · In a shoe store</span>
+          </div>
+          <div class="prompt-fr">Corrigez la place du pronom objet dans la phrase : « Ces chaussures sont magnifiques, j&#x27;achète les immédiatement. »</div>
+          <div class="prompt-en">Correct the pronoun placement: &quot;These shoes are gorgeous, I am buying [them] immediately.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q66">
+          <div class="question-meta">
+            <span class="q-number">Q66.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Présentation d&#x27;une équipe de travail · Team introduction</span>
+          </div>
+          <div class="prompt-fr">Complétez avec le pronom relatif sujet : « C&#x27;est un nouveau collègue ______ parle couramment trois langues. »</div>
+          <div class="prompt-en">Complete with the subject relative pronoun: &quot;He is a new colleague [who] speaks three languages fluently.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q67">
+          <div class="question-meta">
+            <span class="q-number">Q67.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Au supermarché · At the supermarket</span>
+          </div>
+          <div class="prompt-fr">Choisissez le pronom COD féminin singulier : « Où est la liste des courses ? — Je ______ ai laissée sur la table de la cuisine. »</div>
+          <div class="prompt-en">Choose the feminine singular COD pronoun: &quot;Where is the grocery list? — I left [it] on the kitchen table.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) la</div><div class="option-pill">b) l&#x27;</div><div class="option-pill">c) lui</div><div class="option-pill">d) le</div></div>
+        </article>
+
+        <article class="question-item" id="q68">
+          <div class="question-meta">
+            <span class="q-number">Q68.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Discussion sur les amis · Discussing friends</span>
+          </div>
+          <div class="prompt-fr">Traduisez en français en utilisant les pronoms toniques : « My brother and I love tennis, but they (masculine) prefer football. »</div>
+          <div class="prompt-en">Translate into French using tonic pronouns: &quot;My brother and I love tennis, but they (masculine) prefer football.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q69">
+          <div class="question-meta">
+            <span class="q-number">Q69.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Partage de nouvelles · Sharing news</span>
+          </div>
+          <div class="prompt-fr">Complétez avec le pronom sujet féminin pluriel : « Sarah et Emma sont absentes parce qu&#x27;______ sont malades. »</div>
+          <div class="prompt-en">Complete with the feminine plural subject pronoun: &quot;Sarah and Emma are absent because [they] are sick.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q70">
+          <div class="question-meta">
+            <span class="q-number">Q70.</span>
+            <span class="badge badge-a1">A1</span>
+            <span class="scenario-tag">Conversation entre voisins · Neighborly chat</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;erreur de pronom sujet après la coordination : « Julien et moi, nous habitent dans cet immeuble depuis un an. »</div>
+          <div class="prompt-en">Correct the subject-verb agreement after coordination: &quot;Julien and I, we live in this building for a year.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q71">
+          <div class="question-meta">
+            <span class="q-number">Q71.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Communication au bureau · Office communication</span>
+          </div>
+          <div class="prompt-fr">Remplacez le complément par le pronom COI qui convient : « J&#x27;ai écrit un message à ma directrice. » → « Je ______ ai écrit un message ce matin. »</div>
+          <div class="prompt-en">Replace the complement with the indirect object pronoun (COI): &quot;I wrote a message to my director.&quot; → &quot;I wrote [her] a message this morning.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q72">
+          <div class="question-meta">
+            <span class="q-number">Q72.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Relations familiales · Family relations</span>
+          </div>
+          <div class="prompt-fr">Choisissez le pronom COI pluriel : « Mes parents habitent loin, mais je ______ téléphone tous les dimanches soirs. »</div>
+          <div class="prompt-en">Choose the plural COI pronoun: &quot;My parents live far away, but I phone [them] every Sunday evening.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) les</div><div class="option-pill">b) leur</div><div class="option-pill">c) leurs</div><div class="option-pill">d) eux</div></div>
+        </article>
+
+        <article class="question-item" id="q73">
+          <div class="question-meta">
+            <span class="q-number">Q73.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Description d&#x27;un plat préparé · Describing a prepared meal</span>
+          </div>
+          <div class="prompt-fr">Complétez avec le pronom relatif COD : « La tarte aux pommes ______ tu as préparée pour le dîner est succulente. »</div>
+          <div class="prompt-en">Complete with the relative direct object pronoun: &quot;The apple tart [that] you prepared for dinner is delicious.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q74">
+          <div class="question-meta">
+            <span class="q-number">Q74.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Conversation au marché · Market conversation</span>
+          </div>
+          <div class="prompt-fr">Choisissez le pronom adverbial exprimant la quantité : « Des fraises, elles sont délicieuses, j&#x27;______ prends un kilo ! »</div>
+          <div class="prompt-en">Choose the adverbial pronoun expressing quantity: &quot;Strawberries, they are delicious, I will take a kilo [of them]!&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) y</div><div class="option-pill">b) en</div><div class="option-pill">c) les</div><div class="option-pill">d) de</div></div>
+        </article>
+
+        <article class="question-item" id="q75">
+          <div class="question-meta">
+            <span class="q-number">Q75.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Projet de sortie en ville · City outing plans</span>
+          </div>
+          <div class="prompt-fr">Remplacez le lieu introduit par « à » par le pronom adverbial adéquat : « Tu vas à la nouvelle exposition d&#x27;art contemporain ? » → « Oui, j&#x27;______ vais avec Marc samedi. »</div>
+          <div class="prompt-en">Replace the place introduced by &#x27;à&#x27; with the appropriate adverbial pronoun: &quot;Are you going to the new modern art exhibition?&quot; → &quot;Yes, I am going [there] with Marc on Saturday.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q76">
+          <div class="question-meta">
+            <span class="q-number">Q76.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Consigne de discrétion entre amis · Discretion between friends</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;ordre des doubles pronoms dans cette phrase négative : « C&#x27;est un secret, je ne lui le dirai jamais. »</div>
+          <div class="prompt-en">Correct the double pronoun order in this negative sentence: &quot;It&#x27;s a secret, I will never tell it to him.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q77">
+          <div class="question-meta">
+            <span class="q-number">Q77.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Conversation téléphonique · Phone call</span>
+          </div>
+          <div class="prompt-fr">Choisissez le bon pronom relatif devant voyelle : « C&#x27;est le roman captivant ______ il m&#x27;a conseillé de lire cet été. »</div>
+          <div class="prompt-en">Choose the correct relative pronoun before a vowel: &quot;It is the gripping novel [that] he advised me to read this summer.&quot;</div>
+          <div class="options-grid"><div class="option-pill">a) qui</div><div class="option-pill">b) que</div><div class="option-pill">c) qu&#x27;</div><div class="option-pill">d) dont</div></div>
+        </article>
+
+        <article class="question-item" id="q78">
+          <div class="question-meta">
+            <span class="q-number">Q78.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Au restaurant, question sur le café · At a restaurant, asking about coffee</span>
+          </div>
+          <div class="prompt-fr">Traduisez en français en utilisant le pronom « en » : « Do you want some coffee? — No thank you, I don&#x27;t want any. »</div>
+          <div class="prompt-en">Translate into French using the pronoun &#x27;en&#x27;: &quot;Do you want some coffee? — No thank you, I don&#x27;t want any.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q79">
+          <div class="question-meta">
+            <span class="q-number">Q79.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Récit d&#x27;un voyage à Rome · Trip to Rome account</span>
+          </div>
+          <div class="prompt-fr">Complétez avec le pronom adverbial de lieu « y » au passé composé : « Rome est une ville magnifique ; nous ______ sommes allés trois fois. »</div>
+          <div class="prompt-en">Complete with the adverbial pronoun of place &#x27;y&#x27; in the passé composé: &quot;Rome is a magnificent city; we went [there] three times.&quot;</div>
+          <div class="response-line"></div>
+        </article>
+
+        <article class="question-item" id="q80">
+          <div class="question-meta">
+            <span class="q-number">Q80.</span>
+            <span class="badge badge-a2">A2</span>
+            <span class="scenario-tag">Consigne pour protéger une surprise · Protecting a surprise</span>
+          </div>
+          <div class="prompt-fr">Corrigez l&#x27;erreur de double pronom à l&#x27;impératif négatif : « C&#x27;est une grande surprise pour Sophie, ne dis-la-lui pas avant ce soir ! »</div>
+          <div class="prompt-en">Correct the double pronoun placement in the negative imperative: &quot;It&#x27;s a big surprise for Sophie, don&#x27;t tell it to her before tonight!&quot;</div>
+          <div class="response-line"></div>
+        </article>
+        </div>
+      </section>
+
+      <section class="answer-key-section">
+        <header class="ak-header">
+          <h2 class="ak-title">Answer Key &amp; Grammar Notes (Corrigés &amp; Explications)</h2>
+          <p class="ak-subtitle">Detailed grammatical justifications for English speakers, addressing language contrasts and typical stumbling blocks.</p>
+        </header>
+        <div class="ak-grid">
+          
+        <div class="ak-entry">
+          <span class="ak-qnum">1.</span>
+          <span class="ak-ans">du</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">du — Partitive article (masculine singular). Where English says &#x27;some butter&#x27; or simply &#x27;butter&#x27;, French requires &#x27;du&#x27; (contraction of &#x27;de + le&#x27;) before uncountable masculine nouns.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">2.</span>
+          <span class="ak-ans">b) des</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">b) des — Indefinite plural article. English often omits the article for plurals (&#x27;we are buying apples&#x27;), but French always requires &#x27;des&#x27; for uncounted plural objects.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">3.</span>
+          <span class="ak-ans">ma</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">ma — Possessive adjective (feminine singular). In French, possessives agree with the gender of the noun possessed (&#x27;sœur&#x27; is feminine), not the gender of the speaker.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">4.</span>
+          <span class="ak-ans">c) cette</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">c) cette — Demonstrative adjective (feminine singular = &#x27;this/that&#x27;). Use &#x27;ce&#x27; for masculine consonants, &#x27;cet&#x27; for masculine vowels/h-muet, &#x27;cette&#x27; for feminine, and &#x27;ces&#x27; for plurals.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">5.</span>
+          <span class="ak-ans">de</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">de — Transformation under negation. In French, partitive and indefinite articles (du, de la, des) turn into &#x27;de&#x27; (or &#x27;d&#x27;&#x27;) after a negative verb (&#x27;pas de sucre&#x27; = &#x27;no sugar / not any sugar&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">6.</span>
+          <span class="ak-ans">Je cherche un collègue qui a le livre de mon ami, mais je n&#x27;ai pas de stylos.</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">Je n&#x27;ai pas de stylos — After negation (&#x27;ne... pas&#x27;), the plural indefinite &#x27;des&#x27; becomes &#x27;de&#x27;. English speakers frequently make the mistake of retaining &#x27;des&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">7.</span>
+          <span class="ak-ans">Je voudrais un café et un croissant, s&#x27;il vous plaît.</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">Je voudrais un café et un croissant, s&#x27;il vous plaît. — Both &#x27;café&#x27; and &#x27;croissant&#x27; are masculine singular nouns, taking the indefinite article &#x27;un&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">8.</span>
+          <span class="ak-ans">c) leurs</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">c) leurs — Plural possessor (&#x27;ils / the children&#x27;) + plural possessed object (&#x27;jouets&#x27; = toys). Use &#x27;leur&#x27; for a singular noun and &#x27;leurs&#x27; for plural nouns.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">9.</span>
+          <span class="ak-ans">au</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">au — Mandatory contraction: &#x27;à + le&#x27; becomes &#x27;au&#x27;. French never permits &#x27;à le&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">10.</span>
+          <span class="ak-ans">J&#x27;aime beaucoup écouter la musique classique le soir.</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">J&#x27;aime beaucoup écouter... — English speakers often confuse &#x27;beaucoup de + noun&#x27; (a lot of apples) with the adverb &#x27;beaucoup&#x27; modifying a verb (I like ... a lot). No &#x27;de&#x27; is used before a verb.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">11.</span>
+          <span class="ak-ans">d&#x27;</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">d&#x27; — After expressions of quantity (&#x27;une cuillère de&#x27;, &#x27;un kilo de&#x27;, &#x27;beaucoup de&#x27;), use &#x27;de/d&#x27;&#x27;. Because &#x27;huile&#x27; starts with a vowel sound (silent h), &#x27;de&#x27; elides to &#x27;d&#x27;&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">12.</span>
+          <span class="ak-ans">b) au</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">b) au — Masculine countries beginning with a consonant take &#x27;au&#x27; (contraction of à + le). Feminine countries take &#x27;en&#x27; (&#x27;en France&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">13.</span>
+          <span class="ak-ans">mon</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">mon — Euphonic rule: To avoid a clumsy hiatus (&#x27;ma amie&#x27;), French uses the masculine possessives &#x27;mon&#x27;, &#x27;ton&#x27;, &#x27;son&#x27; before feminine nouns starting with a vowel sound.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">14.</span>
+          <span class="ak-ans">b) le</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">b) le — Definite article with appreciation verbs. While consumption uses partitives (&#x27;boire du thé&#x27;), verbs of preference (aimer, détester, préférer) always take definite articles (le, la, les).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">15.</span>
+          <span class="ak-ans">Mon oncle habite à Lyon et il est médecin généraliste réputé. (ou : c&#x27;est un médecin généraliste réputé)</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">Il est médecin... (or: C&#x27;est un médecin...) — In French, after &#x27;il est / elle est&#x27;, professions act like adjectives and drop the article (&#x27;il est médecin&#x27;). To use &#x27;un&#x27;, you must switch to &#x27;c&#x27;est un médecin&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">16.</span>
+          <span class="ak-ans">b) de</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">b) de — Rule of the pre-nominal adjective: When an adjective precedes a plural noun (&#x27;grandes fenêtres&#x27;), the indefinite plural &#x27;des&#x27; turns into &#x27;de&#x27; (e.g. &#x27;de délicieux croissants&#x27;, &#x27;de grandes fenêtres&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">17.</span>
+          <span class="ak-ans">Cet hôtel élégant est très célèbre.</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">Cet hôtel élégant est très célèbre. — Before a masculine noun starting with a silent &#x27;h&#x27; or vowel sound (&#x27;hôtel&#x27;), the demonstrative &#x27;ce&#x27; changes to &#x27;cet&#x27; for smooth pronunciation.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">18.</span>
+          <span class="ak-ans">leurs</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">leurs — Plural owners (&#x27;les étudiants&#x27;) possessing multiple items (&#x27;passeports&#x27;) takes &#x27;leurs&#x27; with an &#x27;s&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">19.</span>
+          <span class="ak-ans">Je voudrais un peu de conseils pour calmer cette toux.</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">Je voudrais un peu de conseils... — Expressions of quantity (&#x27;un peu de&#x27;, &#x27;trop de&#x27;, &#x27;beaucoup de&#x27;) always take bare &#x27;de&#x27;, never &#x27;des&#x27;, even when the following noun is plural.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">20.</span>
+          <span class="ak-ans">Ils habitent aux Pays-Bas et travaillent en Belgique.</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">Ils habitent aux Pays-Bas et travaillent en Belgique. — Plural countries take &#x27;aux&#x27; (à + les = aux Pays-Bas), whereas feminine singular countries ending in -e take &#x27;en&#x27; (en Belgique).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">21.</span>
+          <span class="ak-ans">prenons</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">prenons — Present indicative 1st person plural (&#x27;nous&#x27;). Notice the stem change: &#x27;je prends&#x27;, &#x27;nous prenons&#x27; (the &#x27;d&#x27; drops before &#x27;ons&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">22.</span>
+          <span class="ak-ans">b) faites</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">b) faites — Essential irregular present form. Along with &#x27;vous êtes&#x27; and &#x27;vous dites&#x27;, &#x27;vous faites&#x27; ends in &#x27;-tes&#x27;, never &#x27;-ez&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">23.</span>
+          <span class="ak-ans">vont</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">vont — 3rd person plural of &#x27;aller&#x27; (&#x27;ils vont&#x27;). Do not confuse with &#x27;ils ont&#x27; (from &#x27;avoir&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">24.</span>
+          <span class="ak-ans">Nous allons regarder un film ce soir.</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">Nous allons regarder un film ce soir. — Near future (futur proche): conjugated &#x27;aller&#x27; in the present (&#x27;allons&#x27;) + infinitive (&#x27;regarder&#x27;). The everyday spoken variant &#x27;On va regarder un film ce soir&#x27; is also fully valid.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">25.</span>
+          <span class="ak-ans">a) veux</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">a) veux — 1st person singular of &#x27;vouloir&#x27; ends in &#x27;-x&#x27; (&#x27;je veux&#x27;, &#x27;tu veux&#x27;, &#x27;il veut&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">26.</span>
+          <span class="ak-ans">peux</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">peux — 2nd person singular of modal verb &#x27;pouvoir&#x27; (&#x27;tu peux&#x27;). French modal verbs are directly followed by the infinitive (&#x27;venir&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">27.</span>
+          <span class="ak-ans">Mange des légumes verts pour être en forme !</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">Mange des légumes... — Crucial imperative rule: Regular -er verbs drop the final &#x27;s&#x27; in the 2nd person singular imperative (&#x27;Mange !&#x27;, &#x27;Regarde !&#x27;, &#x27;Écoute !&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">28.</span>
+          <span class="ak-ans">avons regardé</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">avons regardé — Passé composé structure: conjugated auxiliary &#x27;avoir&#x27; (&#x27;avons&#x27;) + past participle of -er verb (&#x27;regardé&#x27;). With &#x27;avoir&#x27;, the participle does not agree with the subject.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">29.</span>
+          <span class="ak-ans">Tournez à gauche et prenez la première rue.</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">Tournez à gauche et prenez la première rue. — Polite imperative uses the &#x27;vous&#x27; form: &#x27;Tournez&#x27; (-er verb) and &#x27;prenez&#x27; (prendre).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">30.</span>
+          <span class="ak-ans">a) vu</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">a) vu — The past participle of &#x27;voir&#x27; is irregular: &#x27;vu&#x27; (&#x27;J&#x27;ai vu&#x27; = &#x27;I saw / I have seen&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">31.</span>
+          <span class="ak-ans">sommes arrivés</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">sommes arrivés — Key difference for English speakers: Movement verbs in the DR &amp; MRS VANDERTRAMP list take &#x27;être&#x27; (literally &#x27;we are arrived&#x27;). The past participle must agree in gender and number with the subject (+s for plural).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">32.</span>
+          <span class="ak-ans">c) s&#x27;est réveillée</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">c) s&#x27;est réveillée — All reflexive verbs form their compound past tenses with &#x27;être&#x27;. Because Marie is feminine singular, the past participle adds an &#x27;-e&#x27; (&#x27;réveillée&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">33.</span>
+          <span class="ak-ans">passions</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">passions — The imperfect (imparfait) conveys ongoing, habitual past actions (&#x27;we used to spend / were spending&#x27;). Formed from the &#x27;nous&#x27; present stem (pass-) + &#x27;-ions&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">34.</span>
+          <span class="ak-ans">b) a sonné</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">b) a sonné — Passé composé vs Imparfait contrast: The ongoing scene is set with the imperfect (&#x27;Je lisais&#x27; = I was reading), while the sudden interrupting action triggers the passé composé (&#x27;a sonné&#x27; = rang).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">35.</span>
+          <span class="ak-ans">Elles sont allées au cinéma voir la nouvelle comédie française hier soir.</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">Elles sont allées... — The auxiliary &#x27;être&#x27; requires strict agreement with the subject. Because &#x27;elles&#x27; is feminine plural, &#x27;allé&#x27; must become &#x27;allées&#x27; (+e for feminine, +s for plural).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">36.</span>
+          <span class="ak-ans">Hier, j&#x27;étais fatigué(e) donc je suis resté(e) à la maison.</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">Hier, j&#x27;étais fatigué(e) donc je suis resté(e) à la maison. — Ongoing physical/mental state takes the imperfect (&#x27;j&#x27;étais fatigué&#x27;), while the completed decision takes passé composé with &#x27;être&#x27; (&#x27;je suis resté&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">37.</span>
+          <span class="ak-ans">b) ont descendu</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">b) ont descendu — Advanced A2 rule: Verbs like &#x27;descendre&#x27;, &#x27;monter&#x27;, and &#x27;sortir&#x27; take &#x27;être&#x27; when intransitive (&#x27;Ils sont descendus&#x27; = they came down), but switch to &#x27;avoir&#x27; when transitive with a direct object (&#x27;Ils ont descendu les valises&#x27; = they brought down the suitcases).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">38.</span>
+          <span class="ak-ans">avons fait</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">avons fait — Irregular past participle of &#x27;faire&#x27; is &#x27;fait&#x27;. With subject &#x27;nous&#x27; and auxiliary &#x27;avoir&#x27;, it yields &#x27;nous avons fait&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">39.</span>
+          <span class="ak-ans">Quand nous sommes sortis ce matin, il faisait très froid et il neigeait sans arrêt.</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">il faisait très froid et il neigeait... — Weather descriptions setting the atmosphere of a past moment require the imperfect (&#x27;il faisait froid&#x27;, &#x27;il neigeait&#x27;), not the passé composé.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">40.</span>
+          <span class="ak-ans">Nous allons nous préparer avant la réunion.</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">Nous allons nous préparer avant la réunion. — In the near future with reflexive verbs, the reflexive pronoun must agree with the subject and sits directly before the infinitive (&#x27;nous allons nous préparer&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">41.</span>
+          <span class="ak-ans">dans</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">dans — Preposition of place: &#x27;dans&#x27; indicates containment inside an enclosed physical container (in the drawer = dans le tiroir).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">42.</span>
+          <span class="ak-ans">b) au</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">b) au — &#x27;à + le&#x27; contracts into &#x27;au&#x27; before masculine places (&#x27;au cinéma&#x27;, &#x27;au musée&#x27;, &#x27;au restaurant&#x27;). &#x27;Chez&#x27; is reserved for people (&#x27;chez Pierre&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">43.</span>
+          <span class="ak-ans">chez</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">chez — French distinguishes between going to a place (&#x27;à/au&#x27;) and going to a person&#x27;s home or professional venue (&#x27;chez&#x27;). Use &#x27;chez&#x27; with names, pronouns, and professions (&#x27;chez le médecin&#x27;, &#x27;chez moi&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">44.</span>
+          <span class="ak-ans">a) à</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">a) à — Clock time in French is always introduced by &#x27;à&#x27; (&#x27;à dix heures&#x27;, &#x27;à midi&#x27;), matching English &#x27;at&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">45.</span>
+          <span class="ak-ans">La pharmacie se trouve en face de la banque postale.</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">en face de la banque... — Spatial locution: &#x27;en face de&#x27; (opposite / across from) takes &#x27;de&#x27;, not &#x27;à&#x27;. English speakers frequently make this mistake due to analogy with other expressions.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">46.</span>
+          <span class="ak-ans">en</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">en — Transportation rule: Enclosed vehicles you step inside take &#x27;en&#x27; (&#x27;en métro&#x27;, &#x27;en train&#x27;, &#x27;en voiture&#x27;, &#x27;en avion&#x27;). Vehicles you straddle take &#x27;à&#x27; (&#x27;à vélo&#x27;, &#x27;à pied&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">47.</span>
+          <span class="ak-ans">Nous passons le week-end à Lyon.</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">Nous passons le week-end à Lyon. — Cities in French universally take &#x27;à&#x27; with no article (&#x27;à Paris&#x27;, &#x27;à New York&#x27;, &#x27;à Lyon&#x27;). Never say &#x27;en Lyon&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">48.</span>
+          <span class="ak-ans">c) entre</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">c) entre — &#x27;Entre&#x27; means &#x27;between&#x27; (specifically connecting two points: &#x27;entre X et Y&#x27;). &#x27;Parmi&#x27; corresponds to &#x27;among&#x27; (within a larger group).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">49.</span>
+          <span class="ak-ans">Les dimanches ensoleillés, j&#x27;adore me promener à vélo au bord de la rivière.</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">me promener à vélo... — In standard French, open forms of mobility on which you sit or walk take &#x27;à&#x27; (&#x27;à vélo&#x27;, &#x27;à moto&#x27;, &#x27;à cheval&#x27;, &#x27;à pied&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">50.</span>
+          <span class="ak-ans">en</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">en — Seasons starting with a vowel sound take &#x27;en&#x27; (&#x27;en été&#x27;, &#x27;en automne&#x27;, &#x27;en hiver&#x27;). &#x27;Printemps&#x27; begins with a consonant and takes &#x27;au&#x27; (&#x27;au printemps&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">51.</span>
+          <span class="ak-ans">depuis</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">depuis — Major French-English contrast: Where English uses the present perfect continuous (&#x27;I have been learning for six months&#x27;), French uses the present tense + &#x27;depuis&#x27; (&#x27;J&#x27;apprends depuis six mois&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">52.</span>
+          <span class="ak-ans">b) pendant</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">b) pendant — &#x27;Pendant&#x27; expresses a closed, completed duration in the past (&#x27;lived in Madrid for a year&#x27;). &#x27;Depuis&#x27; is only for actions still continuing.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">53.</span>
+          <span class="ak-ans">au</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">au — &#x27;Japon&#x27; is a masculine country starting with a consonant (&#x27;le Japon&#x27;). Destination/location takes &#x27;au&#x27; (&#x27;au Japon&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">54.</span>
+          <span class="ak-ans">b) dans</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">b) dans — &#x27;Dans&#x27; marks the starting point in future time (&#x27;in 30 minutes&#x27; = 30 minutes from now). &#x27;En&#x27; refers to the amount of time required to perform a task (&#x27;finished in 30 minutes&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">55.</span>
+          <span class="ak-ans">Paul s&#x27;intéresse beaucoup à l&#x27;histoire médiévale.</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">s&#x27;intéresse beaucoup à l&#x27;histoire... — Verb preposition dependency: &#x27;S&#x27;intéresser&#x27; always takes &#x27;à&#x27; in French, never &#x27;pour&#x27; or &#x27;dans&#x27; (contrasting with English &#x27;interested in&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">56.</span>
+          <span class="ak-ans">Elle a terminé son rapport complet en deux heures.</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">Elle a terminé son rapport complet en deux heures. — &#x27;En&#x27; indicates the span of time required to accomplish a task (&#x27;in two hours&#x27; = took two hours of effort).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">57.</span>
+          <span class="ak-ans">de</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">de — Verb dependency: &#x27;Décider de + infinitif&#x27; (to decide to do something). French verbs require specific prepositions (&#x27;de&#x27; or &#x27;à&#x27;) before an infinitive.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">58.</span>
+          <span class="ak-ans">b) de</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">b) de — &#x27;Penser de&#x27; vs &#x27;Penser à&#x27;: Use &#x27;penser de&#x27; when asking for an opinion (&#x27;What do you think of...?&#x27;). Use &#x27;penser à&#x27; when keeping someone/something in mind (&#x27;Je pense à toi&#x27; = I&#x27;m thinking of you).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">59.</span>
+          <span class="ak-ans">J&#x27;ai habité dans cette charmante ville pendant cinq ans.</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">J&#x27;ai habité dans cette charmante ville pendant cinq ans. — &#x27;Depuis&#x27; cannot be combined with a past finished event. When the action has ended, use the passé composé and &#x27;pendant&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">60.</span>
+          <span class="ak-ans">Ils sont partis en vacances en Iran et en Égypte.</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">Ils sont partis en vacances en Iran et en Égypte. — Crucial geographic rule: Even though Iran is grammatically masculine (l&#x27;Iran), countries beginning with a vowel sound take &#x27;en&#x27; (en Iran, en Irak) for phonetic liaison, just like feminine countries (en Égypte).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">61.</span>
+          <span class="ak-ans">Moi</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">Moi — Disjunctive / tonic pronoun (stressed pronoun). Used for emphasis at the start of a sentence (&#x27;Moi, je...&#x27;), after prepositions (&#x27;avec moi&#x27;), and in standalone answers (&#x27;Qui veut du café ? - Moi !&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">62.</span>
+          <span class="ak-ans">c) lui</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">c) lui — After prepositions (avec, chez, pour, sans), French requires tonic pronouns: &#x27;avec lui&#x27; (with him), &#x27;avec elle&#x27; (with her), &#x27;avec eux&#x27; (with them). Never use subject pronouns like &#x27;avec il&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">63.</span>
+          <span class="ak-ans">le</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">le — Direct object pronoun (COD). Replaces masculine singular nouns (&#x27;mon sac à dos&#x27;). Placed directly before the conjugated verb (&#x27;je le vois&#x27; = &#x27;I see it&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">64.</span>
+          <span class="ak-ans">a) on</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">a) on — In modern everyday spoken French, &#x27;on&#x27; largely replaces &#x27;nous&#x27; to mean &#x27;we&#x27;, but grammatically conjugates in the 3rd person singular (&#x27;on va&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">65.</span>
+          <span class="ak-ans">Ces chaussures sont magnifiques, je les achète immédiatement.</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">je les achète immédiatement. — Word order rule: Unlike English, which places object pronouns after the verb (&#x27;I buy them&#x27;), French places object pronouns BEFORE the conjugated verb (&#x27;je les achète&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">66.</span>
+          <span class="ak-ans">qui</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">qui — Relative pronoun functioning as the subject of the following verb (&#x27;parle&#x27;). Remember: &#x27;qui + verb&#x27; (who/which), and &#x27;qui&#x27; never elides before a vowel.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">67.</span>
+          <span class="ak-ans">b) l&#x27;</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">b) l&#x27; — Both &#x27;le&#x27; and &#x27;la&#x27; elide to &#x27;l&#x27;&#x27; before a vowel sound (&#x27;Je l&#x27;ai laissée&#x27;). Notice also the past participle agreement (&#x27;laissée&#x27;) because &#x27;la liste&#x27; is feminine.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">68.</span>
+          <span class="ak-ans">Mon frère et moi aimons le tennis, mais eux préfèrent le football.</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">Mon frère et moi aimons le tennis, mais eux préfèrent le football. — Compound subjects with &#x27;I&#x27; use tonic &#x27;moi&#x27; (&#x27;Mon frère et moi&#x27;). The tonic pronoun for &#x27;they&#x27; (masculine) is &#x27;eux&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">69.</span>
+          <span class="ak-ans">elles</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">elles — Feminine plural 3rd-person subject pronoun representing an exclusively female group.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">70.</span>
+          <span class="ak-ans">Julien et moi, nous habitons dans cet immeuble depuis un an.</span>
+          <span class="ak-badge badge-a1">A1</span>
+          <span class="ak-exp">Julien et moi, nous habitons... — Any person + &#x27;moi&#x27; equals &#x27;nous&#x27; (1st person plural), so the verb ending must be &#x27;-ons&#x27; (&#x27;nous habitons&#x27;), not 3rd person plural &#x27;-ent&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">71.</span>
+          <span class="ak-ans">lui</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">lui — Indirect object pronoun (COI). French uses &#x27;lui&#x27; for BOTH masculine and feminine singular when replacing &#x27;à + person&#x27; (to him / to her). Never use &#x27;la&#x27; for indirect recipients.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">72.</span>
+          <span class="ak-ans">b) leur</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">b) leur — &#x27;Téléphoner à quelqu&#x27;un&#x27; takes an indirect object pronoun. The plural indirect pronoun is &#x27;leur&#x27; (meaning &#x27;to them&#x27;). As an object pronoun, &#x27;leur&#x27; is invariable and NEVER takes an &#x27;s&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">73.</span>
+          <span class="ak-ans">que</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">que — Relative pronoun functioning as the direct object of the verb that follows (&#x27;tu as préparée&#x27;). While &#x27;qui&#x27; is followed by a verb, &#x27;que&#x27; is followed by a subject + verb.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">74.</span>
+          <span class="ak-ans">b) en</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">b) en — The pronoun &#x27;en&#x27; replaces phrases introduced by &#x27;de&#x27; or quantities (&#x27;some of it / of them&#x27;). Whenever numbers or quantity units remain (&#x27;un kilo&#x27;, &#x27;trois&#x27;, &#x27;beaucoup&#x27;), French requires &#x27;en&#x27; before the verb.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">75.</span>
+          <span class="ak-ans">y</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">y — The adverbial pronoun &#x27;y&#x27; replaces locations introduced by prepositions other than &#x27;de&#x27; (&#x27;à l&#x27;exposition&#x27;, &#x27;au cinéma&#x27;, &#x27;en France&#x27; = &#x27;there&#x27;). &#x27;J&#x27;y vais&#x27; = &#x27;I&#x27;m going there&#x27;.</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">76.</span>
+          <span class="ak-ans">C&#x27;est un secret, je ne le lui dirai jamais.</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">je ne le lui dirai jamais. — Double pronoun word order: When both pronouns are 3rd person, direct object (le, la, les) ALWAYS comes before indirect object (lui, leur): &#x27;le lui&#x27; (it to him/her).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">77.</span>
+          <span class="ak-ans">c) qu&#x27;</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">c) qu&#x27; — Unlike &#x27;qui&#x27; (which NEVER elides), the direct object relative pronoun &#x27;que&#x27; obligatorily elides to &#x27;qu&#x27;&#x27; before a vowel sound (&#x27;qu&#x27;il m&#x27;a conseillé&#x27;).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">78.</span>
+          <span class="ak-ans">Tu veux du café ? — Non merci, je n&#x27;en veux pas. (ou : Vous voulez du café ? — Non merci, je n&#x27;en veux pas.)</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">Tu veux du café ? — Non merci, je n&#x27;en veux pas. — In negative sentences, &#x27;en&#x27; is placed directly between &#x27;n&#x27;&#x27; and the conjugated verb: &#x27;je n&#x27;en veux pas&#x27; (I don&#x27;t want any of it).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">79.</span>
+          <span class="ak-ans">y</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">y — In compound tenses like the passé composé, object and adverbial pronouns are placed before the auxiliary verb (&#x27;nous y sommes allés&#x27; = we went there).</span>
+        </div>
+
+        <div class="ak-entry">
+          <span class="ak-qnum">80.</span>
+          <span class="ak-ans">C&#x27;est une grande surprise pour Sophie, ne la lui dis pas avant ce soir !</span>
+          <span class="ak-badge badge-a2">A2</span>
+          <span class="ak-exp">ne la lui dis pas avant ce soir ! — In the negative imperative, pronouns do NOT attach to the end of the verb with hyphens; they return to their normal pre-verbal position (&#x27;ne la lui dis pas&#x27;).</span>
+        </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
