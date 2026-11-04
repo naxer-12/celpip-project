@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cahier d'Exercices de Grammaire Française (A1–A2)</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 18mm 18mm 20mm 18mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1f2937;
+      background-color: #ffffff;
+      line-height: 1.5;
+      font-size: 10pt;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    /* Document Header */
+    .doc-header {
+      border-bottom: 2px solid #111827;
+      padding-bottom: 18px;
+      margin-bottom: 32px;
+    }
+
+    .header-tagline {
+      font-size: 8.5pt;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #4b5563;
+      margin-bottom: 4px;
+    }
+
+    .doc-title {
+      font-size: 24pt;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: #111827;
+      line-height: 1.2;
+    }
+
+    .doc-subtitle {
+      font-size: 11pt;
+      color: #4b5563;
+      margin-top: 8px;
+      line-height: 1.45;
+    }
+
+    .doc-meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+      font-size: 8.5pt;
+      font-weight: 500;
+      color: #4b5563;
+    }
+
+    .meta-separator {
+      color: #9ca3af;
+    }
+
+    /* Topic Sections */
+    .topic-section {
+      margin-bottom: 36px;
+    }
+
+    .topic-header {
+      margin-top: 28px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px solid #1f2937;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    .topic-num {
+      font-size: 8.5pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #6b7280;
+    }
+
+    .topic-title {
+      font-size: 16pt;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: #111827;
+      margin-top: 2px;
+    }
+
+    .topic-desc {
+      font-size: 8.5pt;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+
+    /* Questions */
+    .questions-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .question-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f1f3;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .question-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .question-id-scenario {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .question-num {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #4b5563;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .question-scenario {
+      font-size: 8.5pt;
+      font-style: italic;
+      color: #6b7280;
+    }
+
+    .badge {
+      font-size: 8pt;
+      font-weight: 600;
+      border-radius: 9999px;
+      padding: 2px 8px;
+      letter-spacing: 0.04em;
+      display: inline-block;
+      line-height: 1.2;
+    }
+
+    .badge-a1 {
+      background-color: #e6f4ea;
+      color: #137333;
+    }
+
+    .badge-a2 {
+      background-color: #e8f0fe;
+      color: #1a73e8;
+    }
+
+    .question-prompt {
+      font-size: 10pt;
+      color: #1f2937;
+      line-height: 1.5;
+      margin-top: 2px;
+    }
+
+    .options-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin-top: 8px;
+      padding-left: 2px;
+    }
+
+    .option-item {
+      font-size: 9.5pt;
+      color: #374151;
+      line-height: 1.4;
+    }
+
+    .response-line {
+      border-bottom: 1px dashed #e5e7eb;
+      margin-top: 10px;
+      height: 16px;
+      width: 100%;
+    }
+
+    /* Answer Key Section */
+    .answer-key-section {
+      page-break-before: always;
+      break-before: page;
+      margin-top: 36px;
+      padding-top: 24px;
+    }
+
+    .answer-key-header {
+      border-bottom: 2px solid #111827;
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    .answer-key-title {
+      font-size: 18pt;
+      font-weight: 700;
+      color: #111827;
+      letter-spacing: -0.02em;
+    }
+
+    .answer-key-subtitle {
+      font-size: 8.5pt;
+      color: #4b5563;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .answer-key-grid {
+      column-count: 4;
+      column-gap: 16px;
+      font-size: 8pt;
+      line-height: 1.35;
+    }
+
+    .answer-item {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dotted #e5e7eb;
+    }
+
+    .ans-header {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .ans-num {
+      font-weight: 700;
+      color: #111827;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ans-badge {
+      font-size: 6.5pt;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .ans-badge-a1 {
+      background-color: #e6f4ea;
+      color: #137333;
+    }
+
+    .ans-badge-a2 {
+      background-color: #e8f0fe;
+      color: #1a73e8;
+    }
+
+    .ans-val {
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .ans-exp {
+      font-size: 7.5pt;
+      color: #4b5563;
+      margin-top: 2px;
+      line-height: 1.35;
+    }
+
+    /* Screen Responsiveness */
+    @media screen and (max-width: 820px) {
+      .answer-key-grid {
+        column-count: 2;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .answer-key-grid {
+        column-count: 1;
+      }
+    }
+
+    /* Paged Print Rules */
+    @media print {
+      body {
+        background-color: #ffffff;
+        font-size: 9.5pt;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .question-item {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .topic-header {
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+      .answer-key-section {
+        page-break-before: always;
+        break-before: page;
+      }
+      .answer-key-grid {
+        column-count: 4;
+      }
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="doc-header">
+      <div class="header-tagline">Cahier d'Entraînement Pratique &bull; Cadre Européen (CECRL)</div>
+      <h1 class="doc-title">Grammaire Française • Niveaux A1–A2</h1>
+      <p class="doc-subtitle">
+        80 exercices communicatifs contextualisés (Articles, Conjugaisons, Prépositions, Pronoms) avec corrigés complets et explications grammaticales.
+      </p>
+      <div class="doc-meta-bar">
+        <span>Niveau : A1 &amp; A2</span>
+        <span class="meta-separator">•</span>
+        <span>4 Modules Thématiques</span>
+        <span class="meta-separator">•</span>
+        <span>80 Questions Pratiques</span>
+        <span class="meta-separator">•</span>
+        <span>Corrigés Détaillés</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="topic-section">
+        <header class="topic-header">
+          <div class="topic-num">Module 01</div>
+          <h2 class="topic-title">Les Articles &amp; Les Déterminants</h2>
+          <div class="topic-desc">20 questions communicatives • 10 questions A1 + 10 questions A2</div>
+        </header>
+        <div class="questions-list">
+        <article class="question-item" id="q1">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q1.</span>
+              <span class="question-scenario">« Dans une boulangerie »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Complétez avec l&#x27;article partitif qui convient : « Bonjour madame, je voudrais ______ beurre salé s&#x27;il vous plaît. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q2">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q2.</span>
+              <span class="question-scenario">« Au marché matinal »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Choisissez l&#x27;article indéfini approprié : « Nous achetons ______ pommes et des bananes. »</p>
+          <div class="options-list">
+            <span class="option-item">a) un</span>
+            <span class="option-item">b) une</span>
+            <span class="option-item">c) des</span>
+            <span class="option-item">d) de la</span>
+          </div>
+        </article>
+        <article class="question-item" id="q3">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q3.</span>
+              <span class="question-scenario">« Au restaurant pour le déjeuner »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur dans la phrase suivante : « Je ne prends pas du sucre dans mon café. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q4">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q4.</span>
+              <span class="question-scenario">« Présentation des métiers »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Traduisez en français : « Marc is an architect in Bordeaux. » (Attention à l&#x27;absence d&#x27;article avec la profession).</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q5">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q5.</span>
+              <span class="question-scenario">« Dans une papeterie »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Complétez avec l&#x27;adjectif possessif (à la 1re personne du singulier) : « J&#x27;adore ranger ______ livres de français dans mon sac. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q6">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q6.</span>
+              <span class="question-scenario">« Dans une boutique de vêtements »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Choisissez l&#x27;adjectif démonstratif approprié : « Regarde ______ manteau d&#x27;hiver, il est très chaud ! »</p>
+          <div class="options-list">
+            <span class="option-item">a) ce</span>
+            <span class="option-item">b) cet</span>
+            <span class="option-item">c) cette</span>
+            <span class="option-item">d) ces</span>
+          </div>
+        </article>
+        <article class="question-item" id="q7">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q7.</span>
+              <span class="question-scenario">« Commande au bistrot »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur de contraction dans la phrase : « Le serveur apporte la carte à le client. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q8">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q8.</span>
+              <span class="question-scenario">« Visite touristique »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Traduisez en français : « We are visiting the Eiffel Tower today. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q9">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q9.</span>
+              <span class="question-scenario">« Dans une cuisine familiale »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Complétez avec l&#x27;article partitif élidé : « Pour préparer cette tarte, il faut verser ______ huile d&#x27;olive dans la poêle. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q10">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q10.</span>
+              <span class="question-scenario">« À la réception d&#x27;un hôtel »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Choisissez la contraction correcte : « Voici les clés ______ chambre numéro 12. »</p>
+          <div class="options-list">
+            <span class="option-item">a) du</span>
+            <span class="option-item">b) de la</span>
+            <span class="option-item">c) des</span>
+            <span class="option-item">d) au</span>
+          </div>
+        </article>
+        <article class="question-item" id="q11">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q11.</span>
+              <span class="question-scenario">« Discussion sur les loisirs »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Complétez avec l&#x27;article qui convient : « Julien boit souvent du café, mais il préfère ______ thé vert japonais. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q12">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q12.</span>
+              <span class="question-scenario">« Au supermarché de quartier »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Choisissez l&#x27;expression de quantité exacte : « Pour la fête d&#x27;anniversaire, nous avons acheté beaucoup ______ jus d&#x27;orange. »</p>
+          <div class="options-list">
+            <span class="option-item">a) de</span>
+            <span class="option-item">b) du</span>
+            <span class="option-item">c) des</span>
+            <span class="option-item">d) d&#x27;un</span>
+          </div>
+        </article>
+        <article class="question-item" id="q13">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q13.</span>
+              <span class="question-scenario">« Conversation amicale »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur de déterminant possessif : « C&#x27;est ma amie québécoise que j&#x27;attends à la gare. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q14">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q14.</span>
+              <span class="question-scenario">« Dans un café parisien »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Traduisez en français : « She has no patience this morning. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q15">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q15.</span>
+              <span class="question-scenario">« Dans un grand magasin »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Complétez avec l&#x27;adjectif démonstratif approprié : « ______ imperméable bleu marine me plaît énormément. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q16">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q16.</span>
+              <span class="question-scenario">« Dîner entre collègues »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Choisissez la forme correcte de l&#x27;article indéfini pluriel devant un adjectif épithète antéposé : « Le chef a préparé ______ délicieux croissants pour le brunch. »</p>
+          <div class="options-list">
+            <span class="option-item">a) des</span>
+            <span class="option-item">b) de</span>
+            <span class="option-item">c) du</span>
+            <span class="option-item">d) les</span>
+          </div>
+        </article>
+        <article class="question-item" id="q17">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q17.</span>
+              <span class="question-scenario">« Planification d&#x27;un voyage à l&#x27;étranger »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur de déterminant géographique : « Mon frère habite aux Mexique depuis trois ans. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q18">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q18.</span>
+              <span class="question-scenario">« À l&#x27;agence immobilière »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Traduisez en français : « This apartment has large windows and a beautiful view. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q19">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q19.</span>
+              <span class="question-scenario">« Dans une salle de sport »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Complétez l&#x27;expression figée : « Pour rester en bonne santé, Lucas fait ______ natation deux fois par semaine. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q20">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q20.</span>
+              <span class="question-scenario">« Discussion de mode »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Choisissez les particules démonstratives d&#x27;opposition correctes : « Préfères-tu cette chemise-______ ou cette chemise-______ ? »</p>
+          <div class="options-list">
+            <span class="option-item">a) ci / là</span>
+            <span class="option-item">b) ça / là</span>
+            <span class="option-item">c) ici / là-bas</span>
+            <span class="option-item">d) ce / cette</span>
+          </div>
+        </article>
+        </div>
+      </section>
+
+      <section class="topic-section">
+        <header class="topic-header">
+          <div class="topic-num">Module 02</div>
+          <h2 class="topic-title">Les Temps Verbaux &amp; Conjugaisons</h2>
+          <div class="topic-desc">20 questions communicatives • 10 questions A1 + 10 questions A2</div>
+        </header>
+        <div class="questions-list">
+        <article class="question-item" id="q21">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q21.</span>
+              <span class="question-scenario">« Faire connaissance à l&#x27;université »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Conjuguez le verbe au présent de l&#x27;indicatif : « Nous (habiter) ______ dans un petit appartement près du campus. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q22">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q22.</span>
+              <span class="question-scenario">« Dans un bureau »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Choisissez la forme correcte du verbe « être » au présent : « Vous ______ très ponctuel ce matin, monsieur Bernard. »</p>
+          <div class="options-list">
+            <span class="option-item">a) êtes</span>
+            <span class="option-item">b) sont</span>
+            <span class="option-item">c) est</span>
+            <span class="option-item">d) avez</span>
+          </div>
+        </article>
+        <article class="question-item" id="q23">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q23.</span>
+              <span class="question-scenario">« Au restaurant pour commander »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur de conjugaison dans cette réplique : « Les clients prendent une carafe d&#x27;eau fraîche. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q24">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q24.</span>
+              <span class="question-scenario">« Projets de week-end »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Traduisez en français en utilisant le futur proche : « We are going to watch a film tonight. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q25">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q25.</span>
+              <span class="question-scenario">« À l&#x27;école de langues »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Conjuguez le verbe du 2e groupe au présent : « Les étudiants attentifs (finir) ______ leurs exercices en avance. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q26">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q26.</span>
+              <span class="question-scenario">« Demande de service au bureau »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Choisissez la forme correcte du verbe « pouvoir » au présent : « Est-ce que tu ______ m&#x27;aider avec cette imprimante ? »</p>
+          <div class="options-list">
+            <span class="option-item">a) peux</span>
+            <span class="option-item">b) peut</span>
+            <span class="option-item">c) pouvons</span>
+            <span class="option-item">d) peuvent</span>
+          </div>
+        </article>
+        <article class="question-item" id="q27">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q27.</span>
+              <span class="question-scenario">« Donner un conseil de santé »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur dans cet impératif avec un verbe en -er : « Manges plus de légumes tous les jours ! »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q28">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q28.</span>
+              <span class="question-scenario">« Routine quotidienne »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Traduisez en français : « She does her homework at six o&#x27;clock. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q29">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q29.</span>
+              <span class="question-scenario">« Retour de vacances »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Conjuguez le verbe « venir » au présent : « Mes cousins (venir) ______ de Lyon pour passer le week-end avec nous. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q30">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q30.</span>
+              <span class="question-scenario">« Dans un café »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Choisissez la forme correcte du verbe « avoir » au présent : « Mes amis et moi, nous ______ très faim après la randonnée. »</p>
+          <div class="options-list">
+            <span class="option-item">a) avons</span>
+            <span class="option-item">b) sommes</span>
+            <span class="option-item">c) ont</span>
+            <span class="option-item">d) avez</span>
+          </div>
+        </article>
+        <article class="question-item" id="q31">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q31.</span>
+              <span class="question-scenario">« Récit de voyage à la gare »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Conjuguez au passé composé en accordant le participe passé : « Sophie et Claire (arriver) ______ en retard à cause des grèves. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q32">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q32.</span>
+              <span class="question-scenario">« Discussion de vacances »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Choisissez la forme correcte au passé composé : « Hier soir, Thomas ______ un très bon roman historique. »</p>
+          <div class="options-list">
+            <span class="option-item">a) a lu</span>
+            <span class="option-item">b) a lis</span>
+            <span class="option-item">c) est lu</span>
+            <span class="option-item">d) a lisé</span>
+          </div>
+        </article>
+        <article class="question-item" id="q33">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q33.</span>
+              <span class="question-scenario">« Matinée mouvementée »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur dans la phrase au passé composé : « Ce matin, Marie s&#x27;est réveillé à sept heures pile. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q34">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q34.</span>
+              <span class="question-scenario">« Souvenirs d&#x27;enfance »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Traduisez en français en utilisant l&#x27;imparfait : « When I was young, I lived in a big house in the countryside. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q35">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q35.</span>
+              <span class="question-scenario">« Action interrompue dans la rue »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Complétez avec le temps qui convient (imparfait ou passé composé) : « Pendant que nous (marcher) ______ dans le parc, un orage a soudain éclaté. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q36">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q36.</span>
+              <span class="question-scenario">« Au bureau du directeur »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Choisissez la formule de politesse au conditionnel présent : « Bonjour monsieur, je ______ m&#x27;entretenir avec vous quelques minutes. »</p>
+          <div class="options-list">
+            <span class="option-item">a) voudrais</span>
+            <span class="option-item">b) veux</span>
+            <span class="option-item">c) voulais</span>
+            <span class="option-item">d) voulusse</span>
+          </div>
+        </article>
+        <article class="question-item" id="q37">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q37.</span>
+              <span class="question-scenario">« Rapport d&#x27;activité professionnelle »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur d&#x27;auxiliaire ou de participe passé : « Ils ont descendus les valises au rez-de-chaussée. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q38">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q38.</span>
+              <span class="question-scenario">« Communication urgente »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Traduisez en français en utilisant le passé récent : « The train has just arrived at the station. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q39">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q39.</span>
+              <span class="question-scenario">« Soirée d&#x27;anniversaire »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Conjuguez le verbe au passé composé : « Tous les invités (boire) ______ du champagne pour porter un toast. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q40">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q40.</span>
+              <span class="question-scenario">« Récit d&#x27;un témoin »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Choisissez l&#x27;alternance verbale correcte : « Il ______ beau et les oiseaux chantaient quand l&#x27;accident s&#x27;est produit. »</p>
+          <div class="options-list">
+            <span class="option-item">a) faisait</span>
+            <span class="option-item">b) a fait</span>
+            <span class="option-item">c) fait</span>
+            <span class="option-item">d) fera</span>
+          </div>
+        </article>
+        </div>
+      </section>
+
+      <section class="topic-section">
+        <header class="topic-header">
+          <div class="topic-num">Module 03</div>
+          <h2 class="topic-title">Les Prépositions</h2>
+          <div class="topic-desc">20 questions communicatives • 10 questions A1 + 10 questions A2</div>
+        </header>
+        <div class="questions-list">
+        <article class="question-item" id="q41">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q41.</span>
+              <span class="question-scenario">« Recherche d&#x27;objets dans le salon »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Complétez avec la préposition spatiale qui convient : « Les clés de l&#x27;appartement sont posées ______ la table basse. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q42">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q42.</span>
+              <span class="question-scenario">« Déplacement urbain »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Choisissez la préposition correcte pour le mode de transport : « Pour aller au travail sans polluer, Marc circule toujours ______ vélo. »</p>
+          <div class="options-list">
+            <span class="option-item">a) à</span>
+            <span class="option-item">b) en</span>
+            <span class="option-item">c) par</span>
+            <span class="option-item">d) dans</span>
+          </div>
+        </article>
+        <article class="question-item" id="q43">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q43.</span>
+              <span class="question-scenario">« Rendez-vous en ville »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur de préposition géographique devant une ville : « Demain après-midi, nous allons en Marseille pour un festival. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q44">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q44.</span>
+              <span class="question-scenario">« Description de bureau »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Traduisez en français : « The wastebasket is under the desk. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q45">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q45.</span>
+              <span class="question-scenario">« Repérage dans un quartier »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Complétez avec la locution prépositive contractée : « La pharmacie se trouve juste à côté ______ bureau de poste. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q46">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q46.</span>
+              <span class="question-scenario">« Voyage en train »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Choisissez la préposition de transport appropriée : « Mes parents voyagent confortablement ______ train pour venir à Paris. »</p>
+          <div class="options-list">
+            <span class="option-item">a) en</span>
+            <span class="option-item">b) à</span>
+            <span class="option-item">c) sur</span>
+            <span class="option-item">d) par</span>
+          </div>
+        </article>
+        <article class="question-item" id="q47">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q47.</span>
+              <span class="question-scenario">« Organisation d&#x27;un emploi du temps »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur de préposition temporelle : « Le cours de grammaire commence dans 14 heures précises. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q48">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q48.</span>
+              <span class="question-scenario">« Visite médicale »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Traduisez en français : « Paul is going to the doctor this morning. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q49">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q49.</span>
+              <span class="question-scenario">« À l&#x27;arrêt de bus »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Complétez avec la préposition spatiale opposée à « derrière » : « Le chauffeur attend les passagers ______ le véhicule. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q50">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q50.</span>
+              <span class="question-scenario">« Saisons et météo »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Choisissez la préposition correcte pour cette saison : « Il fait très chaud dans le sud ______ été. »</p>
+          <div class="options-list">
+            <span class="option-item">a) en</span>
+            <span class="option-item">b) au</span>
+            <span class="option-item">c) à l&#x27;</span>
+            <span class="option-item">d) dans</span>
+          </div>
+        </article>
+        <article class="question-item" id="q51">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q51.</span>
+              <span class="question-scenario">« Voyage international »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Complétez avec la préposition géographique appropriée : « Sarah part faire ses études universitaires ______ Canada pour un an. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q52">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q52.</span>
+              <span class="question-scenario">« Entretien d&#x27;embauche »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Choisissez le marqueur temporel exprimant une action continue commencée dans le passé : « J&#x27;habite à Lyon et je travaille dans cette entreprise ______ trois ans. »</p>
+          <div class="options-list">
+            <span class="option-item">a) depuis</span>
+            <span class="option-item">b) pendant</span>
+            <span class="option-item">c) dans</span>
+            <span class="option-item">d) pour</span>
+          </div>
+        </article>
+        <article class="question-item" id="q53">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q53.</span>
+              <span class="question-scenario">« Préparation des vacances »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur de préposition devant ce nom de pays pluriel : « En juillet prochain, nous partons en vacances en États-Unis. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q54">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q54.</span>
+              <span class="question-scenario">« Raconter une expérience vécue »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Traduisez en français en utilisant le bon marqueur de durée révolue : « We lived in Senegal for two years. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q55">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q55.</span>
+              <span class="question-scenario">« Départ pour le travail »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Complétez avec la locution prépositive régissant un infinitif : « Pense à éteindre les lumières ______ de quitter la maison. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q56">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q56.</span>
+              <span class="question-scenario">« Choix d&#x27;une formation »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Choisissez la préposition requise par la construction verbale : « Mon fils a enfin décidé ______ poursuivre des études en informatique. »</p>
+          <div class="options-list">
+            <span class="option-item">a) de</span>
+            <span class="option-item">b) à</span>
+            <span class="option-item">c) pour</span>
+            <span class="option-item">d) par</span>
+          </div>
+        </article>
+        <article class="question-item" id="q57">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q57.</span>
+              <span class="question-scenario">« Origine d&#x27;un vol international »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur de préposition de provenance : « L&#x27;avion en provenance de le Japon atterrira avec vingt minutes d&#x27;avance. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q58">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q58.</span>
+              <span class="question-scenario">« Rendez-vous professionnel »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Traduisez en français en exprimant le délai futur : « The meeting will start in ten minutes. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q59">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q59.</span>
+              <span class="question-scenario">« Passion culturelle »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Complétez avec la préposition régie par le verbe pronominal : « Depuis son enfance, Émilie s&#x27;intéresse beaucoup ______ peinture contemporaine. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q60">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q60.</span>
+              <span class="question-scenario">« Projet de séjour linguistique »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Choisissez la préposition géographique convenable : « Elle a passé trois semaines de stage intensif ______ Iran. »</p>
+          <div class="options-list">
+            <span class="option-item">a) en</span>
+            <span class="option-item">b) au</span>
+            <span class="option-item">c) à l&#x27;</span>
+            <span class="option-item">d) du</span>
+          </div>
+        </article>
+        </div>
+      </section>
+
+      <section class="topic-section">
+        <header class="topic-header">
+          <div class="topic-num">Module 04</div>
+          <h2 class="topic-title">Les Pronoms</h2>
+          <div class="topic-desc">20 questions communicatives • 10 questions A1 + 10 questions A2</div>
+        </header>
+        <div class="questions-list">
+        <article class="question-item" id="q61">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q61.</span>
+              <span class="question-scenario">« Présentation mutuelle »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Complétez avec le pronom tonique approprié : « Qui veut un café ? — ______ ! répond Marc avec enthousiasme. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q62">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q62.</span>
+              <span class="question-scenario">« Au standard téléphonique »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Choisissez le pronom sujet correspondant : « Bonjour, est-ce que ______ pouvez me passer le service comptabilité ? »</p>
+          <div class="options-list">
+            <span class="option-item">a) vous</span>
+            <span class="option-item">b) nous</span>
+            <span class="option-item">c) ils</span>
+            <span class="option-item">d) tu</span>
+          </div>
+        </article>
+        <article class="question-item" id="q63">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q63.</span>
+              <span class="question-scenario">« Discussion à la cafétéria »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur de pronom complément direct : « Tu aimes cette chanson ? — Oui, je l&#x27;aime, je écoute la chanson tous les jours ! » (Remplacez « la chanson » par un pronom COD).</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q64">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q64.</span>
+              <span class="question-scenario">« Organisation d&#x27;un pique-nique »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Traduisez en français en utilisant le pronom « on » : « Tonight, we are eating at the restaurant. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q65">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q65.</span>
+              <span class="question-scenario">« Reconnaissance dans la rue »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Complétez avec le pronom objet direct (COD) : « Ce professeur est remarquable, tous les étudiants ______ respectent beaucoup. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q66">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q66.</span>
+              <span class="question-scenario">« Sortie entre amis »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Choisissez le pronom tonique correct après la préposition « avec » : « Thomas ne vient pas seul au cinéma, sa sœur vient avec ______ . »</p>
+          <div class="options-list">
+            <span class="option-item">a) lui</span>
+            <span class="option-item">b) il</span>
+            <span class="option-item">c) le</span>
+            <span class="option-item">d) se</span>
+          </div>
+        </article>
+        <article class="question-item" id="q67">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q67.</span>
+              <span class="question-scenario">« Au bureau d&#x27;accueil »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Corrigez la place du pronom COD dans la phrase négative : « Je connais ne le pas. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q68">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q68.</span>
+              <span class="question-scenario">« Conversation téléphonique »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Traduisez en français en utilisant un pronom COD : « Do you see these posters? — Yes, I see them. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q69">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q69.</span>
+              <span class="question-scenario">« Au cours de danse »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Complétez avec le pronom tonique qui renforce le sujet : « ______, nous préférons la salsa, mais eux adorent le tango. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q70">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q70.</span>
+              <span class="question-scenario">« Dans une boutique »</span>
+            </div>
+            <span class="badge badge-a1">A1</span>
+          </div>
+          <p class="question-prompt">Choisissez le pronom COD approprié : « Cette robe rouge est magnifique, je ______ prends immédiatement ! »</p>
+          <div class="options-list">
+            <span class="option-item">a) la</span>
+            <span class="option-item">b) le</span>
+            <span class="option-item">c) lui</span>
+            <span class="option-item">d) les</span>
+          </div>
+        </article>
+        <article class="question-item" id="q71">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q71.</span>
+              <span class="question-scenario">« Communication avec la famille »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Complétez avec le pronom objet indirect (COI) : « Quand mes grands-parents sont malades, je ______ téléphone tous les soirs. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q72">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q72.</span>
+              <span class="question-scenario">« Cadeau d&#x27;anniversaire »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Choisissez le pronom COI approprié : « C&#x27;est l&#x27;anniversaire de Julie, qu&#x27;est-ce que tu vas ______ offrir ? »</p>
+          <div class="options-list">
+            <span class="option-item">a) lui</span>
+            <span class="option-item">b) la</span>
+            <span class="option-item">c) le</span>
+            <span class="option-item">d) leur</span>
+          </div>
+        </article>
+        <article class="question-item" id="q73">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q73.</span>
+              <span class="question-scenario">« Visite d&#x27;une ville historique »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Corrigez l&#x27;erreur de pronom relatif : « Voici le guide touristique que nous a accompagnés dans la cathédrale. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q74">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q74.</span>
+              <span class="question-scenario">« Raconter un achat de vêtement »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Traduisez en français en respectant l&#x27;accord du participe passé avec le COD antéposé : « The jacket that she bought is warm. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q75">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q75.</span>
+              <span class="question-scenario">« Au marché aux fruits »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Complétez avec le pronom adverbial exprimant une quantité : « Vous voulez des pommes bio ? — Oui merci, j&#x27;______ prendrai deux kilos. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q76">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q76.</span>
+              <span class="question-scenario">« Projets de voyage »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Choisissez le pronom adverbial de lieu approprié : « Tu es déjà allé en Italie ? — Non, mais je compte ______ aller l&#x27;été prochain. »</p>
+          <div class="options-list">
+            <span class="option-item">a) y</span>
+            <span class="option-item">b) en</span>
+            <span class="option-item">c) le</span>
+            <span class="option-item">d) lui</span>
+          </div>
+        </article>
+        <article class="question-item" id="q77">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q77.</span>
+              <span class="question-scenario">« Raconter une rencontre amicale »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Corrigez la place du pronom complément au passé composé : « Mes amis sont arrivés hier soir et j&#x27;ai les salués chaleureusement. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q78">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q78.</span>
+              <span class="question-scenario">« Description de souvenirs »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Traduisez en français en utilisant le pronom relatif « où » : « It is the village where I spent my holidays. »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q79">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q79.</span>
+              <span class="question-scenario">« Dans un atelier de travail »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Complétez avec le pronom d&#x27;impératif affirmatif : « Donne-______ la clé de douze, s&#x27;il te plaît ! »</p>
+          <div class="response-line"></div>
+        </article>
+        <article class="question-item" id="q80">
+          <div class="question-meta">
+            <div class="question-id-scenario">
+              <span class="question-num">Q80.</span>
+              <span class="question-scenario">« Révélation d&#x27;un secret »</span>
+            </div>
+            <span class="badge badge-a2">A2</span>
+          </div>
+          <p class="question-prompt">Choisissez l&#x27;ordre et la forme des pronoms à l&#x27;impératif négatif : « C&#x27;est une surprise confidentielle, ne ______ ! »</p>
+          <div class="options-list">
+            <span class="option-item">a) la lui dis pas</span>
+            <span class="option-item">b) lui la dis pas</span>
+            <span class="option-item">c) dis-la-lui pas</span>
+            <span class="option-item">d) dis-lui-la pas</span>
+          </div>
+        </article>
+        </div>
+      </section>
+    </main>
+
+    <section class="answer-key-section" id="answer-key">
+      <header class="answer-key-header">
+        <div class="topic-num">Corrigés &amp; Solutions</div>
+        <h2 class="answer-key-title">Corrigés &amp; Explications / Answer Key</h2>
+        <p class="answer-key-subtitle">
+          Solutions complètes et justifications grammaticales synthétiques pour les 80 exercices.
+        </p>
+      </header>
+      <div class="answer-key-grid">
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">1.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">du</span>
+          </div>
+          <div class="ans-exp">— Article partitif masculin singulier : « beurre » est un nom masculin non comptable.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">2.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">c) des</span>
+          </div>
+          <div class="ans-exp">— « Pommes » est un nom pluriel dénombrable, nécessitant l&#x27;article indéfini pluriel « des ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">3.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Je ne prends pas de sucre dans mon café.</span>
+          </div>
+          <div class="ans-exp">— À la forme négative absolue (ne ... pas), les articles partitifs (du, de la, de l&#x27;, des) se transforment en « de » (ou « d&#x27; »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">4.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Marc est architecte à Bordeaux.</span>
+          </div>
+          <div class="ans-exp">— En français, les noms de professions ne prennent pas d&#x27;article après le verbe « être » lorsqu&#x27;ils sont attributs du sujet.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">5.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">mes</span>
+          </div>
+          <div class="ans-exp">— « Livres » est un nom pluriel ; l&#x27;adjectif possessif de la 1re personne est « mes ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">6.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">a) ce</span>
+          </div>
+          <div class="ans-exp">— « Manteau » est un nom masculin singulier commençant par une consonne, on utilise « ce ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">7.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Le serveur apporte la carte au client.</span>
+          </div>
+          <div class="ans-exp">— La préposition « à » se contracte obligatoirement avec l&#x27;article défini masculin « le » pour donner « au ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">8.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Nous visitons la tour Eiffel aujourd&#x27;hui.</span>
+          </div>
+          <div class="ans-exp">— « Tour Eiffel » est féminin singulier (« la tour Eiffel ») ; article défini pour une entité unique.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">9.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">de l&#x27;</span>
+          </div>
+          <div class="ans-exp">— « Huile » est un nom féminin commençant par un « h » muet ; l&#x27;article partitif s&#x27;élide en « de l&#x27; ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">10.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">b) de la</span>
+          </div>
+          <div class="ans-exp">— « Chambre » est un nom féminin singulier ; la préposition « de » ne se contracte pas avec « la » (« de la chambre »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">11.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">le</span>
+          </div>
+          <div class="ans-exp">— Les verbes d&#x27;appréciation (préférer, aimer, adorer, détester) s&#x27;emploient toujours avec l&#x27;article défini (le, la, les).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">12.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">a) de</span>
+          </div>
+          <div class="ans-exp">— Après un adverbe de quantité comme « beaucoup », « trop » ou « peu », on utilise simplement « de » (ou « d&#x27; » devant voyelle).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">13.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">C&#x27;est mon amie québécoise que j&#x27;attends à la gare.</span>
+          </div>
+          <div class="ans-exp">— Devant un nom féminin singulier commençant par une voyelle ou un h muet (« amie »), on utilise « mon », « ton », « son » au lieu de « ma », « ta », « sa » pour éviter le hiatus sonore.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">14.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">Elle n&#x27;a pas de patience ce matin.</span>
+          </div>
+          <div class="ans-exp">— À la forme négative (« ne ... pas »), l&#x27;article partitif (« de la patience ») devient « de » (« pas de patience »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">15.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">Cet</span>
+          </div>
+          <div class="ans-exp">— « Imperméable » est un nom masculin singulier commençant par une voyelle ; on emploie « cet » pour des raisons phonétiques.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">16.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">b) de</span>
+          </div>
+          <div class="ans-exp">— En français soigné, l&#x27;article indéfini pluriel « des » devient « de » (ou « d&#x27; ») lorsqu&#x27;il précède immédiatement un adjectif qualificatif pluriel placé avant le nom.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">17.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">Mon frère habite au Mexique depuis trois ans.</span>
+          </div>
+          <div class="ans-exp">— « Mexique » est un nom de pays masculin singulier qui commence par une consonne ; on emploie « au » (contraction de « à + le »), et non « aux ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">18.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">Cet appartement a de grandes fenêtres et une belle vue.</span>
+          </div>
+          <div class="ans-exp">— « Appartement » est masculin commençant par une voyelle (« cet ») ; « de grandes fenêtres » utilise « de » devant l&#x27;adjectif pluriel « grandes ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">19.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">de la</span>
+          </div>
+          <div class="ans-exp">— L&#x27;expression « faire + article partitif » s&#x27;emploie pour les sports et activités ; « natation » est féminin singulier (« de la natation »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">20.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">a) ci / là</span>
+          </div>
+          <div class="ans-exp">— Les suffixes « -ci » (proximité) et « -là » (éloignement ou distinction) s&#x27;attachent au nom précédé d&#x27;un adjectif démonstratif.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">21.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">habitons</span>
+          </div>
+          <div class="ans-exp">— Au présent de l&#x27;indicatif, la terminaison des verbes réguliers du premier groupe (-er) avec le pronom sujet « nous » est « -ons ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">22.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">a) êtes</span>
+          </div>
+          <div class="ans-exp">— La forme du verbe irrégulier « être » à la 2e personne du pluriel (ou de politesse) au présent est « vous êtes ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">23.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Les clients prennent une carafe d&#x27;eau fraîche.</span>
+          </div>
+          <div class="ans-exp">— Au présent de l&#x27;indicatif, la 3e personne du pluriel du verbe irrégulier « prendre » double le « n » : « ils/elles prennent ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">24.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Nous allons regarder un film ce soir.</span>
+          </div>
+          <div class="ans-exp">— Le futur proche se forme avec le verbe « aller » conjugué au présent (« allons ») suivi de l&#x27;infinitif (« regarder »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">25.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">finissent</span>
+          </div>
+          <div class="ans-exp">— Pour les verbes réguliers du 2e groupe (-ir avec participe présent en -issant), la terminaison à la 3e personne du pluriel est « -issent ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">26.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">a) peux</span>
+          </div>
+          <div class="ans-exp">— La conjugaison du verbe irrégulier « pouvoir » avec « tu » au présent de l&#x27;indicatif est « tu peux ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">27.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Mange plus de légumes tous les jours !</span>
+          </div>
+          <div class="ans-exp">— À l&#x27;impératif présent, les verbes du premier groupe en -er ne prennent pas de « s » à la 2e personne du singulier (tu) : « Mange ! ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">28.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Elle fait ses devoirs à six heures.</span>
+          </div>
+          <div class="ans-exp">— Le verbe « faire » à la 3e personne du singulier au présent est « elle fait ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">29.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">viennent</span>
+          </div>
+          <div class="ans-exp">— La 3e personne du pluriel du verbe irrégulier « venir » au présent de l&#x27;indicatif est « viennent ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">30.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">a) avons</span>
+          </div>
+          <div class="ans-exp">— L&#x27;expression de la faim utilise le verbe « avoir » : avec « nous », la forme est « nous avons ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">31.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">sont arrivées</span>
+          </div>
+          <div class="ans-exp">— Le verbe de mouvement « arriver » se conjugue avec l&#x27;auxiliaire « être » au passé composé ; le participe s&#x27;accorde en genre et en nombre avec le sujet féminin pluriel (« arrivées »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">32.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">a) a lu</span>
+          </div>
+          <div class="ans-exp">— Le verbe « lire » utilise l&#x27;auxiliaire « avoir » au passé composé et son participe passé irrégulier est « lu ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">33.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">Ce matin, Marie s&#x27;est réveillée à sept heures pile.</span>
+          </div>
+          <div class="ans-exp">— Avec les verbes pronominaux au passé composé, le participe passé s&#x27;accorde avec le pronom réfléchi COD placé avant le verbe (ici « s&#x27; » renvoie à Marie, féminin singulier : « réveillée »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">34.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">Quand j&#x27;étais jeune, j&#x27;habitais dans une grande maison à la campagne.</span>
+          </div>
+          <div class="ans-exp">— L&#x27;imparfait (« étais », « habitais ») est le temps de la description et de l&#x27;état continu dans le passé.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">35.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">marchions</span>
+          </div>
+          <div class="ans-exp">— L&#x27;imparfait exprime une action en cours d&#x27;accomplissement (« marchions ») en arrière-plan lorsqu&#x27;un événement ponctuel survient au passé composé (« a éclaté »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">36.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">a) voudrais</span>
+          </div>
+          <div class="ans-exp">— « Je voudrais » est le conditionnel de politesse standard du verbe « vouloir » pour formuler une demande avec courtoisie.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">37.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">Ils ont descendu les valises au rez-de-chaussée.</span>
+          </div>
+          <div class="ans-exp">— Quand « descendre » a un complément d&#x27;objet direct (« les valises »), il se conjugue avec l&#x27;auxiliaire « avoir », et le participe ne s&#x27;accorde pas avec le sujet.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">38.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">Le train vient d&#x27;arriver à la gare.</span>
+          </div>
+          <div class="ans-exp">— Le passé récent se forme avec le verbe « venir » au présent + « de » (ou « d&#x27; » devant voyelle) + infinitif.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">39.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">ont bu</span>
+          </div>
+          <div class="ans-exp">— Le verbe « boire » se conjugue avec l&#x27;auxiliaire « avoir » au passé composé et son participe passé irrégulier est « bu ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">40.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">a) faisait</span>
+          </div>
+          <div class="ans-exp">— Pour décrire les circonstances météorologiques et l&#x27;atmosphère en arrière-plan dans le passé, on emploie l&#x27;imparfait (« il faisait »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">41.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">sur</span>
+          </div>
+          <div class="ans-exp">— La préposition « sur » indique la position sur une surface horizontale supérieure.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">42.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">a) à</span>
+          </div>
+          <div class="ans-exp">— Pour les moyens de transport sur lesquels on monte (vélo, moto, cheval, pied), on utilise traditionnellement la préposition « à » (« à vélo »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">43.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Demain après-midi, nous allons à Marseille pour un festival.</span>
+          </div>
+          <div class="ans-exp">— Devant un nom de ville, on emploie toujours la préposition « à » (« à Marseille »), jamais « en ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">44.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">La poubelle est sous le bureau.</span>
+          </div>
+          <div class="ans-exp">— La préposition spatiale « sous » exprime une position inférieure ou abritée.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">45.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">du</span>
+          </div>
+          <div class="ans-exp">— La locution « à côté de » se contracte obligatoirement avec l&#x27;article défini masculin « le » (« à côté de + le = à côté du »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">46.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">a) en</span>
+          </div>
+          <div class="ans-exp">— Pour les véhicules fermés dans lesquels on entre (voiture, train, avion, bus), on utilise la préposition « en » (« en train »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">47.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Le cours de grammaire commence à 14 heures précises.</span>
+          </div>
+          <div class="ans-exp">— Pour indiquer une heure précise sur l&#x27;horloge, on emploie la préposition « à » (« à 14 heures »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">48.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Paul va chez le médecin ce matin.</span>
+          </div>
+          <div class="ans-exp">— Devant un nom ou titre de personne désignant un professionnel ou son lieu de travail, on emploie la préposition « chez ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">49.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">devant</span>
+          </div>
+          <div class="ans-exp">— « Devant » situe un élément en face ou à l&#x27;avant d&#x27;un autre repère spatial.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">50.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">a) en</span>
+          </div>
+          <div class="ans-exp">— Devant les noms de saisons commençant par une voyelle (été, automne, hiver), on emploie « en » (« en été ») ; seul le printemps prend « au » (« au printemps »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">51.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">au</span>
+          </div>
+          <div class="ans-exp">— « Canada » est un nom de pays masculin singulier commençant par une consonne ; on emploie la préposition contractée « au » (à + le).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">52.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">a) depuis</span>
+          </div>
+          <div class="ans-exp">— « Depuis » s&#x27;utilise avec un verbe au présent pour exprimer une action qui a débuté dans le passé et qui se poursuit dans le présent.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">53.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">En juillet prochain, nous partons en vacances aux États-Unis.</span>
+          </div>
+          <div class="ans-exp">— Devant les noms de pays au pluriel (comme « États-Unis » ou « Pays-Bas »), on emploie obligatoirement la préposition contractée « aux ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">54.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">Nous avons vécu au Sénégal pendant deux ans.</span>
+          </div>
+          <div class="ans-exp">— « Pendant » indique la durée d&#x27;une action complètement terminée dans le passé (avec un verbe au passé composé).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">55.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">avant</span>
+          </div>
+          <div class="ans-exp">— La locution « avant de + infinitif » exprime l&#x27;antériorité par rapport à une autre action.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">56.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">a) de</span>
+          </div>
+          <div class="ans-exp">— Le verbe « décider » suivi d&#x27;un infinitif se construit avec la préposition « de » (« décider de faire quelque chose »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">57.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">L&#x27;avion en provenance du Japon atterrira avec vingt minutes d&#x27;avance.</span>
+          </div>
+          <div class="ans-exp">— La préposition de provenance « de » se contracte avec l&#x27;article défini masculin « le » devant un pays masculin (« de + le Japon = du Japon »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">58.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">La réunion va commencer dans dix minutes.</span>
+          </div>
+          <div class="ans-exp">— La préposition temporelle « dans » suivie d&#x27;une durée indique le moment où une action future va débuter.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">59.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">à la</span>
+          </div>
+          <div class="ans-exp">— Le verbe « s&#x27;intéresser » se construit avec la préposition « à » (« s&#x27;intéresser à quelque chose ») ; devant un nom féminin singulier : « à la ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">60.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">a) en</span>
+          </div>
+          <div class="ans-exp">— Devant un nom de pays masculin singulier commençant par une voyelle (« Iran »), on emploie la préposition « en » pour faciliter la liaison.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">61.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Moi</span>
+          </div>
+          <div class="ans-exp">— Le pronom tonique de la première personne du singulier est « moi », utilisé isolément ou pour renforcer le sujet.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">62.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">a) vous</span>
+          </div>
+          <div class="ans-exp">— La forme verbale « pouvez » s&#x27;accorde obligatoirement avec le pronom sujet de 2e personne du pluriel ou de politesse « vous ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">63.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Oui, je l&#x27;aime, je l&#x27;écoute tous les jours !</span>
+          </div>
+          <div class="ans-exp">— Le pronom COD remplace le nom féminin « la chanson » ; placé devant la voyelle « é », « la » s&#x27;élide en « l&#x27; » (« je l&#x27;écoute »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">64.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Ce soir, on mange au restaurant.</span>
+          </div>
+          <div class="ans-exp">— Dans le langage courant, le pronom indéfini « on » remplace fréquemment « nous » et se conjugue toujours à la 3e personne du singulier.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">65.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">le</span>
+          </div>
+          <div class="ans-exp">— « Ce professeur » est un nom masculin singulier ; le pronom COD qui le remplace devant une consonne est « le ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">66.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">a) lui</span>
+          </div>
+          <div class="ans-exp">— Après une préposition comme « avec », « pour » ou « chez », on emploie la forme tonique masculine singulière « lui ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">67.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Je ne le connais pas.</span>
+          </div>
+          <div class="ans-exp">— À la forme négative, le pronom complément direct se place immédiatement entre la négation « ne » et le verbe conjugué (« ne le connais pas »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">68.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Tu vois ces affiches ? — Oui, je les vois.</span>
+          </div>
+          <div class="ans-exp">— Le pronom complément d&#x27;objet direct pluriel est « les », placé devant le verbe conjugué.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">69.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">Nous</span>
+          </div>
+          <div class="ans-exp">— Le pronom tonique correspondant à « nous » est également « nous », utilisé en tête de phrase pour marquer le contraste.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">70.</span>
+            <span class="ans-badge ans-badge-a1">A1</span>
+            <span class="ans-val">a) la</span>
+          </div>
+          <div class="ans-exp">— « Cette robe rouge » est féminin singulier ; le pronom complément d&#x27;objet direct correspondant est « la ».</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">71.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">leur</span>
+          </div>
+          <div class="ans-exp">— Le verbe « téléphoner à quelqu&#x27;un » exige un complément indirect (COI) ; pour un pluriel animé, le pronom COI est « leur » (invariable).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">72.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">a) lui</span>
+          </div>
+          <div class="ans-exp">— « Offrir quelque chose à quelqu&#x27;un » prend un pronom COI singulier (« lui »), valable aussi bien pour le masculin que pour le féminin.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">73.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">Voici le guide touristique qui nous a accompagnés dans la cathédrale.</span>
+          </div>
+          <div class="ans-exp">— « Qui » est pronom relatif sujet du verbe suivant (« a accompagnés »), tandis que « que » est réservé au complément d&#x27;objet direct.</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">74.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">La veste qu&#x27;elle a achetée est chaude.</span>
+          </div>
+          <div class="ans-exp">— Le pronom relatif COD « qu&#x27; » a pour antécédent le nom féminin « la veste » ; le participe passé conjugué avec « avoir » s&#x27;accorde donc au féminin singulier (« achetée »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">75.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">en</span>
+          </div>
+          <div class="ans-exp">— Le pronom adverbial « en » remplace un nom introduit par un article partitif ou indéfini pour exprimer une quantité mesurée (« deux kilos de pommes »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">76.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">a) y</span>
+          </div>
+          <div class="ans-exp">— Le pronom adverbial « y » remplace un complément de lieu introduit par une préposition (« en Italie »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">77.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">Mes amis sont arrivés hier soir et je les ai salués chaleureusement.</span>
+          </div>
+          <div class="ans-exp">— Aux temps composés comme le passé composé, le pronom objet se place immédiatement devant l&#x27;auxiliaire conjugué (« je les ai salués »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">78.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">C&#x27;est le village où j&#x27;ai passé mes vacances.</span>
+          </div>
+          <div class="ans-exp">— Le pronom relatif « où » remplace un complément circonstanciel de lieu (« dans ce village »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">79.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">moi</span>
+          </div>
+          <div class="ans-exp">— À l&#x27;impératif affirmatif, le pronom objet « me » devient tonique « moi » et se rattache au verbe par un trait d&#x27;union (« Donne-moi »).</div>
+        </div>
+        <div class="answer-item">
+          <div class="ans-header">
+            <span class="ans-num">80.</span>
+            <span class="ans-badge ans-badge-a2">A2</span>
+            <span class="ans-val">a) la lui dis pas</span>
+          </div>
+          <div class="ans-exp">— À l&#x27;impératif négatif, les pronoms suivent l&#x27;ordre habituel avant le verbe : direct (la) puis indirect (lui) : « ne la lui dis pas ».</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
