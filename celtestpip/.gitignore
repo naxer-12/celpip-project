@@ -1,0 +1,9 @@
+data/celtestpip.db
+data/raw/
+data/media/audio/*.mp3
+data/media/audio/*.wav
+data/media/images/*.jpg
+data/media/images/*.png
+__pycache__/
+*.pyc
+.pytest_cache/
