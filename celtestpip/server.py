@@ -1,6 +1,7 @@
 import uvicorn
 import os
 import sys
+import argparse
 
 # Ensure root directory and celtestpip are in sys.path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -11,5 +12,10 @@ if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
 if __name__ == "__main__":
-    print("Starting CELTESTPIP Local Replica Server on http://localhost:8000 ...")
-    uvicorn.run("celtestpip.server.app:app", host="0.0.0.0", port=8000, reload=True)
+    parser = argparse.ArgumentParser(description="CELTESTPIP Local Replica Server")
+    parser.add_argument("--port", type=int, default=int(os.environ.get("PORT", 8001)), help="Port to run server on")
+    parser.add_argument("--host", type=str, default="0.0.0.0", help="Host interface")
+    args = parser.parse_args()
+
+    print(f"Starting CELTESTPIP Local Replica Server on http://localhost:{args.port} ...")
+    uvicorn.run("celtestpip.server.app:app", host=args.host, port=args.port, reload=False)
