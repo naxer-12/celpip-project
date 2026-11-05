@@ -102,6 +102,8 @@ def insert_exam_part(db_path: str, data: Dict[str, Any], media_map: Optional[Dic
         json.dumps(data.get("transcripts", []))
     ))
     
+    cur.execute("DELETE FROM fts_questions WHERE part_id = ?", (part_id,))
+
     for q in data.get("questions", []):
         raw_qa = q.get("audio_url")
         qa = media_map.get(raw_qa, raw_qa) if raw_qa else None

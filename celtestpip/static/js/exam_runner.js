@@ -1,4 +1,15 @@
 // celtestpip/static/js/exam_runner.js
+
+function escapeHtml(str) {
+  if (str === null || str === undefined) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   const parts = window.location.pathname.split("/").filter(Boolean);
   const examId = parts[1] || "exam1";
@@ -60,18 +71,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const qContainer = document.getElementById("questionsContainer");
     qContainer.innerHTML = (data.questions || []).map((q, idx) => `
       <div class="question-block" data-qid="${q.id}" data-answer="${q.correct_answer}">
-        <p style="font-weight:600;">Question ${idx + 1}: ${q.question_text}</p>
+        <p style="font-weight:600;">Question ${idx + 1}: ${escapeHtml(q.question_text)}</p>
         ${q.audio_url ? `<audio controls src="${q.audio_url}" style="margin:0.5rem 0; width:100%;"></audio>` : ""}
         <div class="options-list">
           ${q.options.map((opt, oIdx) => `
             <label class="opt-label">
               <input type="radio" name="q_${q.id}" value="${oIdx + 1}">
-              <span>${opt}</span>
+              <span>${escapeHtml(opt)}</span>
             </label>
           `).join("")}
         </div>
         <div class="explanation-box" id="exp_${q.id}">
-          <strong>Explanation:</strong> ${q.explanation || "No explanation provided."}
+          <strong>Explanation:</strong> ${escapeHtml(q.explanation || "No explanation provided.")}
         </div>
       </div>
     `).join("");

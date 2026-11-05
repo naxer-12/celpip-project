@@ -97,6 +97,13 @@ def test_database_with_media_map_and_fts(tmp_path):
     fts_rows = cur.fetchall()
     assert len(fts_rows) == 1
     assert fts_rows[0]["part_id"] == "exam2_part2"
+
+    # Test idempotency (re-insert should not duplicate FTS rows)
+    insert_exam_part(db_path, sample_part, media_map=media_map)
+    cur.execute("SELECT part_id, question_text FROM fts_questions WHERE fts_questions MATCH 'package'")
+    fts_rows_after = cur.fetchall()
+    assert len(fts_rows_after) == 1
+
     conn.close()
 
 def test_build_db_pipeline(tmp_path):

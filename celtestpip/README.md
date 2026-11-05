@@ -21,7 +21,7 @@ celtestpip/
 │   ├── crawl_content.py      # Informational pages & sitemap crawler
 │   ├── crawl_exams.py        # Next.js RSC flight payload crawler
 │   ├── download_media.py     # Concurrent audio and image asset downloader
-│   ├── parser.py             # Next.js RSC parser extracting exam questions & transcripts
+│   ├── rsc_parser.py         # Next.js RSC parser extracting exam questions & transcripts
 │   └── run_crawler.py        # Unified CLI entrypoint with concurrency controls
 ├── data/                     # Offline storage
 │   ├── raw/                  # Downloaded raw JSON parts & page caches
@@ -65,22 +65,20 @@ python -m celtestpip.crawler.run_crawler --limit 5
 python -m celtestpip.crawler.run_crawler --all
 
 # Optional: Crawl specific components independently
-python -m celtestpip.crawler.run_crawler --exams-only --limit 10
-python -m celtestpip.crawler.run_crawler --media-only
-python -m celtestpip.crawler.run_crawler --pages-only
+python -m celtestpip.crawler.run_crawler --exams --limit 10
+python -m celtestpip.crawler.run_crawler --media
+python -m celtestpip.crawler.run_crawler --content
 ```
 
 #### Crawler CLI Options
 
 | Flag | Description | Default |
 |---|---|---|
-| `--all` | Execute all pipeline stages (exams, pages, media) | `False` |
-| `--limit N` | Maximum number of exams to crawl | All (60) |
-| `--exams-only` | Run only the Next.js RSC exam crawler | `False` |
-| `--media-only` | Run only media asset downloading | `False` |
-| `--pages-only` | Run only informational sitemap page crawler | `False` |
-| `--workers N` | Number of concurrent download workers | `5` |
-| `--rate-limit S`| Delay between requests in seconds | `0.2` |
+| `--all` | Execute all pipeline stages (exams, content, media) | `False` (defaults to `True` if no flags specified) |
+| `--limit N` | Maximum number of exams to crawl | `60` |
+| `--exams` | Crawl exams | `False` |
+| `--content` | Crawl sitemap pages | `False` |
+| `--media` | Download media assets | `False` |
 
 ### 3. Build SQLite Database
 

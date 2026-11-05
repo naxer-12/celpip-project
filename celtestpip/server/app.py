@@ -1,6 +1,7 @@
 import os
 import json
 import sqlite3
+from contextlib import asynccontextmanager
 from typing import Dict, Any, Optional
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
@@ -11,7 +12,27 @@ from pydantic import BaseModel
 from celtestpip.server.database import get_db_connection, init_db
 from celtestpip.server.scoring import raw_score_to_clb
 
-app = FastAPI(title="CELTESTPIP Local Replica", description="Offline CELPIP Practice & Mock Exam Simulator")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_DIR = os.path.join(BASE_DIR, "static")
+MEDIA_DIR = os.path.join(BASE_DIR, "data", "media")
+DB_PATH = os.environ.get("CELTESTPIP_DB_PATH", os.path.join(BASE_DIR, "data", "celtestpip.db"))
+
+def ensure_db():
+    if not os.path.exists(DB_PATH):
+        init_db(DB_PATH)
+
+ensure_db()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    ensure_db()
+    yield
+
+app = FastAPI(
+    title="CELTESTPIP Local Replica",
+    description="Offline CELPIP Practice & Mock Exam Simulator",
+    lifespan=lifespan,
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -20,11 +41,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_DIR = os.path.join(BASE_DIR, "static")
-MEDIA_DIR = os.path.join(BASE_DIR, "data", "media")
-DB_PATH = os.environ.get("CELTESTPIP_DB_PATH", os.path.join(BASE_DIR, "data", "celtestpip.db"))
 
 # Static mounting
 os.makedirs(STATIC_DIR, exist_ok=True)
@@ -39,16 +55,6 @@ class AttemptSubmission(BaseModel):
     score: int
     total_questions: int
     clb_estimate: Optional[int] = None
-
-def ensure_db():
-    if not os.path.exists(DB_PATH):
-        init_db(DB_PATH)
-
-ensure_db()
-
-@app.on_event("startup")
-def startup():
-    ensure_db()
 
 @app.get("/api/exams")
 def get_all_exams():

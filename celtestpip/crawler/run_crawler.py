@@ -6,7 +6,7 @@ import os
 import sys
 
 from celtestpip.crawler.crawl_exams import ExamCrawler
-from celtestpip.crawler.crawl_content import parse_sitemap_urls, extract_page_content
+from celtestpip.crawler.crawl_content import parse_sitemap_urls
 from celtestpip.crawler.download_media import scan_media_urls, download_all_media
 import httpx
 
