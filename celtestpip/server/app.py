@@ -45,8 +45,34 @@ app.add_middleware(
 # Static mounting
 os.makedirs(STATIC_DIR, exist_ok=True)
 os.makedirs(MEDIA_DIR, exist_ok=True)
+CURSORS_DIR = os.path.join(STATIC_DIR, "cursors")
+os.makedirs(CURSORS_DIR, exist_ok=True)
+
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 app.mount("/media", StaticFiles(directory=MEDIA_DIR), name="media")
+app.mount("/cursors", StaticFiles(directory=CURSORS_DIR), name="cursors")
+
+@app.get("/favicon.ico")
+def get_favicon():
+    fav = os.path.join(STATIC_DIR, "img", "favicon.ico")
+    if os.path.exists(fav):
+        return FileResponse(fav)
+    raise HTTPException(status_code=404)
+
+@app.get("/logo.png")
+def get_logo():
+    logo = os.path.join(STATIC_DIR, "img", "logo.png")
+    if os.path.exists(logo):
+        return FileResponse(logo)
+    raise HTTPException(status_code=404)
+
+@app.get("/_next/image")
+def get_next_image(url: str = "/logo.png"):
+    if "logo" in url:
+        return FileResponse(os.path.join(STATIC_DIR, "img", "logo.png"))
+    if "icon" in url:
+        return FileResponse(os.path.join(STATIC_DIR, "img", "icon.png"))
+    return FileResponse(os.path.join(STATIC_DIR, "img", "logo.png"))
 
 class AttemptSubmission(BaseModel):
     exam_id: str
@@ -132,6 +158,22 @@ def index_page():
         with open(index_html, "r", encoding="utf-8") as f:
             return f.read()
     return "<h1>CELTESTPIP Local Server Running</h1><p>Frontend template ready at /static/index.html</p>"
+
+@app.get("/exams", response_class=HTMLResponse)
+def exams_catalog_page():
+    exams_html = os.path.join(STATIC_DIR, "exams.html")
+    if os.path.exists(exams_html):
+        with open(exams_html, "r", encoding="utf-8") as f:
+            return f.read()
+    return "<h1>CELTESTPIP Exams Catalog</h1>"
+
+@app.get("/exams/{exam_id}", response_class=HTMLResponse)
+def exam_landing_page(exam_id: str):
+    return exam_page(exam_id, 1)
+
+@app.get("/exams/{exam_id}/part{part_number}", response_class=HTMLResponse)
+def exam_page_slug(exam_id: str, part_number: int):
+    return exam_page(exam_id, part_number)
 
 @app.get("/exams/{exam_id}/part/{part_number}", response_class=HTMLResponse)
 def exam_page(exam_id: str, part_number: int):

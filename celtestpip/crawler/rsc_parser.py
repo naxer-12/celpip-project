@@ -5,21 +5,23 @@ from typing import Dict, Any, List, Optional
 
 def extract_json_blobs(text: str) -> List[Any]:
     blobs = []
-    # Pattern to match lines like: id:[...] or id:{...}
-    # where id is hex or alphanumeric
-    for line in text.split("\n"):
-        line = line.strip()
-        if not line:
-            continue
-        colon_idx = line.find(":")
-        if colon_idx != -1 and line[:colon_idx].replace("_", "").isalnum():
-            candidate = line[colon_idx + 1:].strip()
-            if candidate.startswith(("{", "[")):
-                try:
-                    obj = json.loads(candidate)
-                    blobs.append(obj)
-                except Exception:
-                    pass
+    decoder = json.JSONDecoder()
+    pos = 0
+    length = len(text)
+    
+    while pos < length:
+        idx1 = text.find('[', pos)
+        idx2 = text.find('{', pos)
+        if idx1 == -1 and idx2 == -1:
+            break
+        start = idx1 if idx2 == -1 else (idx2 if idx1 == -1 else min(idx1, idx2))
+        try:
+            obj, end = decoder.raw_decode(text, start)
+            blobs.append(obj)
+            pos = max(end, start + 1)
+        except Exception:
+            pos = start + 1
+            
     return blobs
 
 
@@ -47,18 +49,26 @@ def parse_exam_rsc(rsc_text: str) -> Optional[Dict[str, Any]]:
     
     # Locate questions
     question_candidates = []
+    def _find_q(obj):
+        res = []
+        if isinstance(obj, dict):
+            if "option1" in obj or ("type" in obj and obj.get("type") == "question"):
+                res.append(obj)
+            for v in obj.values():
+                res.extend(_find_q(v))
+        elif isinstance(obj, list):
+            for item in obj:
+                res.extend(_find_q(item))
+        return res
+
     for b in blobs:
         # Check direct questions list or walk
         qs = _walk_for_key(b, "questions")
         if qs and isinstance(qs[0], list):
             question_candidates.extend(qs[0])
-        # Also check elements with "type": "question"
-        if isinstance(b, list):
-            for item in b:
-                if isinstance(item, dict) and item.get("type") == "question":
-                    question_candidates.append(item)
+        question_candidates.extend(_find_q(b))
     
-    # Deduplicate questions by ID or number
+    # Deduplicate questions by ID or text/options
     questions = []
     seen_q_ids = set()
     for qc in question_candidates:
@@ -67,10 +77,6 @@ def parse_exam_rsc(rsc_text: str) -> Optional[Dict[str, Any]]:
         content = qc.get("content", qc)
         if not isinstance(content, dict):
             continue
-        qid = content.get("id") or str(qc.get("questionNumber"))
-        if qid in seen_q_ids:
-            continue
-        seen_q_ids.add(qid)
         
         # Build options list
         options = []
@@ -79,11 +85,21 @@ def parse_exam_rsc(rsc_text: str) -> Optional[Dict[str, Any]]:
             if opt:
                 options.append(str(opt).strip())
                 
+        q_text = content.get("question", "")
+        if not q_text and not options:
+            continue
+
+        qid = content.get("id") or str(qc.get("questionNumber")) or f"q_{len(questions)+1}"
+        dedup_key = qid if content.get("id") else f"{q_text}_{options[:1]}"
+        if dedup_key in seen_q_ids:
+            continue
+        seen_q_ids.add(dedup_key)
+        
         questions.append({
             "id": qid,
             "question_number": qc.get("questionNumber", len(questions) + 1),
             "priority": content.get("priority", 0),
-            "question_text": content.get("question", ""),
+            "question_text": q_text,
             "audio_url": content.get("audio"),
             "options": options,
             "correct_answer": str(content.get("answer", "")),
