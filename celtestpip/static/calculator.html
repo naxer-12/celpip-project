@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CELPIP to CLB Score Calculator</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    .calc-card { background: #fff; padding: 2rem; border-radius: 12px; border: 1px solid var(--border-subtle); max-width: 600px; margin: 2rem auto; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+    .form-group input { width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; }
+    .result-badge { font-size: 2rem; font-weight: 700; color: #0284c7; text-align: center; margin-top: 1.5rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="brand">CELTESTPIP</a>
+    <nav><a href="/">Mock Exams</a><a href="/tools/clb-calculator" class="active">CLB Calculator</a></nav>
+  </header>
+  <main class="container">
+    <div class="calc-card">
+      <h2>CELPIP Raw Score to CLB Converter</h2>
+      <div class="form-group">
+        <label>Skill Type:</label>
+        <select id="skillSelect" style="width:100%; padding:0.75rem; border-radius:8px; border:1px solid #cbd5e1;">
+          <option value="LISTENING">Listening (out of 38)</option>
+          <option value="READING">Reading (out of 38)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Raw Score (0–38):</label>
+        <input type="number" id="rawScore" min="0" max="38" value="30">
+      </div>
+      <button class="btn btn-primary" id="calcBtn" style="width:100%;">Calculate CLB Level</button>
+      <div class="result-badge" id="clbResult">CLB 9</div>
+    </div>
+  </main>
+  <script src="/static/js/calculator.js"></script>
+</body>
+</html>
