@@ -43,6 +43,7 @@ def parse_exam_rsc(rsc_text: str) -> Optional[Dict[str, Any]]:
     practice_objs = []
     for b in blobs:
         practice_objs.extend(_walk_for_key(b, "practice"))
+    practice_objs = [p for p in practice_objs if isinstance(p, dict)]
     
     # Locate questions
     question_candidates = []
@@ -61,7 +62,11 @@ def parse_exam_rsc(rsc_text: str) -> Optional[Dict[str, Any]]:
     questions = []
     seen_q_ids = set()
     for qc in question_candidates:
+        if not isinstance(qc, dict):
+            continue
         content = qc.get("content", qc)
+        if not isinstance(content, dict):
+            continue
         qid = content.get("id") or str(qc.get("questionNumber"))
         if qid in seen_q_ids:
             continue
@@ -103,7 +108,9 @@ def parse_exam_rsc(rsc_text: str) -> Optional[Dict[str, Any]]:
             exam_id = eids[0]
         pnums = _walk_for_key(b, "partNumber")
         if pnums:
-            part_number = int(pnums[0])
+            digits = re.search(r'\d+', str(pnums[0]))
+            if digits:
+                part_number = int(digits.group())
             
     if practice_objs:
         p = practice_objs[0]
