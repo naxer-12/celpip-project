@@ -3,6 +3,64 @@ import json
 from typing import Dict, Any, List, Optional
 
 
+def parse_all_rsc_chunks(stream: str) -> Dict[str, Any]:
+    chunks = {}
+    stream_bytes = stream.encode("utf-8") if isinstance(stream, str) else stream
+    pos = 0
+    length = len(stream_bytes)
+    decoder = json.JSONDecoder()
+    while pos < length:
+        while pos < length and stream_bytes[pos:pos+1] in (b"\r", b"\n"):
+            pos += 1
+        if pos >= length:
+            break
+        colon_idx = stream_bytes.find(b":", pos)
+        if colon_idx == -1:
+            break
+        chunk_id = stream_bytes[pos:colon_idx].decode("ascii", errors="ignore")
+        if not re.match(r"^[0-9a-fA-F]+$", chunk_id):
+            next_nl = stream_bytes.find(b"\n", pos)
+            if next_nl == -1:
+                break
+            pos = next_nl + 1
+            continue
+        pos = colon_idx + 1
+        if pos < length and stream_bytes[pos:pos+1] == b"T":
+            comma_idx = stream_bytes.find(b",", pos)
+            if comma_idx == -1:
+                break
+            hex_len = stream_bytes[pos+1:comma_idx].decode("ascii", errors="ignore")
+            try:
+                byte_len = int(hex_len, 16)
+            except ValueError:
+                next_nl = stream_bytes.find(b"\n", pos)
+                if next_nl == -1:
+                    break
+                pos = next_nl + 1
+                continue
+            val_start = comma_idx + 1
+            next_nl = stream_bytes.find(b"\n", val_start)
+            if next_nl != -1 and byte_len < (next_nl - val_start):
+                line_part = stream_bytes[val_start:next_nl]
+                if any(m in line_part for m in [b"WOMAN:", b"MAN:", b"Speaker:"]):
+                    byte_len = next_nl - val_start
+            val_end = val_start + byte_len
+            chunks[chunk_id] = stream_bytes[val_start:val_end].decode("utf-8", errors="replace").strip("\r\n")
+            pos = val_end
+        else:
+            try:
+                text_slice = stream_bytes[pos:].decode("utf-8")
+                obj, end = decoder.raw_decode(text_slice)
+                chunks[chunk_id] = obj
+                pos += len(text_slice[:end].encode("utf-8"))
+            except Exception:
+                next_nl = stream_bytes.find(b"\n", pos)
+                if next_nl == -1:
+                    break
+                pos = next_nl + 1
+    return chunks
+
+
 def extract_json_blobs(text: str) -> List[Any]:
     blobs = []
     decoder = json.JSONDecoder()
@@ -39,6 +97,15 @@ def _walk_for_key(obj: Any, key: str) -> List[Any]:
 
 
 def parse_exam_rsc(rsc_text: str) -> Optional[Dict[str, Any]]:
+    chunks = parse_all_rsc_chunks(rsc_text)
+
+    def resolve_val(val: Any) -> Any:
+        if isinstance(val, str) and val.startswith("$"):
+            k = val[1:]
+            if k in chunks:
+                return resolve_val(chunks[k])
+        return val
+
     blobs = extract_json_blobs(rsc_text)
     
     # Locate practice object
@@ -83,9 +150,9 @@ def parse_exam_rsc(rsc_text: str) -> Optional[Dict[str, Any]]:
         for i in range(1, 9):
             opt = content.get(f"option{i}")
             if opt:
-                options.append(str(opt).strip())
+                options.append(str(resolve_val(opt)).strip())
                 
-        q_text = content.get("question", "")
+        q_text = str(resolve_val(content.get("question", "")))
         if not q_text and not options:
             continue
 
@@ -103,7 +170,7 @@ def parse_exam_rsc(rsc_text: str) -> Optional[Dict[str, Any]]:
             "audio_url": content.get("audio"),
             "options": options,
             "correct_answer": str(content.get("answer", "")),
-            "explanation": content.get("explanation", ""),
+            "explanation": str(resolve_val(content.get("explanation", ""))),
             "section": content.get("section", 1)
         })
     
@@ -134,7 +201,7 @@ def parse_exam_rsc(rsc_text: str) -> Optional[Dict[str, Any]]:
         part_info = p.get("part", {})
         skill = part_info.get("type", "LISTENING")
         part_name = p.get("name", part_info.get("name", "Practice Part"))
-        instructions = p.get("text", "")
+        instructions = str(resolve_val(p.get("text", "")))
         
         for a_key in ["audio", "audio2", "audio3"]:
             a = p.get(a_key)
@@ -142,18 +209,18 @@ def parse_exam_rsc(rsc_text: str) -> Optional[Dict[str, Any]]:
                 audio_urls.append(a)
                 
         for t_key in ["transcript", "transcript2", "transcript3"]:
-            t = p.get(t_key)
-            if t and isinstance(t, str) and not t.startswith("$"):
+            t = resolve_val(p.get(t_key))
+            if t and isinstance(t, str) and not t.startswith("$") and t not in transcripts:
                 transcripts.append(t)
                 
         image_url = p.get("image")
         
-    # Check if transcripts were stored as string tokens elsewhere in RSC
-    for line in rsc_text.split("\n"):
-        if re.search(r'^[0-9a-f]+:T[0-9a-f]+,', line):
-            text_val = re.sub(r'^[0-9a-f]+:T[0-9a-f]+,', '', line).strip()
-            if any(marker in text_val for marker in ["WOMAN:", "MAN:", "Speaker:"]) and text_val not in transcripts:
-                transcripts.append(text_val)
+    # Check if transcripts were stored as string tokens or text chunks in RSC
+    for chunk_val in chunks.values():
+        if isinstance(chunk_val, str) and any(marker in chunk_val for marker in ["WOMAN:", "MAN:", "Speaker:"]):
+            val_clean = chunk_val.strip()
+            if val_clean not in transcripts:
+                transcripts.append(val_clean)
                 
     return {
         "exam_id": exam_id,

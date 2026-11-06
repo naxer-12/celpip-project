@@ -1,0 +1,1752 @@
+[
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0000.woff2",
+    "id": 0,
+    "shortstyle": "b",
+    "family": "ff0",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0001.woff2",
+    "id": 1,
+    "shortstyle": "",
+    "family": "ff1",
+    "fallback": "Trebuchet MS1, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0002.woff2",
+    "id": 2,
+    "shortstyle": "",
+    "family": "ff2",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0003.woff2",
+    "id": 3,
+    "shortstyle": "",
+    "family": "ff3",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0004.woff2",
+    "id": 4,
+    "shortstyle": "",
+    "family": "ff4",
+    "fallback": "Georgia1, Georgia, serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0005.woff2",
+    "id": 5,
+    "shortstyle": "",
+    "family": "ff5",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0006.woff2",
+    "id": 6,
+    "shortstyle": "b",
+    "family": "ff6",
+    "fallback": "Trebuchet MS1, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal",
+    "_loadQueued": true
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0007.woff2",
+    "id": 7,
+    "shortstyle": "",
+    "family": "ff7",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0008.woff2",
+    "id": 8,
+    "shortstyle": "",
+    "family": "ff8",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0009.woff2",
+    "id": 9,
+    "shortstyle": "b",
+    "family": "ff9",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0010.woff2",
+    "id": 10,
+    "shortstyle": "",
+    "family": "ff10",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0011.woff2",
+    "id": 11,
+    "shortstyle": "",
+    "family": "ff11",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0012.woff2",
+    "id": 12,
+    "shortstyle": "b",
+    "family": "ff12",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0013.woff2",
+    "id": 13,
+    "shortstyle": "",
+    "family": "ff13",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal",
+    "_loadQueued": true
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0014.woff2",
+    "id": 14,
+    "shortstyle": "b",
+    "family": "ff14",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0015.woff2",
+    "id": 15,
+    "shortstyle": "b",
+    "family": "ff15",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0016.woff2",
+    "id": 16,
+    "shortstyle": "b",
+    "family": "ff16",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0017.woff2",
+    "id": 17,
+    "shortstyle": "",
+    "family": "ff17",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0018.woff2",
+    "id": 18,
+    "shortstyle": "b",
+    "family": "ff18",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0019.woff2",
+    "id": 19,
+    "shortstyle": "b",
+    "family": "ff19",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0020.woff2",
+    "id": 20,
+    "shortstyle": "b",
+    "family": "ff20",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0021.woff2",
+    "id": 21,
+    "shortstyle": "",
+    "family": "ff21",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0022.woff2",
+    "id": 22,
+    "shortstyle": "",
+    "family": "ff22",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0023.woff2",
+    "id": 23,
+    "shortstyle": "b",
+    "family": "ff23",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0024.woff2",
+    "id": 24,
+    "shortstyle": "b",
+    "family": "ff24",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0025.woff2",
+    "id": 25,
+    "shortstyle": "b",
+    "family": "ff25",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0026.woff2",
+    "id": 26,
+    "shortstyle": "",
+    "family": "ff26",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0027.woff2",
+    "id": 27,
+    "shortstyle": "",
+    "family": "ff27",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0028.woff2",
+    "id": 28,
+    "shortstyle": "",
+    "family": "ff28",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0029.woff2",
+    "id": 29,
+    "shortstyle": "",
+    "family": "ff29",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0030.woff2",
+    "id": 30,
+    "shortstyle": "",
+    "family": "ff30",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0031.woff2",
+    "id": 31,
+    "shortstyle": "b",
+    "family": "ff31",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0032.woff2",
+    "id": 32,
+    "shortstyle": "",
+    "family": "ff32",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0033.woff2",
+    "id": 33,
+    "shortstyle": "",
+    "family": "ff33",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0034.woff2",
+    "id": 34,
+    "shortstyle": "b",
+    "family": "ff34",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0035.woff2",
+    "id": 35,
+    "shortstyle": "b",
+    "family": "ff35",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0036.woff2",
+    "id": 36,
+    "shortstyle": "",
+    "family": "ff36",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0037.woff2",
+    "id": 37,
+    "shortstyle": "",
+    "family": "ff37",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0038.woff2",
+    "id": 38,
+    "shortstyle": "",
+    "family": "ff38",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0039.woff2",
+    "id": 39,
+    "shortstyle": "b",
+    "family": "ff39",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0040.woff2",
+    "id": 40,
+    "shortstyle": "i",
+    "family": "ff40",
+    "fallback": "Trebuchet MS1, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "italic"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0041.woff2",
+    "id": 41,
+    "shortstyle": "",
+    "family": "ff41",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0042.woff2",
+    "id": 42,
+    "shortstyle": "b",
+    "family": "ff42",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0043.woff2",
+    "id": 43,
+    "shortstyle": "",
+    "family": "ff43",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0044.woff2",
+    "id": 44,
+    "shortstyle": "",
+    "family": "ff44",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0045.woff2",
+    "id": 45,
+    "shortstyle": "b",
+    "family": "ff45",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0046.woff2",
+    "id": 46,
+    "shortstyle": "b",
+    "family": "ff46",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0047.woff2",
+    "id": 47,
+    "shortstyle": "b",
+    "family": "ff47",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0048.woff2",
+    "id": 48,
+    "shortstyle": "",
+    "family": "ff48",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0049.woff2",
+    "id": 49,
+    "shortstyle": "",
+    "family": "ff49",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0050.woff2",
+    "id": 50,
+    "shortstyle": "",
+    "family": "ff50",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0051.woff2",
+    "id": 51,
+    "shortstyle": "b",
+    "family": "ff51",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0052.woff2",
+    "id": 52,
+    "shortstyle": "b",
+    "family": "ff52",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0053.woff2",
+    "id": 53,
+    "shortstyle": "b",
+    "family": "ff53",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0054.woff2",
+    "id": 54,
+    "shortstyle": "",
+    "family": "ff54",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0055.woff2",
+    "id": 55,
+    "shortstyle": "b",
+    "family": "ff55",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0056.woff2",
+    "id": 56,
+    "shortstyle": "",
+    "family": "ff56",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0057.woff2",
+    "id": 57,
+    "shortstyle": "",
+    "family": "ff57",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0058.woff2",
+    "id": 58,
+    "shortstyle": "",
+    "family": "ff58",
+    "fallback": "Georgia1, Georgia, serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0059.woff2",
+    "id": 59,
+    "shortstyle": "b",
+    "family": "ff59",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0060.woff2",
+    "id": 60,
+    "shortstyle": "",
+    "family": "ff60",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0061.woff2",
+    "id": 61,
+    "shortstyle": "",
+    "family": "ff61",
+    "fallback": "Georgia1, Georgia, serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0062.woff2",
+    "id": 62,
+    "shortstyle": "b",
+    "family": "ff62",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0063.woff2",
+    "id": 63,
+    "shortstyle": "",
+    "family": "ff63",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0064.woff2",
+    "id": 64,
+    "shortstyle": "",
+    "family": "ff64",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0065.woff2",
+    "id": 65,
+    "shortstyle": "b",
+    "family": "ff65",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal",
+    "_loadQueued": true
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0066.woff2",
+    "id": 66,
+    "shortstyle": "b",
+    "family": "ff66",
+    "fallback": "Georgia1, Georgia, serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0067.woff2",
+    "id": 67,
+    "shortstyle": "b",
+    "family": "ff67",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0068.woff2",
+    "id": 68,
+    "shortstyle": "",
+    "family": "ff68",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0069.woff2",
+    "id": 69,
+    "shortstyle": "",
+    "family": "ff69",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0070.woff2",
+    "id": 70,
+    "shortstyle": "b",
+    "family": "ff70",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0071.woff2",
+    "id": 71,
+    "shortstyle": "b",
+    "family": "ff71",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal",
+    "_loadQueued": true
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0072.woff2",
+    "id": 72,
+    "shortstyle": "b",
+    "family": "ff72",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0073.woff2",
+    "id": 73,
+    "shortstyle": "b",
+    "family": "ff73",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0074.woff2",
+    "id": 74,
+    "shortstyle": "",
+    "family": "ff74",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0075.woff2",
+    "id": 75,
+    "shortstyle": "",
+    "family": "ff75",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0076.woff2",
+    "id": 76,
+    "shortstyle": "",
+    "family": "ff76",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0077.woff2",
+    "id": 77,
+    "shortstyle": "",
+    "family": "ff77",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0078.woff2",
+    "id": 78,
+    "shortstyle": "b",
+    "family": "ff78",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0079.woff2",
+    "id": 79,
+    "shortstyle": "b",
+    "family": "ff79",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal",
+    "_loadQueued": true
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0080.woff2",
+    "id": 80,
+    "shortstyle": "",
+    "family": "ff80",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0081.woff2",
+    "id": 81,
+    "shortstyle": "b",
+    "family": "ff81",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0082.woff2",
+    "id": 82,
+    "shortstyle": "",
+    "family": "ff82",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0083.woff2",
+    "id": 83,
+    "shortstyle": "",
+    "family": "ff83",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0084.woff2",
+    "id": 84,
+    "shortstyle": "",
+    "family": "ff84",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0085.woff2",
+    "id": 85,
+    "shortstyle": "b",
+    "family": "ff85",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0086.woff2",
+    "id": 86,
+    "shortstyle": "",
+    "family": "ff86",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0087.woff2",
+    "id": 87,
+    "shortstyle": "",
+    "family": "ff87",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0088.woff2",
+    "id": 88,
+    "shortstyle": "",
+    "family": "ff88",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0089.woff2",
+    "id": 89,
+    "shortstyle": "b",
+    "family": "ff89",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0090.woff2",
+    "id": 90,
+    "shortstyle": "b",
+    "family": "ff90",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0091.woff2",
+    "id": 91,
+    "shortstyle": "",
+    "family": "ff91",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal",
+    "_loadQueued": true
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0092.woff2",
+    "id": 92,
+    "shortstyle": "",
+    "family": "ff92",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0093.woff2",
+    "id": 93,
+    "shortstyle": "b",
+    "family": "ff93",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0094.woff2",
+    "id": 94,
+    "shortstyle": "",
+    "family": "ff94",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0095.woff2",
+    "id": 95,
+    "shortstyle": "",
+    "family": "ff95",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0096.woff2",
+    "id": 96,
+    "shortstyle": "b",
+    "family": "ff96",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0097.woff2",
+    "id": 97,
+    "shortstyle": "b",
+    "family": "ff97",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0098.woff2",
+    "id": 98,
+    "shortstyle": "",
+    "family": "ff98",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0099.woff2",
+    "id": 99,
+    "shortstyle": "b",
+    "family": "ff99",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0100.woff2",
+    "id": 100,
+    "shortstyle": "b",
+    "family": "ff100",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0101.woff2",
+    "id": 101,
+    "shortstyle": "",
+    "family": "ff101",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0102.woff2",
+    "id": 102,
+    "shortstyle": "b",
+    "family": "ff102",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0103.woff2",
+    "id": 103,
+    "shortstyle": "b",
+    "family": "ff103",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0104.woff2",
+    "id": 104,
+    "shortstyle": "",
+    "family": "ff104",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0105.woff2",
+    "id": 105,
+    "shortstyle": "b",
+    "family": "ff105",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0106.woff2",
+    "id": 106,
+    "shortstyle": "",
+    "family": "ff106",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0107.woff2",
+    "id": 107,
+    "shortstyle": "b",
+    "family": "ff107",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0108.woff2",
+    "id": 108,
+    "shortstyle": "b",
+    "family": "ff108",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0109.woff2",
+    "id": 109,
+    "shortstyle": "",
+    "family": "ff109",
+    "fallback": "Georgia1, Georgia, serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0110.woff2",
+    "id": 110,
+    "shortstyle": "",
+    "family": "ff110",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0111.woff2",
+    "id": 111,
+    "shortstyle": "",
+    "family": "ff111",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0112.woff2",
+    "id": 112,
+    "shortstyle": "",
+    "family": "ff112",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal",
+    "_loadQueued": true
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0113.woff2",
+    "id": 113,
+    "shortstyle": "",
+    "family": "ff113",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0114.woff2",
+    "id": 114,
+    "shortstyle": "",
+    "family": "ff114",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0115.woff2",
+    "id": 115,
+    "shortstyle": "",
+    "family": "ff115",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0116.woff2",
+    "id": 116,
+    "shortstyle": "",
+    "family": "ff116",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0117.woff2",
+    "id": 117,
+    "shortstyle": "",
+    "family": "ff117",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0118.woff2",
+    "id": 118,
+    "shortstyle": "",
+    "family": "ff118",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0119.woff2",
+    "id": 119,
+    "shortstyle": "",
+    "family": "ff119",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0120.woff2",
+    "id": 120,
+    "shortstyle": "",
+    "family": "ff120",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0121.woff2",
+    "id": 121,
+    "shortstyle": "b",
+    "family": "ff121",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0122.woff2",
+    "id": 122,
+    "shortstyle": "",
+    "family": "ff122",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0123.woff2",
+    "id": 123,
+    "shortstyle": "b",
+    "family": "ff123",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0124.woff2",
+    "id": 124,
+    "shortstyle": "b",
+    "family": "ff124",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0125.woff2",
+    "id": 125,
+    "shortstyle": "b",
+    "family": "ff125",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0126.woff2",
+    "id": 126,
+    "shortstyle": "",
+    "family": "ff126",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0127.woff2",
+    "id": 127,
+    "shortstyle": "b",
+    "family": "ff127",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0128.woff2",
+    "id": 128,
+    "shortstyle": "",
+    "family": "ff128",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0129.woff2",
+    "id": 129,
+    "shortstyle": "b",
+    "family": "ff129",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0130.woff2",
+    "id": 130,
+    "shortstyle": "",
+    "family": "ff130",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0131.woff2",
+    "id": 131,
+    "shortstyle": "",
+    "family": "ff131",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0132.woff2",
+    "id": 132,
+    "shortstyle": "",
+    "family": "ff132",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0133.woff2",
+    "id": 133,
+    "shortstyle": "",
+    "family": "ff133",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0134.woff2",
+    "id": 134,
+    "shortstyle": "",
+    "family": "ff134",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0135.woff2",
+    "id": 135,
+    "shortstyle": "b",
+    "family": "ff135",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0136.woff2",
+    "id": 136,
+    "shortstyle": "",
+    "family": "ff136",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0137.woff2",
+    "id": 137,
+    "shortstyle": "b",
+    "family": "ff137",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0138.woff2",
+    "id": 138,
+    "shortstyle": "",
+    "family": "ff138",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0139.woff2",
+    "id": 139,
+    "shortstyle": "",
+    "family": "ff139",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0140.woff2",
+    "id": 140,
+    "shortstyle": "",
+    "family": "ff140",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0141.woff2",
+    "id": 141,
+    "shortstyle": "",
+    "family": "ff141",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0142.woff2",
+    "id": 142,
+    "shortstyle": "",
+    "family": "ff142",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal",
+    "_loadQueued": true
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0143.woff2",
+    "id": 143,
+    "shortstyle": "b",
+    "family": "ff143",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0144.woff2",
+    "id": 144,
+    "shortstyle": "",
+    "family": "ff144",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0145.woff2",
+    "id": 145,
+    "shortstyle": "b",
+    "family": "ff145",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0146.woff2",
+    "id": 146,
+    "shortstyle": "",
+    "family": "ff146",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0147.woff2",
+    "id": 147,
+    "shortstyle": "",
+    "family": "ff147",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal",
+    "_loadQueued": true
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0148.woff2",
+    "id": 148,
+    "shortstyle": "",
+    "family": "ff148",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0149.woff2",
+    "id": 149,
+    "shortstyle": "",
+    "family": "ff149",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0150.woff2",
+    "id": 150,
+    "shortstyle": "",
+    "family": "ff150",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0151.woff2",
+    "id": 151,
+    "shortstyle": "",
+    "family": "ff151",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0152.woff2",
+    "id": 152,
+    "shortstyle": "",
+    "family": "ff152",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0153.woff2",
+    "id": 153,
+    "shortstyle": "b",
+    "family": "ff153",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0154.woff2",
+    "id": 154,
+    "shortstyle": "",
+    "family": "ff154",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0155.woff2",
+    "id": 155,
+    "shortstyle": "",
+    "family": "ff155",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0156.woff2",
+    "id": 156,
+    "shortstyle": "",
+    "family": "ff156",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0157.woff2",
+    "id": 157,
+    "shortstyle": "",
+    "family": "ff157",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0158.woff2",
+    "id": 158,
+    "shortstyle": "",
+    "family": "ff158",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0159.woff2",
+    "id": 159,
+    "shortstyle": "",
+    "family": "ff159",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0160.woff2",
+    "id": 160,
+    "shortstyle": "",
+    "family": "ff160",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0161.woff2",
+    "id": 161,
+    "shortstyle": "b",
+    "family": "ff161",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0162.woff2",
+    "id": 162,
+    "shortstyle": "",
+    "family": "ff162",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0163.woff2",
+    "id": 163,
+    "shortstyle": "b",
+    "family": "ff163",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0164.woff2",
+    "id": 164,
+    "shortstyle": "",
+    "family": "ff164",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0165.woff2",
+    "id": 165,
+    "shortstyle": "b",
+    "family": "ff165",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0166.woff2",
+    "id": 166,
+    "shortstyle": "",
+    "family": "ff166",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0167.woff2",
+    "id": 167,
+    "shortstyle": "",
+    "family": "ff167",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0168.woff2",
+    "id": 168,
+    "shortstyle": "",
+    "family": "ff168",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0169.woff2",
+    "id": 169,
+    "shortstyle": "b",
+    "family": "ff169",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0170.woff2",
+    "id": 170,
+    "shortstyle": "",
+    "family": "ff170",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0171.woff2",
+    "id": 171,
+    "shortstyle": "b",
+    "family": "ff171",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0172.woff2",
+    "id": 172,
+    "shortstyle": "",
+    "family": "ff172",
+    "fallback": "Georgia1, Georgia, serif",
+    "weight": "normal",
+    "style": "normal",
+    "_loadQueued": true
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0173.woff2",
+    "id": 173,
+    "shortstyle": "",
+    "family": "ff173",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0174.woff2",
+    "id": 174,
+    "shortstyle": "",
+    "family": "ff174",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0175.woff2",
+    "id": 175,
+    "shortstyle": "b",
+    "family": "ff175",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0176.woff2",
+    "id": 176,
+    "shortstyle": "",
+    "family": "ff176",
+    "fallback": "Georgia1, Georgia, serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0177.woff2",
+    "id": 177,
+    "shortstyle": "b",
+    "family": "ff177",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0178.woff2",
+    "id": 178,
+    "shortstyle": "",
+    "family": "ff178",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0179.woff2",
+    "id": 179,
+    "shortstyle": "",
+    "family": "ff179",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0180.woff2",
+    "id": 180,
+    "shortstyle": "",
+    "family": "ff180",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal",
+    "_loadQueued": true
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0181.woff2",
+    "id": 181,
+    "shortstyle": "b",
+    "family": "ff181",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0182.woff2",
+    "id": 182,
+    "shortstyle": "",
+    "family": "ff182",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0183.woff2",
+    "id": 183,
+    "shortstyle": "",
+    "family": "ff183",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal",
+    "_loadQueued": true
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0184.woff2",
+    "id": 184,
+    "shortstyle": "",
+    "family": "ff184",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0185.woff2",
+    "id": 185,
+    "shortstyle": "b",
+    "family": "ff185",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "bold",
+    "style": "normal",
+    "_loadQueued": true
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0186.woff2",
+    "id": 186,
+    "shortstyle": "",
+    "family": "ff186",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0187.woff2",
+    "id": 187,
+    "shortstyle": "",
+    "family": "ff187",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0188.woff2",
+    "id": 188,
+    "shortstyle": "",
+    "family": "ff188",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0189.woff2",
+    "id": 189,
+    "shortstyle": "b",
+    "family": "ff189",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0190.woff2",
+    "id": 190,
+    "shortstyle": "b",
+    "family": "ff190",
+    "fallback": "Verdana, Verdana, Geneva, sans-serif",
+    "weight": "bold",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0191.woff2",
+    "id": 191,
+    "shortstyle": "",
+    "family": "ff191",
+    "fallback": "Arial, Arial, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  },
+  {
+    "url": "https://html.scribdassets.com/1cugnxi9sgifhx6/fonts/0192.woff2",
+    "id": 192,
+    "shortstyle": "",
+    "family": "ff192",
+    "fallback": "Trebuchet MS1, Helvetica, sans-serif",
+    "weight": "normal",
+    "style": "normal"
+  }
+]

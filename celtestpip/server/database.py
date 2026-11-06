@@ -108,25 +108,28 @@ def insert_exam_part(db_path: str, data: Dict[str, Any], media_map: Optional[Dic
         raw_qa = q.get("audio_url")
         qa = media_map.get(raw_qa, raw_qa) if raw_qa else None
         opts_json = json.dumps(q.get("options", []))
+        q_text = str(q.get("question_text") or "").strip()
+        q_ans = str(q.get("correct_answer") or "").strip()
+        q_exp = str(q.get("explanation") or "").strip()
         cur.execute("""
         INSERT OR REPLACE INTO questions 
         (id, part_id, question_number, question_text, audio_url, options_json, correct_answer, explanation, section)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
-            q["id"],
+            str(q.get("id") or f"{part_id}_q{q.get('question_number', 1)}"),
             part_id,
-            q["question_number"],
-            q["question_text"],
+            q.get("question_number", 1),
+            q_text,
             qa,
             opts_json,
-            q["correct_answer"],
-            q.get("explanation"),
+            q_ans,
+            q_exp,
             q.get("section", 1)
         ))
         cur.execute("""
         INSERT INTO fts_questions (part_id, question_text, options_json, explanation)
         VALUES (?, ?, ?, ?)
-        """, (part_id, q["question_text"], opts_json, q.get("explanation")))
+        """, (part_id, q_text, opts_json, q_exp))
         
     conn.commit()
     conn.close()

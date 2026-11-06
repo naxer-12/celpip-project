@@ -1,4 +1,11 @@
 .superpowers/
 __pycache__/
+*.pyc
+.pytest_cache/
+.gemini/
+.DS_Store
 *.pdf
 *.docx
+!output/*.pdf
+!French_*/*.pdf
+rexan.org/

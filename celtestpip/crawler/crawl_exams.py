@@ -36,7 +36,7 @@ async def crawl_single_part(
     url = f"{BASE_URL}/exams/{exam_id}/part{part_number}"
     should_close = False
     if client is None:
-        client = httpx.AsyncClient(headers=HEADERS, timeout=15.0, follow_redirects=True)
+        client = httpx.AsyncClient(headers=HEADERS, timeout=15.0, follow_redirects=True, verify=False)
         should_close = True
 
     try:
@@ -72,7 +72,7 @@ class ExamCrawler:
         sem = asyncio.Semaphore(self.concurrency)
         results = []
 
-        async with httpx.AsyncClient(headers=HEADERS, timeout=20.0, follow_redirects=True) as client:
+        async with httpx.AsyncClient(headers=HEADERS, timeout=20.0, follow_redirects=True, verify=False) as client:
             tasks = []
             for exam_num in range(start_exam, end_exam + 1):
                 exam_id = f"exam{exam_num}"
