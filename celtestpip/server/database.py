@@ -59,6 +59,18 @@ def init_db(db_path: str = "celtestpip/data/celtestpip.db"):
         completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """)
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS user_words (
+        id TEXT PRIMARY KEY,
+        word TEXT UNIQUE NOT NULL,
+        bundle_id TEXT,
+        mastered BOOLEAN DEFAULT 0,
+        review_count INTEGER DEFAULT 1,
+        notes TEXT DEFAULT '',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        last_reviewed TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    """)
     # FTS5 index
     cur.execute("""
     CREATE VIRTUAL TABLE IF NOT EXISTS fts_questions USING fts5(
