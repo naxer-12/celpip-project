@@ -1,47 +1,40 @@
-# CELTESTPIP Local Replica
+# CELTESTPIP Local Replica & Simulator
 
-A fast, complete offline replica of `https://www.celtestpip.com` featuring all 60 mock exams, question banks, offline audio playback, and an interactive exam simulator.
-
-## Features
-
-- **All 60 CELPIP Mock Exams**: Complete coverage across all 8 listening and reading test parts per exam.
-- **100% Offline Capable**: All exam text, transcripts, explanations, audio recordings, and images are cached locally with zero external network dependencies.
-- **Interactive Exam Simulator**: Timed mock exam interface featuring audio player, passage views, multi-question radio selections, instant grading, and answer reviews.
-- **Official CLB Score Calculator**: Real-time Canadian Language Benchmark (CLB 3–12) calculator mapping raw test scores to official benchmarks.
-- **SQLite + FTS5 Full-Text Search**: Instant search across all practice questions, passages, and detailed explanations.
-- **Local Progress & Attempts Tracking**: Saves user test scores, submitted answers, and benchmark estimates locally in SQLite.
+A fast, complete offline replica of `https://www.celtestpip.com` featuring all 60 mock exams, question banks, offline audio playback, an interactive exam simulator, and an official Canadian Language Benchmark (CLB) score calculator.
 
 ---
 
-## Project Structure
+## Architecture Overview
+
+The backend has been modularized with clean separation of concerns:
 
 ```
-celtestpip/
-├── crawler/                  # Async crawling & parsing pipeline
-│   ├── crawl_content.py      # Informational pages & sitemap crawler
-│   ├── crawl_exams.py        # Next.js RSC flight payload crawler
-│   ├── download_media.py     # Concurrent audio and image asset downloader
-│   ├── rsc_parser.py         # Next.js RSC parser extracting exam questions & transcripts
-│   └── run_crawler.py        # Unified CLI entrypoint with concurrency controls
-├── data/                     # Offline storage
-│   ├── raw/                  # Downloaded raw JSON parts & page caches
-│   ├── media/                # Local audio (.mp3) and image files
-│   └── celtestpip.db         # Indexed SQLite database with FTS5 virtual table
-├── server/                   # FastAPI backend
-│   ├── app.py                # REST API, static asset mounting, and HTML routing
-│   ├── database.py           # SQLite schema initialization and data queries
-│   └── scoring.py            # CELPIP raw-score to CLB level conversion logic
-├── static/                   # Pure HTML5 / CSS3 / Vanilla JS frontend
-│   ├── index.html            # Main dashboard & mock exam directory
-│   ├── exam.html             # Interactive exam simulator view
-│   ├── calculator.html       # Standalone interactive CLB calculator
-│   ├── css/style.css         # Modern, accessible styling
-│   └── js/                   # Frontend controllers (app.js, exam_runner.js, calculator.js)
-├── tests/                    # Comprehensive pytest test suite
-├── build_db.py               # SQLite database build pipeline script
-├── server.py                 # Development server launch script (Uvicorn)
-└── requirements.txt          # Python dependencies
+celtestpip/server/
+├── app.py                # Application entrypoint, lifespan hooks, and middleware
+├── config.py             # Paths, cache policies, and in-memory page cache
+├── database.py           # SQLite connection, FTS5 table indexing, and query helpers
+├── models.py             # Pydantic schemas for requests and responses
+├── scoring.py            # Official CELPIP raw-score to CLB level conversion engine
+└── routers/
+    ├── assets.py         # Media streaming and immutable static assets
+    ├── clerk.py          # Offline single-session Clerk authentication provider
+    ├── exams.py          # REST APIs for exams, parts, search, and scoring attempts
+    ├── pages.py          # HTML page views (Home, Exams, Results, Calculator, dynamic pages)
+    ├── practices.py      # Interactive question runner and speaking/writing tasks
+    ├── user.py           # User membership status and unlimited practice credits
+    └── vocabulary.py     # Personal word bank, definitions, and audio pronunciation
 ```
+
+---
+
+## Key Features
+
+- **All 60 CELPIP Mock Exams**: Complete coverage across all 20 listening, reading, writing, and speaking parts per exam.
+- **100% Offline Capable**: All exam text, transcripts, explanations, audio recordings, and images are cached locally with zero external network dependencies.
+- **Zero-Jank Question Answering**: Instant option selection, clean green checkmarks for correct choices, red crosses for wrong answers, and amber dashes for missed questions.
+- **Official CLB Score Calculator**: Real-time Canadian Language Benchmark (CLB 3–12) calculator mapping raw test scores to official benchmarks.
+- **SQLite + FTS5 Full-Text Search**: Instant search across all practice questions, passages, and detailed explanations.
+- **Local Progress & Attempts Tracking**: Saves user test scores, submitted answers, and benchmark estimates locally in SQLite.
 
 ---
 
@@ -53,74 +46,16 @@ celtestpip/
 pip install -r celtestpip/requirements.txt
 ```
 
-### 2. Run Crawler to Download Exams and Media
-
-Crawl exams and offline media assets using the crawler CLI:
+### 2. Run the Server
 
 ```bash
-# Crawl initial 5 exams + media assets
-python -m celtestpip.crawler.run_crawler --limit 5
-
-# Or crawl all 60 exams with all media
-python -m celtestpip.crawler.run_crawler --all
-
-# Optional: Crawl specific components independently
-python -m celtestpip.crawler.run_crawler --exams --limit 10
-python -m celtestpip.crawler.run_crawler --media
-python -m celtestpip.crawler.run_crawler --content
+python3 celtestpip/server.py --port 8001
 ```
 
-#### Crawler CLI Options
+- Primary Port: `http://localhost:8001`
+- Companion Port: `http://localhost:3000`
 
-| Flag | Description | Default |
-|---|---|---|
-| `--all` | Execute all pipeline stages (exams, content, media) | `False` (defaults to `True` if no flags specified) |
-| `--limit N` | Maximum number of exams to crawl | `60` |
-| `--exams` | Crawl exams | `False` |
-| `--content` | Crawl sitemap pages | `False` |
-| `--media` | Download media assets | `False` |
-
-### 3. Build SQLite Database
-
-Ingests raw parsed JSON files and creates local relational and full-text search tables:
-
-```bash
-python celtestpip/build_db.py
-```
-
-### 4. Launch the Local Application
-
-Start the FastAPI local server:
-
-```bash
-python celtestpip/server.py
-```
-
-Open your browser to:
-**[http://localhost:8000](http://localhost:8000)**
-
----
-
-## Web Routes & REST API
-
-### Frontend Views
-
-- `GET /` — Home dashboard displaying all 60 mock exams, question statistics, and quick navigation.
-- `GET /tools/clb-calculator` — Interactive Canadian Language Benchmark (CLB) score calculator.
-- `GET /exams/{exam_id}/part/{part_number}` — Interactive exam test simulator for a specific exam part.
-
-### API Endpoints
-
-- `GET /api/exams` — List all indexed exams and total available parts.
-- `GET /api/exams/{exam_id}/part/{part_number}` — Retrieve full exam part data including instructions, questions, answer options, transcripts, and local media URLs.
-- `POST /api/attempts` — Submit user exam answers to store raw score, total questions, and CLB estimate.
-- `GET /api/search?q={query}` — Full-Text Search (FTS5) querying question text and answer explanations.
-
----
-
-## Testing
-
-Run the full automated test suite verifying scrapers, parsers, DB build, API endpoints, and end-to-end flows:
+### 3. Run Automated Tests
 
 ```bash
 pytest celtestpip/tests -v

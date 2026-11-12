@@ -102,6 +102,20 @@ def clean_html(html: str) -> str:
         mock_banner_regex = r'<div class="[^"]*bg-blue-50[^"]*">\s*<p>Mock exams are for <b[^>]*>Pro Members</b>\.</p>.*?Upgrade\s*</button>\s*</div>'
         html = re.sub(mock_banner_regex, '', html, flags=re.DOTALL)
 
+    # 6. Ensure "Start Free Practice" CTA buttons navigate directly to /exams
+    if 'hero-cta-shine' in html and 'href="/home"' in html:
+        html = re.sub(
+            r'<a([^>]*?)href="/home"([^>]*?>\s*<button[^>]*?hero-cta-shine)',
+            r'<a\1href="/exams"\2 onclick="window.location.href=\'/exams\'"',
+            html
+        )
+    if 'Start practicing for free' in html and 'href="/home"' in html:
+        html = re.sub(
+            r'<a([^>]*?)href="/home"([^>]*?>\s*<button[^>]*?>\s*Start practicing for free)',
+            r'<a\1href="/exams"\2 onclick="window.location.href=\'/exams\'"',
+            html
+        )
+
     return html
 
 def process_file(path: str):
