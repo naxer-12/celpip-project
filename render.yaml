@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: celpip-project
+    runtime: python
+    buildCommand: pip install -r celtestpip/requirements.txt
+    startCommand: python3 celtestpip/server.py --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9

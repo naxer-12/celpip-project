@@ -1,0 +1,15 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+celtestpip/data/media/cache
+.git
+.gitignore
+.gemini
+French_*
+*.docx
+*.apkg
+*.pdf
+output/
+media/
