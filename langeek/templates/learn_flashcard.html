@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% block title %}Flashcards: {{ subcategory.title }} 🇫🇷 LanGeek{% endblock %}
+
+{% block head %}
+<style>
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+
+  <!-- Top Learner Bar -->
+  <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center space-x-3">
+      <a href="/fr-EN/vocab/category/{{ subcategory.category_id }}/{{ category.slug }}" class="w-9 h-9 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition" title="Back to Lessons">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+      </a>
+      <div>
+        <h2 class="text-base font-extrabold text-slate-900 tracking-tight">{{ subcategory.title }}</h2>
+        <div class="text-xs text-slate-500 font-medium">{{ subcategory.description or category.title }}</div>
+      </div>
+    </div>
+
+    <!-- Mode Switcher Pills -->
+    <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl text-xs font-semibold">
+      <span class="px-3 py-1 rounded-lg bg-white text-primary-600 shadow-sm">Flashcards</span>
+      <a href="/fr-EN/vocab/subcategory/{{ subcategory.id }}/learn/quiz" class="px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition">Quiz</a>
+      <a href="/fr-EN/vocab/subcategory/{{ subcategory.id }}/learn/spelling" class="px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition">Spelling</a>
+      <a href="/fr-EN/vocab/subcategory/{{ subcategory.id }}/word-list" class="px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition">List</a>
+    </div>
+  </div>
+
+  <!-- Progress Track -->
+  <div class="mb-6">
+    <div class="flex justify-between items-center text-xs font-bold text-slate-500 mb-1.5">
+      <span>Progress</span>
+      <span id="card-counter">Card 1 / {{ words|length }}</span>
+    </div>
+    <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+      <div id="progress-bar" class="bg-primary-600 h-full transition-all duration-300" style="width: {{ (1 / (words|length or 1)) * 100 }}%"></div>
+    </div>
+  </div>
+
+  <!-- 3D Flip Card Container -->
+  <div id="card-stage" class="perspective-1000 w-full min-h-[460px] cursor-pointer" onclick="flipCard()">
+    <div id="card-inner" class="relative w-full min-h-[460px] transform-style-3d transition-transform duration-500 rounded-3xl shadow-xl border border-slate-200 bg-white">
+      
+      <!-- FRONT OF CARD -->
+      <div id="card-front" class="absolute inset-0 backface-hidden p-8 flex flex-col justify-between rounded-3xl bg-white">
+        <div class="flex justify-between items-center">
+          <span id="pos-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-primary-50 text-primary-700 border border-primary-100">
+            [adjective]
+          </span>
+          <div class="flex items-center space-x-2" onclick="event.stopPropagation()">
+            <button id="btn-audio-fr" onclick="playCurrentAudio('fr')" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-primary-50 hover:text-primary-600 text-xs font-bold transition" title="Listen France French">
+              <img src="/assets/img/flags/fr-rectangle.svg" class="w-4 h-3 rounded-xs" alt="FR">
+              <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+            </button>
+            <button id="btn-audio-ca" onclick="playCurrentAudio('ca')" class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold transition text-slate-500" title="Listen Canadian French">
+              <span>🇨🇦</span>
+              <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Center Word & Illustration -->
+        <div class="flex flex-col items-center justify-center my-6 text-center">
+          <div id="word-photo-container" class="mb-5 hidden">
+            <img id="word-photo" src="" class="w-32 h-32 object-cover rounded-2xl shadow-sm border border-slate-100" alt="">
+          </div>
+          <h1 id="front-word" class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight mb-2">
+            Loading...
+          </h1>
+          <div id="front-phonetic" class="text-sm font-semibold text-slate-400">
+            /IPA/
+          </div>
+        </div>
+
+        <div class="flex justify-center items-center text-xs font-bold text-slate-400">
+          <span>Click card or press <kbd class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">Space</kbd> to see English definition</span>
+        </div>
+      </div>
+
+      <!-- BACK OF CARD -->
+      <div id="card-back" class="absolute inset-0 backface-hidden rotate-y-180 p-8 flex flex-col justify-between rounded-3xl bg-slate-900 text-white overflow-y-auto custom-scroll">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center space-x-2">
+              <img src="/assets/img/flags/en-rectangle.svg" class="w-4 h-3 rounded-xs" alt="EN">
+              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">English Translation</span>
+            </div>
+            <button onclick="event.stopPropagation(); flipCard()" class="text-xs text-slate-400 hover:text-white flex items-center space-x-1">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              <span>Flip back</span>
+            </button>
+          </div>
+
+          <!-- English Translation Headline -->
+          <div class="my-4">
+            <h2 id="back-english" class="text-3xl font-black text-white tracking-tight mb-1">
+              Translation
+            </h2>
+            <div id="back-other-trans" class="text-xs text-slate-400"></div>
+          </div>
+
+          <!-- French Definition -->
+          <div class="bg-slate-800/80 rounded-2xl p-4 border border-slate-700/60 mb-4">
+            <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">French Definition</div>
+            <p id="back-french-def" class="text-xs sm:text-sm text-slate-200 leading-relaxed italic">
+              Definition
+            </p>
+          </div>
+
+          <!-- Bilingual Examples Container -->
+          <div id="back-examples" class="space-y-2">
+            <!-- Dynamic examples injected here -->
+          </div>
+        </div>
+
+        <div class="text-center text-[11px] text-slate-500 font-medium pt-3">
+          Grade your recall below or press keys 1 - 4
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SRS Grading Buttons Row -->
+  <div class="mt-8 flex items-center justify-center space-x-3">
+    <button onclick="gradeCard(1)" class="px-5 py-2.5 rounded-xl bg-rose-50 border border-rose-200 hover:bg-rose-100 text-rose-700 text-xs font-bold transition flex items-center space-x-1.5 shadow-sm">
+      <span>Again</span>
+      <kbd class="px-1 py-0.5 rounded bg-white text-[10px] text-rose-600 border border-rose-200">1</kbd>
+    </button>
+    <button onclick="gradeCard(2)" class="px-5 py-2.5 rounded-xl bg-amber-50 border border-amber-200 hover:bg-amber-100 text-amber-700 text-xs font-bold transition flex items-center space-x-1.5 shadow-sm">
+      <span>Hard</span>
+      <kbd class="px-1 py-0.5 rounded bg-white text-[10px] text-amber-600 border border-amber-200">2</kbd>
+    </button>
+    <button onclick="gradeCard(3)" class="px-5 py-2.5 rounded-xl bg-sky-50 border border-sky-200 hover:bg-sky-100 text-sky-700 text-xs font-bold transition flex items-center space-x-1.5 shadow-sm">
+      <span>Good</span>
+      <kbd class="px-1 py-0.5 rounded bg-white text-[10px] text-sky-600 border border-sky-200">3</kbd>
+    </button>
+    <button onclick="gradeCard(4)" class="px-5 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-emerald-700 text-xs font-bold transition flex items-center space-x-1.5 shadow-sm">
+      <span>Easy</span>
+      <kbd class="px-1 py-0.5 rounded bg-white text-[10px] text-emerald-600 border border-emerald-200">4</kbd>
+    </button>
+  </div>
+
+  <!-- End of Deck Modal Screen -->
+  <div id="deck-complete-screen" class="hidden text-center py-12 bg-white rounded-3xl border border-slate-200 shadow-xl p-8 max-w-xl mx-auto mt-6">
+    <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
+      <i data-lucide="award" class="w-8 h-8"></i>
+    </div>
+    <h2 class="text-2xl font-black text-slate-900 mb-2">Lesson Completed!</h2>
+    <p class="text-sm text-slate-600 mb-6">You have reviewed all vocabulary words in this deck. Great progress on your French journey!</p>
+    
+    <div class="flex items-center justify-center space-x-4">
+      <button onclick="restartDeck()" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition flex items-center space-x-1.5">
+        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+        <span>Review Again</span>
+      </button>
+      <a href="/fr-EN/vocab/category/{{ subcategory.category_id }}/{{ category.slug }}" class="px-5 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs transition flex items-center space-x-1.5">
+        <span>Next Lesson</span>
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const wordsData = {{ words_json|safe }};
+  let currentIndex = 0;
+  let isFlipped = false;
+
+  function renderCard() {
+    if (!wordsData || wordsData.length === 0) return;
+    if (currentIndex >= wordsData.length) {
+      document.getElementById('card-stage').classList.add('hidden');
+      document.getElementById('deck-complete-screen').classList.remove('hidden');
+      return;
+    }
+
+    const w = wordsData[currentIndex];
+    isFlipped = false;
+    document.getElementById('card-inner').classList.remove('rotate-y-180');
+
+    // Front Face
+    document.getElementById('front-word').innerText = w.entry;
+    document.getElementById('pos-badge').innerText = `[${w.part_of_speech || 'word'}]`;
+    document.getElementById('front-phonetic').innerText = w.phonetic || '';
+    
+    // Photo
+    const photoContainer = document.getElementById('word-photo-container');
+    const photoImg = document.getElementById('word-photo');
+    if (w.photo_url || w.thumb_url) {
+      photoContainer.classList.remove('hidden');
+      photoImg.src = `/media-proxy?url=${encodeURIComponent(w.photo_url || w.thumb_url)}`;
+    } else {
+      photoContainer.classList.add('hidden');
+    }
+
+    // Back Face
+    document.getElementById('back-english').innerText = w.english_trans || 'Meaning';
+    document.getElementById('back-other-trans').innerText = w.other_trans ? `Other: ${w.other_trans}` : '';
+    document.getElementById('back-french-def').innerText = w.french_def || '';
+
+    // Examples
+    const exContainer = document.getElementById('back-examples');
+    if (w.examples && w.examples.length > 0) {
+      exContainer.innerHTML = w.examples.map(ex => `
+        <div class="bg-slate-800/40 rounded-xl p-3 border border-slate-700/40 flex items-start justify-between">
+          <div>
+            <div class="text-xs font-medium text-slate-200">${ex.french_sentence}</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">${ex.english_sentence || ''}</div>
+          </div>
+        </div>
+      `).join('');
+    } else {
+      exContainer.innerHTML = '';
+    }
+
+    // Counters & Progress
+    document.getElementById('card-counter').innerText = `Card ${currentIndex + 1} / ${wordsData.length}`;
+    document.getElementById('progress-bar').style.width = `${((currentIndex + 1) / wordsData.length) * 100}%`;
+
+    // Auto play audio on load
+    if (w.audio_url) {
+      setTimeout(() => playAudio(w.audio_url), 100);
+    }
+  }
+
+  function flipCard() {
+    isFlipped = !isFlipped;
+    const inner = document.getElementById('card-inner');
+    if (isFlipped) {
+      inner.classList.add('rotate-y-180');
+    } else {
+      inner.classList.remove('rotate-y-180');
+    }
+  }
+
+  function playCurrentAudio(accent) {
+    const w = wordsData[currentIndex];
+    if (!w) return;
+    const url = (accent === 'ca' && w.audio_ca_url) ? w.audio_ca_url : w.audio_url;
+    playAudio(url);
+  }
+
+  function gradeCard(score) {
+    const w = wordsData[currentIndex];
+    // Record progress asynchronously
+    if (w) {
+      fetch('/api/progress/mark', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({word_id: w.id, score: score})
+      }).catch(() => {});
+    }
+    currentIndex++;
+    renderCard();
+  }
+
+  function restartDeck() {
+    currentIndex = 0;
+    document.getElementById('card-stage').classList.remove('hidden');
+    document.getElementById('deck-complete-screen').classList.add('hidden');
+    renderCard();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      flipCard();
+    } else if (['1', '2', '3', '4'].includes(e.key)) {
+      gradeCard(parseInt(e.key));
+    }
+  });
+
+  renderCard();
+</script>
+{% endblock %}

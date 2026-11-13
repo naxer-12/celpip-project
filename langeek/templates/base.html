@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Learn French Online 🇫🇷 LanGeek{% endblock %}</title>
+  
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+            },
+            brand: {
+              blue: '#0284c7',
+              red: '#ef4444',
+              gold: '#f59e0b',
+              teal: '#0d9488',
+              purple: '#7c3aed',
+              dark: '#0f172a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+  <script>
+    // Clean up any stale service workers or caches from prior sessions
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        for (let r of regs) r.unregister();
+      });
+      if ('caches' in window) {
+        caches.keys().then(names => {
+          for (let name of names) caches.delete(name);
+        });
+      }
+    }
+  </script>
+  {% block head %}{% endblock %}
+</head>
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Top Announcement / Utilities Bar -->
+  <header class="bg-white border-b border-slate-100 text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-between">
+      <div class="flex items-center space-x-6">
+        <a href="/fr-EN" class="hover:text-primary-600 flex items-center space-x-1.5 transition">
+          <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+          <span>Dictionary</span>
+        </a>
+        <a href="/fr-EN/mobile-app" class="hover:text-primary-600 flex items-center space-x-1.5 transition">
+          <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
+          <span>Mobile App</span>
+        </a>
+        <a href="/fr-EN/contact-us" class="hover:text-primary-600 flex items-center space-x-1.5 transition">
+          <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+          <span>Contact Us</span>
+        </a>
+        <a href="/fr-EN/plans" class="text-amber-600 font-semibold flex items-center space-x-1 hover:text-amber-700 transition">
+          <span>👑</span>
+          <span>Premium</span>
+        </a>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+          Pro Unlocked
+        </span>
+        <button onclick="toggleDarkMode()" class="text-slate-400 hover:text-slate-600 transition" title="Toggle Theme">
+          <i data-lucide="moon" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Sticky Brand Navbar -->
+  <nav class="bg-white/95 backdrop-blur border-b border-slate-200/80 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        
+        <!-- Brand Logo -->
+        <div class="flex items-center space-x-8">
+          <a href="/fr-EN" class="flex items-center space-x-2.5 group">
+            <img src="/assets/logo/logo-fr.svg" alt="LanGeek French" class="h-9 w-auto object-contain">
+          </a>
+
+          <!-- Main Nav Links -->
+          <div class="hidden md:flex items-center space-x-1">
+            <a href="/fr-EN/vocab" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'vocab' %}bg-primary-50 text-primary-600 shadow-sm border border-primary-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+              <i data-lucide="layers" class="w-4 h-4"></i>
+              <span>Vocabulary</span>
+            </a>
+            <a href="/fr-EN/grammar" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'grammar' %}bg-rose-50 text-rose-600 shadow-sm border border-rose-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+              <i data-lucide="book-marked" class="w-4 h-4"></i>
+              <span>Grammar</span>
+            </a>
+            <a href="/fr-EN/reading" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'reading' %}bg-teal-50 text-teal-600 shadow-sm border border-teal-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+              <span>Reading</span>
+            </a>
+            <a href="/fr-EN/pronunciation" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'pronunciation' %}bg-amber-50 text-amber-600 shadow-sm border border-amber-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+              <i data-lucide="volume-2" class="w-4 h-4"></i>
+              <span>Pronunciation</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Action Controls -->
+        <div class="flex items-center space-x-3">
+          <!-- Global Search Button -->
+          <button onclick="openSearchModal()" class="flex items-center space-x-2 text-slate-500 bg-slate-100 hover:bg-slate-200/80 px-3 py-1.5 rounded-xl text-xs font-medium transition" title="Search Dictionary (Cmd+K)">
+            <i data-lucide="search" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Search French...</span>
+            <kbd class="hidden sm:inline-block bg-white border border-slate-200 rounded px-1.5 text-[10px] text-slate-400">⌘K</kbd>
+          </button>
+
+          <!-- Language Flag Pill -->
+          <div class="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-xl text-xs font-semibold text-slate-700">
+            <img src="/assets/img/flags/fr-rectangle.svg" class="w-4 h-3 rounded-sm object-cover" alt="FR">
+            <span>FR</span>
+            <span class="text-slate-300">|</span>
+            <img src="/assets/img/flags/en-rectangle.svg" class="w-4 h-3 rounded-sm object-cover" alt="EN">
+            <span>EN</span>
+          </div>
+
+          <!-- Unlocked Pro Profile Badge -->
+          <div class="flex items-center space-x-2 bg-gradient-to-r from-amber-500/10 to-amber-600/10 border border-amber-500/20 px-3 py-1.5 rounded-xl">
+            <span class="text-sm">👑</span>
+            <span class="text-xs font-bold text-amber-700 hidden sm:inline">Pro French Explorer</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Viewport Content -->
+  <main class="flex-grow">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="bg-white border-t border-slate-200 mt-16 text-slate-500 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+      <div class="flex items-center space-x-4">
+        <img src="/assets/logo/logo-fr.svg" alt="LanGeek" class="h-6 w-auto opacity-75">
+        <span class="text-slate-400">|</span>
+        <span>Independent French Learning Sandbox & Database Replica</span>
+      </div>
+      <div class="flex items-center space-x-6 text-slate-400">
+        <a href="/fr-EN/vocab" class="hover:text-slate-600 transition">Vocabulary</a>
+        <a href="/fr-EN/grammar" class="hover:text-slate-600 transition">Grammar</a>
+        <a href="/fr-EN/reading" class="hover:text-slate-600 transition">Reading</a>
+        <a href="/fr-EN/pronunciation" class="hover:text-slate-600 transition">Pronunciation</a>
+        <a href="/api/stats" class="hover:text-slate-600 transition">API Stats</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Persistent Floating Replica Pill -->
+  <div class="fixed bottom-3 right-3 z-50 bg-slate-900/90 text-sky-400 text-[11px] font-semibold px-3 py-1.5 rounded-full shadow-lg border border-slate-700/80 backdrop-blur pointer-events-none flex items-center space-x-1.5">
+    <span>⚡</span>
+    <span>LanGeek French Replica (Ditto Edition)</span>
+  </div>
+
+  <!-- Global Instant Search Modal -->
+  <div id="search-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-start justify-center pt-20 px-4">
+    <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+      <div class="p-4 border-b border-slate-100 flex items-center space-x-3">
+        <i data-lucide="search" class="w-5 h-5 text-slate-400"></i>
+        <input 
+          id="search-input" 
+          type="text" 
+          placeholder="Search 3,000+ French words, English translations, or examples..." 
+          class="w-full text-base font-medium text-slate-800 placeholder-slate-400 focus:outline-none"
+          oninput="handleSearch(this.value)"
+        >
+        <button onclick="closeSearchModal()" class="text-slate-400 hover:text-slate-600 p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Live Search Results List -->
+      <div id="search-results" class="max-h-[60vh] overflow-y-auto custom-scroll p-2 divide-y divide-slate-50">
+        <div class="p-8 text-center text-slate-400 text-sm">
+          Type a word like <span class="font-semibold text-slate-600">bonjour</span>, <span class="font-semibold text-slate-600">hello</span>, or <span class="font-semibold text-slate-600">salut</span> to search...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Player Controller -->
+  <audio id="global-audio-player" class="hidden"></audio>
+
+  <script>
+    lucide.createIcons();
+
+    // Audio Playback Engine
+    function playAudio(url) {
+      if (!url) return;
+      const player = document.getElementById('global-audio-player');
+      player.src = url.startsWith('http') ? `/media-proxy?url=${encodeURIComponent(url)}` : url;
+      player.play().catch(e => console.warn('Audio play prevented:', e));
+    }
+
+    // Modal Search Engine
+    function openSearchModal() {
+      document.getElementById('search-modal').classList.remove('hidden');
+      setTimeout(() => document.getElementById('search-input').focus(), 50);
+    }
+    function closeSearchModal() {
+      document.getElementById('search-modal').classList.add('hidden');
+    }
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openSearchModal();
+      }
+      if (e.key === 'Escape') closeSearchModal();
+    });
+
+    let searchTimeout = null;
+    function handleSearch(query) {
+      clearTimeout(searchTimeout);
+      const container = document.getElementById('search-results');
+      if (!query.trim()) {
+        container.innerHTML = '<div class="p-8 text-center text-slate-400 text-sm">Type a French or English word to search...</div>';
+        return;
+      }
+      searchTimeout = setTimeout(async () => {
+        try {
+          const resp = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+          const data = await resp.json();
+          if (!data.results || data.results.length === 0) {
+            container.innerHTML = `<div class="p-8 text-center text-slate-400 text-sm">No words found matching "${query}"</div>`;
+            return;
+          }
+          container.innerHTML = data.results.map(w => `
+            <div class="p-3 hover:bg-slate-50 rounded-xl transition flex items-center justify-between group">
+              <div class="flex items-center space-x-3">
+                <button onclick="playAudio('${w.audio_url || ''}')" class="w-8 h-8 rounded-lg bg-primary-50 text-primary-600 hover:bg-primary-100 flex items-center justify-center transition">
+                  <i data-lucide="volume-2" class="w-4 h-4"></i>
+                </button>
+                <div>
+                  <div class="flex items-center space-x-2">
+                    <span class="font-bold text-slate-900">${w.entry}</span>
+                    <span class="text-[11px] font-medium px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">${w.part_of_speech || 'word'}</span>
+                  </div>
+                  <div class="text-xs text-slate-600 font-medium">${w.english_trans || ''}</div>
+                  ${w.sample_french ? `<div class="text-[11px] text-slate-400 italic mt-0.5">${w.sample_french}</div>` : ''}
+                </div>
+              </div>
+              <span class="text-xs font-semibold text-primary-600 group-hover:translate-x-0.5 transition">View &rarr;</span>
+            </div>
+          `).join('');
+          lucide.createIcons();
+        } catch (e) {
+          container.innerHTML = '<div class="p-8 text-center text-rose-500 text-sm">Error searching vocabulary.</div>';
+        }
+      }, 150);
+    }
+  </script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

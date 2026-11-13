@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}{{ course.title }} - French Grammar 🇫🇷 LanGeek{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+
+  <!-- Header & Back Navigation -->
+  <div class="mb-8 pb-6 border-b border-slate-200">
+    <div class="flex items-center space-x-3 mb-3">
+      <a href="/fr-EN/grammar" class="w-9 h-9 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-slate-900 flex items-center justify-center transition">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+      </a>
+      <div>
+        <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">French Grammar Course</span>
+        <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">{{ course.title }}</h1>
+      </div>
+    </div>
+    <p class="text-sm text-slate-600">{{ course.description or course.web_title }}</p>
+  </div>
+
+  <!-- Lesson Content Blocks -->
+  <div class="space-y-8">
+    {% for block in blocks %}
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm">
+      
+      {% if block.title %}
+      <h3 class="text-xl font-bold text-slate-900 tracking-tight mb-4 flex items-center space-x-2">
+        <span class="w-2 h-6 bg-rose-500 rounded-full mr-2"></span>
+        <span>{{ block.title }}</span>
+      </h3>
+      {% endif %}
+
+      <!-- Block Content -->
+      {% if block.content or block.text %}
+      <div class="prose prose-slate max-w-none text-sm text-slate-700 leading-relaxed mb-6">
+        {{ block.content or block.text }}
+      </div>
+      {% endif %}
+
+      <!-- Tables or Examples inside blocks if present -->
+      {% if block.examples %}
+      <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-2 mt-4">
+        <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Examples</div>
+        {% for ex in block.examples %}
+        <div class="text-xs font-semibold text-slate-800 flex items-center space-x-2">
+          <span>•</span>
+          <span>{{ ex }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Next Lesson Navigation -->
+  <div class="mt-12 text-center">
+    <a href="/fr-EN/grammar" class="inline-flex items-center space-x-2 px-6 py-3 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm shadow-md transition">
+      <span>Back to All Grammar Lessons</span>
+      <i data-lucide="arrow-right" class="w-4 h-4"></i>
+    </a>
+  </div>
+
+</div>
+{% endblock %}

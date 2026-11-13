@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  langeek:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: langeek_replica
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/langeek/data
+      - ./static:/app/langeek/static
+    environment:
+      - PORT=8080
+    restart: unless-stopped

@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}Spelling Practice: {{ subcategory.title }} 🇫🇷 LanGeek{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 py-8">
+
+  <!-- Header & Back Navigation -->
+  <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center space-x-3">
+      <a href="/fr-EN/vocab/category/{{ subcategory.category_id }}/{{ category.slug }}" class="w-9 h-9 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-slate-900 flex items-center justify-center transition">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+      </a>
+      <div>
+        <h2 class="text-base font-extrabold text-slate-900 tracking-tight">{{ subcategory.title }}</h2>
+        <div class="text-xs text-slate-500 font-medium">French Spelling Dictation</div>
+      </div>
+    </div>
+
+    <!-- Mode Pills -->
+    <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl text-xs font-semibold">
+      <a href="/fr-EN/vocab/subcategory/{{ subcategory.id }}/learn/flashcard" class="px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition">Flashcards</a>
+      <a href="/fr-EN/vocab/subcategory/{{ subcategory.id }}/learn/quiz" class="px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition">Quiz</a>
+      <span class="px-3 py-1 rounded-lg bg-white text-amber-600 shadow-sm">Spelling</span>
+      <a href="/fr-EN/vocab/subcategory/{{ subcategory.id }}/word-list" class="px-3 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition">List</a>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="flex justify-between items-center text-xs font-bold text-slate-500 mb-2">
+    <span id="spell-counter">Word 1 / {{ words|length }}</span>
+    <span id="spell-score" class="text-amber-600 font-extrabold">Correct: 0</span>
+  </div>
+  <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden mb-8">
+    <div id="spell-progress-bar" class="bg-amber-500 h-full transition-all duration-300" style="width: 5%"></div>
+  </div>
+
+  <!-- Spelling Stage -->
+  <div id="spell-stage" class="bg-white rounded-3xl p-8 border border-slate-200 shadow-lg min-h-[380px] flex flex-col justify-between">
+    
+    <div>
+      <!-- Audio Prompt Button -->
+      <div class="text-center my-4">
+        <button onclick="playSpellingAudio()" class="w-16 h-16 rounded-full bg-amber-50 text-amber-600 hover:bg-amber-100 flex items-center justify-center mx-auto shadow-sm border border-amber-200 group transition">
+          <i data-lucide="volume-2" class="w-8 h-8 group-hover:scale-110 transition"></i>
+        </button>
+        <div class="text-xs font-semibold text-slate-400 mt-2">Click to listen to pronunciation</div>
+      </div>
+
+      <!-- Meaning Clue -->
+      <div class="text-center my-4">
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">English Meaning</div>
+        <div id="spell-english-clue" class="text-xl font-bold text-slate-800"></div>
+      </div>
+
+      <!-- User Text Input Field -->
+      <div class="mt-6">
+        <input 
+          id="spell-input" 
+          type="text" 
+          placeholder="Type the French word..." 
+          class="w-full text-center text-2xl font-bold text-slate-900 px-4 py-3 border-2 border-slate-200 rounded-2xl focus:border-amber-500 focus:outline-none transition shadow-sm"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          onkeydown="if(event.key === 'Enter') checkSpelling()"
+        >
+      </div>
+
+      <!-- Quick French Accent Insert Buttons -->
+      <div class="flex items-center justify-center space-x-1.5 mt-3 flex-wrap gap-y-1.5">
+        {% for acc in ['é', 'è', 'ê', 'ë', 'à', 'â', 'ç', 'ô', 'ù', 'û', 'î', 'ï', 'œ'] %}
+        <button onclick="insertAccent('{{ acc }}')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold text-sm text-slate-700 transition">
+          {{ acc }}
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Submit / Next Actions -->
+    <div class="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between">
+      <div id="spell-feedback" class="text-sm font-bold"></div>
+      <button id="btn-spell-action" onclick="checkSpelling()" class="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-sm transition">
+        Check Spelling
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Summary Card -->
+  <div id="spell-complete-card" class="hidden text-center py-12 bg-white rounded-3xl border border-slate-200 shadow-xl p-8">
+    <div class="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-4">
+      <i data-lucide="award" class="w-8 h-8"></i>
+    </div>
+    <h2 class="text-2xl font-black text-slate-900 mb-2">Spelling Practice Complete!</h2>
+    <p class="text-sm text-slate-600 mb-4">You accurately spelled <span id="final-spell-score" class="font-bold text-amber-600"></span></p>
+    
+    <div class="flex items-center justify-center space-x-3 mt-6">
+      <button onclick="restartSpelling()" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition">
+        Try Again
+      </button>
+      <a href="/fr-EN/vocab/category/{{ subcategory.category_id }}/{{ category.slug }}" class="px-5 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs transition">
+        Next Lesson
+      </a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const words = {{ words_json|safe }};
+  let currentIdx = 0;
+  let score = 0;
+  let isChecked = false;
+
+  function renderWord() {
+    if (!words || words.length === 0) return;
+    if (currentIdx >= words.length) {
+      document.getElementById('spell-stage').classList.add('hidden');
+      document.getElementById('spell-complete-card').classList.remove('hidden');
+      document.getElementById('final-spell-score').innerText = `${score} / ${words.length}`;
+      return;
+    }
+
+    isChecked = false;
+    const current = words[currentIdx];
+    document.getElementById('spell-english-clue').innerText = current.english_trans || 'Meaning';
+    document.getElementById('spell-counter').innerText = `Word ${currentIdx + 1} / ${words.length}`;
+    document.getElementById('spell-progress-bar').style.width = `${((currentIdx + 1) / words.length) * 100}%`;
+
+    const input = document.getElementById('spell-input');
+    input.value = '';
+    input.disabled = false;
+    input.className = "w-full text-center text-2xl font-bold text-slate-900 px-4 py-3 border-2 border-slate-200 rounded-2xl focus:border-amber-500 focus:outline-none transition shadow-sm";
+    input.focus();
+
+    document.getElementById('spell-feedback').innerText = '';
+    const btn = document.getElementById('btn-spell-action');
+    btn.innerText = 'Check Spelling';
+    btn.onclick = checkSpelling;
+
+    if (current.audio_url) playAudio(current.audio_url);
+  }
+
+  function playSpellingAudio() {
+    const current = words[currentIdx];
+    if (current && current.audio_url) playAudio(current.audio_url);
+  }
+
+  function insertAccent(char) {
+    const input = document.getElementById('spell-input');
+    input.value += char;
+    input.focus();
+  }
+
+  function checkSpelling() {
+    if (isChecked) return;
+    const input = document.getElementById('spell-input');
+    const userVal = input.value.trim().toLowerCase();
+    const current = words[currentIdx];
+    const target = current.entry.trim().toLowerCase();
+
+    isChecked = true;
+    input.disabled = true;
+
+    const feedback = document.getElementById('spell-feedback');
+    const btn = document.getElementById('btn-spell-action');
+
+    if (userVal === target) {
+      score++;
+      document.getElementById('spell-score').innerText = `Correct: ${score}`;
+      input.className = "w-full text-center text-2xl font-bold text-emerald-800 px-4 py-3 border-2 border-emerald-500 bg-emerald-50 rounded-2xl transition";
+      feedback.className = "text-sm font-extrabold text-emerald-600";
+      feedback.innerText = "Exactement ! Bien joué.";
+    } else {
+      input.className = "w-full text-center text-2xl font-bold text-rose-800 px-4 py-3 border-2 border-rose-500 bg-rose-50 rounded-2xl transition";
+      feedback.className = "text-sm font-extrabold text-rose-600";
+      feedback.innerText = `Correct spelling: "${current.entry}"`;
+    }
+
+    btn.innerText = 'Next Word \u2192';
+    btn.onclick = () => {
+      currentIdx++;
+      renderWord();
+    };
+  }
+
+  function restartSpelling() {
+    currentIdx = 0;
+    score = 0;
+    document.getElementById('spell-score').innerText = 'Correct: 0';
+    document.getElementById('spell-stage').classList.remove('hidden');
+    document.getElementById('spell-complete-card').classList.add('hidden');
+    renderWord();
+  }
+
+  renderWord();
+</script>
+{% endblock %}

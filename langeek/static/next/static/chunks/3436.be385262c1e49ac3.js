@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[3436,6276],{95916:function(e,s,a){a(28660),a(67294);var t=a(85893);s.Z=e=>{let{expand:s,children:a,classes:n}=e;return(0,t.jsx)("div",{className:(s?"tw-max-h-[700px]":"tw-max-h-[0px]")+" tw-transition-all tw-ease-in-out tw-duration-500 tw-overflow-hidden",children:(0,t.jsx)("div",{className:n??"",children:a})})}}}]);
+//# sourceMappingURL=3436.be385262c1e49ac3.js.map
