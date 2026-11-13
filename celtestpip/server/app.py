@@ -29,6 +29,7 @@ from celtestpip.server.config import (
     prewarm_page_cache,
 )
 from celtestpip.server.database import init_db
+from celtestpip.server.turso import is_turso_enabled, init_turso_tables
 from celtestpip.scripts.unlock_all_pro_content import clean_html
 from celtestpip.server.routers import (
     exams_router,
@@ -48,6 +49,8 @@ def ensure_db() -> None:
     """Ensure database exists and tables are initialized."""
     if not os.path.exists(DB_PATH):
         init_db(DB_PATH)
+    if is_turso_enabled():
+        init_turso_tables()
 
 
 @asynccontextmanager

@@ -13,6 +13,7 @@ from celtestpip.server.config import DB_PATH, normalize_exam_id
 from celtestpip.server.database import get_db_connection
 from celtestpip.server.models import AttemptSubmission
 from celtestpip.server.scoring import raw_score_to_clb
+from celtestpip.server.turso import is_turso_enabled, execute_turso
 
 router = APIRouter(tags=["Exams"])
 
@@ -92,6 +93,16 @@ def save_attempt(attempt: AttemptSubmission) -> Dict[str, Any]:
     """, (exam_id, attempt.part_number, attempt.score, attempt.total_questions, clb, json.dumps(attempt.answers)))
     conn.commit()
     conn.close()
+
+    # If Turso cloud database is enabled, persist attempt to cloud
+    if is_turso_enabled():
+        try:
+            execute_turso("""
+            INSERT INTO user_attempts (exam_id, part_number, score, total_questions, clb_estimate, answers_json)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """, [exam_id, attempt.part_number, attempt.score, attempt.total_questions, clb, json.dumps(attempt.answers)])
+        except Exception:
+            pass
 
     return {"status": "saved", "clb": clb}
 

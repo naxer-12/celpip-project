@@ -1,7 +1,7 @@
 """Vocabulary, Personal Word Bank, Translation, and TTS endpoints.
 
 Manages user vocabulary lists, mastery tracking, word definitions, and audio speech
-with persistent SQLite storage and fast in-memory access.
+with persistent SQLite storage, optional Turso Cloud SQLite sync, and fast in-memory access.
 """
 
 from typing import Dict, Any, List
@@ -9,6 +9,7 @@ from fastapi import APIRouter, Request
 
 from celtestpip.server.config import DB_PATH
 from celtestpip.server.database import get_db_connection
+from celtestpip.server.turso import is_turso_enabled, execute_turso
 
 router = APIRouter(tags=["Vocabulary"])
 
@@ -16,7 +17,36 @@ USER_WORDS_STORE: Dict[str, dict] = {}
 
 
 def load_words_from_db():
-    """Sync in-memory store from SQLite database."""
+    """Sync in-memory store from local SQLite or Turso database."""
+    # 1. Try Turso if enabled
+    if is_turso_enabled():
+        try:
+            res = execute_turso("SELECT id, word, bundle_id, mastered, review_count, notes, created_at, last_reviewed FROM user_words")
+            rows = res.get("rows", [])
+            cols = [c.get("name") for c in res.get("cols", [])]
+            for r in rows:
+                row_dict = {}
+                for i, c in enumerate(cols):
+                    val = r[i].get("value") if isinstance(r[i], dict) else r[i]
+                    row_dict[c] = val
+                w = str(row_dict.get("word") or "").strip().lower()
+                if w:
+                    USER_WORDS_STORE[w] = {
+                        "id": row_dict.get("id"),
+                        "word": w,
+                        "bundleId": row_dict.get("bundle_id"),
+                        "mastered": bool(int(row_dict.get("mastered") or 0)),
+                        "reviewCount": int(row_dict.get("review_count") or 1),
+                        "notes": row_dict.get("notes") or "",
+                        "createdAt": str(row_dict.get("created_at")),
+                        "lastReviewed": str(row_dict.get("last_reviewed")),
+                    }
+            if USER_WORDS_STORE:
+                return
+        except Exception:
+            pass
+
+    # 2. Local SQLite fallback
     try:
         conn = get_db_connection(DB_PATH)
         cur = conn.cursor()
@@ -48,7 +78,7 @@ def get_user_words() -> List[Dict[str, Any]]:
 
 @router.post("/api/user-words")
 async def save_user_word(request: Request) -> Dict[str, Any]:
-    """Add a new word to user's vocabulary collection and persist to SQLite."""
+    """Add a new word to user's vocabulary collection and persist to SQLite/Turso."""
     try:
         data = await request.json()
         word = data.get("word", "").lower().strip()
@@ -69,6 +99,7 @@ async def save_user_word(request: Request) -> Dict[str, Any]:
             USER_WORDS_STORE[word]["lastReviewed"] = "2026-11-05T00:00:00.000Z"
 
         if word:
+            # Local SQLite
             try:
                 conn = get_db_connection(DB_PATH)
                 cur = conn.cursor()
@@ -87,6 +118,23 @@ async def save_user_word(request: Request) -> Dict[str, Any]:
                 conn.close()
             except Exception:
                 pass
+
+            # Turso Cloud
+            if is_turso_enabled():
+                try:
+                    execute_turso("""
+                    INSERT OR REPLACE INTO user_words (id, word, bundle_id, mastered, review_count, notes)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                    """, [
+                        USER_WORDS_STORE[word]["id"],
+                        word,
+                        bundle_id,
+                        1 if USER_WORDS_STORE[word]["mastered"] else 0,
+                        USER_WORDS_STORE[word]["reviewCount"],
+                        USER_WORDS_STORE[word]["notes"],
+                    ])
+                except Exception:
+                    pass
 
         return USER_WORDS_STORE.get(word, {"ok": True})
     except Exception:
@@ -131,6 +179,7 @@ async def patch_user_word(word: str, request: Request) -> Dict[str, Any]:
             item["notes"] = str(body["notes"] or "")
         item["lastReviewed"] = "2026-11-05T00:00:00.000Z"
 
+        # Local SQLite
         try:
             conn = get_db_connection(DB_PATH)
             cur = conn.cursor()
@@ -149,6 +198,23 @@ async def patch_user_word(word: str, request: Request) -> Dict[str, Any]:
             conn.close()
         except Exception:
             pass
+
+        # Turso Cloud
+        if is_turso_enabled():
+            try:
+                execute_turso("""
+                INSERT OR REPLACE INTO user_words (id, word, bundle_id, mastered, review_count, notes)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """, [
+                    item["id"],
+                    word_clean,
+                    item.get("bundleId"),
+                    1 if item["mastered"] else 0,
+                    item.get("reviewCount", 1),
+                    item.get("notes", ""),
+                ])
+            except Exception:
+                pass
     except Exception:
         pass
 
@@ -158,7 +224,7 @@ async def patch_user_word(word: str, request: Request) -> Dict[str, Any]:
 
 @router.delete("/api/user-words/{word}")
 def delete_user_word(word: str) -> Dict[str, Any]:
-    """Delete a word from user's vocabulary list and SQLite."""
+    """Delete a word from user's vocabulary list, SQLite, and Turso."""
     word_clean = word.lower().strip()
     USER_WORDS_STORE.pop(word_clean, None)
     try:
@@ -169,6 +235,13 @@ def delete_user_word(word: str) -> Dict[str, Any]:
         conn.close()
     except Exception:
         pass
+
+    if is_turso_enabled():
+        try:
+            execute_turso("DELETE FROM user_words WHERE word = ?", [word_clean])
+        except Exception:
+            pass
+
     return {"ok": True}
 
 
