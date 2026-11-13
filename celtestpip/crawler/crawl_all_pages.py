@@ -7,6 +7,7 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from typing import List
 import httpx
+from celtestpip.scripts.unlock_all_pro_content import clean_html
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -54,9 +55,10 @@ async def download_page(client: httpx.AsyncClient, sem: asyncio.Semaphore, url: 
         try:
             resp = await client.get(url)
             if resp.status_code == 200:
+                cleaned = clean_html(resp.text)
                 with open(dest_path, "w", encoding="utf-8") as f:
-                    f.write(resp.text)
-                logger.info(f"Saved {safe_slug} ({len(resp.text)} bytes)")
+                    f.write(cleaned)
+                logger.info(f"Saved {safe_slug} ({len(cleaned)} bytes)")
                 return True
             else:
                 logger.warning(f"Failed {url}: HTTP {resp.status_code}")

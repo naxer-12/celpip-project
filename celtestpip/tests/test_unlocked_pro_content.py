@@ -86,6 +86,20 @@ def test_clean_html_removes_paywall_elements():
     assert 'userCredits\\":9999' in cleaned
     assert 'userId\\":\\"tester\\"' in cleaned
 
+def test_clean_html_replaces_spinning_auth_loader():
+    sample_spinning_html = """
+    <nav>
+        <button class="items-center justify-center whitespace-nowrap text-sm font-semibold bg-white white-btn text-zinc-900 rounded-xl border border-zinc-300 lg:w-[128px] w-[80px]">
+            <svg class="lucide lucide-loader-circle w-4 h-4 animate-spin text-zinc-600"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>
+        </button>
+    </nav>
+    """
+    cleaned = clean_html(sample_spinning_html)
+    assert "lucide-loader-circle" not in cleaned
+    assert "animate-spin" not in cleaned
+    assert "Login / Sign up" in cleaned
+    assert 'href="/exams"' in cleaned
+
 def test_practice_page_served_unlocked(client):
     resp = client.get("/practices/listening_cmn2ldtkn008b80un8zyrvxr9")
     if resp.status_code == 200:

@@ -116,6 +116,12 @@ def clean_html(html: str) -> str:
             html
         )
 
+    # 7. Replace spinning auth placeholder button with clean static Sign in / Sign up button
+    if 'lucide-loader-circle' in html:
+        spinner_btn_regex = r'<button[^>]*>\s*<svg[^>]*lucide-loader-circle[^>]*animate-spin[^>]*>.*?</svg>\s*</button>'
+        static_signin_btn = '<a href="/exams"><button class="items-center justify-center whitespace-nowrap text-sm font-semibold ring-offset-background transition-[color,background-color,border-color,box-shadow,transform] ease-out-strong active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-white white-btn text-zinc-900 rounded-xl border border-zinc-300 hover:-translate-y-0.5 active:translate-y-0 duration-200 h-10 px-4 py-2 flex lg:w-[128px] w-[80px]"><span class="lg:hidden">Sign in</span><span class="hidden lg:block">Login / Sign up</span></button></a>'
+        html = re.sub(spinner_btn_regex, static_signin_btn, html, flags=re.DOTALL)
+
     return html
 
 def process_file(path: str):
@@ -135,8 +141,8 @@ def main():
     modified = 0
     total = 0
 
-    # Clean exam.html and exams.html
-    for fn in ["exam.html", "exams.html", "index.html"]:
+    # Clean static pages
+    for fn in ["exam.html", "exams.html", "index.html", "calculator.html"]:
         p = os.path.join(STATIC_DIR, fn)
         if os.path.exists(p):
             total += 1

@@ -9,3 +9,11 @@ __pycache__/
 !output/*.pdf
 !French_*/*.pdf
 rexan.org/
+French_*
+french_*
+build_*
+generate_*
+card*.png
+media/
+*.apkg
+*.csv
