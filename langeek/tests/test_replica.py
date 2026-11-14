@@ -318,3 +318,20 @@ def test_database_locale_partitioning():
     assert "locale" in prog_cols, "Table user_progress missing locale column"
     conn.close()
 
+
+def test_homepage_subatomic_ui_elements():
+    resp = client.get("/en")
+    assert resp.status_code == 200
+    # 5 module cards with authentic classes and icons
+    assert "bg-[#68B4D8]" in resp.text or "sky" in resp.text.lower()
+    assert "bg-[#F8A06E]" in resp.text or "peach" in resp.text.lower() or "orange" in resp.text.lower()
+    assert "bg-[#64CEB2]" in resp.text or "mint" in resp.text.lower() or "teal" in resp.text.lower()
+    assert "bg-[#F8D56F]" in resp.text or "yellow" in resp.text.lower()
+    assert "bg-[#E77A6C]" in resp.text or "terracotta" in resp.text.lower() or "rose" in resp.text.lower()
+    # Dark mode toggle script in head
+    assert "localStorage.theme" in resp.text
+    # 4 language pill selectors
+    assert "español" in resp.text
+    assert "Deutsch" in resp.text
+
+
