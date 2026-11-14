@@ -622,6 +622,32 @@ async def mock_geoip():
     return JSONResponse({"country": "FR", "city": "Paris", "continent": "EU"})
 
 
+# ---------------------------------------------------------
+# Administrator Crawler & Change Monitor Dashboard
+# ---------------------------------------------------------
+from langeek.monitor import get_monitor_stats, run_crawl_cycle
+
+@app.get("/admin/monitor")
+async def admin_dashboard_view(request: Request):
+    """Render Administrator Dashboard for Crawler & Change Monitor."""
+    stats = get_monitor_stats()
+    return templates.TemplateResponse(request, "admin_dashboard.html", {
+        "active_tab": "admin",
+        "stats": stats
+    })
+
+@app.get("/api/admin/status")
+async def admin_status_api():
+    """Return aggregated stats for monitor."""
+    return JSONResponse(get_monitor_stats())
+
+@app.post("/api/admin/crawl/run")
+async def admin_trigger_crawl():
+    """Execute manual crawl pass across all monitored URLs."""
+    res = await run_crawl_cycle()
+    return JSONResponse(res)
+
+
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8080))

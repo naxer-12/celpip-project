@@ -105,3 +105,19 @@ def test_search_and_progress_apis():
     assert resp_sum.status_code == 200
     assert resp_sum.json()["status"] == "success"
     assert resp_sum.json()["mastered"] >= 1
+
+
+def test_admin_monitor_and_crawling():
+    # Test Admin Monitor Dashboard
+    resp_mon = client.get("/admin/monitor")
+    assert resp_mon.status_code == 200
+    assert "LanGeek Continuous Monitor" in resp_mon.text
+    assert "Monitored Reference Routes" in resp_mon.text
+
+    # Test Admin Status API
+    resp_stat = client.get("/api/admin/status")
+    assert resp_stat.status_code == 200
+    data = resp_stat.json()
+    assert data["total_monitored"] >= 10
+    assert "snapshots" in data
+    assert len(data["snapshots"]) >= 10
