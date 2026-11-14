@@ -79,19 +79,19 @@
   <header class="bg-white border-b border-slate-100 text-xs text-slate-500">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-between">
       <div class="flex items-center space-x-6">
-        <a href="/fr-EN" class="hover:text-primary-600 flex items-center space-x-1.5 transition">
+        <a href="{{ dict_url or ('https://dictionary.langeek.co/?lang=' + (lang_code or 'fr')) }}" class="hover:text-primary-600 flex items-center space-x-1.5 transition">
           <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
           <span>Dictionary</span>
         </a>
-        <a href="/fr-EN/mobile-app" class="hover:text-primary-600 flex items-center space-x-1.5 transition">
+        <a href="/{{ locale or 'fr-EN' }}/mobile-app" class="hover:text-primary-600 flex items-center space-x-1.5 transition">
           <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
           <span>Mobile App</span>
         </a>
-        <a href="/fr-EN/contact-us" class="hover:text-primary-600 flex items-center space-x-1.5 transition">
+        <a href="/{{ locale or 'fr-EN' }}/contact-us" class="hover:text-primary-600 flex items-center space-x-1.5 transition">
           <i data-lucide="mail" class="w-3.5 h-3.5"></i>
           <span>Contact Us</span>
         </a>
-        <a href="/fr-EN/plans" class="text-amber-500 font-semibold flex items-center space-x-1 hover:text-amber-600 transition">
+        <a href="/{{ locale or 'fr-EN' }}/plans" class="text-amber-500 font-semibold flex items-center space-x-1 hover:text-amber-600 transition">
           <span>👑</span>
           <span>Premium</span>
         </a>
@@ -111,29 +111,29 @@
         
         <!-- Brand Logo -->
         <div class="flex items-center space-x-8">
-          <a href="/fr-EN" class="flex items-center space-x-2.5 group">
-            <img src="/assets/logo/logo-fr.svg" alt="LanGeek French" class="h-9 w-auto object-contain">
+          <a href="/{{ locale or 'fr-EN' }}" class="flex items-center space-x-2.5 group">
+            <img src="/assets/logo/{{ 'logo.svg' if locale == 'en' else 'logo-fr.svg' }}" alt="LanGeek" class="h-9 w-auto object-contain">
           </a>
 
           <!-- Main Nav Links (Exact Order: Vocabulary, Grammar, Expressions, Pronunciation, Reading) -->
           <div class="hidden md:flex items-center space-x-1">
-            <a href="/fr-EN/vocab" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'vocab' %}bg-primary-50 text-primary-600 shadow-xs border border-primary-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+            <a href="/{{ locale or 'fr-EN' }}/vocab" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'vocab' %}bg-primary-50 text-primary-600 shadow-xs border border-primary-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
               <i data-lucide="layers" class="w-4 h-4"></i>
               <span>Vocabulary</span>
             </a>
-            <a href="/fr-EN/grammar" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'grammar' %}bg-primary-50 text-primary-600 shadow-xs border border-primary-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+            <a href="/{{ locale or 'fr-EN' }}/grammar" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'grammar' %}bg-primary-50 text-primary-600 shadow-xs border border-primary-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
               <i data-lucide="book-marked" class="w-4 h-4"></i>
               <span>Grammar</span>
             </a>
-            <a href="/fr-EN/expressions" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'expressions' %}bg-primary-50 text-primary-600 shadow-xs border border-primary-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+            <a href="/{{ locale or 'fr-EN' }}/expressions" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'expressions' %}bg-primary-50 text-primary-600 shadow-xs border border-primary-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
               <i data-lucide="sparkles" class="w-4 h-4"></i>
               <span>Expressions</span>
             </a>
-            <a href="/fr-EN/pronunciation" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'pronunciation' %}bg-primary-50 text-primary-600 shadow-xs border border-primary-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+            <a href="/{{ locale or 'fr-EN' }}/pronunciation" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'pronunciation' %}bg-primary-50 text-primary-600 shadow-xs border border-primary-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
               <i data-lucide="volume-2" class="w-4 h-4"></i>
               <span>Pronunciation</span>
             </a>
-            <a href="/fr-EN/reading" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'reading' %}bg-primary-50 text-primary-600 shadow-xs border border-primary-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
+            <a href="/{{ locale or 'fr-EN' }}/reading" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'reading' %}bg-primary-50 text-primary-600 shadow-xs border border-primary-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
               <i data-lucide="file-text" class="w-4 h-4"></i>
               <span>Reading</span>
             </a>
@@ -147,14 +147,19 @@
             <i data-lucide="search" class="w-5 h-5"></i>
           </button>
 
-          <!-- Language Flag Pill -->
-          <div class="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 px-2 py-1 rounded-xl text-xs font-semibold text-slate-700">
+          <!-- Language Flag Pill / Switcher -->
+          <a href="{{ switch_url or ('/fr-EN' if locale == 'en' else '/en') }}" class="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 px-2 py-1 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-100 transition" title="Switch Language">
+            {% if locale == 'en' %}
+            <img src="/assets/img/flags/en-rectangle.svg" class="w-4 h-3 rounded-xs object-cover" alt="EN">
+            <span>EN</span>
+            {% else %}
             <img src="/assets/img/flags/fr-rectangle.svg" class="w-4 h-3 rounded-xs object-cover" alt="FR">
             <span>FR</span>
-          </div>
+            {% endif %}
+          </a>
 
           <!-- Sign in Button (Exact Blue Pill matching Reference Image 3 & 4) -->
-          <a href="/fr-EN/plans" class="flex items-center space-x-2 bg-[#1d4ed8] hover:bg-[#1e40af] text-white px-4 py-2 rounded-full text-xs font-bold transition shadow-sm">
+          <a href="/{{ locale or 'fr-EN' }}/plans" class="flex items-center space-x-2 bg-[#1d4ed8] hover:bg-[#1e40af] text-white px-4 py-2 rounded-full text-xs font-bold transition shadow-sm">
             <i data-lucide="user" class="w-3.5 h-3.5"></i>
             <span>Sign in</span>
           </a>
@@ -180,10 +185,10 @@
         <span>Independent French Learning Sandbox & Database Replica</span>
       </div>
       <div class="flex items-center space-x-6 text-slate-400">
-        <a href="/fr-EN/vocab" class="hover:text-slate-600 transition">Vocabulary</a>
-        <a href="/fr-EN/grammar" class="hover:text-slate-600 transition">Grammar</a>
-        <a href="/fr-EN/reading" class="hover:text-slate-600 transition">Reading</a>
-        <a href="/fr-EN/pronunciation" class="hover:text-slate-600 transition">Pronunciation</a>
+        <a href="/{{ locale or 'fr-EN' }}/vocab" class="hover:text-slate-600 transition">Vocabulary</a>
+        <a href="/{{ locale or 'fr-EN' }}/grammar" class="hover:text-slate-600 transition">Grammar</a>
+        <a href="/{{ locale or 'fr-EN' }}/reading" class="hover:text-slate-600 transition">Reading</a>
+        <a href="/{{ locale or 'fr-EN' }}/pronunciation" class="hover:text-slate-600 transition">Pronunciation</a>
         <a href="/api/stats" class="hover:text-slate-600 transition">API Stats</a>
       </div>
     </div>

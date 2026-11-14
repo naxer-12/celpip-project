@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Learn French Online 🇫🇷 LanGeek{% endblock %}
+{% block title %}{% if locale == 'en' %}Learn English with LanGeek 🇬🇧 LanGeek{% else %}Learn French Online 🇫🇷 LanGeek{% endif %}{% endblock %}
 
 {% block content %}
 <div class="tw-w-full old-container tw-mx-auto tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-py-6">
@@ -23,11 +23,11 @@
 
       <!-- French (Active Highlighted Tab) -->
       <div class="tw-relative">
-        <a class="tw-text-title tw-flex tw-flex-col md:tw-flex-row tw-gap-2 sm:tw-gap-4 tw-px-3 md:tw-px-6 tw-py-3 tw-border-solid tw-border-blue-light-6 tw-border-[6px] tw-bg-blue-light-3 tw-items-center tw-justify-center tw-rounded-3xl tw-ms-2 sm:tw-ms-4 md:tw-ms-6 !tw-bg-[#C8DBFC] !tw-border-[#C8DBFC] dark:!tw-bg-[#1A3570] dark:!tw-border-[#1A3570] hover:tw-no-underline transition shadow-xs" href="/fr-EN">
+        <a class="tw-text-title tw-flex tw-flex-col md:tw-flex-row tw-gap-2 sm:tw-gap-4 tw-px-3 md:tw-px-6 tw-py-3 tw-border-solid tw-border-blue-light-6 tw-border-[6px] tw-bg-blue-light-3 tw-items-center tw-justify-center tw-rounded-3xl tw-ms-2 sm:tw-ms-4 md:tw-ms-6 {% if locale != 'en' %}!tw-bg-[#C8DBFC] !tw-border-[#C8DBFC] dark:!tw-bg-[#1A3570] dark:!tw-border-[#1A3570] shadow-xs{% endif %} hover:tw-no-underline transition" href="/fr-EN">
           <img src="/assets/img/flags/fr-rectangle.svg" alt="fr" width="75" height="40" class="tw-rounded-[8px] tw-w-10 sm:tw-w-[50px] lg:tw-w-[70px]">
-          <div class="tw-text-[#1d4ed8] tw-flex tw-flex-col text-left">
+          <div class="{% if locale != 'en' %}tw-text-[#1d4ed8]{% endif %} tw-flex tw-flex-col text-left">
             <b class="tw-text-sm lg:tw-text-base">French</b>
-            <span class="tw-hidden sm:tw-block tw-text-gray-400 tw-text-[#1d4ed8] tw-text-xs">français</span>
+            <span class="tw-hidden sm:tw-block tw-text-gray-400 {% if locale != 'en' %}tw-text-[#1d4ed8]{% endif %} tw-text-xs">français</span>
           </div>
         </a>
       </div>
@@ -45,11 +45,11 @@
 
       <!-- English -->
       <div class="tw-relative">
-        <a class="tw-text-title tw-flex tw-flex-col md:tw-flex-row tw-gap-2 sm:tw-gap-4 tw-px-3 md:tw-px-6 tw-py-3 tw-border-solid tw-border-blue-light-6 tw-border-[6px] tw-bg-blue-light-3 tw-items-center tw-justify-center tw-rounded-3xl tw-ms-2 sm:tw-ms-4 md:tw-ms-6 hover:tw-no-underline transition" href="/en">
+        <a class="tw-text-title tw-flex tw-flex-col md:tw-flex-row tw-gap-2 sm:tw-gap-4 tw-px-3 md:tw-px-6 tw-py-3 tw-border-solid tw-border-blue-light-6 tw-border-[6px] tw-bg-blue-light-3 tw-items-center tw-justify-center tw-rounded-3xl tw-ms-2 sm:tw-ms-4 md:tw-ms-6 {% if locale == 'en' %}!tw-bg-[#C8DBFC] !tw-border-[#C8DBFC] dark:!tw-bg-[#1A3570] dark:!tw-border-[#1A3570] shadow-xs{% endif %} hover:tw-no-underline transition" href="/en">
           <img src="/assets/img/flags/en-rectangle.svg" alt="en" width="75" height="40" class="tw-rounded-[8px] tw-w-10 sm:tw-w-[50px] lg:tw-w-[70px]">
-          <div class="tw-flex tw-flex-col text-left">
+          <div class="{% if locale == 'en' %}tw-text-[#1d4ed8]{% endif %} tw-flex tw-flex-col text-left">
             <b class="tw-text-sm lg:tw-text-base">English</b>
-            <span class="tw-hidden sm:tw-block tw-text-gray-400 tw-text-xs">English</span>
+            <span class="tw-hidden sm:tw-block tw-text-gray-400 {% if locale == 'en' %}tw-text-[#1d4ed8]{% endif %} tw-text-xs">English</span>
           </div>
         </a>
       </div>
@@ -60,14 +60,23 @@
   <!-- Hero Headline (100% Identical to Real LanGeek) -->
   <div class="tw-text-center tw-max-w-4xl tw-mx-auto tw-my-10">
     <div class="tw-flex tw-items-center tw-justify-center tw-gap-3 sm:tw-gap-4 tw-mb-3">
-      <img src="/assets/img/flags/fr-rectangle.svg" alt="fr" width="40" height="26" class="tw-rounded-[4px] tw-w-8 sm:tw-w-10 shadow-xs">
+      <img src="/assets/img/flags/{{ 'en-rectangle.svg' if locale == 'en' else 'fr-rectangle.svg' }}" alt="{{ 'en' if locale == 'en' else 'fr' }}" width="40" height="26" class="tw-rounded-[4px] tw-w-8 sm:tw-w-10 shadow-xs">
       <h1 class="tw-text-3xl sm:tw-text-5xl tw-font-bold tw-text-slate-900 tw-m-0">
+        <span class="tw-sr-only">{% if locale == 'en' %}Learn English with LanGeek{% else %}Learn French with LanGeek{% endif %}</span>
+        {% if locale == 'en' %}
+        Learn English with <span class="tw-text-[#2563eb]">LanGeek</span>
+        {% else %}
         Learn French with <span class="tw-text-[#2563eb]">LanGeek</span>
+        {% endif %}
       </h1>
-      <img src="/assets/img/flags/fr-rectangle.svg" alt="fr" width="40" height="26" class="tw-rounded-[4px] tw-w-8 sm:tw-w-10 shadow-xs">
+      <img src="/assets/img/flags/{{ 'en-rectangle.svg' if locale == 'en' else 'fr-rectangle.svg' }}" alt="{{ 'en' if locale == 'en' else 'fr' }}" width="40" height="26" class="tw-rounded-[4px] tw-w-8 sm:tw-w-10 shadow-xs">
     </div>
     <p class="tw-text-slate-500 tw-text-sm sm:tw-text-base tw-font-normal tw-m-0">
+      {% if locale == 'en' %}
       LanGeek is a language learning platform that makes your learning process faster and easier.
+      {% else %}
+      Apprenez le français avec LanGeek. LanGeek is a language learning platform that makes your learning process faster and easier.
+      {% endif %}
     </p>
   </div>
 
@@ -76,7 +85,7 @@
     
     <!-- Card 1: Vocabulary (100% height, #85C8DE) -->
     <div class="tw-relative tw-col-start-1 tw-row-start-1 tw-row-span-6 lg:tw-px-2 lg:tw-py-0 xl:tw-px-3 lg:tw-h-[100%] lg:tw-flex-1">
-      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="Learn French Vocabulary" href="/fr-EN/vocab">
+      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="{% if locale == 'en' %}Learn English Vocabulary{% else %}Learn French Vocabulary{% endif %}" href="/{{ locale }}/vocab">
         <div class="tw-relative tw-w-full tw-h-full tw-bg-[#85C8DE] tw-rounded-3xl tw-flex tw-text-black tw-overflow-hidden shadow-xs hover:shadow-md transition" style="background-color: #85C8DE;">
           <div class="tw-p-5 tw-pt-10 lg:tw-pt-6 tw-relative tw-w-full lg:tw-flex tw-flex-col lg:tw-mx-auto lg:tw-my-auto lg:tw-items-center tw-gap-2">
             <div class="tw-absolute tw-bottom-5 tw-block tw-right-5 lg:tw-relative lg:tw-bottom-0 lg:tw-right-0 tw-p-3.5 tw-rounded-full tw-bg-[#0000001A]">
@@ -86,7 +95,7 @@
               </svg>
             </div>
             <h2 class="tw-m-0 tw-text-sm sm:tw-text-lg lg:tw-text-xl tw-font-bold text-center">Vocabulary</h2>
-            <p class="lg:tw-text-center tw-m-0 lg:tw-text-base sm:tw-text-sm tw-text-xs font-medium">Learn French Vocabulary</p>
+            <p class="lg:tw-text-center tw-m-0 lg:tw-text-base sm:tw-text-sm tw-text-xs font-medium">{% if locale == 'en' %}Learn English Vocabulary{% else %}Learn French Vocabulary{% endif %}</p>
           </div>
           <img src="/assets/img/home/vocab-card-pattern2.svg" width="202" height="255" alt="" class="tw-absolute rtl:tw-scale-x-[-1] tw-right-0 -tw-top-10 sm:tw-top-0 ltr:tw-rounded-tr-3xl rtl:tw-rounded-tr-3xl tw-w-32 sm:tw-w-48 pointer-events-none opacity-80">
           <img src="/assets/img/home/vocab-card-pattern1.svg" width="202" height="230" alt="" class="tw-absolute rtl:tw-scale-x-[-1] tw-left-0 -tw-bottom-10 sm:tw-bottom-0 ltr:tw-rounded-bl-3xl rtl:tw-rounded-bl-3xl tw-w-32 sm:tw-w-48 pointer-events-none opacity-80">
@@ -96,7 +105,7 @@
 
     <!-- Card 2: Expressions (75% height, #FFAE7A) -->
     <div class="tw-relative tw-col-start-2 tw-row-start-1 tw-row-span-4 lg:tw-px-2 lg:tw-py-0 xl:tw-px-3 lg:tw-h-[75%] lg:tw-flex-1">
-      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="French Expressions" href="/fr-EN/expressions">
+      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="{% if locale == 'en' %}English Expressions{% else %}French Expressions{% endif %}" href="/{{ locale }}/expressions">
         <div class="tw-relative tw-w-full tw-h-full tw-bg-[#FFAE7A] tw-rounded-3xl tw-flex tw-text-black shadow-xs hover:shadow-md transition" style="background-color: #FFAE7A;">
           <div class="tw-p-5 tw-pt-8 lg:tw-pt-5 tw-relative tw-w-full lg:tw-flex tw-flex-col lg:tw-mx-auto lg:tw-my-auto lg:tw-items-center tw-gap-2">
             <div class="tw-absolute tw-bottom-5 tw-block tw-right-5 lg:tw-relative lg:tw-bottom-0 lg:tw-right-0 tw-p-3.5 tw-rounded-full tw-bg-[#0000001A]">
@@ -105,7 +114,7 @@
               </svg>
             </div>
             <h2 class="tw-m-0 tw-text-sm sm:tw-text-lg lg:tw-text-xl tw-font-bold text-center">Expressions</h2>
-            <p class="lg:tw-text-center tw-m-0 lg:tw-text-base sm:tw-text-sm tw-text-xs font-medium">Learn Expressions and Idioms</p>
+            <p class="lg:tw-text-center tw-m-0 lg:tw-text-base sm:tw-text-sm tw-text-xs font-medium">{% if locale == 'en' %}Learn English Expressions and Idioms{% else %}Learn Expressions and Idioms{% endif %}</p>
           </div>
           <img src="/assets/img/home/expression-card-pattern.svg" width="56" height="56" alt="" class="tw-absolute tw-top-2 tw-right-2 tw-w-16 pointer-events-none opacity-60">
           <img src="/assets/img/home/expression-card-pattern.svg" width="56" height="56" alt="" class="tw-absolute tw-bottom-2 tw-left-2 tw-w-16 pointer-events-none opacity-60">
@@ -115,7 +124,7 @@
 
     <!-- Card 3: Reading (85% height, #78E3D9) -->
     <div class="tw-relative tw-col-start-1 tw-row-start-7 tw-row-span-4 lg:tw-px-2 lg:tw-py-0 xl:tw-px-3 lg:tw-h-[85%] lg:tw-flex-1">
-      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="French Reading Comprehension" href="/fr-EN/reading">
+      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="{% if locale == 'en' %}English Reading Comprehension{% else %}French Reading Comprehension{% endif %}" href="/{{ locale }}/reading">
         <div class="tw-relative tw-w-full tw-h-full tw-bg-[#78E3D9] tw-rounded-3xl tw-flex tw-text-black shadow-xs hover:shadow-md transition" style="background-color: #78E3D9;">
           <div class="tw-p-5 null lg:tw-pt-5 tw-relative tw-w-full lg:tw-flex tw-flex-col lg:tw-mx-auto lg:tw-my-auto lg:tw-items-center tw-gap-2">
             <div class="tw-absolute tw-bottom-5 tw-block tw-right-5 lg:tw-relative lg:tw-bottom-0 lg:tw-right-0 tw-p-3.5 tw-rounded-full tw-bg-[#0000001A]">
@@ -134,7 +143,7 @@
 
     <!-- Card 4: Pronunciation (75% height, #FFD78A) -->
     <div class="tw-relative tw-col-start-2 tw-row-start-5 tw-row-span-3 tw-px-2 lg:tw-py-0 xl:tw-px-3 lg:tw-h-[75%] lg:tw-flex-1">
-      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="French Pronunciation" href="/fr-EN/pronunciation">
+      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="{% if locale == 'en' %}English Pronunciation{% else %}French Pronunciation{% endif %}" href="/{{ locale }}/pronunciation">
         <div class="tw-relative tw-w-full tw-h-full tw-bg-[#FFD78A] tw-rounded-3xl tw-flex tw-text-black shadow-xs hover:shadow-md transition" style="background-color: #FFD78A;">
           <div class="tw-p-5 null lg:tw-pt-5 tw-relative tw-w-full lg:tw-flex tw-flex-col lg:tw-mx-auto lg:tw-my-auto lg:tw-items-center tw-gap-2">
             <div class="tw-absolute tw-bottom-5 tw-block tw-right-5 lg:tw-relative lg:tw-bottom-0 lg:tw-right-0 tw-p-3.5 tw-rounded-full tw-bg-[#0000001A]">
@@ -154,7 +163,7 @@
 
     <!-- Card 5: Grammar (100% height, #EF9686) -->
     <div class="tw-relative tw-col-start-1 tw-row-start-7 tw-row-span-4 lg:tw-px-2 lg:tw-py-0 xl:tw-px-3 lg:tw-h-[100%] lg:tw-flex-1">
-      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="French Grammar Lessons" href="/fr-EN/grammar">
+      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="{% if locale == 'en' %}English Grammar Lessons{% else %}French Grammar Lessons{% endif %}" href="/{{ locale }}/grammar">
         <div class="tw-relative tw-w-full tw-h-full tw-bg-[#EF9686] tw-rounded-3xl tw-flex tw-text-black shadow-xs hover:shadow-md transition" style="background-color: #EF9686;">
           <div class="tw-p-5 null lg:tw-pt-5 tw-relative tw-w-full lg:tw-flex tw-flex-col lg:tw-mx-auto lg:tw-my-auto lg:tw-items-center tw-gap-2">
             <div class="tw-absolute tw-bottom-5 tw-block tw-right-5 lg:tw-relative lg:tw-bottom-0 lg:tw-right-0 tw-p-3.5 tw-rounded-full tw-bg-[#0000001A]">
@@ -163,7 +172,7 @@
               </svg>
             </div>
             <h2 class="tw-m-0 tw-text-sm sm:tw-text-lg lg:tw-text-xl tw-font-bold text-center">Grammar</h2>
-            <p class="lg:tw-text-center tw-m-0 lg:tw-text-base sm:tw-text-sm tw-text-xs font-medium">French Grammar lessons</p>
+            <p class="lg:tw-text-center tw-m-0 lg:tw-text-base sm:tw-text-sm tw-text-xs font-medium">{% if locale == 'en' %}English Grammar lessons{% else %}French Grammar lessons{% endif %}</p>
           </div>
           <img src="/assets/img/home/grammar-card-pattern.svg" width="84" height="70" alt="" class="tw-absolute rtl:tw-scale-x-[1] tw-scale-x-[-1] tw-right-0 tw-top-0 tw-hidden sm:tw-block pointer-events-none opacity-60">
           <img src="/assets/img/home/grammar-card-pattern.svg" width="84" height="70" alt="" class="tw-absolute rtl:tw-scale-x-[-1] tw-scale-y-[-1] tw-w-12 sm:tw-w-20 tw-left-0 tw-bottom-0 pointer-events-none opacity-60">

@@ -249,10 +249,50 @@ def test_auxiliary_pages_and_navigation():
     assert "Poser un lapin" in resp_expr.text
 
     # Test Language Switcher Redirects
-    for lang in ["/es", "/de", "/en"]:
+    for lang in ["/es", "/de"]:
         r = client.get(lang, follow_redirects=False)
         assert r.status_code in (302, 307)
-        assert r.headers["location"] == "/fr-EN"
+
+
+def test_locale_routing_and_switcher():
+    # Test Root Redirection
+    resp_root = client.get("/", follow_redirects=False)
+    assert resp_root.status_code in (302, 307)
+    assert resp_root.headers["location"] in ("/en", "/fr-EN")
+    
+    # Test English Home
+    resp_en = client.get("/en")
+    assert resp_en.status_code == 200
+    assert "Learn English with LanGeek" in resp_en.text
+    assert "href=\"/fr-EN\"" in resp_en.text
+    
+    # Test French Home
+    resp_fr = client.get("/fr-EN")
+    assert resp_fr.status_code == 200
+    assert "Apprenez le français" in resp_fr.text
+    assert "href=\"/en\"" in resp_fr.text
+    
+    # Test Aliases
+    assert client.get("/en/", follow_redirects=False).headers["location"] == "/en"
+    assert client.get("/en-US", follow_redirects=False).headers["location"] == "/en"
+    assert client.get("/fr", follow_redirects=False).headers["location"] == "/fr-EN"
+    assert client.get("/fr/", follow_redirects=False).headers["location"] == "/fr-EN"
+
+    # Test Path-Preserving Helper
+    from langeek.server import get_locale_context
+    ctx_en = get_locale_context("en", current_path="/en/vocab")
+    assert ctx_en["locale"] == "en"
+    assert ctx_en["switch_url"] == "/fr-EN/vocab"
+    assert ctx_en["db_locale"] == "en"
+    assert ctx_en["lang_code"] == "en"
+    assert "lang=en" in ctx_en["dict_url"]
+
+    ctx_fr = get_locale_context("fr-EN", current_path="/fr-EN/reading/course/2304/animaux-de-ferme/0")
+    assert ctx_fr["locale"] == "fr-EN"
+    assert ctx_fr["switch_url"] == "/en/reading/course/2304/animaux-de-ferme/0"
+    assert ctx_fr["db_locale"] == "fr"
+    assert ctx_fr["lang_code"] == "fr"
+    assert "lang=fr" in ctx_fr["dict_url"]
 
 
 def test_database_locale_partitioning():
