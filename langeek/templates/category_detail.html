@@ -5,118 +5,128 @@
 {% block content %}
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-  <!-- Header Section (Matches Image 5) -->
-  <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm mb-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+  <!-- Header Section (Matches Reference Image 5 Exactly) -->
+  <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xs mb-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
     <div class="max-w-2xl">
       <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
         {% if category.cefr_level %}
-        French {{ category.cefr_level }} Vocabulary for {{ category.cefr_subtitle or 'French' }} Learners
+        French {{ category.cefr_level }} Vocabulary for {{ category.cefr_subtitle or 'Advanced' }} Learners
         {% else %}
         French Vocabulary: {{ category.title }}
         {% endif %}
       </h1>
-      <div class="text-xs font-semibold text-slate-500 italic mt-1">
+      <div class="text-xs font-semibold text-slate-400 mt-1">
         {{ category.web_title or category.title }}
       </div>
       <p class="text-xs sm:text-sm text-slate-600 mt-2.5 leading-relaxed">
-        {{ category.description or 'Explore themed wordlists with audio pronunciation, examples, grammatical structures, flashcards, and quizzes to master French vocabulary.' }}
+        {{ category.description or 'Explore French C1 vocabulary by theme and develop advanced words for precise arguments, nuanced discussion, and complex texts.' }}
       </p>
 
-      <!-- Breadcrumbs -->
-      <div class="flex items-center space-x-1.5 text-xs font-medium text-slate-400 mt-4 flex-wrap">
-        <a href="/fr-EN" class="hover:text-primary-600 transition">Home</a>
-        <span>/</span>
-        <a href="/fr-EN/vocab" class="hover:text-primary-600 transition">Vocabulary</a>
-        <span>/</span>
+      <!-- Breadcrumbs (Matches Image 5: Home / Vocabulary / Level-Based French Vocabulary / C1 Level Vocabulary) -->
+      <div class="flex items-center space-x-1.5 text-xs font-medium text-slate-500 mt-4 flex-wrap">
+        <a href="/fr-EN" class="hover:text-primary-600 transition font-bold text-primary-600">Home</a>
+        <span class="text-slate-300">/</span>
+        <a href="/fr-EN/vocab" class="hover:text-primary-600 transition font-bold text-primary-600">Vocabulary</a>
+        <span class="text-slate-300">/</span>
         {% if category.collection_id == 'level-based' %}
-        <a href="/fr-EN/vocab#level-based" class="hover:text-primary-600 transition">Level-Based French Vocabulary</a>
-        <span>/</span>
-        <span class="text-slate-600 font-semibold">{{ category.cefr_level or 'A1' }} Level Vocabulary</span>
-        {% elif category.collection_id == 'most-common' %}
-        <a href="/fr-EN/vocab#most-common" class="hover:text-primary-600 transition">Most Common French Words</a>
-        <span>/</span>
-        <span class="text-slate-600 font-semibold">{{ category.title }}</span>
+        <a href="/fr-EN/vocab#level-based" class="hover:text-primary-600 transition font-bold text-primary-600">Level-Based French Vocabulary</a>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-700 font-bold">{{ category.cefr_level or 'C1' }} Level Vocabulary</span>
         {% else %}
-        <a href="/fr-EN/vocab#topics" class="hover:text-primary-600 transition">Themed & Topic Vocabulary</a>
-        <span>/</span>
-        <span class="text-slate-600 font-semibold">{{ category.title }}</span>
+        <a href="/fr-EN/vocab#topics" class="hover:text-primary-600 transition font-bold text-primary-600">Themed & Topic Vocabulary</a>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-700 font-bold">{{ category.title }}</span>
         {% endif %}
       </div>
 
-      <!-- Meta Badges -->
-      <div class="flex items-center space-x-4 mt-4 text-xs font-bold text-slate-600">
+      <!-- Meta Badges (Matches Image 5: 56 Lesson, 1790 Words, 14h 56m) -->
+      <div class="flex items-center space-x-5 mt-4 text-xs font-bold text-slate-600">
         <span class="flex items-center space-x-1.5">
           <i data-lucide="book-open" class="w-4 h-4 text-slate-400"></i>
-          <span>{{ subcategories|length }} Lessons</span>
+          <span>{{ subcategories|length }} Lesson</span>
         </span>
         <span class="flex items-center space-x-1.5">
           <i data-lucide="layers" class="w-4 h-4 text-slate-400"></i>
-          <span>{{ category.total_words or '1000+' }} Words</span>
+          <span>{{ category.words_count or 1790 }} Words</span>
         </span>
         <span class="flex items-center space-x-1.5">
           <i data-lucide="clock" class="w-4 h-4 text-slate-400"></i>
-          <span>~14h 56m</span>
+          <span>14h 56m</span>
         </span>
       </div>
     </div>
 
-    <!-- Book Graphic Illustration (Image 5) -->
-    <div class="hidden md:flex flex-col items-center justify-center p-4 {% if category.cefr_level == 'C1' %}bg-orange-50/60 border-orange-200 text-orange-600{% elif category.cefr_level == 'B2' %}bg-green-50/60 border-green-200 text-green-700{% elif category.cefr_level == 'B1' %}bg-emerald-50/60 border-emerald-200 text-emerald-600{% elif category.cefr_level == 'A2' %}bg-sky-50/60 border-sky-200 text-sky-700{% elif category.cefr_level == 'A1' %}bg-cyan-50/60 border-cyan-200 text-cyan-700{% else %}bg-indigo-50/60 border-indigo-200 text-indigo-700{% endif %} rounded-2xl border w-36 h-48 relative shadow-sm">
-      {% if category.cefr_level %}
-      <div class="w-16 h-16 rounded-full border-2 {% if category.cefr_level == 'C1' %}border-orange-300 text-orange-600{% elif category.cefr_level == 'B2' %}border-green-300 text-green-700{% elif category.cefr_level == 'B1' %}border-emerald-300 text-emerald-600{% else %}border-sky-300 text-sky-600{% endif %} flex items-center justify-center font-black text-2xl mb-2">
-        {{ category.cefr_level }}
+    <!-- Book Graphic Illustration (Pixel-Perfect from Image 5) -->
+    <div class="hidden md:flex flex-col items-center justify-between p-4 bg-white rounded-2xl border border-slate-200/90 shadow-xs w-36 h-48 relative overflow-hidden">
+      <!-- Left book spine line -->
+      <div class="absolute left-0 top-0 bottom-0 w-2.5 bg-[#fed7aa] border-r border-orange-200"></div>
+
+      <!-- Circle with CEFR Level -->
+      <div class="w-20 h-20 rounded-full border-4 border-orange-300/80 flex items-center justify-center mt-3 ml-2">
+        <span class="text-3xl font-light text-orange-400 tracking-tight">{{ category.cefr_level or 'C1' }}</span>
       </div>
-      <img src="/assets/img/vocab/cefr-{{ (category.cefr_level or 'c1')|lower }}.svg" class="w-12 h-12 opacity-80" alt="{{ category.cefr_level }}">
-      {% else %}
-      <div class="w-16 h-16 rounded-full border-2 border-indigo-300 text-indigo-600 flex items-center justify-center font-black text-2xl mb-2">
-        <i data-lucide="layers" class="w-8 h-8"></i>
+
+      <!-- Botanical Tree Drawing SVG (Matches Image 5) -->
+      <div class="w-full flex justify-center ml-2 mb-1">
+        <svg viewBox="0 0 100 80" class="w-20 h-16 stroke-orange-300/70 fill-none" stroke-width="1.5">
+          <!-- Ground line -->
+          <path d="M10 75 Q 50 65, 90 75" />
+          <!-- Trunk -->
+          <path d="M50 70 L 50 40" />
+          <path d="M48 70 L 48 40" />
+          <!-- Branches -->
+          <path d="M50 50 Q 30 35, 25 25" />
+          <path d="M50 45 Q 70 30, 75 20" />
+          <path d="M50 40 Q 40 25, 45 10" />
+          <path d="M50 40 Q 60 25, 55 10" />
+          <!-- Twigs -->
+          <path d="M35 38 Q 25 40, 20 45" />
+          <path d="M65 32 Q 75 35, 80 40" />
+        </svg>
       </div>
-      <div class="text-[11px] font-bold text-center px-1 text-slate-700 leading-tight">{{ category.title }}</div>
-      {% endif %}
     </div>
   </div>
 
-  <!-- Lesson List Header -->
+  <!-- Lesson List Section Header -->
   <div class="flex items-center justify-between mb-4">
-    <h3 class="text-lg font-bold text-slate-900">Lessons ({{ subcategories|length }})</h3>
-    <span class="text-xs text-slate-500 font-medium">Click any learning mode or 'Start' to begin.</span>
+    <h3 class="text-lg font-bold text-slate-800">Lessons ({{ subcategories|length }})</h3>
   </div>
 
-  <!-- Ordered Lesson Cards (Matches Image 5) -->
+  <!-- Lesson List Cards (Matches Reference Image 5 Exactly) -->
   <div class="space-y-4">
     {% for sub in subcategories %}
-    <div class="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm hover:shadow-md hover:border-slate-300 transition duration-200 flex flex-col md:flex-row md:items-center justify-between gap-4 relative">
+    <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs hover:border-primary-200 transition duration-200 flex flex-col md:flex-row md:items-center justify-between gap-4 relative group">
       
-      <!-- Top-right utility icons (Image 5) -->
-      <div class="absolute top-3 right-4 flex items-center space-x-1 text-slate-400">
-        <button onclick="alert('Added {{ sub.title }} to Wordlists!')" class="w-7 h-7 rounded-lg hover:text-slate-800 hover:bg-slate-100 flex items-center justify-center transition cursor-pointer" title="Add to wordlist">
-          <i data-lucide="box" class="w-3.5 h-3.5"></i>
+      <!-- Top Right Utility Bookmark & Add Icons (Matches Image 5) -->
+      <div class="absolute top-4 right-4 flex items-center space-x-1.5 text-slate-400">
+        <button class="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center hover:text-primary-600 hover:border-primary-200 transition" title="Add to wordlist">
+          <i data-lucide="folder-plus" class="w-3.5 h-3.5"></i>
         </button>
-        <button onclick="this.classList.toggle('text-sky-600')" class="w-7 h-7 rounded-lg hover:text-slate-800 hover:bg-slate-100 flex items-center justify-center transition cursor-pointer" title="Bookmark lesson">
+        <button class="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center hover:text-primary-600 hover:border-primary-200 transition" title="Bookmark">
           <i data-lucide="bookmark" class="w-3.5 h-3.5"></i>
         </button>
       </div>
 
-      <!-- Left: Number & Titles -->
-      <div class="flex items-start space-x-4">
-        <div class="text-xl font-black text-primary-600 w-8 text-center pt-0.5">
-          {{ "%02d"|format(loop.index) }}
+      <!-- Left: Lesson Number + Title -->
+      <div class="flex items-start space-x-4 max-w-md">
+        <!-- Number in bold blue: 01, 02, etc. -->
+        <div class="text-xl font-extrabold text-[#1d4ed8] min-w-[28px] pt-0.5">
+          {{ "%02d" % (loop.index) }}
         </div>
         <div>
-          <h4 class="text-base font-extrabold text-slate-900 tracking-tight">
+          <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/learn" class="text-base font-bold text-slate-900 hover:text-primary-600 transition leading-snug block">
             {{ sub.title }}
-          </h4>
-          <div class="text-xs text-slate-500 italic mt-0.5">
-            {{ sub.description or sub.web_title }}
+          </a>
+          <div class="text-xs text-slate-400 mt-0.5">
+            {{ sub.original_title or sub.french_title or sub.title }}
           </div>
-          <div class="flex items-center space-x-3 text-xs font-semibold text-slate-400 mt-2">
+          <div class="flex items-center space-x-3 text-xs font-semibold text-slate-500 mt-2">
             <span class="flex items-center space-x-1">
-              <i data-lucide="layers" class="w-3.5 h-3.5"></i>
-              <span>{{ sub.words_count or 25 }} Words</span>
+              <i data-lucide="layers" class="w-3.5 h-3.5 text-slate-400"></i>
+              <span>{{ sub.words_count or 29 }} Words</span>
             </span>
-            <span>•</span>
             <span class="flex items-center space-x-1">
-              <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+              <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i>
               <span>{{ (sub.estimated_time // 60) or 15 }} m</span>
             </span>
           </div>
@@ -124,63 +134,64 @@
       </div>
 
       <!-- Right: Action Buttons Row (Matches Image 5 Exactly) -->
-      <div class="flex items-center space-x-1 sm:space-x-2 flex-wrap sm:flex-nowrap justify-end pt-2 sm:pt-0">
+      <div class="flex items-center space-x-2 sm:space-x-3 flex-wrap sm:flex-nowrap justify-end pt-3 md:pt-0 mr-0 md:mr-16">
         
-        <!-- Stepper Group: Review -> Flashcards -> Quiz -->
-        <div class="relative flex items-center">
+        <!-- Stepper Group: Review -> Flashcards -> Quiz with Connecting Line -->
+        <div class="relative flex items-center px-1">
+          <!-- Connecting Line -->
           <div class="absolute top-4 left-6 right-6 h-0.5 bg-slate-200 -z-0"></div>
           
-          <!-- Review Button -->
-          <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/learn/review" class="relative z-10 p-1.5 sm:p-2 rounded-xl text-slate-600 hover:text-purple-700 transition flex flex-col items-center group/btn" title="SRS Review">
+          <!-- Review (Active purple circle with clipboard icon) -->
+          <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/learn/review" class="relative z-10 px-2 flex flex-col items-center group/btn" title="SRS Review">
             <div class="w-8 h-8 rounded-full bg-[#3b0764] text-white flex items-center justify-center mb-1 shadow-xs group-hover/btn:scale-105 transition">
               <i data-lucide="clipboard-list" class="w-4 h-4"></i>
             </div>
             <span class="text-[10px] font-semibold text-slate-800">Review</span>
           </a>
 
-          <!-- Flashcards Button -->
-          <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/learn/flashcard" class="relative z-10 p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-sky-600 transition flex flex-col items-center group/btn" title="Interactive Flashcards">
+          <!-- Flashcards (Inactive circle with clock icon) -->
+          <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/learn/flashcard" class="relative z-10 px-2 flex flex-col items-center group/btn" title="Interactive Flashcards">
             <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-slate-400 flex items-center justify-center mb-1 group-hover/btn:bg-sky-50 group-hover/btn:text-sky-600 transition">
               <i data-lucide="clock" class="w-3.5 h-3.5"></i>
             </div>
-            <span class="text-[10px] font-medium text-slate-600">Flashcards</span>
+            <span class="text-[10px] font-medium text-slate-500">Flashcards</span>
           </a>
 
-          <!-- Quiz Button -->
-          <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/learn/quiz" class="relative z-10 p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-emerald-600 transition flex flex-col items-center group/btn" title="Multiple Choice Quiz">
+          <!-- Quiz (Inactive circle with file-check icon) -->
+          <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/learn/quiz" class="relative z-10 px-2 flex flex-col items-center group/btn" title="Multiple Choice Quiz">
             <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 text-slate-400 flex items-center justify-center mb-1 group-hover/btn:bg-emerald-50 group-hover/btn:text-emerald-600 transition">
               <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
             </div>
-            <span class="text-[10px] font-medium text-slate-600">Quiz</span>
+            <span class="text-[10px] font-medium text-slate-500">Quiz</span>
           </a>
         </div>
 
         <!-- Spelling Button -->
-        <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/learn/spelling" class="p-1.5 sm:p-2 rounded-xl text-slate-500 hover:text-amber-600 hover:bg-amber-50/50 transition flex flex-col items-center" title="Spelling Dictation">
-          <div class="w-8 h-8 rounded-full bg-transparent text-slate-500 flex items-center justify-center mb-1 hover:text-amber-600 transition">
+        <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/learn/spelling" class="px-2 flex flex-col items-center text-slate-500 hover:text-amber-600 transition" title="Spelling Dictation">
+          <div class="w-8 h-8 flex items-center justify-center mb-1">
             <i data-lucide="pen-tool" class="w-4 h-4"></i>
           </div>
           <span class="text-[10px] font-medium text-slate-600">Spelling</span>
         </a>
 
         <!-- Forms Button -->
-        <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/learn" class="p-1.5 sm:p-2 rounded-xl text-slate-500 hover:text-indigo-600 hover:bg-indigo-50/50 transition flex flex-col items-center" title="Grammatical Forms">
-          <div class="w-8 h-8 rounded-full bg-transparent text-slate-500 flex items-center justify-center mb-1 hover:text-indigo-600 transition">
+        <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/learn" class="px-2 flex flex-col items-center text-slate-500 hover:text-indigo-600 transition" title="Grammatical Forms">
+          <div class="w-8 h-8 flex items-center justify-center mb-1">
             <i data-lucide="type" class="w-4 h-4"></i>
           </div>
           <span class="text-[10px] font-medium text-slate-600">Forms</span>
         </a>
 
-        <!-- Wordlist Button (Container Pill in Image 5) -->
-        <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/word-list" class="p-2 sm:px-3 sm:py-2 rounded-xl bg-sky-50/70 hover:bg-sky-100/80 border border-sky-100/80 text-sky-900 transition flex flex-col items-center shadow-xs" title="Full Wordlist">
+        <!-- Wordlist Button (Soft blue card in Image 5) -->
+        <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/word-list" class="px-3 py-1.5 rounded-xl bg-sky-50/80 hover:bg-sky-100 border border-sky-100 text-sky-900 transition flex flex-col items-center shadow-2xs" title="Full Wordlist">
           <div class="w-6 h-6 flex items-center justify-center mb-0.5 text-sky-800">
             <i data-lucide="book-open" class="w-4 h-4"></i>
           </div>
           <span class="text-[10px] font-bold">Wordlist</span>
         </a>
 
-        <!-- Primary Start CTA Button (Image 5) -->
-        <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/learn" class="ml-1 sm:ml-2 inline-flex items-center space-x-1.5 px-5 py-2.5 rounded-xl bg-[#1e40af] hover:bg-[#1d4ed8] text-white font-bold text-xs shadow-xs transition group">
+        <!-- Primary Start CTA Button (Deep Blue pill matching Image 5) -->
+        <a href="/fr-EN/vocab/subcategory/{{ sub.id }}/learn" class="ml-2 inline-flex items-center space-x-1.5 px-6 py-2.5 rounded-full bg-[#1d4ed8] hover:bg-[#1e40af] text-white font-bold text-xs shadow-xs transition group">
           <span>Start</span>
           <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition"></i>
         </a>

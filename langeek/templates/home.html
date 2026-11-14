@@ -5,11 +5,11 @@
 {% block content %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-  <!-- Language Switcher Pill Header (Matches Image 3) -->
-  <div class="flex justify-center mb-8">
-    <div class="inline-flex bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200 shadow-sm space-x-1">
+  <!-- Language Switcher Pill Header (Matches Reference Image 3 Exactly) -->
+  <div class="flex justify-center mb-10">
+    <div class="inline-flex bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200/80 shadow-xs space-x-1">
       <a href="/es" class="flex items-center space-x-2.5 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-        <img src="/assets/img/flags/es-rectangle.svg" class="w-5 h-3.5 rounded shadow-sm object-cover" alt="Spanish">
+        <img src="/assets/img/flags/es-rectangle.svg" class="w-5 h-3.5 rounded-xs shadow-xs object-cover" alt="Spanish">
         <div class="text-left">
           <div class="leading-tight font-bold">Spanish</div>
           <div class="text-[10px] text-slate-400 font-normal">español</div>
@@ -18,7 +18,7 @@
       
       <!-- Active French Tab -->
       <a href="/fr-EN" class="flex items-center space-x-2.5 px-4 py-2 rounded-xl text-xs font-semibold bg-white text-primary-600 shadow-sm border border-slate-200/80 transition">
-        <img src="/assets/img/flags/fr-rectangle.svg" class="w-5 h-3.5 rounded shadow-sm object-cover" alt="French">
+        <img src="/assets/img/flags/fr-rectangle.svg" class="w-5 h-3.5 rounded-xs shadow-xs object-cover" alt="French">
         <div class="text-left">
           <div class="leading-tight font-bold">French</div>
           <div class="text-[10px] text-primary-500 font-medium">français</div>
@@ -26,7 +26,7 @@
       </a>
 
       <a href="/de" class="flex items-center space-x-2.5 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-        <img src="/assets/img/flags/de-rectangle.svg" class="w-5 h-3.5 rounded shadow-sm object-cover" alt="German">
+        <img src="/assets/img/flags/de-rectangle.svg" class="w-5 h-3.5 rounded-xs shadow-xs object-cover" alt="German">
         <div class="text-left">
           <div class="leading-tight font-bold">German</div>
           <div class="text-[10px] text-slate-400 font-normal">Deutsch</div>
@@ -34,7 +34,7 @@
       </a>
 
       <a href="/en" class="flex items-center space-x-2.5 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-        <img src="/assets/img/flags/en-rectangle.svg" class="w-5 h-3.5 rounded shadow-sm object-cover" alt="English">
+        <img src="/assets/img/flags/en-rectangle.svg" class="w-5 h-3.5 rounded-xs shadow-xs object-cover" alt="English">
         <div class="text-left">
           <div class="leading-tight font-bold">English</div>
           <div class="text-[10px] text-slate-400 font-normal">English</div>
@@ -43,128 +43,102 @@
     </div>
   </div>
 
-  <!-- Hero Headline -->
-  <div class="text-center max-w-3xl mx-auto mb-12">
+  <!-- Hero Headline (Matches Reference Image 3) -->
+  <div class="text-center max-w-3xl mx-auto mb-14">
     <div class="flex items-center justify-center space-x-3 mb-3">
-      <img src="/assets/img/flags/fr-rectangle.svg" class="w-7 h-5 rounded shadow-sm object-cover" alt="French">
+      <img src="/assets/img/flags/fr-rectangle.svg" class="w-7 h-5 rounded-xs shadow-xs object-cover" alt="French">
       <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
         Learn French with <span class="bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent">LanGeek</span>
       </h1>
-      <img src="/assets/img/flags/fr-rectangle.svg" class="w-7 h-5 rounded shadow-sm object-cover" alt="French">
+      <img src="/assets/img/flags/fr-rectangle.svg" class="w-7 h-5 rounded-xs shadow-xs object-cover" alt="French">
     </div>
-    <p class="text-base text-slate-600 font-medium">
+    <p class="text-sm sm:text-base text-slate-600 font-medium">
       LanGeek is a language learning platform that makes your learning process faster and easier.
     </p>
   </div>
 
-  <!-- 5 Core Category Feature Cards (Pixel-Perfect from Image 3) -->
+  <!-- 5 Core Category Feature Cards (Pixel-Perfect from Reference Image 3) -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
 
-    <!-- Card 1: Vocabulary -->
-    <a href="/fr-EN/vocab" class="relative group block rounded-3xl p-6 bg-[#7dd3fc] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[320px] flex flex-col justify-between">
+    <!-- Card 1: Vocabulary (Sky Blue #6ec1e4 / #7dd3fc) -->
+    <a href="/fr-EN/vocab" class="relative group block rounded-3xl p-6 bg-[#6ec1e4] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[360px] flex flex-col items-center justify-center text-center">
       <!-- Background SVG corner textures -->
-      <img src="/assets/img/home/vocab-card-pattern1.svg" class="absolute top-0 right-0 w-24 h-24 opacity-40 pointer-events-none" alt="">
-      <img src="/assets/img/home/vocab-card-pattern2.svg" class="absolute bottom-0 left-0 w-24 h-24 opacity-40 pointer-events-none" alt="">
+      <img src="/assets/img/home/vocab-card-pattern1.svg" class="absolute top-0 right-0 w-28 h-28 opacity-40 pointer-events-none" alt="" aria-hidden="true">
+      <img src="/assets/img/home/vocab-card-pattern2.svg" class="absolute bottom-0 left-0 w-28 h-28 opacity-40 pointer-events-none" alt="" aria-hidden="true">
 
-      <div class="relative z-10 flex flex-col items-center text-center mt-8">
+      <div class="relative z-10 flex flex-col items-center">
         <div class="w-20 h-20 rounded-full bg-white/70 backdrop-blur shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
           <i data-lucide="layers" class="w-10 h-10 text-[#0284c7]"></i>
         </div>
         <h3 class="text-xl font-extrabold tracking-tight mb-1 text-slate-900">Vocabulary</h3>
         <p class="text-xs font-semibold text-slate-700">Learn French Vocabulary</p>
       </div>
-
-      <div class="relative z-10 flex justify-center pb-2">
-        <span class="inline-flex items-center text-xs font-bold text-[#0369a1] group-hover:translate-x-1 transition duration-200">
-          Explore Decks &rarr;
-        </span>
-      </div>
     </a>
 
-    <!-- Card 2: Expressions (Coming Soon) -->
-    <div class="relative block rounded-3xl p-6 bg-[#fed7aa] text-slate-900 overflow-hidden shadow-sm min-h-[320px] flex flex-col justify-between">
-      <img src="/assets/img/home/expression-card-pattern.svg" class="absolute top-0 right-0 w-24 h-24 opacity-30 pointer-events-none" alt="">
-      
-      <div class="relative z-10 flex justify-center">
-        <span class="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-white/80 text-amber-800 shadow-sm">
-          Coming Soon
-        </span>
-      </div>
+    <!-- Card 2: Expressions (Warm Peach #f8b179 / #fed7aa) -->
+    <a href="/fr-EN/vocab#expressions" class="relative group block rounded-3xl p-6 bg-[#f8b179] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[360px] flex flex-col items-center justify-center text-center">
+      <!-- Subtle dot matrix pattern in background -->
+      <img src="/assets/img/home/expression-card-pattern.svg" class="absolute top-2 right-2 w-20 h-20 opacity-40 pointer-events-none" alt="" aria-hidden="true">
+      <img src="/assets/img/home/expression-card-pattern.svg" class="absolute bottom-2 left-2 w-20 h-20 opacity-40 pointer-events-none" alt="" aria-hidden="true">
 
-      <div class="relative z-10 flex flex-col items-center text-center">
-        <div class="w-20 h-20 rounded-full bg-white/70 backdrop-blur shadow-sm flex items-center justify-center mb-6">
-          <i data-lucide="lightbulb" class="w-10 h-10 text-[#d97706]"></i>
+      <div class="relative z-10 flex flex-col items-center">
+        <div class="w-20 h-20 rounded-full bg-white/70 backdrop-blur shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
+          <i data-lucide="lightbulb" class="w-10 h-10 text-[#ea580c]"></i>
         </div>
         <h3 class="text-xl font-extrabold tracking-tight mb-1 text-slate-900">Expressions</h3>
         <p class="text-xs font-semibold text-slate-700">Learn Expressions and Idioms</p>
       </div>
+    </a>
 
-      <div class="relative z-10 flex justify-center pb-2 text-[11px] text-amber-800 font-medium">
-        Idiomatic Mastery
-      </div>
-    </div>
+    <!-- Card 3: Reading (Soft Mint/Teal #51cdb4 / #5eead4) -->
+    <a href="/fr-EN/reading" class="relative group block rounded-3xl p-6 bg-[#51cdb4] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[360px] flex flex-col items-center justify-center text-center">
+      <!-- Concentric arches pattern -->
+      <img src="/assets/img/home/reading-card-pattern.svg" class="absolute top-0 right-0 w-24 h-24 opacity-40 pointer-events-none" alt="" aria-hidden="true">
+      <img src="/assets/img/home/reading-card-pattern.svg" class="absolute bottom-0 left-0 w-24 h-24 opacity-40 pointer-events-none rotate-180" alt="" aria-hidden="true">
 
-    <!-- Card 3: Reading -->
-    <a href="/fr-EN/reading" class="relative group block rounded-3xl p-6 bg-[#5eead4] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[320px] flex flex-col justify-between">
-      <img src="/assets/img/home/reading-card-pattern.svg" class="absolute top-0 right-0 w-24 h-24 opacity-40 pointer-events-none" alt="">
-
-      <div class="relative z-10 flex flex-col items-center text-center mt-8">
+      <div class="relative z-10 flex flex-col items-center">
         <div class="w-20 h-20 rounded-full bg-white/70 backdrop-blur shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
           <i data-lucide="book-open" class="w-10 h-10 text-[#0f766e]"></i>
         </div>
         <h3 class="text-xl font-extrabold tracking-tight mb-1 text-slate-900">Reading</h3>
         <p class="text-xs font-semibold text-slate-700">Reading comprehension</p>
       </div>
-
-      <div class="relative z-10 flex justify-center pb-2">
-        <span class="inline-flex items-center text-xs font-bold text-[#0f766e] group-hover:translate-x-1 transition duration-200">
-          Read Passages &rarr;
-        </span>
-      </div>
     </a>
 
-    <!-- Card 4: Pronunciation -->
-    <a href="/fr-EN/pronunciation" class="relative group block rounded-3xl p-6 bg-[#fde047] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[320px] flex flex-col justify-between">
-      <img src="/assets/img/home/pronunciation-card-pattern.svg" class="absolute top-0 right-0 w-24 h-24 opacity-40 pointer-events-none" alt="">
+    <!-- Card 4: Pronunciation (Warm Golden Yellow #f5c767 / #fde047) -->
+    <a href="/fr-EN/pronunciation" class="relative group block rounded-3xl p-6 bg-[#f5c767] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[360px] flex flex-col items-center justify-center text-center">
+      <!-- Zigzag lines pattern -->
+      <img src="/assets/img/home/pronunciation-card-pattern.svg" class="absolute top-2 right-2 w-20 h-20 opacity-40 pointer-events-none" alt="" aria-hidden="true">
+      <img src="/assets/img/home/pronunciation-card-pattern.svg" class="absolute bottom-2 left-2 w-20 h-20 opacity-40 pointer-events-none" alt="" aria-hidden="true">
 
-      <div class="relative z-10 flex flex-col items-center text-center mt-8">
+      <div class="relative z-10 flex flex-col items-center">
         <div class="w-20 h-20 rounded-full bg-white/70 backdrop-blur shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
-          <i data-lucide="volume-2" class="w-10 h-10 text-[#a16207]"></i>
+          <i data-lucide="message-circle" class="w-10 h-10 text-[#a16207]"></i>
         </div>
         <h3 class="text-xl font-extrabold tracking-tight mb-1 text-slate-900">Pronunciation</h3>
         <p class="text-xs font-semibold text-slate-700">Pronunciation Lessons</p>
       </div>
-
-      <div class="relative z-10 flex justify-center pb-2">
-        <span class="inline-flex items-center text-xs font-bold text-[#a16207] group-hover:translate-x-1 transition duration-200">
-          Listen & Learn &rarr;
-        </span>
-      </div>
     </a>
 
-    <!-- Card 5: Grammar -->
-    <a href="/fr-EN/grammar" class="relative group block rounded-3xl p-6 bg-[#fca5a5] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[320px] flex flex-col justify-between">
-      <img src="/assets/img/home/grammar-card-pattern.svg" class="absolute top-0 right-0 w-24 h-24 opacity-40 pointer-events-none" alt="">
+    <!-- Card 5: Grammar (Terracotta / Coral Salmon #ea8774 / #fca5a5) -->
+    <a href="/fr-EN/grammar" class="relative group block rounded-3xl p-6 bg-[#ea8774] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[360px] flex flex-col items-center justify-center text-center">
+      <!-- Leafy botanical pattern -->
+      <img src="/assets/img/home/grammar-card-pattern.svg" class="absolute top-0 right-0 w-24 h-24 opacity-40 pointer-events-none" alt="" aria-hidden="true">
+      <img src="/assets/img/home/grammar-card-pattern.svg" class="absolute bottom-0 left-0 w-24 h-24 opacity-40 pointer-events-none rotate-180" alt="" aria-hidden="true">
 
-      <div class="relative z-10 flex flex-col items-center text-center mt-8">
+      <div class="relative z-10 flex flex-col items-center">
         <div class="w-20 h-20 rounded-full bg-white/70 backdrop-blur shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
           <i data-lucide="book-marked" class="w-10 h-10 text-[#b91c1c]"></i>
         </div>
         <h3 class="text-xl font-extrabold tracking-tight mb-1 text-slate-900">Grammar</h3>
         <p class="text-xs font-semibold text-slate-700">French Grammar lessons</p>
       </div>
-
-      <div class="relative z-10 flex justify-center pb-2">
-        <span class="inline-flex items-center text-xs font-bold text-[#b91c1c] group-hover:translate-x-1 transition duration-200">
-          Master Grammar &rarr;
-        </span>
-      </div>
     </a>
 
   </div>
 
   <!-- CEFR Quick Navigation Bar -->
-  <div class="mt-16 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between">
+  <div class="mt-16 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between">
     <div>
       <h4 class="text-base font-bold text-slate-900">Start by CEFR Level</h4>
       <p class="text-xs text-slate-500">From A1 Beginner to C1 Advanced French vocabulary and exams.</p>
