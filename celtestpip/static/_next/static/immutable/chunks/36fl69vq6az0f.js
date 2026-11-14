@@ -1,0 +1,39 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,294546,e=>{"use strict";var t=e.i(843476),n=e.i(167881),a=e.i(387644),r=e.i(615227),i=e.i(456420);let s=(0,i.default)("refresh-ccw",[["path",{d:"M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8",key:"14sxne"}],["path",{d:"M3 3v5h5",key:"1xhq8a"}],["path",{d:"M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16",key:"1hlbsb"}],["path",{d:"M16 16h5v5",key:"ccwih5"}]]),o=(0,i.default)("wifi-off",[["path",{d:"M12 20h.01",key:"zekei9"}],["path",{d:"M8.5 16.429a5 5 0 0 1 7 0",key:"1bycff"}],["path",{d:"M5 12.859a10 10 0 0 1 5.17-2.69",key:"1dl1wf"}],["path",{d:"M19 12.859a10 10 0 0 0-2.007-1.523",key:"4k23kn"}],["path",{d:"M2 8.82a15 15 0 0 1 4.177-2.643",key:"1grhjp"}],["path",{d:"M22 8.82a15 15 0 0 0-11.288-3.764",key:"z3jwby"}],["path",{d:"m2 2 20 20",key:"1ooewy"}]]);var l=e.i(657688),c=e.i(271645),d=e.i(820364),h=e.i(563654),u=e.i(998279);e.s(["default",0,function({error:e,unstable_retry:i}){let f,m=(f=e.message||"",(0,u.isNetworkError)(f)?{type:"network",title:"Connection Problem",message:"We're having trouble connecting to our servers. Please check your internet connection and try again.",icon:"wifi"}:(0,d.isStaleChunkMessage)(f)||(0,d.isStaleReactBundleError)(f)?{type:"chunk",title:"Update Required",message:"The application has been updated. Refreshing the page...",icon:"error"}:{type:"generic",title:"Oops! Something went wrong",message:"We apologize for the inconvenience. Our team is aware of the issue and actively working on a fix. Please try again in a few minutes.",icon:"error"}),w="network"===m.type,[p,g]=(0,c.useState)(!1);(0,c.useEffect)(()=>{let e=()=>g(!1===navigator.onLine);return e(),window.addEventListener("online",e),window.addEventListener("offline",e),()=>{window.removeEventListener("online",e),window.removeEventListener("offline",e)}},[]);let y=(0,c.useCallback)(()=>{i?i():window.location.reload()},[i]);return(0,c.useEffect)(()=>{if(!w)return;let e=()=>y();return window.addEventListener("online",e),()=>window.removeEventListener("online",e)},[w,y]),(0,c.useEffect)(()=>{(0,a.sendGAEvent)("event","Error",{error_message:e.message,error_type:m.type}),(0,h.reportClientError)(e),"chunk"===m.type&&(0,d.reloadOnceForStaleChunk)()},[e,m.type]),(0,t.jsx)("div",{className:"flex flex-col items-center justify-center min-h-screen w-full p-4 bg-gradient-to-b from-blue-100 via-purple-100 to-pink-100/10",children:(0,t.jsxs)("div",{className:"flex flex-col items-center max-w-xl text-center",children:["wifi"===m.icon?(0,t.jsx)(o,{className:"w-24 h-24 mb-8 text-slate-400"}):(0,t.jsx)(l.default,{src:"/error.png",alt:"Error",width:200,height:300,className:"mb-8"}),(0,t.jsx)("h1",{className:"mb-4 text-4xl font-black tracking-wide text-gray-900",children:m.title}),(0,t.jsx)("p",{className:"mb-8 font-medium text-slate-600",children:w&&p?"You're offline. Nothing has been lost, and this page will load itself as soon as your connection is back.":m.message}),(0,t.jsxs)("div",{className:"flex gap-4",children:[(0,t.jsxs)(n.Button,{variant:"main",type:"button",onClick:()=>{w?y():window.location.reload()},children:[(0,t.jsx)(s,{className:"w-4 h-4 mr-2"}),w?"Try again":"Refresh"]}),(0,t.jsxs)(n.Button,{variant:"white",className:"",onClick:()=>{window.location.href="/teacher"},children:[(0,t.jsx)(r.MessageCircle,{className:"w-4 h-4 mr-2"}),"Chat Support"]})]})]})})}],294546)},563654,820364,998279,e=>{"use strict";let t=e=>/Failed to load chunk /i.test(e)||/module factory is not available/i.test(e)||/Loading chunk [\w]+ failed/i.test(e)||/ChunkLoadError/i.test(e)||/Cannot read properties of undefined \(reading 'call'\)/i.test(e)||/undefined is not an object \(evaluating '[^']*\.call'\)/i.test(e);e.s(["isStaleChunkMessage",0,t,"isStaleReactBundleError",0,e=>/Minified React error #3(00|10)\b/i.test(e),"reloadOnceForStaleChunk",0,()=>{let e="chunk-reload-attempt",t=Date.now(),n=0;try{n=Number(window.sessionStorage.getItem(e))||0}catch{}if(t-n<6e4)return!1;try{window.sessionStorage.setItem(e,String(t))}catch{}return window.location.reload(),!0}],820364);let n="__domInterference";`
+(function () {
+  try {
+    var seen = {};
+    var html = document.documentElement;
+    function scan() {
+      try {
+        // Google Translate, both the browser feature and the embedded widget.
+        if (html.classList.contains('translated-ltr') ||
+            html.classList.contains('translated-rtl') ||
+            document.querySelector('.skiptranslate')) seen['google-translate'] = 1;
+        // Edge / Microsoft Translator tags every element it rewrites.
+        if (document.querySelector('[_msttexthash],[_msthash],[_mstmutation]')) seen['ms-translate'] = 1;
+        // Either translator's output, and the thing that actually breaks React:
+        // <font> appears nowhere in our markup, so any of it came from outside.
+        if (document.querySelector('font')) seen['font-tags'] = 1;
+        // layout.tsx already carries suppressHydrationWarning for these, so we
+        // know Grammarly is in the wild on this site.
+        if (document.body && (document.body.hasAttribute('data-gr-ext-installed') ||
+            document.body.hasAttribute('data-new-gr-c-s-check-loaded'))) seen['grammarly'] = 1;
+        // The layout hard-codes lang="en". Anything else was set by a tool.
+        var lang = html.getAttribute('lang');
+        if (lang && lang !== 'en') seen['lang=' + lang.slice(0, 12)] = 1;
+      } catch (e) {}
+    }
+    // scan is exposed so the report can take one more look on its way out. The
+    // latch covers the case where the evidence is already gone; a live rescan
+    // covers the opposite one, a translator that started late and left no
+    // <html> marker. app/(routes)/error.tsx keeps the layout, so there the
+    // rescan is reading the real, still-translated page.
+    // (No backticks in here: this whole script is a template literal.)
+    window.${n} = { seen: seen, scan: scan };
+    scan();
+    document.addEventListener('DOMContentLoaded', scan);
+    window.addEventListener('load', scan);
+    new MutationObserver(scan).observe(html, { attributes: true, attributeFilter: ['class', 'lang'] });
+  } catch (e) {}
+})();
+`.trim();let a=e=>/network error/i.test(e)||/^failed to fetch$/i.test(e.trim())||/failed to fetch dynamically imported module/i.test(e)||/networkerror when attempting to fetch/i.test(e)||/the network connection was lost/i.test(e)||/the internet connection appears to be offline/i.test(e)||/err_internet_disconnected/i.test(e)||/^load failed$/i.test(e.trim());e.s(["isNetworkError",0,a],998279),e.s(["reportClientError",0,function(e){let r=e?.message??"",i=/not a child of this node/i.test(r)||/The node to be removed is not a child/i.test(r)||/Failed to execute '(removeChild|insertBefore|appendChild)' on 'Node'/i.test(r);if(!(!i&&(t(r)||/Connection closed/i.test(r)||a(r))))try{fetch("/api/client-error",{method:"POST",headers:{"Content-Type":"application/json"},keepalive:!0,body:JSON.stringify({message:e?.message||void 0,digest:e?.digest,url:window.location.href,release:"720b742004a76b46fe09fb687f07108db86458e9",stack:function(e){if(!e)return;let t=e.split("\n").map(e=>e.trim()).filter(Boolean);if(0===t.length)return;let n=t[0],a=!n.includes("@")&&!n.startsWith("at ");return t.slice(+!!a,a?4:3).join(" | ").slice(0,400)||void 0}(e?.stack),isNative:!!window.appData?.isNative,domInterference:i?function(){try{let e=window[n];if(!e||"object"!=typeof e||!e.seen)return"unknown";try{e.scan?.()}catch{}let t=Object.keys(e.seen);return t.length>0?t.join(", "):"none"}catch{return}}():void 0})}).catch(()=>{})}catch{}}],563654)},615227,e=>{"use strict";let t=(0,e.i(456420).default)("message-circle",[["path",{d:"M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719",key:"1sd12s"}]]);e.s(["MessageCircle",0,t],615227)}]);

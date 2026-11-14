@@ -122,6 +122,16 @@ def clean_html(html: str) -> str:
         static_signin_btn = '<a href="/exams"><button class="items-center justify-center whitespace-nowrap text-sm font-semibold ring-offset-background transition-[color,background-color,border-color,box-shadow,transform] ease-out-strong active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-white white-btn text-zinc-900 rounded-xl border border-zinc-300 hover:-translate-y-0.5 active:translate-y-0 duration-200 h-10 px-4 py-2 flex lg:w-[128px] w-[80px]"><span class="lg:hidden">Sign in</span><span class="hidden lg:block">Login / Sign up</span></button></a>'
         html = re.sub(spinner_btn_regex, static_signin_btn, html, flags=re.DOTALL)
 
+    # 8. Transform locked practice badges in part hub pages to Free badges
+    if 'Pro practice' in html:
+        lock_badge_regex = r'<svg[^>]*aria-label="Pro practice"[^>]*>.*?</svg>\s*<span class="sr-only">Not started\.<!-- --> Pro practice, locked\.</span>'
+        free_badge = '<span class="shrink-0 rounded-full bg-blue-600 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-sm shadow-blue-600/25">Free</span><span class="sr-only">Not started.<!-- --> Free practice.</span>'
+        html = re.sub(lock_badge_regex, free_badge, html, flags=re.DOTALL)
+        html = html.replace(r'\"isFree\":false', r'\"isFree\":true')
+        html = html.replace('"isFree":false', '"isFree":true')
+        html = html.replace(r'\"isPro\":true', r'\"isPro\":false')
+        html = html.replace('"isPro":true', '"isPro":false')
+
     return html
 
 def process_file(path: str):

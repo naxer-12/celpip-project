@@ -7,6 +7,7 @@ chunks with long-lived Cache-Control headers, and application manifest/icons.
 import os
 import re
 import ssl
+import hashlib
 import mimetypes
 import urllib.request
 from typing import Optional
@@ -58,7 +59,7 @@ def serve_media(file_path: str):
             with open(cache_path, "wb") as f:
                 f.write(content)
             content_type = resp.headers.get("Content-Type", "audio/mpeg" if file_path.endswith(".mp3") else "image/jpeg")
-            return Response(content=content, media_type=content_type, headers=STATIC_HEADERS)
+            return FileResponse(cache_path, media_type=content_type, headers=STATIC_HEADERS)
     except Exception:
         raise HTTPException(status_code=404, detail="Media asset not found")
 
@@ -142,17 +143,64 @@ def get_logo():
     raise HTTPException(status_code=404)
 
 
+IMG_CACHE_DIR = os.path.join(STATIC_DIR, "img", "cache")
+os.makedirs(IMG_CACHE_DIR, exist_ok=True)
+
+
 @router.get("/_next/image")
 def get_next_image(url: str = "/logo.png", w: Optional[int] = None, q: Optional[int] = None):
-    """Next.js Image Optimization mock serving local static graphics."""
-    if "avatar" in url:
+    """Next.js Image Optimization proxy serving optimized images with disk caching."""
+    # 1. Local avatar matching
+    if "avatar" in url and not url.startswith("http"):
         m = re.search(r'(\d+)\.jpg', url)
         if m:
             av_path = os.path.join(AVATAR_DIR, f"{m.group(1)}.jpg")
             if os.path.exists(av_path):
-                return FileResponse(av_path)
-    if "logo" in url:
-        return FileResponse(os.path.join(STATIC_DIR, "img", "logo.png"))
-    if "icon" in url:
-        return FileResponse(os.path.join(STATIC_DIR, "img", "icon.png"))
-    return FileResponse(os.path.join(STATIC_DIR, "img", "logo.png"))
+                return FileResponse(av_path, headers=STATIC_HEADERS)
+
+    # 2. Local static assets
+    if url.startswith("/"):
+        clean_path = url.lstrip("/")
+        local_cand = os.path.join(STATIC_DIR, clean_path)
+        if os.path.exists(local_cand) and os.path.isfile(local_cand):
+            return FileResponse(local_cand, headers=STATIC_HEADERS)
+        if "logo" in url:
+            return FileResponse(os.path.join(STATIC_DIR, "img", "logo.png"), headers=STATIC_HEADERS)
+        if "icon" in url:
+            return FileResponse(os.path.join(STATIC_DIR, "img", "icon.png"), headers=STATIC_HEADERS)
+
+    # 3. Remote URL caching (Vercel blob, Google user content, external illustrations)
+    if url.startswith("http://") or url.startswith("https://"):
+        ext = ".jpg"
+        if ".png" in url:
+            ext = ".png"
+        elif ".webp" in url:
+            ext = ".webp"
+        elif ".jpeg" in url:
+            ext = ".jpeg"
+        elif ".svg" in url:
+            ext = ".svg"
+
+        url_hash = hashlib.sha256(url.encode("utf-8")).hexdigest()[:16]
+        cached_file = os.path.join(IMG_CACHE_DIR, f"{url_hash}{ext}")
+
+        if os.path.exists(cached_file) and os.path.getsize(cached_file) > 0:
+            content_type, _ = mimetypes.guess_type(cached_file)
+            return FileResponse(cached_file, media_type=content_type or "image/jpeg", headers=STATIC_HEADERS)
+
+        try:
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (CELTESTPIP Replica)"})
+            with urllib.request.urlopen(req, context=ctx, timeout=10) as resp:
+                if resp.status == 200:
+                    data = resp.read()
+                    with open(cached_file, "wb") as f:
+                        f.write(data)
+                    content_type = resp.headers.get("Content-Type", "image/jpeg")
+                    return Response(content=data, media_type=content_type, headers=STATIC_HEADERS)
+        except Exception:
+            pass
+
+    return FileResponse(os.path.join(STATIC_DIR, "img", "logo.png"), headers=STATIC_HEADERS)

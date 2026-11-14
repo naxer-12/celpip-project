@@ -23,6 +23,13 @@ from celtestpip.scripts.unlock_all_pro_content import clean_html
 router = APIRouter(tags=["Pages"])
 
 
+@router.post("/api/client-error")
+@router.post("/cdn-cgi/rum")
+def client_telemetry_stub():
+    """Absorb client logging and telemetry gracefully."""
+    return {"ok": True}
+
+
 @router.get("/", response_class=HTMLResponse)
 def index_page() -> HTMLResponse:
     """Home landing page with interactive skill categories and practice tests."""
@@ -99,9 +106,8 @@ def dynamic_content_page(full_path: str) -> HTMLResponse:
     if os.path.exists(page_file) and os.path.getsize(page_file) > 0:
         with open(page_file, "r", encoding="utf-8") as f:
             content = f.read()
-        cleaned = clean_html(content)
-        PAGE_CACHE[safe_slug] = cleaned
-        return HTMLResponse(cleaned, headers=PAGE_HEADERS)
+        PAGE_CACHE[safe_slug] = content
+        return HTMLResponse(content, headers=PAGE_HEADERS)
 
     # Remote fallback to crawl missing content pages on demand
     remote_url = f"https://www.celtestpip.com/{slug}"
