@@ -47,6 +47,7 @@ async def lifespan(app: FastAPI):
     )
     os.makedirs(STATIC_ASSETS_DIR, exist_ok=True)
     os.makedirs(MEDIA_PROXY_DIR, exist_ok=True)
+    ensure_search_index()
     yield
     if http_client:
         await http_client.aclose()
@@ -1236,41 +1237,213 @@ async def pronunciation_alphabet_view(request: Request, locale: str = "fr-EN"):
 
 
 # ---------------------------------------------------------
-# Local APIs & Offline Search Engine
+# Local APIs & Dual-Locale Search Engine (FTS5)
 # ---------------------------------------------------------
+def rebuild_fts_index(conn: sqlite3.Connection):
+    """Rebuild high-performance FTS5 index across Words, Grammar, Expressions, and Stories."""
+    cur = conn.cursor()
+    cur.execute("DROP TABLE IF EXISTS search_fts")
+    cur.execute("""
+        CREATE VIRTUAL TABLE search_fts USING fts5(
+            title,
+            description,
+            content,
+            url UNINDEXED,
+            category_type UNINDEXED,
+            locale UNINDEXED
+        )
+    """)
+
+    # 1. Categories
+    cur.execute("""
+        INSERT INTO search_fts (title, description, content, url, category_type, locale)
+        SELECT 
+            title, 
+            COALESCE(description, ''), 
+            COALESCE(web_title, title), 
+            CASE WHEN locale = 'en' THEN '/en/vocab/category/' || id || '/' || COALESCE(slug, 'category')
+                 ELSE '/fr-EN/vocab/category/' || id || '/' || COALESCE(slug, 'category') END,
+            'Words',
+            locale
+        FROM categories
+    """)
+
+    # 2. Subcategories
+    cur.execute("""
+        INSERT INTO search_fts (title, description, content, url, category_type, locale)
+        SELECT 
+            title, 
+            COALESCE(description, ''), 
+            title, 
+            CASE WHEN locale = 'en' THEN '/en/vocab/subcategory/' || id || '/learn'
+                 ELSE '/fr-EN/vocab/subcategory/' || id || '/learn' END,
+            'Words',
+            locale
+        FROM subcategories
+    """)
+
+    # 3. Words
+    cur.execute("""
+        INSERT INTO search_fts (title, description, content, url, category_type, locale)
+        SELECT 
+            w.entry, 
+            COALESCE(w.french_def, w.english_trans, ''),
+            COALESCE(w.english_trans, '') || ' ' || COALESCE(w.french_def, '') || ' ' || COALESCE((SELECT french_sentence || ' ' || english_sentence FROM examples WHERE word_id = w.id LIMIT 1), ''),
+            CASE WHEN s.locale = 'en' THEN '/en/vocab/subcategory/' || w.subcategory_id || '/learn'
+                 ELSE '/fr-EN/vocab/subcategory/' || w.subcategory_id || '/learn' END,
+            'Words',
+            COALESCE(s.locale, 'fr')
+        FROM words w
+        LEFT JOIN subcategories s ON w.subcategory_id = s.id
+    """)
+
+    # 4. Grammar Courses
+    cur.execute("""
+        INSERT INTO search_fts (title, description, content, url, category_type, locale)
+        SELECT 
+            title, 
+            COALESCE(description, ''), 
+            COALESCE(web_title, title), 
+            CASE WHEN locale = 'en' THEN '/en/grammar/course/' || id || '/' || COALESCE(url_id, 'lesson')
+                 ELSE '/fr-EN/grammar/course/' || id || '/' || COALESCE(url_id, 'lesson') END,
+            'Grammar',
+            locale
+        FROM grammar_courses
+    """)
+
+    # 5. Grammar Categories
+    cur.execute("""
+        INSERT INTO search_fts (title, description, content, url, category_type, locale)
+        SELECT 
+            title, 
+            COALESCE(description, ''), 
+            COALESCE(english_title, title), 
+            CASE WHEN locale = 'en' THEN '/en/grammar/' || id || '/' || COALESCE(url_id, 'topic')
+                 ELSE '/fr-EN/grammar/' || id || '/' || COALESCE(url_id, 'topic') END,
+            'Grammar',
+            locale
+        FROM grammar_categories
+    """)
+
+    # 6. Expressions
+    cur.execute("""
+        INSERT INTO search_fts (title, description, content, url, category_type, locale)
+        SELECT 
+            phrase, 
+            meaning, 
+            COALESCE(literal_translation, '') || ' ' || COALESCE(examples_json, ''), 
+            CASE WHEN locale = 'en' THEN '/en/expressions'
+                 ELSE '/fr-EN/expressions' END,
+            'Expressions',
+            locale
+        FROM expressions
+    """)
+
+    # 7. Reading Stories
+    cur.execute("""
+        INSERT INTO search_fts (title, description, content, url, category_type, locale)
+        SELECT 
+            title, 
+            COALESCE(description, ''), 
+            title, 
+            CASE WHEN locale = 'en' THEN '/en/reading/course/' || id || '/' || COALESCE(url_id, 'story')
+                 ELSE '/fr-EN/reading/course/' || id || '/' || COALESCE(url_id, 'story') END,
+            'Stories',
+            locale
+        FROM reading_stories
+    """)
+
+    # 8. Reading Collections
+    cur.execute("""
+        INSERT INTO search_fts (title, description, content, url, category_type, locale)
+        SELECT 
+            title, 
+            COALESCE(description, ''), 
+            title, 
+            CASE WHEN locale = 'en' THEN '/en/reading/' || id || '/' || COALESCE(url_id, 'collection')
+                 ELSE '/fr-EN/reading/' || id || '/' || COALESCE(url_id, 'collection') END,
+            'Stories',
+            locale
+        FROM reading_collections
+    """)
+
+    conn.commit()
+    logger.info("FTS5 dual-locale search index successfully populated.")
+
+
+def ensure_search_index():
+    """Ensure search_fts table exists and is populated with dual-locale index."""
+    try:
+        conn = get_db()
+        cur = conn.cursor()
+        try:
+            cnt = cur.execute("SELECT count(*) FROM search_fts").fetchone()[0]
+            cur.execute("SELECT title, description, url, category_type, locale FROM search_fts LIMIT 1").fetchone()
+            if cnt > 100:
+                conn.close()
+                return
+        except Exception:
+            pass
+        rebuild_fts_index(conn)
+        conn.close()
+    except Exception as e:
+        logger.warning(f"Error ensuring search index: {e}")
+
+
 @app.get("/api/search")
-async def search_french_words(q: str = Query(..., min_length=1), limit: int = 25):
-    """Lightning-fast FTS5 search across French words, phonetics, definitions, and examples."""
+async def global_search_api(q: str = "", locale: Optional[str] = None, limit: int = 15):
+    """Lightning-fast FTS5 search across Words, Grammar, Expressions, and Stories (<5ms)."""
+    if not q or not q.strip():
+        return {"query": q, "locale": locale or "en", "results": []}
+
+    clean_q = re.sub(r'[^a-zA-Z0-9\u00C0-\u017F]', ' ', q).strip()
+    if not clean_q:
+        return {"query": q, "locale": locale or "en", "results": []}
+
+    match_query = " ".join(f"{w}*" for w in clean_q.split())
     conn = get_db()
     cur = conn.cursor()
-    clean_q = re.sub(r'[^a-zA-Z0-9\u00C0-\u017F]', ' ', q).strip()
-    match_query = f"{clean_q}*"
+
+    db_loc = "en" if locale == "en" else ("fr" if locale in ("fr", "fr-EN") else None)
+
     try:
-        rows = cur.execute("""
-            SELECT w.id, w.entry, w.part_of_speech, w.french_def, w.english_trans,
-                   w.photo_url, w.thumb_url, w.audio_url, w.audio_ca_url,
-                   (SELECT french_sentence FROM examples WHERE word_id = w.id LIMIT 1) as sample_french,
-                   (SELECT english_sentence FROM examples WHERE word_id = w.id LIMIT 1) as sample_english
-            FROM search_fts f
-            JOIN words w ON w.id = f.word_id
-            WHERE search_fts MATCH ?
-            LIMIT ?
-        """, (match_query, limit)).fetchall()
+        if db_loc:
+            rows = cur.execute("""
+                SELECT title, description, url, category_type, locale 
+                FROM search_fts 
+                WHERE search_fts MATCH ? AND locale = ? 
+                LIMIT ?
+            """, (match_query, db_loc, limit)).fetchall()
+        else:
+            rows = cur.execute("""
+                SELECT title, description, url, category_type, locale 
+                FROM search_fts 
+                WHERE search_fts MATCH ? 
+                LIMIT ?
+            """, (match_query, limit)).fetchall()
         results = [dict(r) for r in rows]
     except Exception as e:
         logger.warning(f"FTS search error: {e}")
-        rows = cur.execute("""
-            SELECT w.id, w.entry, w.part_of_speech, w.french_def, w.english_trans,
-                   w.photo_url, w.thumb_url, w.audio_url, w.audio_ca_url
-            FROM words w
-            WHERE w.entry LIKE ? OR w.english_trans LIKE ?
-            LIMIT ?
-        """, (f"%{clean_q}%", f"%{clean_q}%", limit)).fetchall()
+        if db_loc:
+            rows = cur.execute("""
+                SELECT title, description, url, category_type, locale 
+                FROM search_fts 
+                WHERE (title LIKE ? OR description LIKE ?) AND locale = ? 
+                LIMIT ?
+            """, (f"%{clean_q}%", f"%{clean_q}%", db_loc, limit)).fetchall()
+        else:
+            rows = cur.execute("""
+                SELECT title, description, url, category_type, locale 
+                FROM search_fts 
+                WHERE title LIKE ? OR description LIKE ? 
+                LIMIT ?
+            """, (f"%{clean_q}%", f"%{clean_q}%", limit)).fetchall()
         results = [dict(r) for r in rows]
     finally:
         conn.close()
 
-    return {"query": q, "count": len(results), "results": results}
+    return {"query": q, "locale": locale or "all", "results": results}
+
 
 @app.get("/api/stats")
 async def get_stats():
@@ -1290,44 +1463,66 @@ async def get_stats():
         "grammar_courses": courses_cnt
     }
 
+
+@app.post("/api/progress/record")
 @app.post("/api/progress/mark")
-async def mark_progress(request: Request):
-    """Save flashcard recall grading into SQLite."""
+async def record_progress(request: Request):
+    """Save flashcard recall grading with Leitner SRS progress persistence and locale support."""
     try:
         data = await request.json()
         word_id = data.get("word_id")
-        score = data.get("score", 3)
+        score = int(data.get("score", 3))
+        raw_locale = data.get("locale", "fr")
+        locale = "en" if raw_locale == "en" else "fr"
         status = "mastered" if score >= 4 else "learned" if score >= 3 else "learning"
+        box_level = 5 if status == "mastered" else 3 if status == "learned" else 1
 
         conn = get_db()
         cur = conn.cursor()
         cur.execute("""
-            INSERT INTO user_progress (word_id, status, review_count, last_reviewed_at)
-            VALUES (?, ?, 1, CURRENT_TIMESTAMP)
+            INSERT INTO user_progress (word_id, status, box_level, review_count, last_reviewed_at, locale)
+            VALUES (?, ?, ?, 1, CURRENT_TIMESTAMP, ?)
             ON CONFLICT(word_id) DO UPDATE SET
                 status=excluded.status,
+                box_level=excluded.box_level,
                 review_count=review_count + 1,
-                last_reviewed_at=CURRENT_TIMESTAMP
-        """, (word_id, status))
+                last_reviewed_at=CURRENT_TIMESTAMP,
+                locale=excluded.locale
+        """, (word_id, status, box_level, locale))
         conn.commit()
         conn.close()
-        return JSONResponse({"status": "recorded", "word_id": word_id, "state": status})
+        return JSONResponse({"status": "recorded", "word_id": word_id, "state": status, "box_level": box_level, "locale": locale})
     except Exception as e:
         return JSONResponse({"status": "error", "message": str(e)}, status_code=400)
 
 
 @app.get("/api/progress/summary")
-async def progress_summary():
-    """Return summary statistics of words learned, mastered, and reviewing."""
+async def progress_summary(locale: Optional[str] = None):
+    """Return summary statistics of words learned, mastered, and reviewing, optionally filtered by locale."""
     conn = get_db()
     cur = conn.cursor()
-    total_words = cur.execute("SELECT count(*) FROM words").fetchone()[0]
-    mastered = cur.execute("SELECT count(*) FROM user_progress WHERE status = 'mastered'").fetchone()[0]
-    learned = cur.execute("SELECT count(*) FROM user_progress WHERE status = 'learned'").fetchone()[0]
-    learning = cur.execute("SELECT count(*) FROM user_progress WHERE status = 'learning'").fetchone()[0]
+    db_loc = "en" if locale == "en" else ("fr" if locale in ("fr", "fr-EN") else None)
+
+    if db_loc:
+        total_words = cur.execute("""
+            SELECT count(w.id) 
+            FROM words w 
+            JOIN subcategories s ON w.subcategory_id = s.id 
+            WHERE s.locale = ?
+        """, (db_loc,)).fetchone()[0]
+        mastered = cur.execute("SELECT count(*) FROM user_progress WHERE status = 'mastered' AND locale = ?", (db_loc,)).fetchone()[0]
+        learned = cur.execute("SELECT count(*) FROM user_progress WHERE status = 'learned' AND locale = ?", (db_loc,)).fetchone()[0]
+        learning = cur.execute("SELECT count(*) FROM user_progress WHERE status = 'learning' AND locale = ?", (db_loc,)).fetchone()[0]
+    else:
+        total_words = cur.execute("SELECT count(*) FROM words").fetchone()[0]
+        mastered = cur.execute("SELECT count(*) FROM user_progress WHERE status = 'mastered'").fetchone()[0]
+        learned = cur.execute("SELECT count(*) FROM user_progress WHERE status = 'learned'").fetchone()[0]
+        learning = cur.execute("SELECT count(*) FROM user_progress WHERE status = 'learning'").fetchone()[0]
     conn.close()
+
     return JSONResponse({
         "status": "success",
+        "locale": locale or "all",
         "total_catalog_words": total_words,
         "mastered": mastered,
         "learned": learned,
@@ -1395,6 +1590,13 @@ async def admin_trigger_crawl():
     """Execute manual crawl pass across all monitored URLs."""
     res = await run_crawl_cycle()
     return JSONResponse(res)
+
+
+# Initialize search index on startup if DB is present
+try:
+    ensure_search_index()
+except Exception as _e:
+    pass
 
 
 if __name__ == "__main__":

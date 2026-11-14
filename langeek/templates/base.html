@@ -226,8 +226,8 @@
   {% endif %}
 
   <!-- Global Instant Search Modal (⌘K) -->
-  <div id="search-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-start justify-center pt-20 px-4">
-    <div class="bg-white dark:bg-[#1e293b] w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden transform transition-all">
+  <div id="search-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-start justify-center pt-20 px-4" onclick="handleModalBackdropClick(event)">
+    <div class="bg-white dark:bg-[#1e293b] w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden transform transition-all" onclick="event.stopPropagation()">
       <div class="p-4 border-b border-slate-100 dark:border-slate-700/80 flex items-center space-x-3">
         <i data-lucide="search" class="w-5 h-5 text-slate-400"></i>
         <input 
@@ -236,16 +236,40 @@
           placeholder="Search vocabulary, grammar, expressions, or stories (⌘K)..." 
           class="w-full text-base font-medium text-slate-800 dark:text-slate-100 placeholder-slate-400 bg-transparent focus:outline-none"
           oninput="handleSearch(this.value)"
+          onkeydown="handleSearchKeydown(event)"
+          autocomplete="off"
         >
+        <kbd class="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded">ESC</kbd>
         <button onclick="closeSearchModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
+      <!-- Category Filter Pills (All, Words, Grammar, Expressions, Stories) -->
+      <div id="search-category-pills" class="px-4 py-2 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-900/30 flex items-center space-x-2 text-xs font-semibold overflow-x-auto">
+        <button onclick="setSearchFilter('all')" data-filter="all" class="search-pill px-2.5 py-1 rounded-full bg-primary-50 text-primary-600 dark:bg-primary-950/60 dark:text-primary-400 border border-primary-200 dark:border-primary-800">All</button>
+        <button onclick="setSearchFilter('Words')" data-filter="Words" class="search-pill px-2.5 py-1 rounded-full text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white border border-transparent">Words</button>
+        <button onclick="setSearchFilter('Grammar')" data-filter="Grammar" class="search-pill px-2.5 py-1 rounded-full text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white border border-transparent">Grammar</button>
+        <button onclick="setSearchFilter('Expressions')" data-filter="Expressions" class="search-pill px-2.5 py-1 rounded-full text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white border border-transparent">Expressions</button>
+        <button onclick="setSearchFilter('Stories')" data-filter="Stories" class="search-pill px-2.5 py-1 rounded-full text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white border border-transparent">Stories</button>
+      </div>
+
       <!-- Live Search Results List -->
       <div id="search-results" class="max-h-[60vh] overflow-y-auto custom-scroll p-2 divide-y divide-slate-50 dark:divide-slate-800">
         <div class="p-8 text-center text-slate-400 text-sm">
-          Type a word like <span class="font-semibold text-slate-600 dark:text-slate-300">hello</span>, <span class="font-semibold text-slate-600 dark:text-slate-300">bonjour</span>, or <span class="font-semibold text-slate-600 dark:text-slate-300">animal</span> to search...
+          Type a word like <span class="font-semibold text-slate-600 dark:text-slate-300">animal</span>, <span class="font-semibold text-slate-600 dark:text-slate-300">hello</span>, or <span class="font-semibold text-slate-600 dark:text-slate-300">grammar</span> to search...
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-4 py-2.5 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-700/80 flex items-center justify-between text-[11px] text-slate-400">
+        <div class="flex items-center space-x-3">
+          <span class="flex items-center space-x-1"><kbd class="px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-mono">↑</kbd><kbd class="px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-mono">↓</kbd> <span>Navigate</span></span>
+          <span class="flex items-center space-x-1"><kbd class="px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-mono">↵</kbd> <span>Select</span></span>
+          <span class="flex items-center space-x-1"><kbd class="px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-mono">ESC</kbd> <span>Close</span></span>
+        </div>
+        <div class="font-semibold text-slate-500 dark:text-slate-400">
+          ⚡ Dual-Locale FTS5 ({{ locale or 'fr-EN' }})
         </div>
       </div>
     </div>
@@ -296,27 +320,144 @@
       player.play().catch(e => console.warn('Audio play prevented:', e));
     }
 
-    // Modal Search Engine
+    // Modal Search Engine & Keyboard Navigation
+    let currentSearchResults = [];
+    let currentSelectedIndex = -1;
+    let currentCategoryFilter = 'all';
+    let searchTimeout = null;
+
     function openSearchModal() {
-      document.getElementById('search-modal').classList.remove('hidden');
-      setTimeout(() => document.getElementById('search-input').focus(), 50);
+      const modal = document.getElementById('search-modal');
+      modal.classList.remove('hidden');
+      const input = document.getElementById('search-input');
+      setTimeout(() => {
+        input.focus();
+        input.select();
+      }, 50);
     }
+
     function closeSearchModal() {
       document.getElementById('search-modal').classList.add('hidden');
+      currentSelectedIndex = -1;
     }
+
+    function handleModalBackdropClick(e) {
+      if (e.target.id === 'search-modal') {
+        closeSearchModal();
+      }
+    }
+
     document.addEventListener('keydown', (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         openSearchModal();
       }
       if (e.key === 'Escape') closeSearchModal();
     });
 
-    let searchTimeout = null;
+    function setSearchFilter(cat) {
+      currentCategoryFilter = cat;
+      document.querySelectorAll('.search-pill').forEach(btn => {
+        if (btn.getAttribute('data-filter') === cat) {
+          btn.className = 'search-pill px-2.5 py-1 rounded-full bg-primary-50 text-primary-600 dark:bg-primary-950/60 dark:text-primary-400 border border-primary-200 dark:border-primary-800';
+        } else {
+          btn.className = 'search-pill px-2.5 py-1 rounded-full text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white border border-transparent';
+        }
+      });
+      renderSearchResults();
+    }
+
+    function renderSearchResults() {
+      const container = document.getElementById('search-results');
+      const filtered = currentCategoryFilter === 'all' 
+        ? currentSearchResults 
+        : currentSearchResults.filter(r => (r.category_type || '').toLowerCase() === currentCategoryFilter.toLowerCase());
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="p-8 text-center text-slate-400 text-sm">No items found matching filter "${currentCategoryFilter}".</div>`;
+        currentSelectedIndex = -1;
+        return;
+      }
+
+      currentSelectedIndex = -1;
+      const badgeColors = {
+        'words': 'bg-sky-50 text-sky-700 dark:bg-sky-950/40 dark:text-sky-300 border-sky-200/80',
+        'grammar': 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 border-amber-200/80',
+        'expressions': 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border-emerald-200/80',
+        'stories': 'bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 border-purple-200/80'
+      };
+
+      container.innerHTML = filtered.map((w, idx) => {
+        const cat = (w.category_type || 'Words').toLowerCase();
+        const colorClass = badgeColors[cat] || badgeColors['words'];
+        const iconName = cat === 'grammar' ? 'book-marked' : cat === 'expressions' ? 'sparkles' : cat === 'stories' ? 'book-open' : 'layers';
+        return `
+          <div id="search-item-${idx}" data-index="${idx}" data-url="${w.url || '#'}" onclick="window.location.href='${w.url || '#'}'" class="search-result-item cursor-pointer p-3 rounded-xl transition flex items-center justify-between group border border-transparent hover:bg-slate-100/70 dark:hover:bg-slate-800/60">
+            <div class="flex items-center space-x-3 min-w-0 pr-3">
+              <div class="w-8 h-8 rounded-lg flex-shrink-0 bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:text-primary-600 transition">
+                <i data-lucide="${iconName}" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center space-x-2">
+                  <span class="font-bold text-sm text-slate-900 dark:text-white truncate">${w.title || w.entry || ''}</span>
+                  <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded-md border ${colorClass} uppercase tracking-wider">${w.category_type || 'Words'}</span>
+                </div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">${w.description || ''}</div>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2 flex-shrink-0">
+              <span class="text-xs font-semibold text-primary-600 dark:text-primary-400 group-hover:translate-x-0.5 transition hidden sm:inline">View &rarr;</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function handleSearchKeydown(e) {
+      const items = document.querySelectorAll('.search-result-item');
+      if (items.length === 0) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        currentSelectedIndex = (currentSelectedIndex + 1) % items.length;
+        updateSelectedSearchItem(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        currentSelectedIndex = (currentSelectedIndex - 1 + items.length) % items.length;
+        updateSelectedSearchItem(items);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (currentSelectedIndex >= 0 && currentSelectedIndex < items.length) {
+          const url = items[currentSelectedIndex].getAttribute('data-url');
+          if (url && url !== '#') {
+            window.location.href = url;
+          }
+        } else if (items.length > 0) {
+          const url = items[0].getAttribute('data-url');
+          if (url && url !== '#') {
+            window.location.href = url;
+          }
+        }
+      }
+    }
+
+    function updateSelectedSearchItem(items) {
+      items.forEach((item, idx) => {
+        if (idx === currentSelectedIndex) {
+          item.classList.add('bg-primary-50', 'dark:bg-primary-950/50', 'border-primary-200', 'dark:border-primary-800');
+          item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        } else {
+          item.classList.remove('bg-primary-50', 'dark:bg-primary-950/50', 'border-primary-200', 'dark:border-primary-800');
+        }
+      });
+    }
+
     function handleSearch(query) {
       clearTimeout(searchTimeout);
       const container = document.getElementById('search-results');
       if (!query.trim()) {
+        currentSearchResults = [];
         container.innerHTML = '<div class="p-8 text-center text-slate-400 text-sm">Type a search query...</div>';
         return;
       }
@@ -324,32 +465,12 @@
         try {
           const resp = await fetch(`/api/search?q=${encodeURIComponent(query)}&locale={{ locale or 'fr-EN' }}`);
           const data = await resp.json();
-          if (!data.results || data.results.length === 0) {
-            container.innerHTML = `<div class="p-8 text-center text-slate-400 text-sm">No items found matching "${query}"</div>`;
-            return;
-          }
-          container.innerHTML = data.results.map(w => `
-            <div class="p-3 hover:bg-slate-50 dark:hover:bg-slate-800/60 rounded-xl transition flex items-center justify-between group">
-              <div class="flex items-center space-x-3">
-                <button onclick="playAudio('${w.audio_url || ''}')" class="w-8 h-8 rounded-lg bg-primary-50 dark:bg-primary-950/40 text-primary-600 dark:text-primary-400 hover:bg-primary-100 flex items-center justify-center transition">
-                  <i data-lucide="volume-2" class="w-4 h-4"></i>
-                </button>
-                <div>
-                  <div class="flex items-center space-x-2">
-                    <span class="font-bold text-slate-900 dark:text-white">${w.entry || w.title || ''}</span>
-                    <span class="text-[11px] font-medium px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">${w.part_of_speech || w.category_type || 'word'}</span>
-                  </div>
-                  <div class="text-xs text-slate-600 dark:text-slate-300 font-medium">${w.english_trans || w.description || ''}</div>
-                </div>
-              </div>
-              <a href="${w.url || '#'}" class="text-xs font-semibold text-primary-600 dark:text-primary-400 group-hover:translate-x-0.5 transition">View &rarr;</a>
-            </div>
-          `).join('');
-          if (window.lucide) lucide.createIcons();
+          currentSearchResults = data.results || [];
+          renderSearchResults();
         } catch (e) {
-          container.innerHTML = '<div class="p-8 text-center text-rose-500 text-sm">Error searching vocabulary.</div>';
+          container.innerHTML = '<div class="p-8 text-center text-rose-500 text-sm">Error searching. Please try again.</div>';
         }
-      }, 150);
+      }, 100);
     }
   </script>
   {% block scripts %}{% endblock %}

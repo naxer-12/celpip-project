@@ -423,6 +423,47 @@ def test_english_five_modules_rendering():
     assert "Famous Figures" in r_read.text or "Nature and Wildlife" in r_read.text
 
 
+def test_dual_locale_search_and_progress():
+    # Test English Search
+    r_search_en = client.get("/api/search?q=animal&locale=en")
+    assert r_search_en.status_code == 200
+    data_en = r_search_en.json()
+    assert "results" in data_en
+    assert len(data_en["results"]) > 0
+    assert all(r.get("locale") == "en" for r in data_en["results"])
+
+    # Test French Search
+    r_search_fr = client.get("/api/search?q=animal&locale=fr-EN")
+    assert r_search_fr.status_code == 200
+    data_fr = r_search_fr.json()
+    assert "results" in data_fr
+    assert len(data_fr["results"]) > 0
+    assert all(r.get("locale") in ("fr", "fr-EN") for r in data_fr["results"])
+
+    # Test Leitner progress recording with locale
+    r_prog_en = client.post("/api/progress/record", json={"word_id": 1000016, "score": 4, "locale": "en"})
+    assert r_prog_en.status_code == 200
+    assert r_prog_en.json()["status"] == "recorded"
+    assert r_prog_en.json()["state"] == "mastered"
+
+    r_prog_fr = client.post("/api/progress/record", json={"word_id": 866216, "score": 3, "locale": "fr-EN"})
+    assert r_prog_fr.status_code == 200
+    assert r_prog_fr.json()["status"] == "recorded"
+    assert r_prog_fr.json()["state"] == "learned"
+
+    # Test progress summary per locale
+    r_sum_en = client.get("/api/progress/summary?locale=en")
+    assert r_sum_en.status_code == 200
+    data_sum_en = r_sum_en.json()
+    assert data_sum_en["mastered"] >= 1
+
+    r_sum_fr = client.get("/api/progress/summary?locale=fr-EN")
+    assert r_sum_fr.status_code == 200
+    data_sum_fr = r_sum_fr.json()
+    assert data_sum_fr["learned"] >= 1
+
+
+
 
 
 
