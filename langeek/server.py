@@ -104,17 +104,41 @@ async def ensure_subcategory_words(sub_id: int) -> List[Dict[str, Any]]:
     conn = get_db()
     cur = conn.cursor()
     rows = cur.execute("""
-        SELECT id, entry, part_of_speech, french_def, english_trans, other_trans, photo_url, thumb_url, audio_url, audio_ca_url
+        SELECT id, entry, part_of_speech, french_def, english_trans, other_trans, photo_url, thumb_url, audio_url, audio_ca_url, ipa, ipa_loc, grammar_info, card_json
         FROM words
         WHERE subcategory_id = ?
+        ORDER BY id ASC
     """, (sub_id,)).fetchall()
 
     if rows:
         results = []
         for r in rows:
             w_dict = dict(r)
-            ex_rows = cur.execute("SELECT french_sentence, english_sentence FROM examples WHERE word_id = ?", (r['id'],)).fetchall()
-            w_dict['examples'] = [dict(ex) for ex in ex_rows]
+            if w_dict.get('card_json'):
+                try:
+                    cj = json.loads(w_dict['card_json']) if isinstance(w_dict['card_json'], str) else w_dict['card_json']
+                    mt = cj.get('mainTranslation', {})
+                    examples = []
+                    for ex in mt.get('examples', []):
+                        examples.append({
+                            'fr': ex.get('example'),
+                            'en': (ex.get('localizedProperties') or {}).get('example'),
+                            'audio_fr': ex.get('exampleVoice'),
+                            'audio_ca': ex.get('exampleVoice2')
+                        })
+                    w_dict['examples'] = examples
+                    w_dict['grammar'] = mt.get('partOfSpeech', {}).get('grammaticalInformation') or {}
+                    w_dict['metadata'] = mt.get('metadata') or {}
+                except Exception:
+                    pass
+            if 'examples' not in w_dict or not w_dict['examples']:
+                ex_rows = cur.execute("SELECT french_sentence as fr, english_sentence as en FROM examples WHERE word_id = ?", (r['id'],)).fetchall()
+                w_dict['examples'] = [dict(ex) for ex in ex_rows]
+            if 'grammar' not in w_dict and w_dict.get('grammar_info'):
+                try:
+                    w_dict['grammar'] = json.loads(w_dict['grammar_info'])
+                except Exception:
+                    w_dict['grammar'] = {}
             results.append(w_dict)
         conn.close()
         return results
@@ -146,10 +170,15 @@ async def ensure_subcategory_words(sub_id: int) -> List[Dict[str, Any]]:
                     audio = mt.get('titleVoice')
                     audio_ca = mt.get('titleVoice2')
 
+                    ipa = mt.get('pronunciation') or (mt.get('metadata', {}).get('nlpAnalyzedData', {}).get('pronunciationIPA'))
+                    ipa_loc = mt.get('metadata', {}).get('nlpAnalyzedData', {}).get('pronunciationLocalization')
+                    grammar = json.dumps(mt.get('partOfSpeech', {}).get('grammaticalInformation') or {}, ensure_ascii=False)
+                    card_str = json.dumps(card, ensure_ascii=False)
+
                     cur.execute("""
-                        INSERT OR REPLACE INTO words (id, subcategory_id, entry, part_of_speech, french_def, english_trans, other_trans, photo_url, thumb_url, audio_url, audio_ca_url)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    """, (w_id, sub_id, entry, pos, french_def, eng, other, photo, thumb, audio, audio_ca))
+                        INSERT OR REPLACE INTO words (id, subcategory_id, entry, part_of_speech, french_def, english_trans, other_trans, photo_url, thumb_url, audio_url, audio_ca_url, ipa, ipa_loc, grammar_info, card_json)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """, (w_id, sub_id, entry, pos, french_def, eng, other, photo, thumb, audio, audio_ca, ipa, ipa_loc, grammar, card_str))
 
                     for ex in mt.get('examples', []):
                         ex_id = ex.get('id')
@@ -161,19 +190,7 @@ async def ensure_subcategory_words(sub_id: int) -> List[Dict[str, Any]]:
                 conn.commit()
 
         # Re-query
-        rows = cur.execute("""
-            SELECT id, entry, part_of_speech, french_def, english_trans, other_trans, photo_url, thumb_url, audio_url, audio_ca_url
-            FROM words
-            WHERE subcategory_id = ?
-        """, (sub_id,)).fetchall()
-        results = []
-        for r in rows:
-            w_dict = dict(r)
-            ex_rows = cur.execute("SELECT french_sentence, english_sentence FROM examples WHERE word_id = ?", (r['id'],)).fetchall()
-            w_dict['examples'] = [dict(ex) for ex in ex_rows]
-            results.append(w_dict)
-        conn.close()
-        return results
+        return await ensure_subcategory_words(sub_id)
     except Exception as e:
         logger.error(f"Error fetching subcategory {sub_id} words: {e}")
         conn.close()
@@ -207,8 +224,17 @@ async def serve_site_assets(asset_path: str):
 
 
 @app.get("/media-proxy")
-async def media_proxy(url: str = Query(..., min_length=10)):
+async def media_proxy(request: Request, url: str = ""):
     """Proxy third-party CDN photos & TTS audio with corrected binary MIME headers."""
+    raw_query = str(request.url.query)
+    if "url=" in raw_query:
+        target_url = raw_query.split("url=", 1)[1]
+        from urllib.parse import unquote
+        url = unquote(target_url) if "%" in target_url else target_url
+
+    if not url or len(url) < 10:
+        raise HTTPException(status_code=400, detail="Missing or invalid url parameter")
+
     parsed = urlparse(url)
     if not (parsed.netloc.endswith("langeek.co") or "langeek" in parsed.netloc):
         raise HTTPException(status_code=400, detail="External domains forbidden")
@@ -220,7 +246,7 @@ async def media_proxy(url: str = Query(..., min_length=10)):
         with open(cache_file, "rb") as f:
             content = f.read()
         mime = guess_content_type(url, content)
-        return Response(content=content, media_type=mime, headers={"Cache-Control": "public, max-age=31536000"})
+        return Response(content=content, media_type=mime, headers={"Cache-Control": "public, max-age=31536000", "Access-Control-Allow-Origin": "*"})
 
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
@@ -316,8 +342,25 @@ async def category_detail_view(cat_id: int, request: Request, slug: Optional[str
     })
 
 @app.get("/fr-EN/vocab/subcategory/{sub_id}/learn")
-@app.get("/fr-EN/vocab/subcategory/{sub_id}/learn/flashcard")
 @app.get("/fr-EN/vocab/subcategory/{sub_id}/learn/review")
+async def learn_studio_view(sub_id: int, request: Request):
+    """Render Rich Vocabulary Detail Studio (Matches LanGeek User Screenshot)."""
+    conn = get_db()
+    cur = conn.cursor()
+    sub_row = cur.execute("SELECT * FROM subcategories WHERE id = ?", (sub_id,)).fetchone()
+    cat_row = cur.execute("SELECT * FROM categories WHERE id = ?", (sub_row['category_id'],)).fetchone() if sub_row else None
+    conn.close()
+
+    words = await ensure_subcategory_words(sub_id)
+    return templates.TemplateResponse(request, "learn_studio.html", {
+        "active_tab": "vocab",
+        "subcategory": dict(sub_row) if sub_row else {"id": sub_id, "title": "Lesson Words"},
+        "category": dict(cat_row) if cat_row else {"slug": "c1", "title": "Level-Based French Vocabulary"},
+        "words": words,
+        "words_json": json.dumps(words, ensure_ascii=False)
+    })
+
+@app.get("/fr-EN/vocab/subcategory/{sub_id}/learn/flashcard")
 async def flashcards_learner_view(sub_id: int, request: Request):
     """Render Interactive 3D Flashcards Student Learning Suite."""
     conn = get_db()
@@ -330,7 +373,7 @@ async def flashcards_learner_view(sub_id: int, request: Request):
     return templates.TemplateResponse(request, "learn_flashcard.html", {
         "active_tab": "vocab",
         "subcategory": dict(sub_row) if sub_row else {"id": sub_id, "title": "Lesson Words"},
-        "category": dict(cat_row) if cat_row else {"slug": "niveau-a1", "title": "Vocabulary"},
+        "category": dict(cat_row) if cat_row else {"slug": "c1", "title": "Vocabulary"},
         "words": words,
         "words_json": json.dumps(words, ensure_ascii=False)
     })

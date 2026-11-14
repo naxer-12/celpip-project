@@ -1,0 +1,596 @@
+{% extends "base.html" %}
+
+{% block title %}{{ subcategory.title or 'Learn French Vocabulary' }} 🇫🇷 LanGeek{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+
+  <!-- Breadcrumbs & Category Header -->
+  <nav class="flex items-center gap-2 text-xs text-slate-500 mb-4 overflow-x-auto whitespace-nowrap">
+    <a href="/fr-EN" class="hover:text-sky-600 transition">Home</a>
+    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-300"></i>
+    <a href="/fr-EN/vocab" class="hover:text-sky-600 transition">Vocabulary</a>
+    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-300"></i>
+    <a href="/fr-EN/vocab/category/{{ subcategory.category_id or 750 }}/niveau-{{ category.slug or 'c1' }}" class="hover:text-sky-600 transition">
+      {{ category.title or 'Level-Based French Vocabulary' }}
+    </a>
+    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-300"></i>
+    <span class="text-slate-800 font-semibold">{{ subcategory.title or 'Appearance and Physical Characteristics' }}</span>
+  </nav>
+
+  <!-- Subcategory Top Bar with Learning Mode Switcher -->
+  <div class="bg-white rounded-2xl border border-slate-200/80 p-4 mb-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <a href="/fr-EN/vocab/category/{{ subcategory.category_id or 750 }}/niveau-{{ category.slug or 'c1' }}" class="w-9 h-9 rounded-xl border border-slate-200 flex items-center justify-center text-slate-600 hover:text-sky-600 hover:bg-slate-50 transition" title="Back to Category">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+      </a>
+      <div>
+        <h1 class="text-lg font-bold text-slate-900 leading-tight">{{ subcategory.title or 'Appearance and Physical Characteristics' }}</h1>
+        <div class="text-xs text-slate-500 flex items-center gap-2 mt-0.5">
+          <span>Card <strong id="idx-counter" class="text-sky-600 font-bold">1</strong> of {{ words|length }}</span>
+          <span>•</span>
+          <span id="level-badge" class="font-semibold text-slate-700 uppercase">C1</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode Switcher Pills -->
+    <div class="flex items-center gap-1.5 bg-slate-100/80 p-1 rounded-xl">
+      <span class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-sky-700 shadow-xs flex items-center gap-1.5 cursor-default">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-sky-600"></i> Study
+      </span>
+      <a href="/fr-EN/vocab/subcategory/{{ subcategory.id }}/learn/flashcard" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-white/60 transition flex items-center gap-1.5">
+        <i data-lucide="layers" class="w-3.5 h-3.5"></i> Flashcards
+      </a>
+      <a href="/fr-EN/vocab/subcategory/{{ subcategory.id }}/learn/quiz" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-white/60 transition flex items-center gap-1.5">
+        <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Quiz
+      </a>
+      <a href="/fr-EN/vocab/subcategory/{{ subcategory.id }}/learn/spelling" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-white/60 transition flex items-center gap-1.5">
+        <i data-lucide="pen-tool" class="w-3.5 h-3.5"></i> Spelling
+      </a>
+      <a href="/fr-EN/vocab/subcategory/{{ subcategory.id }}/word-list" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-white/60 transition flex items-center gap-1.5">
+        <i data-lucide="list" class="w-3.5 h-3.5"></i> Wordlist
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Vocabulary Detail Card Container (Matches User Screenshot Exactly) -->
+  <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-10 mb-6 transition-all duration-300">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Left Column: Word details, pronunciation, definition, examples, grammar -->
+      <div class="lg:col-span-8 flex flex-col justify-start">
+        
+        <!-- Word Entry Title, Audio & Part of Speech -->
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3 flex-wrap">
+            <h2 id="card-word" class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">handicapé</h2>
+            <button onclick="playCurrentAudio()" id="btn-audio-main" class="w-9 h-9 rounded-full bg-slate-100 hover:bg-sky-100 hover:text-sky-600 text-slate-700 transition flex items-center justify-center cursor-pointer shadow-xs" title="Listen to pronunciation">
+              <i data-lucide="volume-2" class="w-5 h-5"></i>
+            </button>
+            <span id="card-pos" class="text-[#d97706] font-semibold text-sm capitalize">Adjective</span>
+          </div>
+
+          <!-- Top-right Action Buttons: Add to wordlist, details -->
+          <div class="flex items-center gap-2">
+            <button onclick="showWordlistModal()" class="w-9 h-9 rounded-xl border border-slate-200/90 hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition flex items-center justify-center cursor-pointer" title="Add to wordlist">
+              <i data-lucide="box" class="w-4 h-4"></i>
+            </button>
+            <button onclick="toggleCardInfoModal()" class="w-9 h-9 rounded-xl border border-slate-200/90 hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition flex items-center justify-center cursor-pointer" title="Card info">
+              <i data-lucide="contact" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Pronunciation Pill with Dual-Dialect (FR / CA) -->
+        <div class="mt-3 flex flex-wrap items-center gap-2">
+          <div class="inline-flex items-center gap-2 bg-[#f1f5f9] hover:bg-[#e2e8f0] transition rounded-xl px-3.5 py-1.5 text-sm font-medium text-slate-800 cursor-pointer shadow-xs" onclick="toggleSyllableBreakdown()">
+            <div class="flex items-center gap-1 bg-white/80 rounded-md px-1.5 py-0.5 border border-slate-200/60">
+              <span class="text-xs" title="France French">🇫🇷</span>
+              <span class="text-xs" title="Canadian French">🇨🇦</span>
+            </div>
+            <span class="text-slate-300">|</span>
+            <span id="card-ipa" class="font-mono text-slate-800 font-semibold">/'ãdikape/ or /aadikape/</span>
+            <i data-lucide="chevron-up" id="caret-syllable" class="w-4 h-4 text-slate-400 transition-transform"></i>
+          </div>
+        </div>
+
+        <!-- Expandable Syllables Container -->
+        <div id="syllables-panel" class="hidden mt-2 p-3 bg-slate-50 border border-slate-200/80 rounded-xl">
+          <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Syllable Breakdown & Audio</div>
+          <div id="syllables-list" class="flex flex-wrap items-center gap-2">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- English Translation Pill -->
+        <div class="mt-2.5 inline-flex items-center gap-2 bg-[#f1f5f9] rounded-xl px-3.5 py-1.5 text-sm font-medium text-slate-800 self-start shadow-xs">
+          <span class="text-sm">🇬🇧</span>
+          <span id="card-translation" class="text-slate-900 font-semibold">disabled (person with disabilities)</span>
+          <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+        </div>
+
+        <!-- French Definition -->
+        <p id="card-french-def" class="text-[15px] text-slate-700 leading-relaxed font-normal my-4">
+          qui présente une déficience physique ou mentale
+        </p>
+
+        <!-- Examples Card with Dialect Switcher & Sentence Carousel -->
+        <div class="bg-[#f8fafc] border border-slate-200/80 rounded-2xl p-4 my-2 shadow-xs">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-200/60">
+            <div class="flex items-center gap-2 font-semibold text-slate-800 text-sm">
+              <i data-lucide="message-square" class="w-4 h-4 text-sky-600"></i>
+              <span>Examples</span>
+            </div>
+
+            <!-- Dialect Accent Switcher Pill -->
+            <div class="flex items-center gap-1 bg-white border border-slate-200/80 rounded-xl p-0.5 shadow-xs">
+              <button onclick="setDialect('FR')" id="dialect-fr-btn" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#1e40af] text-white flex items-center gap-1 transition">
+                <span>🇫🇷</span> FR
+              </button>
+              <button onclick="setDialect('CA')" id="dialect-ca-btn" class="px-2.5 py-1 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-1 transition" title="Canadian French pronunciation (Premium feature unlocked)">
+                <span>🇨🇦</span> CA <span class="text-amber-500 text-[10px]">👑</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Carousel Example Display -->
+          <div class="pt-3 flex items-start gap-3">
+            <button onclick="prevExample()" id="btn-prev-ex" class="w-7 h-7 mt-0.5 rounded-full border border-slate-200 hover:bg-white text-slate-500 hover:text-slate-800 transition flex items-center justify-center shrink-0 cursor-pointer shadow-xs">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+
+            <div class="flex-grow">
+              <div class="flex items-start justify-between gap-3">
+                <div id="example-fr-text" class="text-[15px] sm:text-base text-slate-900 font-medium leading-snug">
+                  Mon voisin handicapé utilise un fauteuil roulant électrique.
+                </div>
+                <button onclick="playExampleAudio()" id="btn-audio-example" class="w-8 h-8 rounded-full bg-white border border-slate-200/80 hover:bg-sky-50 hover:text-sky-600 text-slate-700 transition flex items-center justify-center shrink-0 cursor-pointer shadow-xs relative" title="Listen to example">
+                  <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+                  <span class="absolute -top-1 -right-1 text-[9px] text-amber-500 leading-none">👑</span>
+                </button>
+              </div>
+              <div id="example-en-text" class="text-xs sm:text-sm text-slate-500 mt-1 leading-normal">
+                My disabled neighbor uses an electric wheelchair.
+              </div>
+              <div class="text-[11px] text-slate-400 mt-2 flex items-center justify-between">
+                <span id="example-num-text">Example 1 of 5</span>
+                <span class="text-slate-400 text-[10px]">Audio available in FR &amp; CA accents</span>
+              </div>
+            </div>
+
+            <button onclick="nextExample()" id="btn-next-ex" class="w-7 h-7 mt-0.5 rounded-full border border-slate-200 hover:bg-white text-slate-500 hover:text-slate-800 transition flex items-center justify-center shrink-0 cursor-pointer shadow-xs">
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Composition & Grammar Inflection Section (Matches User Screenshot Exact Styling) -->
+        <div id="grammar-card" class="border border-sky-100 rounded-2xl p-4 bg-white shadow-xs my-3">
+          <!-- Top Badges / Filter Row -->
+          <div id="grammar-badges" class="flex flex-wrap items-center gap-2 mb-3">
+            <span class="bg-sky-100 text-sky-800 font-semibold px-3 py-1 rounded-lg text-xs">Composition</span>
+            <span id="badge-comp" class="text-slate-800 font-medium px-2 py-1 text-xs">past participle adjective</span>
+            <span id="badge-cat" class="bg-sky-50 text-sky-700 border border-sky-200 px-3 py-1 rounded-lg text-xs font-medium">Qualitative</span>
+            <span id="badge-grad" class="bg-sky-50 text-sky-700 border border-sky-200 px-3 py-1 rounded-lg text-xs font-medium">Ungradable</span>
+          </div>
+
+          <!-- Dynamic Inflection Table Container -->
+          <div id="grammar-table-container" class="overflow-x-auto rounded-xl border border-slate-200/70">
+            <!-- Rendered by renderGrammarTable() in JS -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Illustrated Vector Artwork (blind man & wheelchair woman) -->
+      <div class="lg:col-span-4 flex flex-col items-center justify-center">
+        <div class="w-full bg-slate-50/70 border border-slate-100 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[340px]">
+          <img id="card-photo" src="" alt="Illustration" class="max-h-[340px] w-auto object-contain drop-shadow-sm transition-transform duration-300 hover:scale-105" />
+          <div id="card-photo-placeholder" class="hidden flex flex-col items-center justify-center text-center py-12 text-slate-400">
+            <i data-lucide="book-open" class="w-16 h-16 text-sky-400 mb-3 stroke-1"></i>
+            <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">C1 French Vocabulary</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Navigation & Study Scrubber Bar -->
+  <div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+    <!-- Previous Word Button -->
+    <button onclick="prevWord()" id="btn-prev-word" class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-sm transition flex items-center justify-center gap-2 cursor-pointer shadow-xs">
+      <i data-lucide="arrow-left" class="w-4 h-4"></i> Previous
+    </button>
+
+    <!-- Scrubber Progress Bar and Counter -->
+    <div class="flex-grow max-w-md w-full text-center">
+      <div class="flex items-center justify-between text-xs text-slate-500 mb-1.5 font-medium">
+        <span>Progress: <strong id="progress-percent" class="text-sky-600">3%</strong></span>
+        <span>Word <span id="bar-current">1</span> of {{ words|length }}</span>
+      </div>
+      <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200/60">
+        <div id="progress-bar-fill" class="h-full bg-gradient-to-r from-sky-500 to-indigo-600 transition-all duration-300" style="width: 3%;"></div>
+      </div>
+    </div>
+
+    <!-- Study Recall Actions: Need Review vs Mastered -->
+    <div class="flex items-center gap-2 w-full sm:w-auto">
+      <button onclick="markCurrentWord(2)" class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer shadow-xs" title="Mark for review (Shortcut: 1)">
+        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Review Later
+      </button>
+      <button onclick="markCurrentWord(4)" class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer shadow-xs" title="Mark as mastered (Shortcut: 4)">
+        <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i> Mastered
+      </button>
+
+      <!-- Next Word Button -->
+      <button onclick="nextWord()" id="btn-next-word" class="flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-semibold text-sm transition flex items-center justify-center gap-2 cursor-pointer shadow-xs">
+        Next <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Keyboard Shortcuts Helper Strip -->
+  <div class="mt-4 text-center text-xs text-slate-400">
+    Keyboard Shortcuts: <kbd class="px-1.5 py-0.5 bg-slate-100 rounded text-slate-600 font-mono">←</kbd> Previous, <kbd class="px-1.5 py-0.5 bg-slate-100 rounded text-slate-600 font-mono">→</kbd> Next, <kbd class="px-1.5 py-0.5 bg-slate-100 rounded text-slate-600 font-mono">Space</kbd> Play Audio, <kbd class="px-1.5 py-0.5 bg-slate-100 rounded text-slate-600 font-mono">1</kbd> Review, <kbd class="px-1.5 py-0.5 bg-slate-100 rounded text-slate-600 font-mono">4</kbd> Mastered
+  </div>
+
+</div>
+
+<!-- Audio Player Element -->
+<audio id="tts-audio" class="hidden"></audio>
+
+<script>
+  // Injected Word Data from SQLite
+  const wordsData = {{ words_json | safe }};
+  let currentIndex = 0;
+  let currentExIndex = 0;
+  let currentDialect = 'FR'; // 'FR' or 'CA'
+
+  // If URL has ?word= or ?index=, start there
+  const urlParams = new URLSearchParams(window.location.search);
+  const targetWord = urlParams.get('word');
+  const targetIndex = urlParams.get('index');
+
+  if (targetWord) {
+    const foundIdx = wordsData.findIndex(w => (w.entry || '').toLowerCase() === targetWord.toLowerCase());
+    if (foundIdx >= 0) currentIndex = foundIdx;
+  } else if (targetIndex) {
+    const idxInt = parseInt(targetIndex);
+    if (!isNaN(idxInt) && idxInt >= 0 && idxInt < wordsData.length) currentIndex = idxInt;
+  } else {
+    // Default to 'handicapé' if available so user instantly sees the requested view!
+    const handiIdx = wordsData.findIndex(w => (w.entry || '').toLowerCase().includes('handicap'));
+    if (handiIdx >= 0) currentIndex = handiIdx;
+  }
+
+  function getActiveWord() {
+    return wordsData[currentIndex] || {};
+  }
+
+  function renderCard() {
+    const word = getActiveWord();
+    if (!word || !word.entry) return;
+
+    currentExIndex = 0; // reset example index
+
+    // Counter updates
+    document.getElementById('idx-counter').innerText = currentIndex + 1;
+    document.getElementById('bar-current').innerText = currentIndex + 1;
+    const pct = Math.round(((currentIndex + 1) / wordsData.length) * 100);
+    document.getElementById('progress-percent').innerText = pct + '%';
+    document.getElementById('progress-bar-fill').style.width = pct + '%';
+
+    // Word title & POS
+    document.getElementById('card-word').innerText = word.entry || '';
+    document.getElementById('card-pos').innerText = word.part_of_speech || 'word';
+
+    // IPA & Phonetics
+    let cleanIpa = (word.ipa || (word.metadata && word.metadata.nlpAnalyzedData && word.metadata.nlpAnalyzedData.pronunciationIPA) || '').replace(/^['’]/, '');
+    let cleanLoc = (word.ipa_loc || (word.metadata && word.metadata.nlpAnalyzedData && word.metadata.nlpAnalyzedData.pronunciationLocalization) || '').replace(/^['’]/, '');
+    let phoneticsText = '';
+    if (cleanIpa && cleanLoc) {
+      phoneticsText = `/'${cleanIpa}/ or /${cleanLoc}/`;
+    } else if (cleanIpa) {
+      phoneticsText = `/'${cleanIpa}/`;
+    } else {
+      phoneticsText = `/${word.entry}/`;
+    }
+    document.getElementById('card-ipa').innerText = phoneticsText;
+
+    // Translation
+    const eng = word.english_trans || '';
+    const other = word.other_trans ? ` (${word.other_trans})` : '';
+    document.getElementById('card-translation').innerText = `${eng}${other}`;
+
+    // French definition
+    document.getElementById('card-french-def').innerText = word.french_def || 'Définition française disponible pour ce mot.';
+
+    // Photo / Illustration
+    const photoEl = document.getElementById('card-photo');
+    const placeholderEl = document.getElementById('card-photo-placeholder');
+    if (word.photo_url) {
+      photoEl.src = word.photo_url.startsWith('/media-proxy') ? word.photo_url : `/media-proxy?url=${encodeURIComponent(word.photo_url)}`;
+      photoEl.classList.remove('hidden');
+      placeholderEl.classList.add('hidden');
+    } else {
+      photoEl.classList.add('hidden');
+      placeholderEl.classList.remove('hidden');
+    }
+
+    // Render Syllables if available in metadata
+    renderSyllables(word);
+
+    // Render Examples
+    renderExample();
+
+    // Render Grammar / Inflection Table
+    renderGrammarTable(word);
+
+    // Button states
+    document.getElementById('btn-prev-word').disabled = (currentIndex === 0);
+    document.getElementById('btn-prev-word').style.opacity = (currentIndex === 0) ? '0.5' : '1';
+    document.getElementById('btn-next-word').disabled = (currentIndex === wordsData.length - 1);
+
+    // Re-initialize Lucide icons
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  }
+
+  function renderSyllables(word) {
+    const panel = document.getElementById('syllables-list');
+    panel.innerHTML = '';
+    let syllabuses = [];
+    try {
+      if (word.card_json) {
+        const cj = typeof word.card_json === 'string' ? JSON.parse(word.card_json) : word.card_json;
+        const mt = cj.mainTranslation || {};
+        const nlp = (mt.metadata || {}).nlpAnalyzedData || {};
+        syllabuses = nlp.syllabuses || ((nlp.secondPronunciationDetails || {}).syllabuses) || [];
+      }
+    } catch (e) {}
+
+    if (!syllabuses || syllabuses.length === 0) {
+      panel.innerHTML = `<span class="text-xs text-slate-500 font-mono">${word.entry}</span>`;
+      return;
+    }
+
+    syllabuses.forEach((syl, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-xs font-mono text-slate-800 hover:bg-sky-50 hover:text-sky-700 hover:border-sky-200 transition flex items-center gap-1 cursor-pointer';
+      btn.innerHTML = `<span>${syl.syllabus || syl.pronunciationIPA}</span> <span class="text-[10px] text-slate-400 font-sans">${syl.pronunciationIPA || ''}</span>`;
+      if (syl.syllabusVoice) {
+        btn.onclick = () => playAudioUrl(syl.syllabusVoice);
+      }
+      panel.appendChild(btn);
+    });
+  }
+
+  function toggleSyllableBreakdown() {
+    const p = document.getElementById('syllables-panel');
+    const caret = document.getElementById('caret-syllable');
+    if (p.classList.contains('hidden')) {
+      p.classList.remove('hidden');
+      caret.style.transform = 'rotate(180deg)';
+    } else {
+      p.classList.add('hidden');
+      caret.style.transform = 'rotate(0deg)';
+    }
+  }
+
+  function getExamples() {
+    const word = getActiveWord();
+    return word.examples || [];
+  }
+
+  function renderExample() {
+    const examples = getExamples();
+    const frEl = document.getElementById('example-fr-text');
+    const enEl = document.getElementById('example-en-text');
+    const numEl = document.getElementById('example-num-text');
+
+    if (!examples || examples.length === 0) {
+      frEl.innerText = `Exemple d'utilisation avec « ${getActiveWord().entry} ».`;
+      enEl.innerText = `Example sentence showing usage of "${getActiveWord().entry}".`;
+      numEl.innerText = 'Example 1 of 1';
+      return;
+    }
+
+    if (currentExIndex >= examples.length) currentExIndex = 0;
+    if (currentExIndex < 0) currentExIndex = examples.length - 1;
+
+    const ex = examples[currentExIndex];
+    frEl.innerText = ex.fr || ex.french_sentence || '';
+    enEl.innerText = ex.en || ex.english_sentence || '';
+    numEl.innerText = `Example ${currentExIndex + 1} of ${examples.length}`;
+  }
+
+  function nextExample() {
+    const examples = getExamples();
+    if (examples.length > 1) {
+      currentExIndex = (currentExIndex + 1) % examples.length;
+      renderExample();
+    }
+  }
+
+  function prevExample() {
+    const examples = getExamples();
+    if (examples.length > 1) {
+      currentExIndex = (currentExIndex - 1 + examples.length) % examples.length;
+      renderExample();
+    }
+  }
+
+  function setDialect(dialect) {
+    currentDialect = dialect;
+    const frBtn = document.getElementById('dialect-fr-btn');
+    const caBtn = document.getElementById('dialect-ca-btn');
+    if (dialect === 'FR') {
+      frBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#1e40af] text-white flex items-center gap-1 transition';
+      caBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-1 transition';
+    } else {
+      caBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#1e40af] text-white flex items-center gap-1 transition';
+      frBtn.className = 'px-2.5 py-1 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-1 transition';
+    }
+    // Also trigger audio in selected dialect
+    playCurrentAudio();
+  }
+
+  function playAudioUrl(url) {
+    if (!url) return;
+    const audio = document.getElementById('tts-audio');
+    const proxyUrl = url.startsWith('/media-proxy') ? url : `/media-proxy?url=${encodeURIComponent(url)}`;
+    audio.src = proxyUrl;
+    audio.play().catch(e => console.warn('Audio play error:', e));
+  }
+
+  function playCurrentAudio() {
+    const word = getActiveWord();
+    let url = (currentDialect === 'CA' && word.audio_ca_url) ? word.audio_ca_url : word.audio_url;
+    if (!url && word.audio_url) url = word.audio_url;
+    playAudioUrl(url);
+  }
+
+  function playExampleAudio() {
+    const examples = getExamples();
+    if (!examples || examples.length === 0) return;
+    const ex = examples[currentExIndex];
+    let url = (currentDialect === 'CA' && ex.audio_ca) ? ex.audio_ca : (ex.audio_fr || ex.exampleVoice);
+    if (!url && ex.audio_fr) url = ex.audio_fr;
+    playAudioUrl(url);
+  }
+
+  function renderGrammarTable(word) {
+    let grammar = word.grammar || {};
+    if (typeof grammar === 'string') {
+      try { grammar = JSON.parse(grammar); } catch(e) {}
+    }
+    if (word.grammar_info && typeof word.grammar_info === 'string') {
+      try { grammar = JSON.parse(word.grammar_info); } catch(e) {}
+    }
+
+    const compBadge = document.getElementById('badge-comp');
+    const catBadge = document.getElementById('badge-cat');
+    const gradBadge = document.getElementById('badge-grad');
+
+    compBadge.innerText = (grammar.composition || 'standard').replace(/-/g, ' ');
+    catBadge.innerText = (grammar.category || word.part_of_speech || 'Qualitative').replace(/-/g, ' ');
+    gradBadge.innerText = (grammar.gradability || 'ungradable').replace(/-/g, ' ');
+
+    const tableBox = document.getElementById('grammar-table-container');
+
+    const mSg = grammar.masculineForm || word.entry;
+    const mPl = grammar.pluralMasculineForm || (mSg + 's');
+    const fSg = grammar.feminineForm || (mSg + 'e');
+    const fPl = grammar.pluralFeminineForm || (fSg + 's');
+    const domains = Array.isArray(grammar.domains) ? grammar.domains.join(', ') : (grammar.domains || 'santé, condition, capacité');
+
+    // Build the exact 3-column table matching the screenshot
+    let html = `
+      <table class="w-full text-center border-collapse">
+        <thead>
+          <tr>
+            <th class="bg-[#bae6fd] text-[#0369a1] font-bold text-xs py-2 px-3 border-r border-white/60">Masculine Singular</th>
+            <th class="bg-[#bfdbfe] text-[#1d4ed8] font-bold text-xs py-2 px-3 border-r border-white/60">Masculine Plural</th>
+            <th class="bg-[#fbcfe8] text-[#be185d] font-bold text-xs py-2 px-3">Female Singular</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          <tr class="bg-white">
+            <td class="py-2.5 px-3 text-sm text-slate-800 font-medium border-r border-slate-100">${mSg}</td>
+            <td class="py-2.5 px-3 text-sm text-slate-800 font-medium border-r border-slate-100">${mPl}</td>
+            <td class="py-2.5 px-3 text-sm font-semibold">
+              <span class="bg-[#dbeafe] text-[#1e40af] px-2.5 py-1 rounded-md inline-block">${fSg}</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="bg-[#fdf2f8] text-[#be185d] font-bold text-xs py-2 px-3 border-r border-slate-100">Female plural</td>
+            <td class="bg-[#eff6ff] text-[#1d4ed8] font-bold text-xs py-2 px-3 border-r border-slate-100" colspan="2">domain</td>
+          </tr>
+          <tr class="bg-white">
+            <td class="py-2.5 px-3 text-sm text-slate-800 font-medium border-r border-slate-100">${fPl}</td>
+            <td class="py-2.5 px-3 text-xs sm:text-sm text-slate-600 font-medium" colspan="2">${domains}</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+    tableBox.innerHTML = html;
+  }
+
+  function nextWord() {
+    if (currentIndex < wordsData.length - 1) {
+      currentIndex++;
+      renderCard();
+    }
+  }
+
+  function prevWord() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderCard();
+    }
+  }
+
+  function markCurrentWord(score) {
+    const word = getActiveWord();
+    if (!word || !word.id) return;
+    fetch('/api/progress/mark', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ word_id: word.id, score: score })
+    }).then(r => r.json()).then(data => {
+      // Show instant toast notification
+      showToast(score >= 4 ? `Mastered « ${word.entry} »! 🎯` : `Marked « ${word.entry} » for review`);
+      // Auto-advance
+      setTimeout(() => nextWord(), 400);
+    }).catch(e => console.warn('Progress error:', e));
+  }
+
+  function showToast(msg) {
+    let t = document.getElementById('study-toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'study-toast';
+      t.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg z-50 transition-opacity duration-300';
+      document.body.appendChild(t);
+    }
+    t.innerText = msg;
+    t.style.opacity = '1';
+    setTimeout(() => { t.style.opacity = '0'; }, 1600);
+  }
+
+  function showWordlistModal() {
+    showToast(`Added « ${getActiveWord().entry} » to My Wordlist ⭐`);
+  }
+
+  function toggleCardInfoModal() {
+    showToast(`Word ID: ${getActiveWord().id} • CEFR C1`);
+  }
+
+  // Keyboard navigation shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      nextWord();
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      prevWord();
+    } else if (e.key === ' ' || e.code === 'Space') {
+      e.preventDefault();
+      playCurrentAudio();
+    } else if (e.key === '1') {
+      markCurrentWord(2);
+    } else if (e.key === '4') {
+      markCurrentWord(4);
+    }
+  });
+
+  // Initial render on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    renderCard();
+  });
+</script>
+{% endblock %}

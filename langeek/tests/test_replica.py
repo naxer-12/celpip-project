@@ -50,6 +50,14 @@ def test_category_detail_rendering():
 
 
 def test_interactive_learning_suites():
+    # Test Rich Vocabulary Detail Studio (Matches LanGeek User Screenshot)
+    resp_studio = client.get("/fr-EN/vocab/subcategory/12943/learn")
+    assert resp_studio.status_code == 200
+    assert "handicapé" in resp_studio.text
+    assert "Composition" in resp_studio.text
+    assert "Masculine Singular" in resp_studio.text
+    assert "qui présente une déficience physique ou mentale" in resp_studio.text
+
     # Test Flashcard learner for subcategory 12943
     resp_flash = client.get("/fr-EN/vocab/subcategory/12943/learn/flashcard")
     assert resp_flash.status_code == 200
