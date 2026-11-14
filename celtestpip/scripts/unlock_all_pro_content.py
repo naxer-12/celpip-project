@@ -132,6 +132,20 @@ def clean_html(html: str) -> str:
         html = html.replace(r'\"isPro\":true', r'\"isPro\":false')
         html = html.replace('"isPro":true', '"isPro":false')
 
+    # 9. Insert initial audio step for listening practices if missing
+    if r'\"steps\":' in html and r'\"practice\":' in html:
+        try:
+            from celtestpip.scripts.patch_listening_audio_steps import patch_listening_practice_html
+            html = patch_listening_practice_html(html)
+        except Exception:
+            pass
+
+    # 10. Cache-bust patched immutable chunks
+    if '2fvw__nnw3kbd.js' in html:
+        html = html.replace('2fvw__nnw3kbd.js', '2fvw__nnw3kbd_v2.js')
+    if '24w9ng0sqrv9g.js' in html:
+        html = html.replace('24w9ng0sqrv9g.js', '24w9ng0sqrv9g_v2.js')
+
     return html
 
 def process_file(path: str):

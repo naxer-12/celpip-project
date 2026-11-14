@@ -77,3 +77,23 @@ def test_all_590_practices_harvested():
     """Verify all 590 practice tests are stored on disk."""
     practices = glob.glob(os.path.join(PAGES_DIR, "practices_listening_*.html"))
     assert len(practices) >= 590
+
+
+def test_listening_practice_result_returns_questions_array():
+    """Verify /api/practices/{practice_id}/result returns a questions array with answers and explanations."""
+    resp = client.get("/api/practices/listening_cmn4hda7y00pyyqundlh38n09/result")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert "result" in data
+    assert isinstance(data["result"], list)
+    assert len(data["result"]) == 8
+    first_q = data["result"][0]
+    assert "question" in first_q
+    assert "options" in first_q
+    assert isinstance(first_q["options"], dict)
+    assert "option1" in first_q["options"]
+    assert "answer" in first_q
+    assert "userAnswer" in first_q
+    assert "isCorrect" in first_q
+    assert "explanation" in first_q
+    assert data.get("betterThanPercentage") == 85
