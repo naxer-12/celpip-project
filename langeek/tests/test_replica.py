@@ -335,3 +335,54 @@ def test_homepage_subatomic_ui_elements():
     assert "Deutsch" in resp.text
 
 
+def test_english_flagship_curriculum_seeded():
+    import sqlite3
+    conn = sqlite3.connect("langeek/data/langeek.db")
+    cur = conn.cursor()
+    # Check English vocabulary categories
+    en_cats = cur.execute("SELECT count(*) FROM categories WHERE locale = 'en'").fetchone()[0]
+    assert en_cats >= 6, f"Expected at least 6 English categories, found {en_cats}"
+    
+    # Check English grammar courses
+    en_gram = cur.execute("SELECT count(*) FROM grammar_courses WHERE locale = 'en'").fetchone()[0]
+    assert en_gram >= 5, f"Expected at least 5 English grammar courses, found {en_gram}"
+    
+    # Check English expressions
+    en_expr = cur.execute("SELECT count(*) FROM expressions WHERE locale = 'en'").fetchone()[0]
+    assert en_expr >= 5, f"Expected at least 5 English expressions, found {en_expr}"
+    
+    # Check English pronunciation courses
+    en_pron = cur.execute("SELECT count(*) FROM pronunciation_courses WHERE locale = 'en'").fetchone()[0]
+    assert en_pron >= 26, f"Expected 26 English alphabet letters, found {en_pron}"
+    
+    # Check English reading stories
+    en_read = cur.execute("SELECT count(*) FROM reading_stories WHERE locale = 'en'").fetchone()[0]
+    assert en_read >= 3, f"Expected at least 3 English reading stories, found {en_read}"
+    conn.close()
+
+
+def test_french_curriculum_integrity_preserved():
+    import sqlite3
+    conn = sqlite3.connect("langeek/data/langeek.db")
+    cur = conn.cursor()
+    assert cur.execute("SELECT count(*) FROM categories WHERE locale = 'fr'").fetchone()[0] == 44
+    assert cur.execute("SELECT count(*) FROM subcategories WHERE locale = 'fr'").fetchone()[0] == 796
+    assert cur.execute("SELECT count(*) FROM grammar_categories WHERE locale = 'fr'").fetchone()[0] == 11
+    assert cur.execute("SELECT count(*) FROM grammar_courses WHERE locale = 'fr'").fetchone()[0] == 74
+    assert cur.execute("SELECT count(*) FROM reading_collections WHERE locale = 'fr'").fetchone()[0] == 5
+    assert cur.execute("SELECT count(*) FROM reading_stories WHERE locale = 'fr'").fetchone()[0] == 30
+    assert cur.execute("SELECT count(*) FROM reading_segments WHERE locale = 'fr'").fetchone()[0] == 179
+    assert cur.execute("SELECT count(*) FROM pronunciation_courses WHERE locale = 'fr'").fetchone()[0] == 26
+    conn.close()
+
+
+@pytest.mark.asyncio
+async def test_cache_through_fallback_interface():
+    from langeek.server import fetch_and_cache_upstream
+    # Test handling of non-existent upstream path returns False gracefully without throwing
+    res = await fetch_and_cache_upstream("en/non-existent-sample-route-999999", db_locale="en")
+    assert res is False
+
+
+
+

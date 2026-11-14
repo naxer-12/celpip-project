@@ -99,7 +99,7 @@ def guess_content_type(file_path: str, body: bytes = b"") -> str:
     return mime or "application/octet-stream"
 
 
-async def ensure_subcategory_words(sub_id: int) -> List[Dict[str, Any]]:
+async def ensure_subcategory_words(sub_id: int, locale: str = "fr-EN") -> List[Dict[str, Any]]:
     """Ensure vocabulary words for a subcategory exist in SQLite, fetching upstream if missing."""
     conn = get_db()
     cur = conn.cursor()
@@ -144,10 +144,16 @@ async def ensure_subcategory_words(sub_id: int) -> List[Dict[str, Any]]:
         return results
 
     # Fetch on-demand from upstream
-    logger.info(f"Subcategory {sub_id} words not yet in DB; fetching on-demand from upstream...")
-    url = f"{UPSTREAM_BASE}/fr-EN/vocab/subcategory/{sub_id}/learn"
+    loc_prefix = "en" if locale == "en" else "fr-EN"
+    logger.info(f"Subcategory {sub_id} words not yet in DB; fetching on-demand from upstream ({loc_prefix})...")
+    url = f"{UPSTREAM_BASE}/{loc_prefix}/vocab/subcategory/{sub_id}/learn"
     try:
-        resp = await http_client.get(url)
+        if http_client is not None:
+            resp = await http_client.get(url)
+        else:
+            async with httpx.AsyncClient(verify=False, timeout=15.0) as temp_client:
+                resp = await temp_client.get(url)
+
         if resp.status_code == 200:
             m = re.search(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', resp.text)
             if m:
@@ -190,11 +196,274 @@ async def ensure_subcategory_words(sub_id: int) -> List[Dict[str, Any]]:
                 conn.commit()
 
         # Re-query
-        return await ensure_subcategory_words(sub_id)
+        return await ensure_subcategory_words(sub_id, locale=locale)
     except Exception as e:
         logger.error(f"Error fetching subcategory {sub_id} words: {e}")
         conn.close()
         return []
+
+
+async def fetch_and_cache_upstream(upstream_path: str, db_locale: str = "en") -> bool:
+    """Fetch uncached lesson/module page from upstream LanGeek, extract __NEXT_DATA__, and persist to SQLite."""
+    global http_client
+    path = upstream_path.lstrip("/")
+    target_url = f"{UPSTREAM_BASE}/{path}"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Referer": f"{UPSTREAM_BASE}/"
+    }
+    logger.info(f"Cache-through fallback: attempting upstream fetch for {target_url} (locale={db_locale})")
+    try:
+        if http_client is not None:
+            resp = await http_client.get(target_url, headers=headers, follow_redirects=True)
+        else:
+            async with httpx.AsyncClient(verify=False, timeout=15.0) as temp_client:
+                resp = await temp_client.get(target_url, headers=headers, follow_redirects=True)
+
+        if resp.status_code != 200:
+            logger.warning(f"Upstream fetch failed: {target_url} returned HTTP {resp.status_code}")
+            return False
+
+        m = re.search(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', resp.text, flags=re.DOTALL)
+        if not m:
+            logger.warning(f"No __NEXT_DATA__ found at {target_url}")
+            return False
+
+        data = json.loads(m.group(1))
+        page_props = data.get("props", {}).get("pageProps", {})
+        init_state = page_props.get("initialState", {})
+        static_data = init_state.get("static", {})
+
+        conn = get_db()
+        cur = conn.cursor()
+        cached_any = False
+
+        # 1. Subcategory & Vocabulary Cards
+        sub = static_data.get("subcategory")
+        cat = static_data.get("category")
+        if sub and isinstance(sub, dict):
+            sub_id = sub.get("id")
+            cat_id = (cat.get("id") if cat else None) or sub.get("categoryId")
+            if cat and isinstance(cat, dict):
+                cur.execute("""
+                    INSERT INTO categories (id, slug, title, description, web_title, photo_thumbnail, locale)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(id) DO UPDATE SET
+                        title=excluded.title,
+                        description=excluded.description,
+                        web_title=excluded.web_title
+                """, (
+                    cat_id,
+                    cat.get("urlId") or cat.get("slug"),
+                    cat.get("title") or cat.get("webTitle"),
+                    cat.get("description"),
+                    cat.get("webTitle"),
+                    cat.get("photoThumbnail"),
+                    db_locale
+                ))
+            cards = sub.get("cards", [])
+            cur.execute("""
+                INSERT INTO subcategories (id, category_id, slug, title, description, web_title, words_count, estimated_time, locale)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(id) DO UPDATE SET
+                    title=excluded.title,
+                    description=excluded.description,
+                    words_count=excluded.words_count
+            """, (
+                sub_id,
+                cat_id,
+                sub.get("urlId") or str(sub_id),
+                sub.get("title") or sub.get("originalTitle"),
+                sub.get("description"),
+                sub.get("webTitle"),
+                len(cards) if cards else sub.get("wordsCount", 0),
+                sub.get("estimatedLearningTime", 0),
+                db_locale
+            ))
+            for idx, card in enumerate(cards):
+                mt = card.get("mainTranslation") or {}
+                if not mt:
+                    continue
+                w_id = card.get("id") or mt.get("id")
+                entry = mt.get("title") or ""
+                pos = (mt.get("partOfSpeech") or {}).get("partOfSpeechType")
+                french_def = mt.get("translation") or ""
+                loc = mt.get("localizedProperties") or {}
+                eng = loc.get("translation") or ""
+                other = loc.get("otherTranslations") or ""
+                wp = mt.get("wordPhoto") or {}
+                photo = wp.get("photo")
+                thumb = wp.get("photoThumbnail")
+                audio = mt.get("titleVoice")
+                audio_ca = mt.get("titleVoice2")
+                ipa = mt.get("pronunciation") or ((mt.get("metadata") or {}).get("nlpAnalyzedData", {}).get("pronunciationIPA"))
+                ipa_loc = (mt.get("metadata") or {}).get("nlpAnalyzedData", {}).get("pronunciationLocalization")
+                grammar = json.dumps((mt.get("partOfSpeech") or {}).get("grammaticalInformation") or {}, ensure_ascii=False)
+                card_str = json.dumps(card, ensure_ascii=False)
+
+                cur.execute("""
+                    INSERT INTO words (id, subcategory_id, entry, part_of_speech, french_def, english_trans, other_trans, photo_url, thumb_url, audio_url, audio_ca_url, ipa, ipa_loc, grammar_info, card_json, position)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(id) DO UPDATE SET
+                        entry=excluded.entry,
+                        english_trans=excluded.english_trans,
+                        french_def=excluded.french_def,
+                        audio_url=excluded.audio_url,
+                        photo_url=excluded.photo_url
+                """, (w_id, sub_id, entry, pos, french_def, eng, other, photo, thumb, audio, audio_ca, ipa, ipa_loc, grammar, card_str, idx))
+
+                for ex in mt.get("examples", []):
+                    ex_id = ex.get("id")
+                    fr_s = ex.get("example")
+                    loc_ex = ex.get("localizedProperties") or {}
+                    en_s = loc_ex.get("example")
+                    if fr_s:
+                        cur.execute("INSERT OR REPLACE INTO examples (id, word_id, french_sentence, english_sentence) VALUES (?, ?, ?, ?)", (ex_id, w_id, fr_s, en_s))
+            cached_any = True
+
+        # 2. Category Overview
+        elif cat and isinstance(cat, dict) and not sub:
+            cat_id = cat.get("id")
+            cur.execute("""
+                INSERT INTO categories (id, slug, title, description, web_title, photo_thumbnail, photo, words_count, subcategories_count, locale)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(id) DO UPDATE SET
+                    title=excluded.title,
+                    description=excluded.description,
+                    words_count=excluded.words_count,
+                    subcategories_count=excluded.subcategories_count
+            """, (
+                cat_id,
+                cat.get("urlId") or cat.get("slug"),
+                cat.get("title") or cat.get("webTitle"),
+                cat.get("description"),
+                cat.get("webTitle"),
+                cat.get("photoThumbnail"),
+                cat.get("photo"),
+                cat.get("wordsCount", 0),
+                len(cat.get("subCategories", [])),
+                db_locale
+            ))
+            for s in cat.get("subCategories", []):
+                cur.execute("""
+                    INSERT INTO subcategories (id, category_id, slug, title, description, web_title, words_count, estimated_time, locale)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(id) DO UPDATE SET
+                        title=excluded.title,
+                        description=excluded.description
+                """, (
+                    s.get("id"),
+                    cat_id,
+                    s.get("urlId") or str(s.get("id")),
+                    s.get("title") or s.get("originalTitle"),
+                    s.get("description"),
+                    s.get("webTitle"),
+                    s.get("wordsCount", 0),
+                    s.get("estimatedLearningTime", 0),
+                    db_locale
+                ))
+            cached_any = True
+
+        # 3. Grammar Course & Blocks
+        course = static_data.get("course")
+        seg = static_data.get("segment")
+        if course and isinstance(course, dict):
+            c_id = course.get("id")
+            blocks = (seg.get("blocks", []) if seg else [])
+            cur.execute("""
+                INSERT INTO grammar_courses (id, url_id, title, level, web_title, description, blocks_count, blocks_json, category_id, photo, photo_thumbnail, original_title, locale)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(id) DO UPDATE SET
+                    title=excluded.title,
+                    blocks_count=excluded.blocks_count,
+                    blocks_json=excluded.blocks_json
+            """, (
+                c_id,
+                course.get("urlId"),
+                course.get("title") or (seg.get("title") if seg else ""),
+                seg.get("level", "intermediate") if seg else "intermediate",
+                course.get("webTitle") or (seg.get("webTitle") if seg else ""),
+                course.get("description") or (seg.get("description") if seg else ""),
+                len(blocks),
+                json.dumps({"blocks": blocks}, ensure_ascii=False) if blocks else "[]",
+                course.get("levelId") or course.get("categoryId"),
+                course.get("photo"),
+                course.get("photoThumbnail"),
+                course.get("originalTitle"),
+                db_locale
+            ))
+            cached_any = True
+
+        # 4. Reading Story & Paragraph/Photo Blocks
+        r_blocks = static_data.get("readingBlocks")
+        story = static_data.get("course")
+        if r_blocks and isinstance(r_blocks, list) and story and isinstance(story, dict):
+            story_id = story.get("id")
+            if story_id:
+                paragraphs = []
+                for b in r_blocks:
+                    if b.get("blockType") == "PhotoBlock" or b.get("photo"):
+                        paragraphs.append({
+                            "type": "photo",
+                            "blockType": "PhotoBlock",
+                            "photo": b.get("photo"),
+                            "photo_thumbnail": b.get("photoThumbnail")
+                        })
+                    else:
+                        sentences = b.get("sentences", [])
+                        text_main = " ".join((s.get("sentence") or "") for s in sentences).strip()
+                        text_trans = " ".join(((s.get("localizedProperties") or {}).get("sentence") or "") for s in sentences).strip()
+                        paragraphs.append({
+                            "type": "paragraph",
+                            "blockType": "ParagraphBlock",
+                            "fr": text_main,
+                            "en": text_trans or text_main,
+                            "audio": b.get("readableTextVoice")
+                        })
+                cur.execute("""
+                    INSERT INTO reading_stories (id, collection_id, title, url_id, level, description, photo, photo_thumbnail, content_json, quiz_json, locale)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(id) DO UPDATE SET
+                        content_json=excluded.content_json,
+                        title=excluded.title
+                """, (
+                    story_id,
+                    story.get("levelId") or story.get("collectionId"),
+                    story.get("title"),
+                    story.get("urlId"),
+                    story.get("level", "intermediate"),
+                    story.get("description", ""),
+                    story.get("photo"),
+                    story.get("photoThumbnail"),
+                    json.dumps(paragraphs, ensure_ascii=False),
+                    "[]",
+                    db_locale
+                ))
+                cur.execute("""
+                    INSERT INTO reading_segments (story_id, segment_index, title, url_id, photo, content_json, locale)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(story_id, segment_index) DO UPDATE SET
+                        content_json=excluded.content_json,
+                        title=excluded.title
+                """, (
+                    story_id,
+                    0,
+                    story.get("title", "Chapter 1"),
+                    story.get("urlId"),
+                    story.get("photo"),
+                    json.dumps(paragraphs, ensure_ascii=False),
+                    db_locale
+                ))
+                cached_any = True
+
+        conn.commit()
+        conn.close()
+        logger.info(f"Cache-through fallback result for {target_url}: cached_any={cached_any}")
+        return cached_any
+    except Exception as e:
+        logger.error(f"Error in fetch_and_cache_upstream for {target_url}: {e}")
+        return False
+
 
 
 # ---------------------------------------------------------
@@ -489,12 +758,21 @@ async def category_detail_view(cat_id: int, request: Request, locale: str = "fr-
     if locale not in SUPPORTED_LOCALES:
         raise HTTPException(status_code=404, detail="Locale not found")
     loc_ctx = get_locale_context(locale, request, active_tab="vocab")
+    db_loc = loc_ctx["db_locale"]
     conn = get_db()
     cur = conn.cursor()
     cat_row = cur.execute("SELECT * FROM categories WHERE id = ?", (cat_id,)).fetchone()
     if not cat_row:
         conn.close()
-        raise HTTPException(status_code=404, detail="Category not found")
+        upstream_slug = slug or ""
+        path = f"{loc_ctx['locale']}/vocab/category/{cat_id}/{upstream_slug}".rstrip("/")
+        cached = await fetch_and_cache_upstream(path, db_locale=db_loc)
+        if cached:
+            conn = get_db()
+            cur = conn.cursor()
+            cat_row = cur.execute("SELECT * FROM categories WHERE id = ?", (cat_id,)).fetchone()
+        if not cat_row:
+            raise HTTPException(status_code=404, detail="Category not found")
     
     sub_rows = cur.execute("SELECT * FROM subcategories WHERE category_id = ? ORDER BY position ASC, id ASC", (cat_id,)).fetchall()
     conn.close()
@@ -514,13 +792,21 @@ async def learn_studio_view(sub_id: int, request: Request, locale: str = "fr-EN"
     if locale not in SUPPORTED_LOCALES:
         raise HTTPException(status_code=404, detail="Locale not found")
     loc_ctx = get_locale_context(locale, request, active_tab="vocab")
+    db_loc = loc_ctx["db_locale"]
     conn = get_db()
     cur = conn.cursor()
     sub_row = cur.execute("SELECT * FROM subcategories WHERE id = ?", (sub_id,)).fetchone()
+    if not sub_row:
+        conn.close()
+        path = f"{loc_ctx['locale']}/vocab/subcategory/{sub_id}/learn"
+        await fetch_and_cache_upstream(path, db_locale=db_loc)
+        conn = get_db()
+        cur = conn.cursor()
+        sub_row = cur.execute("SELECT * FROM subcategories WHERE id = ?", (sub_id,)).fetchone()
     cat_row = cur.execute("SELECT * FROM categories WHERE id = ?", (sub_row['category_id'],)).fetchone() if sub_row else None
     conn.close()
 
-    words = await ensure_subcategory_words(sub_id)
+    words = await ensure_subcategory_words(sub_id, locale=locale)
     return templates.TemplateResponse(request, "learn_studio.html", {
         **loc_ctx,
         "locale_context": loc_ctx,
@@ -543,7 +829,7 @@ async def flashcards_learner_view(sub_id: int, request: Request, locale: str = "
     cat_row = cur.execute("SELECT * FROM categories WHERE id = ?", (sub_row['category_id'],)).fetchone() if sub_row else None
     conn.close()
 
-    words = await ensure_subcategory_words(sub_id)
+    words = await ensure_subcategory_words(sub_id, locale=locale)
     return templates.TemplateResponse(request, "learn_flashcard.html", {
         **loc_ctx,
         "locale_context": loc_ctx,
@@ -566,7 +852,7 @@ async def quiz_learner_view(sub_id: int, request: Request, locale: str = "fr-EN"
     cat_row = cur.execute("SELECT * FROM categories WHERE id = ?", (sub_row['category_id'],)).fetchone() if sub_row else None
     conn.close()
 
-    words = await ensure_subcategory_words(sub_id)
+    words = await ensure_subcategory_words(sub_id, locale=locale)
     return templates.TemplateResponse(request, "learn_quiz.html", {
         **loc_ctx,
         "locale_context": loc_ctx,
@@ -589,7 +875,7 @@ async def spelling_learner_view(sub_id: int, request: Request, locale: str = "fr
     cat_row = cur.execute("SELECT * FROM categories WHERE id = ?", (sub_row['category_id'],)).fetchone() if sub_row else None
     conn.close()
 
-    words = await ensure_subcategory_words(sub_id)
+    words = await ensure_subcategory_words(sub_id, locale=locale)
     return templates.TemplateResponse(request, "learn_spelling.html", {
         **loc_ctx,
         "locale_context": loc_ctx,
@@ -614,7 +900,7 @@ async def word_list_view(sub_id: int, request: Request, locale: str = "fr-EN"):
     cat_row = cur.execute("SELECT * FROM categories WHERE id = ?", (sub_row['category_id'],)).fetchone() if sub_row else None
     conn.close()
 
-    words = await ensure_subcategory_words(sub_id)
+    words = await ensure_subcategory_words(sub_id, locale=locale)
     return templates.TemplateResponse(request, "word_list.html", {
         **loc_ctx,
         "locale_context": loc_ctx,
@@ -655,12 +941,21 @@ async def grammar_category_view(cat_id: int, request: Request, locale: str = "fr
     if locale not in SUPPORTED_LOCALES:
         raise HTTPException(status_code=404, detail="Locale not found")
     loc_ctx = get_locale_context(locale, request, active_tab="grammar")
+    db_loc = loc_ctx["db_locale"]
     conn = get_db()
     cur = conn.cursor()
     cat_row = cur.execute("SELECT * FROM grammar_categories WHERE id = ?", (cat_id,)).fetchone()
     if not cat_row:
         conn.close()
-        raise HTTPException(status_code=404, detail="Grammar category not found")
+        upstream_slug = slug or ""
+        path = f"{loc_ctx['locale']}/grammar/{cat_id}/{upstream_slug}".rstrip("/")
+        cached = await fetch_and_cache_upstream(path, db_locale=db_loc)
+        if cached:
+            conn = get_db()
+            cur = conn.cursor()
+            cat_row = cur.execute("SELECT * FROM grammar_categories WHERE id = ?", (cat_id,)).fetchone()
+        if not cat_row:
+            raise HTTPException(status_code=404, detail="Grammar category not found")
     courses = cur.execute("SELECT * FROM grammar_courses WHERE category_id = ? ORDER BY id ASC", (cat_id,)).fetchall()
     conn.close()
     return templates.TemplateResponse(request, "grammar_category.html", {
@@ -678,12 +973,21 @@ async def grammar_lesson_view(course_id: int, request: Request, locale: str = "f
     if locale not in SUPPORTED_LOCALES:
         raise HTTPException(status_code=404, detail="Locale not found")
     loc_ctx = get_locale_context(locale, request, active_tab="grammar")
+    db_loc = loc_ctx["db_locale"]
     conn = get_db()
     cur = conn.cursor()
     row = cur.execute("SELECT * FROM grammar_courses WHERE id = ?", (course_id,)).fetchone()
     if not row:
         conn.close()
-        raise HTTPException(status_code=404, detail="Grammar course not found")
+        upstream_slug = slug or ""
+        path = f"{loc_ctx['locale']}/grammar/course/{course_id}/{upstream_slug}".rstrip("/")
+        cached = await fetch_and_cache_upstream(path, db_locale=db_loc)
+        if cached:
+            conn = get_db()
+            cur = conn.cursor()
+            row = cur.execute("SELECT * FROM grammar_courses WHERE id = ?", (course_id,)).fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail="Grammar course not found")
     
     course_dict = dict(row)
     cat_row = cur.execute("SELECT * FROM grammar_categories WHERE id = ?", (course_dict.get('category_id'),)).fetchone()
@@ -745,12 +1049,21 @@ async def reading_collection_view(col_id: int, request: Request, locale: str = "
     if locale not in SUPPORTED_LOCALES:
         raise HTTPException(status_code=404, detail="Locale not found")
     loc_ctx = get_locale_context(locale, request, active_tab="reading")
+    db_loc = loc_ctx["db_locale"]
     conn = get_db()
     cur = conn.cursor()
     col_row = cur.execute("SELECT * FROM reading_collections WHERE id = ?", (col_id,)).fetchone()
     if not col_row:
         conn.close()
-        raise HTTPException(status_code=404, detail="Reading collection not found")
+        upstream_slug = slug or ""
+        path = f"{loc_ctx['locale']}/reading/{col_id}/{upstream_slug}".rstrip("/")
+        cached = await fetch_and_cache_upstream(path, db_locale=db_loc)
+        if cached:
+            conn = get_db()
+            cur = conn.cursor()
+            col_row = cur.execute("SELECT * FROM reading_collections WHERE id = ?", (col_id,)).fetchone()
+        if not col_row:
+            raise HTTPException(status_code=404, detail="Reading collection not found")
     stories = cur.execute("SELECT * FROM reading_stories WHERE collection_id = ? ORDER BY id ASC", (col_id,)).fetchall()
     conn.close()
     return templates.TemplateResponse(request, "reading_collection.html", {
@@ -768,12 +1081,22 @@ async def reading_story_view(story_id: int, request: Request, locale: str = "fr-
     if locale not in SUPPORTED_LOCALES:
         raise HTTPException(status_code=404, detail="Locale not found")
     loc_ctx = get_locale_context(locale, request, active_tab="reading")
+    db_loc = loc_ctx["db_locale"]
     conn = get_db()
     cur = conn.cursor()
     story_row = cur.execute("SELECT * FROM reading_stories WHERE id = ?", (story_id,)).fetchone()
     if not story_row:
         conn.close()
-        raise HTTPException(status_code=404, detail="Reading story not found")
+        upstream_slug = slug or ""
+        path = f"{loc_ctx['locale']}/reading/course/{story_id}/{upstream_slug}/0".rstrip("/")
+        cached = await fetch_and_cache_upstream(path, db_locale=db_loc)
+        if cached:
+            conn = get_db()
+            cur = conn.cursor()
+            story_row = cur.execute("SELECT * FROM reading_stories WHERE id = ?", (story_id,)).fetchone()
+        if not story_row:
+            raise HTTPException(status_code=404, detail="Reading story not found")
+
     
     story_dict = dict(story_row)
     actual_slug = slug or story_dict.get('url_id', 'story')
