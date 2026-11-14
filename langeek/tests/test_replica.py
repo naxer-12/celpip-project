@@ -378,10 +378,50 @@ def test_french_curriculum_integrity_preserved():
 
 @pytest.mark.asyncio
 async def test_cache_through_fallback_interface():
+    from unittest.mock import patch, AsyncMock
+    import httpx
     from langeek.server import fetch_and_cache_upstream
-    # Test handling of non-existent upstream path returns False gracefully without throwing
-    res = await fetch_and_cache_upstream("en/non-existent-sample-route-999999", db_locale="en")
-    assert res is False
+    mock_resp = httpx.Response(404, request=httpx.Request("GET", "https://langeek.co/test"))
+    with patch("httpx.AsyncClient.get", new_callable=AsyncMock, return_value=mock_resp):
+        # Test handling of non-existent upstream path returns False gracefully without throwing
+        res = await fetch_and_cache_upstream("en/non-existent-sample-route-999999", db_locale="en")
+        assert res is False
+
+
+def test_english_five_modules_rendering():
+    # 1. Vocabulary
+    r_vocab = client.get("/en/vocab")
+    assert r_vocab.status_code == 200
+    assert "English Vocabulary" in r_vocab.text
+    assert "/en/vocab/category/2001/a1-level" in r_vocab.text
+    assert "Level-Based English Vocabulary" in r_vocab.text
+    
+    # 2. Grammar
+    r_gram = client.get("/en/grammar")
+    assert r_gram.status_code == 200
+    assert "English Grammar" in r_gram.text
+    assert "/en/grammar/course/" in r_gram.text
+    assert "Complete English Grammar Syllabus" in r_gram.text
+    
+    # 3. Expressions
+    r_expr = client.get("/en/expressions")
+    assert r_expr.status_code == 200
+    assert "English Expressions" in r_expr.text or "Idioms" in r_expr.text
+    assert "Bite the bullet" in r_expr.text or "Break the ice" in r_expr.text
+    
+    # 4. Pronunciation
+    r_pron = client.get("/en/pronunciation")
+    assert r_pron.status_code == 200
+    assert "English Pronunciation" in r_pron.text
+    assert "/en/pronunciation/101/alphabet" in r_pron.text
+    
+    # 5. Reading
+    r_read = client.get("/en/reading")
+    assert r_read.status_code == 200
+    assert "English Reading" in r_read.text or "Reading Comprehension" in r_read.text
+    assert "/en/reading/" in r_read.text
+    assert "Famous Figures" in r_read.text or "Nature and Wildlife" in r_read.text
+
 
 
 

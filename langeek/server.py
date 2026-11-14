@@ -154,6 +154,7 @@ async def ensure_subcategory_words(sub_id: int, locale: str = "fr-EN") -> List[D
             async with httpx.AsyncClient(verify=False, timeout=15.0) as temp_client:
                 resp = await temp_client.get(url)
 
+        inserted_count = 0
         if resp.status_code == 200:
             m = re.search(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', resp.text)
             if m:
@@ -185,6 +186,7 @@ async def ensure_subcategory_words(sub_id: int, locale: str = "fr-EN") -> List[D
                         INSERT OR REPLACE INTO words (id, subcategory_id, entry, part_of_speech, french_def, english_trans, other_trans, photo_url, thumb_url, audio_url, audio_ca_url, ipa, ipa_loc, grammar_info, card_json, position)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """, (w_id, sub_id, entry, pos, french_def, eng, other, photo, thumb, audio, audio_ca, ipa, ipa_loc, grammar, card_str, idx))
+                    inserted_count += 1
 
                     for ex in mt.get('examples', []):
                         ex_id = ex.get('id')
@@ -195,11 +197,17 @@ async def ensure_subcategory_words(sub_id: int, locale: str = "fr-EN") -> List[D
                             cur.execute("INSERT OR REPLACE INTO examples (id, word_id, french_sentence, english_sentence) VALUES (?, ?, ?, ?)", (ex_id, w_id, fr_s, en_s))
                 conn.commit()
 
-        # Re-query
-        return await ensure_subcategory_words(sub_id, locale=locale)
+        conn.close()
+        # Protect against infinite recursion: only re-query if new words were inserted and committed
+        if inserted_count > 0:
+            return await ensure_subcategory_words(sub_id, locale=locale)
+        return []
     except Exception as e:
         logger.error(f"Error fetching subcategory {sub_id} words: {e}")
-        conn.close()
+        try:
+            conn.close()
+        except Exception:
+            pass
         return []
 
 
@@ -699,9 +707,26 @@ async def expressions_view(request: Request, locale: str = "fr-EN"):
     if locale not in SUPPORTED_LOCALES:
         raise HTTPException(status_code=404, detail="Locale not found")
     loc_ctx = get_locale_context(locale, request, active_tab="expressions")
+    db_loc = loc_ctx["db_locale"]
+    conn = get_db()
+    cur = conn.cursor()
+    expr_rows = cur.execute("SELECT * FROM expressions WHERE locale = ? ORDER BY position ASC, id ASC", (db_loc,)).fetchall()
+    conn.close()
+    expressions = []
+    for r in expr_rows:
+        e = dict(r)
+        if e.get("examples_json"):
+            try:
+                e["examples"] = json.loads(e["examples_json"])
+            except Exception:
+                e["examples"] = []
+        else:
+            e["examples"] = []
+        expressions.append(e)
     return templates.TemplateResponse(request, "expressions.html", {
         **loc_ctx,
-        "locale_context": loc_ctx
+        "locale_context": loc_ctx,
+        "expressions": expressions
     })
 
 
@@ -722,6 +747,19 @@ async def vocab_overview_view(request: Request, locale: str = "fr-EN"):
     if total_subcategories == 0 and db_loc == "fr":
         total_subcategories = cur.execute("SELECT count(*) FROM subcategories").fetchone()[0]
     
+    level_rows = cur.execute("SELECT id, slug, title, words_count, subcategories_count FROM categories WHERE collection_id = 'level-based' AND (locale = ? OR locale = ?) ORDER BY id", (db_loc, loc_ctx["locale"])).fetchall()
+    if not level_rows and db_loc == "fr":
+        level_rows = cur.execute("SELECT id, slug, title, words_count, subcategories_count FROM categories WHERE collection_id = 'level-based' ORDER BY id").fetchall()
+    levels_by_code = {}
+    for r in level_rows:
+        slug = (r["slug"] or "").lower()
+        if "a1" in slug: levels_by_code["a1"] = dict(r)
+        elif "a2" in slug: levels_by_code["a2"] = dict(r)
+        elif "b1" in slug: levels_by_code["b1"] = dict(r)
+        elif "b2" in slug: levels_by_code["b2"] = dict(r)
+        elif "c1" in slug: levels_by_code["c1"] = dict(r)
+        elif "c2" in slug: levels_by_code["c2"] = dict(r)
+
     topics = cur.execute("SELECT id, slug, title, photo, words_count, subcategories_count FROM categories WHERE collection_id = 'topic-related' AND (locale = ? OR locale = ?) ORDER BY title", (db_loc, loc_ctx["locale"])).fetchall()
     if not topics and db_loc == "fr":
         topics = cur.execute("SELECT id, slug, title, photo, words_count, subcategories_count FROM categories WHERE collection_id = 'topic-related' ORDER BY title").fetchall()
@@ -735,16 +773,22 @@ async def vocab_overview_view(request: Request, locale: str = "fr-EN"):
         categorized = cur.execute("SELECT id, slug, title, photo, words_count, subcategories_count FROM categories WHERE collection_id = 'categorized-words' ORDER BY id").fetchall()
     conn.close()
 
+    if db_loc == "en":
+        en_words_count = sum(r["words_count"] or 0 for r in level_rows) + sum(r["words_count"] or 0 for r in most_common) + sum(r["words_count"] or 0 for r in topics)
+        if en_words_count > 0:
+            total_words = en_words_count
+
     stats = {
         "learned_words": learned_words,
-        "total_words": total_words if total_words > 0 else 5884,
-        "total_subcategories": total_subcategories if total_subcategories > 0 else 796,
+        "total_words": total_words if total_words > 0 else (6000 if db_loc == "en" else 5884),
+        "total_subcategories": total_subcategories if total_subcategories > 0 else (120 if db_loc == "en" else 796),
         "learned_today": 0
     }
     return templates.TemplateResponse(request, "vocab_overview.html", {
         **loc_ctx,
         "locale_context": loc_ctx,
         "stats": stats,
+        "levels": levels_by_code,
         "topics": [dict(t) for t in topics],
         "most_common": [dict(m) for m in most_common],
         "categorized": [dict(c) for c in categorized]

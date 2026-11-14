@@ -1,20 +1,27 @@
 {% extends "base.html" %}
 
-{% block title %}French Grammar Guide 🇫🇷 LanGeek{% endblock %}
+{% block title %}{% if locale == 'en' %}English Grammar Guide 🇬🇧 LanGeek{% else %}French Grammar Guide 🇫🇷 LanGeek{% endif %}{% endblock %}
 
 {% block content %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
+  <!-- Breadcrumbs -->
+  <nav aria-label="breadcrumbs" class="flex items-center space-x-1.5 text-xs font-medium text-slate-500 mb-6 justify-center">
+    <a href="/{{ locale }}" class="hover:text-rose-600 transition font-bold text-rose-600">Home</a>
+    <span class="text-slate-300">/</span>
+    <span class="text-slate-700 font-bold">{% if locale == 'en' %}Grammar{% else %}Grammaire{% endif %}</span>
+  </nav>
+
   <!-- Header -->
   <div class="text-center max-w-3xl mx-auto mb-12">
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold border border-rose-100 mb-3">
-      <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Grammaire Française
+      <i data-lucide="book-open" class="w-3.5 h-3.5"></i> {% if locale == 'en' %}English Grammar{% else %}Grammaire Française{% endif %}
     </div>
     <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-      French Grammar Guide &amp; Reference
+      {% if locale == 'en' %}English Grammar Guide &amp; Reference{% else %}French Grammar Guide &amp; Reference{% endif %}
     </h1>
     <p class="text-sm sm:text-base text-slate-600 mt-2.5 leading-relaxed">
-      Master French syntax, verb conjugations, pronouns, and sentence structures with clear explanations, structured rule tables, and native pronunciation audio.
+      {% if locale == 'en' %}Master English syntax, verb tenses, modal verbs, and sentence structures with clear explanations, structured rule tables, and native audio.{% else %}Master French syntax, verb conjugations, pronouns, and sentence structures with clear explanations, structured rule tables, and native pronunciation audio.{% endif %}
     </p>
   </div>
 
@@ -32,7 +39,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {% for course in courses %}
-      <a href="/fr-EN/grammar/course/{{ course.id }}/{{ course.url_id }}/intermediate" class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-xs hover:shadow-md hover:border-rose-300 transition duration-200 group flex flex-col justify-between">
+      <a href="/{{ locale }}/grammar/course/{{ course.id }}/{{ course.url_id }}/{{ course.level or 'intermediate' }}" class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-xs hover:shadow-md hover:border-rose-300 transition duration-200 group flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between mb-3">
             <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-100 uppercase">
@@ -57,16 +64,16 @@
     </div>
   </div>
 
-  <!-- The 11 Core French Grammar Modules (Matching Reference Site Exactly) -->
+  <!-- The 11 Core Grammar Modules -->
   <div class="mb-14">
     <div class="mb-6">
-      <h2 class="text-xl font-bold text-slate-900 tracking-tight">Complete French Grammar Syllabus</h2>
-      <p class="text-xs text-slate-500">All 11 fundamental reference categories covering French parts of speech and rules.</p>
+      <h2 class="text-xl font-bold text-slate-900 tracking-tight">{% if locale == 'en' %}Complete English Grammar Syllabus{% else %}Complete French Grammar Syllabus{% endif %}</h2>
+      <p class="text-xs text-slate-500">{% if locale == 'en' %}All 11 fundamental reference categories covering English parts of speech and rules.{% else %}All 11 fundamental reference categories covering French parts of speech and rules.{% endif %}</p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
       {% for cat in categories %}
-      <a href="/fr-EN/grammar/{{ cat.id }}/{{ cat.url_id }}" class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:shadow-sm hover:border-rose-300 transition flex flex-col justify-between group">
+      <a href="/{{ locale }}/grammar/{{ cat.id }}/{{ cat.url_id }}" class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:shadow-sm hover:border-rose-300 transition flex flex-col justify-between group">
         <div>
           <div class="flex items-center justify-between mb-2.5">
             <span class="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center">
@@ -80,9 +87,11 @@
           <h3 class="text-base font-bold text-slate-900 group-hover:text-rose-600 transition">
             {{ cat.title }}
           </h3>
+          {% if locale != 'en' and cat.english_title %}
           <div class="text-xs font-semibold text-slate-400 mb-2">
-            {{ cat.english_title or cat.title }}
+            {{ cat.english_title }}
           </div>
+          {% endif %}
 
           <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
             {{ cat.description }}
