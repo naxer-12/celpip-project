@@ -253,3 +253,28 @@ def test_auxiliary_pages_and_navigation():
         r = client.get(lang, follow_redirects=False)
         assert r.status_code in (302, 307)
         assert r.headers["location"] == "/fr-EN"
+
+
+def test_database_locale_partitioning():
+    import sqlite3
+    conn = sqlite3.connect("langeek/data/langeek.db")
+    cur = conn.cursor()
+    tables = [
+        "categories", "subcategories", "grammar_categories", 
+        "grammar_courses", "reading_collections", "reading_stories", 
+        "reading_segments", "pronunciation_courses"
+    ]
+    for table in tables:
+        cols = [c[1] for c in cur.execute(f"PRAGMA table_info({table})").fetchall()]
+        assert "locale" in cols, f"Table {table} missing locale column"
+    # Verify existing rows default to 'fr'
+    fr_count = cur.execute("SELECT count(*) FROM categories WHERE locale = 'fr'").fetchone()[0]
+    assert fr_count > 0
+    # Verify expressions table exists with locale column
+    expr_cols = [c[1] for c in cur.execute("PRAGMA table_info(expressions)").fetchall()]
+    assert "locale" in expr_cols, "Table expressions missing locale column"
+    # Verify user_progress has locale column
+    prog_cols = [c[1] for c in cur.execute("PRAGMA table_info(user_progress)").fetchall()]
+    assert "locale" in prog_cols, "Table user_progress missing locale column"
+    conn.close()
+
