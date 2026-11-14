@@ -197,3 +197,31 @@ def test_pronunciation_alphabet_suite():
     assert "Alphabet français" in resp_alpha.text
     assert "The Letter \"A\" in French" in resp_alpha.text
     assert "The Letter \"Z\" in French" in resp_alpha.text
+
+
+def test_auxiliary_pages_and_navigation():
+    # Test Plans (Premium Showcase)
+    resp_plans = client.get("/fr-EN/plans")
+    assert resp_plans.status_code == 200
+    assert "LanGeek Premium" in resp_plans.text
+
+    # Test Mobile App Showcase
+    resp_app = client.get("/fr-EN/mobile-app")
+    assert resp_app.status_code == 200
+    assert "iOS & Android" in resp_app.text
+
+    # Test Contact Us
+    resp_contact = client.get("/fr-EN/contact-us")
+    assert resp_contact.status_code == 200
+    assert "Contact LanGeek Support" in resp_contact.text
+
+    # Test Expressions Showcase
+    resp_expr = client.get("/fr-EN/expressions")
+    assert resp_expr.status_code == 200
+    assert "Poser un lapin" in resp_expr.text
+
+    # Test Language Switcher Redirects
+    for lang in ["/es", "/de", "/en"]:
+        r = client.get(lang, follow_redirects=False)
+        assert r.status_code in (302, 307)
+        assert r.headers["location"] == "/fr-EN"

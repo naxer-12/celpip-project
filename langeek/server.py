@@ -288,6 +288,9 @@ async def unregister_sw():
 # Core Application Views
 # ---------------------------------------------------------
 @app.get("/")
+@app.get("/es")
+@app.get("/de")
+@app.get("/en")
 async def root_redirect():
     return RedirectResponse(url="/fr-EN")
 
@@ -295,6 +298,26 @@ async def root_redirect():
 async def home_view(request: Request):
     """Render pixel-perfect Home Page matching Image 3."""
     return templates.TemplateResponse(request, "home.html", {"active_tab": "home"})
+
+@app.get("/fr-EN/plans")
+async def plans_view(request: Request):
+    """Render LanGeek Pro / Unlimited Plans Showcase."""
+    return templates.TemplateResponse(request, "plans.html", {"active_tab": "plans"})
+
+@app.get("/fr-EN/mobile-app")
+async def mobile_app_view(request: Request):
+    """Render LanGeek Mobile App Showcase."""
+    return templates.TemplateResponse(request, "mobile_app.html", {"active_tab": "mobile"})
+
+@app.get("/fr-EN/contact-us")
+async def contact_us_view(request: Request):
+    """Render LanGeek Pedagogical Support & Contact."""
+    return templates.TemplateResponse(request, "contact_us.html", {"active_tab": "contact"})
+
+@app.get("/fr-EN/expressions")
+async def expressions_view(request: Request):
+    """Render French Expressions and Idioms Showcase."""
+    return templates.TemplateResponse(request, "expressions.html", {"active_tab": "expressions"})
 
 @app.get("/fr-EN/vocab")
 async def vocab_overview_view(request: Request):

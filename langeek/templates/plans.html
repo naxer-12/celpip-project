@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}LanGeek Premium 👑 Unlock Unlimited French Learning{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+  <!-- Hero Header -->
+  <div class="text-center max-w-2xl mx-auto mb-12">
+    <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold mb-4 shadow-2xs">
+      <span>👑</span>
+      <span>Autonomous Replica Unlocked</span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+      Learn Smarter with <span class="bg-gradient-to-r from-amber-500 to-amber-700 bg-clip-text text-transparent">LanGeek Premium</span>
+    </h1>
+    <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+      Unlock the complete French language suite: all CEFR levels, native audio, dual-dialect pronunciation, grammar courses, and interactive study modes.
+    </p>
+  </div>
+
+  <!-- Pro Sandbox Banner -->
+  <div class="bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-sky-500/10 border border-emerald-300/60 rounded-3xl p-6 sm:p-8 mb-12 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+    <div class="flex items-start space-x-4">
+      <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-sm">
+        <i data-lucide="check-circle" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-slate-900">All Premium Features are Unlocked!</h3>
+        <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+          As a self-sovereign student test replica, there are no paywalls, subscriptions, or credit card requirements. You have full, unrestricted access to every French module, audio file, and quiz.
+        </p>
+      </div>
+    </div>
+    <a href="/fr-EN/vocab" class="shrink-0 px-6 py-3 rounded-xl bg-[#1d4ed8] hover:bg-[#1e40af] text-white font-bold text-xs shadow-sm transition flex items-center space-x-2">
+      <span>Start Learning Now</span>
+      <i data-lucide="arrow-right" class="w-4 h-4"></i>
+    </a>
+  </div>
+
+  <!-- Plans Comparison Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+
+    <!-- Plan 1: Standard (Free) -->
+    <div class="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-xs flex flex-col justify-between">
+      <div>
+        <div class="text-lg font-bold text-slate-800">Standard Access</div>
+        <div class="text-xs text-slate-400 mt-0.5">Basic Vocabulary Exploration</div>
+        <div class="text-3xl font-extrabold text-slate-900 mt-4">$0 <span class="text-xs font-normal text-slate-400">/ forever</span></div>
+
+        <ul class="space-y-3 mt-6 text-xs text-slate-600">
+          <li class="flex items-center space-x-2.5">
+            <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+            <span>Access to A1 Beginner French words</span>
+          </li>
+          <li class="flex items-center space-x-2.5">
+            <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+            <span>Basic wordlist lookup</span>
+          </li>
+          <li class="flex items-center space-x-2.5 text-slate-400 line-through">
+            <i data-lucide="x" class="w-4 h-4 text-slate-300"></i>
+            <span>Canadian French dialect (CA)</span>
+          </li>
+          <li class="flex items-center space-x-2.5 text-slate-400 line-through">
+            <i data-lucide="x" class="w-4 h-4 text-slate-300"></i>
+            <span>Interactive Grammar Quizzes</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-slate-100">
+        <span class="block text-center py-2.5 rounded-xl bg-slate-100 text-slate-500 font-semibold text-xs">Standard Included</span>
+      </div>
+    </div>
+
+    <!-- Plan 2: LanGeek Pro (Fully Unlocked in Replica) -->
+    <div class="bg-white rounded-3xl p-8 border-2 border-amber-400 shadow-md flex flex-col justify-between relative overflow-hidden">
+      <div class="absolute top-4 right-4 bg-amber-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-2xs">
+        Active in Replica
+      </div>
+
+      <div>
+        <div class="text-lg font-bold text-slate-900 flex items-center space-x-2">
+          <span>LanGeek Premium (Pro)</span>
+          <span>👑</span>
+        </div>
+        <div class="text-xs text-amber-700 font-medium mt-0.5">Complete Master Curriculum</div>
+        <div class="text-3xl font-extrabold text-slate-900 mt-4">$0 <span class="text-xs font-normal text-emerald-600 font-bold ml-1">100% Free for Students</span></div>
+
+        <ul class="space-y-3 mt-6 text-xs text-slate-700 font-medium">
+          <li class="flex items-center space-x-2.5">
+            <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+            <span>All 796 Subcategories & 5,800+ French words</span>
+          </li>
+          <li class="flex items-center space-x-2.5">
+            <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+            <span>Dual-dialect audio: France (FR) & Canada (CA)</span>
+          </li>
+          <li class="flex items-center space-x-2.5">
+            <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+            <span>All 74 French Grammar Modules with exercises</span>
+          </li>
+          <li class="flex items-center space-x-2.5">
+            <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+            <span>3D Flashcards, Audio Spelling, and Multiple Choice Quizzes</span>
+          </li>
+          <li class="flex items-center space-x-2.5">
+            <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+            <span>Bilingual Reading Stories with sentence audio</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-slate-100">
+        <a href="/fr-EN/vocab" class="block text-center py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-sm transition">
+          Enjoy Unlimited Access
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

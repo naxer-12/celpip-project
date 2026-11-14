@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}French Expressions and Idioms 🇫🇷 LanGeek{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+  <!-- Header Banner -->
+  <div class="bg-gradient-to-r from-orange-50 via-amber-50 to-rose-50 rounded-3xl p-6 sm:p-8 border border-orange-200/80 shadow-xs mb-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+    <div class="max-w-2xl">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-orange-100 text-orange-800 text-xs font-bold mb-3">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        <span>Expressions & Idiomes</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+        French Expressions and Idioms
+      </h1>
+      <div class="text-xs font-semibold text-slate-500 mt-1">
+        Mots et Expressions Idiomatiques en Français
+      </div>
+      <p class="text-xs sm:text-sm text-slate-600 mt-2.5 leading-relaxed">
+        Speak like a native with real-world French idioms, everyday colloquial expressions, and humorous cultural phrases with clear explanations and literal translations.
+      </p>
+    </div>
+
+    <div class="hidden md:flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-orange-200 shadow-xs w-36 h-40">
+      <i data-lucide="lightbulb" class="w-12 h-12 text-orange-500 mb-2"></i>
+      <span class="text-xs font-bold text-slate-800 text-center">Idioms</span>
+    </div>
+  </div>
+
+  <!-- Featured French Expressions Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+
+    <!-- Expression 1 -->
+    <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-orange-300 transition">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-orange-50 text-orange-700">Everyday Idiom</span>
+        <span class="text-xs text-slate-400 font-mono">/po.ze œ̃ la.pɛ̃/</span>
+      </div>
+      <h3 class="text-lg font-bold text-slate-900">Poser un lapin</h3>
+      <div class="text-xs text-slate-500 italic mt-0.5">Literal: To put a rabbit</div>
+      <div class="text-sm font-semibold text-slate-800 mt-2">Meaning: To stand someone up (fail to show up for a date/meeting)</div>
+      <div class="bg-slate-50 rounded-xl p-3 mt-4 text-xs text-slate-600 border border-slate-100">
+        <strong class="text-slate-900">Exemple:</strong> Je l'ai attendu une heure au café, mais il m'a posé un lapin.
+        <div class="text-slate-400 mt-0.5">I waited an hour for him at the café, but he stood me up.</div>
+      </div>
+    </div>
+
+    <!-- Expression 2 -->
+    <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-orange-300 transition">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700">Romantic & Cultural</span>
+        <span class="text-xs text-slate-400 font-mono">/ku də fudʁ/</span>
+      </div>
+      <h3 class="text-lg font-bold text-slate-900">Coup de foudre</h3>
+      <div class="text-xs text-slate-500 italic mt-0.5">Literal: A bolt of lightning</div>
+      <div class="text-sm font-semibold text-slate-800 mt-2">Meaning: Love at first sight</div>
+      <div class="bg-slate-50 rounded-xl p-3 mt-4 text-xs text-slate-600 border border-slate-100">
+        <strong class="text-slate-900">Exemple:</strong> Dès qu'ils se sont vus à Paris, ce fut le coup de foudre.
+        <div class="text-slate-400 mt-0.5">As soon as they saw each other in Paris, it was love at first sight.</div>
+      </div>
+    </div>
+
+    <!-- Expression 3 -->
+    <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-orange-300 transition">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-sky-50 text-sky-700">Feelings & Mood</span>
+        <span class="text-xs text-slate-400 font-mono">/a.vwaʁ lə ka.faʁ/</span>
+      </div>
+      <h3 class="text-lg font-bold text-slate-900">Avoir le cafard</h3>
+      <div class="text-xs text-slate-500 italic mt-0.5">Literal: To have the cockroach</div>
+      <div class="text-sm font-semibold text-slate-800 mt-2">Meaning: To feel down, melancholy, or have the blues</div>
+      <div class="bg-slate-50 rounded-xl p-3 mt-4 text-xs text-slate-600 border border-slate-100">
+        <strong class="text-slate-900">Exemple:</strong> Quand il pleut toute la journée, j'ai souvent le cafard.
+        <div class="text-slate-400 mt-0.5">When it rains all day, I often feel down.</div>
+      </div>
+    </div>
+
+    <!-- Expression 4 -->
+    <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-orange-300 transition">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700">Honesty & Frankness</span>
+        <span class="text-xs text-slate-400 font-mono">/ap.le œ̃ ʃa œ̃ ʃa/</span>
+      </div>
+      <h3 class="text-lg font-bold text-slate-900">Appeler un chat un chat</h3>
+      <div class="text-xs text-slate-500 italic mt-0.5">Literal: To call a cat a cat</div>
+      <div class="text-sm font-semibold text-slate-800 mt-2">Meaning: To call a spade a spade / speak bluntly and plainly</div>
+      <div class="bg-slate-50 rounded-xl p-3 mt-4 text-xs text-slate-600 border border-slate-100">
+        <strong class="text-slate-900">Exemple:</strong> Soyons directs et appelons un chat un chat.
+        <div class="text-slate-400 mt-0.5">Let's be direct and call a spade a spade.</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
