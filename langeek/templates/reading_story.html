@@ -1,139 +1,393 @@
 {% extends "base.html" %}
 
-{% block title %}{{ story.title }} 🇫🇷 French Reading Story LanGeek{% endblock %}
+{% block title %}{{ current_segment.title if current_segment else story.title }} 🇫🇷 {{ story.title }} LanGeek{% endblock %}
+
+{% block extra_head %}
+<style>
+  @font-face {
+    font-family: 'Crimson Text';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Crimson Text'), local('CrimsonText-Regular'), url(https://fonts.gstatic.com/s/crimsontext/v19/wkhG3bE96EAgk33r2_f3vVbe.woff2) format('woff2');
+  }
+  @font-face {
+    font-family: 'Crimson Text';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Crimson Text Bold'), local('CrimsonText-Bold'), url(https://fonts.gstatic.com/s/crimsontext/v19/wkhS3bE96EAgk33r2_f3ce5eul8.woff2) format('woff2');
+  }
+  .font-reading-regular {
+    font-family: 'Crimson Text', Georgia, Cambria, serif;
+    font-feature-settings: "kern" 1;
+    -webkit-font-smoothing: antialiased;
+  }
+  .font-reading-bold {
+    font-family: 'Crimson Text', Georgia, Cambria, serif;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+  }
+  .active-paragraph {
+    border-color: #2563eb !important;
+    background-color: #f8faff !important;
+  }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="tw-w-full">
 
-  <!-- Breadcrumbs -->
-  <nav class="flex items-center gap-2 text-xs text-slate-500 mb-6 overflow-x-auto whitespace-nowrap">
-    <a href="/fr-EN" class="hover:text-teal-600 transition">Home</a>
-    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-300"></i>
-    <a href="/fr-EN/reading" class="hover:text-teal-600 transition">Reading</a>
-    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-300"></i>
-    {% if collection %}
-    <a href="/fr-EN/reading/{{ collection.id }}/{{ collection.url_id }}" class="hover:text-teal-600 transition">{{ collection.title }}</a>
-    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-300"></i>
-    {% endif %}
-    <span class="text-slate-800 font-semibold">{{ story.title }}</span>
-  </nav>
-
-  <!-- Story Header -->
-  <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm mb-8">
-    <div class="flex items-center justify-between gap-4 flex-wrap">
-      <div class="flex items-center gap-3">
-        <a href="{% if collection %}/fr-EN/reading/{{ collection.id }}/{{ collection.url_id }}{% else %}/fr-EN/reading{% endif %}" class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:text-teal-600 flex items-center justify-center transition" title="Back to Collection">
-          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+  <!-- Chapter Stepper Bar (Multi-Segment Navigation) -->
+  {% if segments and segments|length > 1 %}
+  <div class="tw-bg-white tw-border-b tw-border-slate-200/90 tw-shadow-2xs tw-sticky tw-top-[58px] tw-z-30">
+    <div class="tw-max-w-[1200px] tw-mx-auto tw-px-4 sm:tw-px-6 tw-py-2.5">
+      <div class="tw-flex tw-items-center tw-gap-2 sm:tw-gap-3 tw-overflow-x-auto scrollbar-none tw-py-1">
+        <span class="tw-text-xs tw-font-bold tw-text-slate-400 tw-uppercase tw-tracking-wider tw-shrink-0 tw-mr-1">
+          Chapters:
+        </span>
+        {% for seg in segments %}
+        <a href="/fr-EN/reading/course/{{ story.id }}/{{ story.url_id }}/{{ seg.segment_index }}" 
+           class="tw-flex tw-items-center tw-gap-2 tw-px-3.5 tw-py-1.5 tw-rounded-xl tw-text-xs sm:tw-text-sm tw-font-bold tw-transition-all tw-duration-200 tw-shrink-0 hover:tw-no-underline {% if seg.segment_index == current_segment_index %}tw-bg-blue-1 tw-text-white tw-shadow-sm{% else %}tw-bg-slate-100 hover:tw-bg-slate-200/80 tw-text-slate-700{% endif %}">
+          <span class="tw-w-4 tw-h-4 tw-rounded-full tw-flex tw-items-center tw-justify-center tw-text-[10px] {% if seg.segment_index == current_segment_index %}tw-bg-white tw-text-blue-1{% else %}tw-bg-slate-300 text-slate-800{% endif %}">
+            {{ loop.index }}
+          </span>
+          <span>{{ seg.title }}</span>
         </a>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-teal-50 text-teal-700 border border-teal-100 uppercase">
-              {{ story.level or 'Beginner' }}
-            </span>
-            <span class="text-xs text-slate-400 font-medium">{{ paragraphs|length }} Paragraphs</span>
-          </div>
-          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">{{ story.title }}</h1>
-        </div>
-      </div>
-
-      <!-- Utilities: Translation Toggle & Play All -->
-      <div class="flex items-center gap-2">
-        <button onclick="toggleAllTranslations()" id="btn-toggle-translations" class="px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 shadow-2xs">
-          <i data-lucide="languages" class="w-4 h-4 text-teal-600"></i>
-          <span id="trans-toggle-label">Hide English</span>
-        </button>
+        {% endfor %}
       </div>
     </div>
   </div>
+  {% endif %}
 
-  <!-- Story Paragraphs -->
-  <div class="space-y-6">
-    {% for p in paragraphs %}
-    <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs hover:border-teal-200 transition group paragraph-card">
-      <div class="flex items-start justify-between gap-4">
-        
-        <!-- French Paragraph Text -->
-        <div class="space-y-3 flex-1">
-          <p class="text-base sm:text-lg text-slate-900 leading-relaxed font-medium">
-            {{ p.fr }}
-          </p>
+  <div class="tw-max-w-[960px] tw-mx-auto tw-px-4 sm:tw-px-6 tw-py-6">
 
-          <!-- Aligned English Translation -->
-          {% if p.en %}
-          <p class="text-xs sm:text-sm text-slate-500 leading-relaxed font-normal english-translation border-t border-slate-100 pt-2.5">
-            {{ p.en }}
-          </p>
+    <!-- Breadcrumbs -->
+    <div class="tw-text-[0.8rem] tw-font-text-bold sm:tw-text-[0.9rem] tw-font-medium tw-text-[#6a778db9] tw-tracking-[0.15px] tw-z-[2] tw-w-full tw-flex tw-mb-4">
+      <nav aria-label="breadcrumbs">
+        <ol class="tw-flex tw-flex-wrap tw-list-none tw-m-0 tw-p-0 tw-capitalize">
+          <li class="[&amp;:not(:last-child)]:after:tw-content-['/'] [&amp;:not(:last-child)]:after:tw-px-1.5 [&amp;:not(:last-child)]:after:tw-opacity-70 tw-text-blue-1">
+            <a class="!tw-text-inherit hover:tw-text-inherit" href="/fr-EN" title="Home">Home</a>
+          </li>
+          <li class="[&amp;:not(:last-child)]:after:tw-content-['/'] [&amp;:not(:last-child)]:after:tw-px-1.5 [&amp;:not(:last-child)]:after:tw-opacity-70 tw-text-blue-1">
+            <a class="!tw-text-inherit hover:tw-text-inherit" href="/fr-EN/reading" title="Reading">Reading</a>
+          </li>
+          {% if collection %}
+          <li class="[&amp;:not(:last-child)]:after:tw-content-['/'] [&amp;:not(:last-child)]:after:tw-px-1.5 [&amp;:not(:last-child)]:after:tw-opacity-70 tw-text-blue-1">
+            <a class="!tw-text-inherit hover:tw-text-inherit" href="/fr-EN/reading/{{ collection.id }}/{{ collection.url_id }}">{{ collection.title }}</a>
+          </li>
           {% endif %}
+          <li class="[&amp;:not(:last-child)]:after:tw-content-['/'] [&amp;:not(:last-child)]:after:tw-px-1.5 [&amp;:not(:last-child)]:after:tw-opacity-70 tw-text-sub-title">
+            {{ story.title }}
+          </li>
+        </ol>
+      </nav>
+    </div>
+
+    <!-- Story Header Banner -->
+    <div class="tw-w-full tw-p-6 sm:tw-p-8 tw-rounded-3xl tw-relative tw-overflow-hidden tw-border tw-border-slate-200/90 tw-shadow-xs tw-mb-8 tw-bg-gradient-to-r tw-from-amber-50/50 tw-to-orange-50/40">
+      <img src="/assets/img/reading/background.png" alt="" class="tw-absolute tw-inset-0 tw-w-full tw-h-full tw-object-cover tw-opacity-30 pointer-events-none" />
+      
+      <div class="tw-relative tw-z-10 tw-flex tw-flex-col sm:tw-flex-row tw-items-center sm:tw-items-start tw-justify-between tw-gap-6">
+        <div class="tw-flex-1 tw-text-center sm:tw-text-left">
+          
+          <div class="tw-flex tw-items-center tw-justify-center sm:tw-justify-start tw-gap-2.5 tw-mb-2">
+            <img src="/assets/img/reading/level-beginner.svg" alt="Beginner" class="tw-h-5 tw-w-auto" />
+            <span class="tw-text-xs tw-font-bold tw-text-slate-500 tw-bg-white/80 tw-px-2.5 tw-py-0.5 tw-rounded-full tw-border tw-border-slate-200/60">
+              Chapter {{ (current_segment_index + 1) if current_segment_index is not none else 1 }} of {{ segments|length if segments else 1 }}
+            </span>
+          </div>
+
+          <h1 class="tw-text-2xl sm:tw-text-3xl lg:tw-text-4xl font-reading-bold tw-text-slate-900 tw-tracking-tight tw-mb-1">
+            {{ story.title }}
+          </h1>
+
+          <p class="tw-text-base sm:tw-text-lg font-reading-regular tw-text-slate-600 tw-m-0">
+            {% if current_segment %}{{ current_segment.title }} &mdash; {% endif %}{{ story.description or 'Graded French story with sentence audio and aligned English translations.' }}
+          </p>
+
+          <div class="tw-flex tw-items-center tw-justify-center sm:tw-justify-start tw-gap-3 tw-mt-4">
+            <button onclick="playFullStoryAudio()" id="btn-header-play" class="tw-inline-flex tw-items-center tw-gap-2 tw-px-5 tw-py-2 tw-rounded-2xl tw-bg-blue-1 hover:tw-opacity-90 tw-text-white tw-text-xs sm:tw-text-sm tw-font-bold tw-shadow-sm tw-transition cursor-pointer">
+              <svg class="tw-w-4 tw-h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <span id="header-play-label">Listen to Chapter</span>
+            </button>
+
+            <button onclick="toggleAllTranslations()" class="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-4 tw-py-2 tw-rounded-2xl tw-bg-white hover:tw-bg-slate-50 tw-text-slate-700 tw-border tw-border-slate-200/90 tw-text-xs sm:tw-text-sm tw-font-bold tw-shadow-2xs tw-transition cursor-pointer">
+              <span class="tw-font-bold tw-text-blue-1">文A</span>
+              <span id="trans-btn-label">Hide English</span>
+            </button>
+          </div>
         </div>
 
-        <!-- Audio Player Button -->
-        {% if p.audio %}
-        <button onclick="playReadingAudio('{{ p.audio }}', this)" class="w-10 h-10 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-600 hover:text-white transition flex items-center justify-center shrink-0 shadow-xs cursor-pointer audio-btn" title="Listen to paragraph">
-          <i data-lucide="volume-2" class="w-5 h-5"></i>
-        </button>
-        {% endif %}
-
+        <!-- Cover Artwork -->
+        <div class="tw-w-28 tw-h-28 sm:tw-w-36 sm:tw-h-36 tw-rounded-2xl tw-overflow-hidden tw-border-4 tw-border-white tw-shadow-md tw-shrink-0 tw-bg-white tw-p-1">
+          <img src="/media-proxy?url={{ story.photo | urlencode }}" alt="{{ story.title }}" class="tw-w-full tw-h-full tw-object-contain" />
+        </div>
       </div>
     </div>
-    {% endfor %}
+
+    <!-- Paragraph Blocks -->
+    <div class="tw-space-y-5 sm:tw-space-y-6 tw-mb-24" id="paragraphs-container">
+      {% for p in paragraphs %}
+      <div id="para-{{ loop.index0 }}" class="paragraph-card tw-bg-white tw-rounded-2xl tw-p-5 sm:tw-p-6 tw-border tw-border-slate-200/90 tw-shadow-2xs tw-transition-all tw-duration-200 group">
+        <div class="tw-flex tw-items-start tw-gap-3.5 sm:tw-gap-5">
+          
+          <!-- Number Badge (1.1, 1.2...) -->
+          <div class="tw-w-9 tw-h-9 sm:tw-w-12 sm:tw-h-12 tw-bg-black tw-text-white font-reading-bold tw-text-sm sm:tw-text-lg tw-rounded-xl tw-flex tw-items-center tw-justify-center tw-shrink-0 shadow-2xs">
+            {{ (current_segment_index + 1) if current_segment_index is not none else 1 }}.{{ loop.index }}
+          </div>
+
+          <!-- Paragraph Content -->
+          <div class="tw-flex-1 tw-space-y-3">
+            <p class="font-reading-regular tw-text-lg sm:tw-text-[21px] tw-leading-relaxed tw-text-slate-900 tw-m-0">
+              {{ p.fr }}
+            </p>
+
+            {% if p.en %}
+            <div class="english-translation tw-bg-slate-50 tw-p-3 sm:tw-p-3.5 tw-rounded-xl tw-border tw-border-slate-200/70 tw-text-xs sm:tw-text-sm tw-text-slate-600 tw-leading-relaxed">
+              {{ p.en }}
+            </div>
+            {% endif %}
+          </div>
+
+          <!-- Play Paragraph Audio Button -->
+          {% if p.audio %}
+          <button onclick="playParagraphAudio('{{ p.audio }}', {{ loop.index0 }})" class="tw-w-9 tw-h-9 sm:tw-w-10 sm:tw-h-10 tw-rounded-full tw-bg-slate-100 hover:tw-bg-blue-600 hover:tw-text-white tw-text-slate-600 tw-flex tw-items-center tw-justify-center tw-shrink-0 tw-transition-colors shadow-2xs cursor-pointer para-play-btn" title="Listen to this paragraph">
+            <svg class="tw-w-4 tw-h-4 sm:tw-w-5 sm:tw-h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          {% endif %}
+
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Chapter Navigation Footer -->
+    <div class="tw-flex tw-items-center tw-justify-between tw-pt-6 tw-pb-20 tw-border-t tw-border-slate-200/90 tw-gap-4">
+      {% if prev_segment_index is not none %}
+      <a href="/fr-EN/reading/course/{{ story.id }}/{{ story.url_id }}/{{ prev_segment_index }}" class="tw-inline-flex tw-items-center tw-gap-2 tw-px-5 tw-py-2.5 tw-rounded-2xl tw-bg-white hover:tw-bg-slate-50 tw-border tw-border-slate-200 tw-text-xs sm:tw-text-sm tw-font-bold tw-text-slate-700 tw-shadow-2xs tw-transition hover:tw-no-underline">
+        <svg class="tw-w-4 tw-h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        <span>Previous Chapter</span>
+      </a>
+      {% else %}
+      <a href="/fr-EN/reading/{{ collection.id }}/{{ collection.url_id }}" class="tw-inline-flex tw-items-center tw-gap-2 tw-px-5 tw-py-2.5 tw-rounded-2xl tw-bg-white hover:tw-bg-slate-50 tw-border tw-border-slate-200 tw-text-xs sm:tw-text-sm tw-font-bold tw-text-slate-700 tw-shadow-2xs tw-transition hover:tw-no-underline">
+        <svg class="tw-w-4 tw-h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        <span>Collection Stories</span>
+      </a>
+      {% endif %}
+
+      {% if next_segment_index is not none %}
+      <a href="/fr-EN/reading/course/{{ story.id }}/{{ story.url_id }}/{{ next_segment_index }}" class="tw-inline-flex tw-items-center tw-gap-2 tw-px-6 tw-py-2.5 tw-rounded-2xl tw-bg-blue-1 hover:tw-opacity-90 tw-text-white tw-text-xs sm:tw-text-sm tw-font-bold tw-shadow-sm tw-transition hover:tw-no-underline">
+        <span>Next Chapter</span>
+        <svg class="tw-w-4 tw-h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+      {% else %}
+      <a href="/fr-EN/reading" class="tw-inline-flex tw-items-center tw-gap-2 tw-px-6 tw-py-2.5 tw-rounded-2xl tw-bg-blue-1 hover:tw-opacity-90 tw-text-white tw-text-xs sm:tw-text-sm tw-font-bold tw-shadow-sm tw-transition hover:tw-no-underline">
+        <span>Finish &amp; All Stories</span>
+        <svg class="tw-w-4 tw-h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </a>
+      {% endif %}
+    </div>
+
   </div>
 
-  <!-- Bottom Navigation -->
-  <div class="pt-8 mt-10 border-t border-slate-200 flex items-center justify-between gap-4">
-    <a href="{% if collection %}/fr-EN/reading/{{ collection.id }}/{{ collection.url_id }}{% else %}/fr-EN/reading{% endif %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold shadow-xs transition">
-      <i data-lucide="arrow-left" class="w-4 h-4"></i>
-      <span>Collection Stories</span>
-    </a>
+  <!-- Bottom Floating Audio Player Bar (1:1 Mirrored) -->
+  <div class="tw-fixed tw-bottom-0 tw-left-0 tw-w-full tw-z-50 tw-bg-[#EDECEB] tw-border-t tw-border-slate-300/80 tw-shadow-2xl tw-py-2 tw-px-4 sm:tw-px-6">
+    <div class="tw-max-w-[1200px] tw-mx-auto tw-flex tw-flex-col sm:tw-flex-row tw-items-center tw-justify-between tw-gap-3">
+      
+      <!-- Left: Chapter Info -->
+      <div class="tw-flex tw-items-center tw-gap-3 tw-w-full sm:tw-w-auto">
+        <div class="tw-w-10 tw-h-10 sm:tw-w-12 sm:tw-h-12 tw-rounded-xl tw-overflow-hidden tw-bg-white tw-p-1 tw-shrink-0 tw-border tw-border-slate-300">
+          <img src="/media-proxy?url={{ story.photo | urlencode }}" alt="" class="tw-w-full tw-h-full tw-object-contain" />
+        </div>
+        <div class="tw-min-w-0">
+          <h4 class="tw-text-xs sm:tw-text-sm tw-font-bold tw-text-slate-900 tw-truncate tw-m-0">
+            {{ (current_segment_index + 1) if current_segment_index is not none else 1 }}. {{ current_segment.title if current_segment else story.title }}
+          </h4>
+          <p class="tw-text-[11px] tw-text-slate-500 tw-truncate tw-m-0">
+            {{ story.title }}
+          </p>
+        </div>
+      </div>
 
-    <a href="/fr-EN/reading" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-sm transition">
-      <span>All Collections</span>
-      <i data-lucide="arrow-right" class="w-4 h-4"></i>
-    </a>
+      <!-- Center: Playback Controls & Time Scrubber -->
+      <div class="tw-flex tw-flex-col tw-items-center tw-gap-1.5 tw-w-full sm:tw-max-w-md">
+        <div class="tw-flex tw-items-center tw-gap-4">
+          <!-- -10s -->
+          <button onclick="skipAudio(-10)" class="tw-text-slate-600 hover:tw-text-slate-900 tw-transition p-1" title="Skip back 10 seconds">
+            <svg class="tw-w-5 tw-h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.334 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z"/>
+            </svg>
+          </button>
+
+          <!-- Play / Pause Main -->
+          <button onclick="toggleAudioPlayback()" id="main-play-pause-btn" class="tw-w-10 tw-h-10 sm:tw-w-11 sm:tw-h-11 tw-rounded-full tw-bg-blue-1 hover:tw-opacity-90 tw-text-white tw-flex tw-items-center tw-justify-center tw-shadow-md tw-transition tw-cursor-pointer">
+            <svg id="play-icon" class="tw-w-5 tw-h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="pause-icon" class="tw-w-5 tw-h-5 tw-hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+
+          <!-- +10s -->
+          <button onclick="skipAudio(10)" class="tw-text-slate-600 hover:tw-text-slate-900 tw-transition p-1" title="Skip forward 10 seconds">
+            <svg class="tw-w-5 tw-h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.934 12.8a1 1 0 000-1.6l-5.334-4A1 1 0 005 8v8a1 1 0 001.6.8l5.334-4zM19.934 12.8a1 1 0 000-1.6l-5.334-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.334-4z"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Scrubber Progress Bar -->
+        <div class="tw-flex tw-items-center tw-gap-2.5 tw-w-full">
+          <span id="audio-time-current" class="tw-text-[11px] tw-font-mono tw-text-slate-500 tw-w-9 tw-text-right">00:00</span>
+          <input type="range" id="audio-scrubber" min="0" max="100" value="0" step="0.1" class="tw-w-full tw-h-1.5 tw-bg-slate-300 tw-rounded-lg tw-appearance-none tw-cursor-pointer accent-blue-600" oninput="seekAudio(this.value)">
+          <span id="audio-time-duration" class="tw-text-[11px] tw-font-mono tw-text-slate-500 tw-w-9">00:00</span>
+        </div>
+      </div>
+
+      <!-- Right: Utility Controls -->
+      <div class="tw-hidden md:tw-flex tw-items-center tw-gap-3">
+        <!-- Speed Toggle -->
+        <button onclick="cycleSpeed()" id="btn-speed" class="tw-px-2.5 tw-py-1 tw-rounded-lg tw-bg-white tw-border tw-border-slate-300 tw-text-xs tw-font-bold tw-text-slate-700 hover:tw-bg-slate-50 tw-transition">
+          1.0x
+        </button>
+
+        <!-- Translation Toggle -->
+        <button onclick="toggleAllTranslations()" class="tw-px-3 tw-py-1 tw-rounded-lg tw-bg-white tw-border tw-border-slate-300 tw-text-xs tw-font-bold tw-text-slate-700 hover:tw-bg-slate-50 tw-transition flex tw-items-center tw-gap-1">
+          <span class="tw-text-blue-600">文A</span>
+        </button>
+      </div>
+
+    </div>
   </div>
 
 </div>
 
-<!-- Audio Player -->
-<audio id="reading-audio-player" class="hidden"></audio>
+<!-- Audio Element -->
+<audio id="story-audio-player" class="hidden"></audio>
 
 <script>
-  let showEnglish = true;
-  function toggleAllTranslations() {
-    showEnglish = !showEnglish;
-    const trans = document.querySelectorAll('.english-translation');
-    trans.forEach(el => {
-      el.style.display = showEnglish ? 'block' : 'none';
-    });
-    const label = document.getElementById('trans-toggle-label');
-    if (label) {
-      label.textContent = showEnglish ? 'Hide English' : 'Show English';
+  let showTranslations = true;
+  const audioList = [
+    {% for p in paragraphs %}
+      {% if p.audio %}'{{ p.audio }}'{% else %}''{% endif %}{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ];
+  let currentPlayingIdx = -1;
+  const player = document.getElementById('story-audio-player');
+  const playIcon = document.getElementById('play-icon');
+  const pauseIcon = document.getElementById('pause-icon');
+  const scrubber = document.getElementById('audio-scrubber');
+  const currentLabel = document.getElementById('audio-time-current');
+  const durationLabel = document.getElementById('audio-time-duration');
+  const speedBtn = document.getElementById('btn-speed');
+
+  const speeds = [1.0, 1.25, 1.5, 0.75];
+  let speedIdx = 0;
+
+  function cycleSpeed() {
+    speedIdx = (speedIdx + 1) % speeds.length;
+    const s = speeds[speedIdx];
+    player.playbackRate = s;
+    if (speedBtn) speedBtn.textContent = s.toFixed(2).replace(/\.00$/, '.0') + 'x';
+  }
+
+  function formatTime(secs) {
+    if (isNaN(secs)) return '00:00';
+    const m = Math.floor(secs / 60);
+    const s = Math.floor(secs % 60);
+    return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  player.ontimeupdate = () => {
+    if (player.duration) {
+      scrubber.value = (player.currentTime / player.duration) * 100;
+      currentLabel.textContent = formatTime(player.currentTime);
+      durationLabel.textContent = formatTime(player.duration);
+    }
+  };
+
+  player.onloadedmetadata = () => {
+    durationLabel.textContent = formatTime(player.duration);
+  };
+
+  player.onended = () => {
+    // If listening to full chapter, advance to next paragraph
+    if (currentPlayingIdx >= 0 && currentPlayingIdx < audioList.length - 1) {
+      playParagraphAudio(audioList[currentPlayingIdx + 1], currentPlayingIdx + 1);
+    } else {
+      setPlayState(false);
+      removeHighlight();
+    }
+  };
+
+  function setPlayState(isPlaying) {
+    if (isPlaying) {
+      playIcon.classList.add('tw-hidden');
+      pauseIcon.classList.remove('tw-hidden');
+    } else {
+      playIcon.classList.remove('tw-hidden');
+      pauseIcon.classList.add('tw-hidden');
     }
   }
 
-  function playReadingAudio(url, btn) {
-    if (!url) return;
-    const player = document.getElementById('reading-audio-player');
-    
-    // Reset all other audio button styles
-    document.querySelectorAll('.audio-btn').forEach(b => {
-      b.classList.remove('bg-teal-600', 'text-white');
-      b.classList.add('bg-teal-50', 'text-teal-700');
-    });
+  function removeHighlight() {
+    document.querySelectorAll('.paragraph-card').forEach(c => c.classList.remove('active-paragraph'));
+  }
 
-    if (btn) {
-      btn.classList.remove('bg-teal-50', 'text-teal-700');
-      btn.classList.add('bg-teal-600', 'text-white');
+  function highlightParagraph(idx) {
+    removeHighlight();
+    const card = document.getElementById('para-' + idx);
+    if (card) {
+      card.classList.add('active-paragraph');
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+  }
 
+  function playParagraphAudio(url, idx) {
+    if (!url) return;
+    currentPlayingIdx = idx;
+    highlightParagraph(idx);
     player.src = '/media-proxy?url=' + encodeURIComponent(url);
-    player.play().catch(e => console.log('Audio playback error:', e));
+    player.play().then(() => {
+      setPlayState(true);
+    }).catch(e => console.log('Audio playback error:', e));
+  }
 
-    player.onended = () => {
-      if (btn) {
-        btn.classList.remove('bg-teal-600', 'text-white');
-        btn.classList.add('bg-teal-50', 'text-teal-700');
-      }
-    };
+  function playFullStoryAudio() {
+    if (audioList.length > 0 && audioList[0]) {
+      playParagraphAudio(audioList[0], 0);
+    }
+  }
+
+  function toggleAudioPlayback() {
+    if (player.src && !player.paused) {
+      player.pause();
+      setPlayState(false);
+    } else if (player.src && player.paused) {
+      player.play();
+      setPlayState(true);
+    } else {
+      playFullStoryAudio();
+    }
+  }
+
+  function skipAudio(seconds) {
+    if (player.src) {
+      player.currentTime = Math.max(0, Math.min(player.duration || 0, player.currentTime + seconds));
+    }
+  }
+
+  function seekAudio(percent) {
+    if (player.duration) {
+      player.currentTime = (percent / 100) * player.duration;
+    }
+  }
+
+  function toggleAllTranslations() {
+    showTranslations = !showTranslations;
+    document.querySelectorAll('.english-translation').forEach(el => {
+      el.style.display = showTranslations ? 'block' : 'none';
+    });
+    const label = document.getElementById('trans-btn-label');
+    if (label) {
+      label.textContent = showTranslations ? 'Hide English' : 'Show English';
+    }
   }
 </script>
 {% endblock %}

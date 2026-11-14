@@ -166,22 +166,44 @@ def test_reading_comprehension_suite():
     # Test Reading Overview
     resp_read = client.get("/fr-EN/reading")
     assert resp_read.status_code == 200
-    assert "French Reading Comprehension" in resp_read.text
+    assert "Reading comprehension" in resp_read.text
+    assert "Browse by Categories" in resp_read.text
+    assert "header.png" in resp_read.text
     assert "Animaux" in resp_read.text
     assert "Nature" in resp_read.text
     assert "Maison et meubles" in resp_read.text
+    assert "Vie quotidienne" in resp_read.text
+    assert "Corps et santé" in resp_read.text
 
     # Test Reading Collection (87: Animaux)
     resp_col = client.get("/fr-EN/reading/87/animaux")
     assert resp_col.status_code == 200
     assert "Animaux de la ferme" in resp_col.text
+    assert "Animaux sauvages" in resp_col.text
+    assert "Beginner" in resp_col.text
+    assert "6 Stories" in resp_col.text
 
-    # Test Reading Story (2304: Animaux de la ferme)
-    resp_story = client.get("/fr-EN/reading/course/2304/animaux-de-ferme/0")
-    assert resp_story.status_code == 200
-    assert "Animaux de la ferme" in resp_story.text
-    assert "Une vache est un grand animal" in resp_story.text
-    assert "Hide English" in resp_story.text
+    # Test Reading Story Redirection (redirects without segment to /0)
+    resp_redir = client.get("/fr-EN/reading/course/2304/animaux-de-ferme", follow_redirects=False)
+    assert resp_redir.status_code == 307
+    assert resp_redir.headers["location"] == "/fr-EN/reading/course/2304/animaux-de-ferme/0"
+
+    # Test Reading Story Segment 0 (Vache)
+    resp_story0 = client.get("/fr-EN/reading/course/2304/animaux-de-ferme/0")
+    assert resp_story0.status_code == 200
+    assert "Animaux de la ferme" in resp_story0.text
+    assert "Vache" in resp_story0.text
+    assert "Mouton" in resp_story0.text
+    assert "Cheval" in resp_story0.text
+    assert "Une vache est un grand animal" in resp_story0.text
+    assert "story-audio-player" in resp_story0.text
+    assert "audio-scrubber" in resp_story0.text
+
+    # Test Reading Story Segment 1 (Mouton)
+    resp_story1 = client.get("/fr-EN/reading/course/2304/animaux-de-ferme/1")
+    assert resp_story1.status_code == 200
+    assert "Mouton" in resp_story1.text
+    assert "mouton" in resp_story1.text.lower()
 
 
 def test_pronunciation_alphabet_suite():

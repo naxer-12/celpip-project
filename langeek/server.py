@@ -557,11 +557,17 @@ async def reading_overview_view(request: Request):
     """Render French Reading Comprehension Overview."""
     conn = get_db()
     cur = conn.cursor()
-    collections = cur.execute("SELECT * FROM reading_collections ORDER BY position ASC").fetchall()
+    col_rows = cur.execute("SELECT * FROM reading_collections ORDER BY position ASC").fetchall()
+    collections = []
+    for c in col_rows:
+        c_dict = dict(c)
+        story_rows = cur.execute("SELECT * FROM reading_stories WHERE collection_id = ? ORDER BY id ASC", (c_dict['id'],)).fetchall()
+        c_dict['stories'] = [dict(s) for s in story_rows]
+        collections.append(c_dict)
     conn.close()
     return templates.TemplateResponse(request, "reading_overview.html", {
         "active_tab": "reading",
-        "collections": [dict(c) for c in collections]
+        "collections": collections
     })
 
 @app.get("/fr-EN/reading/{col_id}/{slug}")
@@ -585,7 +591,7 @@ async def reading_collection_view(col_id: int, request: Request, slug: Optional[
 @app.get("/fr-EN/reading/course/{story_id}/{slug}/{segment}")
 @app.get("/fr-EN/reading/course/{story_id}/{slug}")
 async def reading_story_view(story_id: int, request: Request, slug: Optional[str] = None, segment: Optional[str] = None):
-    """Render French Reading Story with aligned translation & audio."""
+    """Render French Reading Story with multi-segment chapter stepper, aligned translation & audio."""
     conn = get_db()
     cur = conn.cursor()
     story_row = cur.execute("SELECT * FROM reading_stories WHERE id = ?", (story_id,)).fetchone()
@@ -594,21 +600,56 @@ async def reading_story_view(story_id: int, request: Request, slug: Optional[str
         raise HTTPException(status_code=404, detail="Reading story not found")
     
     story_dict = dict(story_row)
+    actual_slug = slug or story_dict.get('url_id', 'story')
+
+    # If segment is not specified, redirect to segment 0 to match live LanGeek routing
+    if segment is None:
+        conn.close()
+        return RedirectResponse(url=f"/fr-EN/reading/course/{story_id}/{actual_slug}/0", status_code=307)
+
+    try:
+        current_segment_idx = int(segment)
+    except ValueError:
+        current_segment_idx = 0
+
     col_row = cur.execute("SELECT * FROM reading_collections WHERE id = ?", (story_dict.get('collection_id'),)).fetchone()
+    seg_rows = cur.execute("SELECT * FROM reading_segments WHERE story_id = ? ORDER BY segment_index ASC", (story_id,)).fetchall()
     conn.close()
 
+    segments = [dict(s) for s in seg_rows]
+    current_segment = None
+    if segments:
+        if 0 <= current_segment_idx < len(segments):
+            current_segment = segments[current_segment_idx]
+        else:
+            current_segment = segments[0]
+            current_segment_idx = 0
+
     paragraphs = []
-    if story_dict.get('content_json'):
+    if current_segment and current_segment.get('content_json'):
+        try:
+            paragraphs = json.loads(current_segment['content_json'])
+        except Exception:
+            pass
+    elif story_dict.get('content_json'):
         try:
             paragraphs = json.loads(story_dict['content_json'])
         except Exception:
             pass
 
+    prev_segment_idx = current_segment_idx - 1 if current_segment_idx > 0 else None
+    next_segment_idx = current_segment_idx + 1 if (segments and current_segment_idx < len(segments) - 1) else None
+
     return templates.TemplateResponse(request, "reading_story.html", {
         "active_tab": "reading",
         "story": story_dict,
         "collection": dict(col_row) if col_row else None,
-        "paragraphs": paragraphs
+        "segments": segments,
+        "current_segment_index": current_segment_idx,
+        "current_segment": current_segment,
+        "paragraphs": paragraphs,
+        "prev_segment_index": prev_segment_idx,
+        "next_segment_index": next_segment_idx
     })
 
 @app.get("/fr-EN/pronunciation")
