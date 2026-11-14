@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en" data-mode="light" style="color-scheme: light;" class="h-full">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Learn French Online 🇫🇷 LanGeek{% endblock %}</title>
   
-  <!-- Tailwind CSS & Lucide Icons -->
+  <!-- Tailwind CSS CDN (as utility support) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -13,6 +13,10 @@
       theme: {
         extend: {
           colors: {
+            'blue-light-6': '#DEE9FC',
+            'blue-light-3': '#F0F4FA',
+            'blue-light-4': '#F0F4FA',
+            'blue-light-1': '#E6EAF0',
             primary: {
               50: '#f0f9ff',
               100: '#e0f2fe',
@@ -33,6 +37,11 @@
       }
     }
   </script>
+
+  <!-- LanGeek Production Stylesheets & Fonts (loaded after Tailwind to guarantee priority) -->
+  <link rel="stylesheet" href="/next/static/css/9e240e4bf9a0447b.css" />
+  <link rel="stylesheet" href="/next/static/css/5cd3138d4796ae82.css" />
+  <link rel="stylesheet" href="/next/static/css/7acfa248cac7e787.css" />
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <style>
@@ -115,7 +124,7 @@
               <i data-lucide="book-marked" class="w-4 h-4"></i>
               <span>Grammar</span>
             </a>
-            <a href="/fr-EN#expressions" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+            <a href="/fr-EN/expressions" class="px-3.5 py-2 rounded-xl text-sm font-semibold transition flex items-center space-x-2 {% if active_tab == 'expressions' %}bg-primary-50 text-primary-600 shadow-xs border border-primary-100{% else %}text-slate-600 hover:bg-slate-50 hover:text-slate-900{% endif %}">
               <i data-lucide="sparkles" class="w-4 h-4"></i>
               <span>Expressions</span>
             </a>
@@ -149,10 +158,6 @@
             <span>Sign in</span>
           </a>
         </div>
-
-      </div>
-    </div>
-  </nav>
 
       </div>
     </div>

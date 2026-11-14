@@ -9,14 +9,10 @@
   <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-xs mb-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
     <div class="max-w-2xl">
       <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-        {% if category.cefr_level %}
-        French {{ category.cefr_level }} Vocabulary for {{ category.cefr_subtitle or 'Advanced' }} Learners
-        {% else %}
-        French Vocabulary: {{ category.title }}
-        {% endif %}
+        {{ category.title or 'French C1 Vocabulary for Advanced Learners' }}
       </h1>
       <div class="text-xs font-semibold text-slate-400 mt-1">
-        {{ category.web_title or category.title }}
+        {{ category.web_title or 'Français C1 Vocabulaire (Avancé)' }}
       </div>
       <p class="text-xs sm:text-sm text-slate-600 mt-2.5 leading-relaxed">
         {{ category.description or 'Explore French C1 vocabulary by theme and develop advanced words for precise arguments, nuanced discussion, and complex texts.' }}
@@ -118,7 +114,7 @@
             {{ sub.title }}
           </a>
           <div class="text-xs text-slate-400 mt-0.5">
-            {{ sub.original_title or sub.french_title or sub.title }}
+            {{ sub.description or sub.web_title or sub.title }}
           </div>
           <div class="flex items-center space-x-3 text-xs font-semibold text-slate-500 mt-2">
             <span class="flex items-center space-x-1">

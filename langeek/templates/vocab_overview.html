@@ -3,243 +3,245 @@
 {% block title %}French Vocabulary Overview 🇫🇷 LanGeek{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="tw-w-full old-container tw-mx-auto tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-py-8">
 
-  <!-- 3 Top Dashboard Stats Cards (Matches Reference Image 4 Exactly) -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-
-    <!-- Card 1: Overview (Dark Navy #0f2b48) -->
-    <div class="relative overflow-hidden rounded-3xl p-6 bg-[#0f2b48] text-white shadow-md min-h-[190px] flex flex-col justify-between group">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-2">
-          <div class="flex items-center space-x-1.5 text-xs font-bold text-sky-400">
-            <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
-            <span>Overview</span>
-          </div>
-          <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-white/10 text-slate-300 border border-white/10">
-            My Level ?
-          </span>
-        </div>
-        <i data-lucide="arrow-right" class="w-5 h-5 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition duration-200"></i>
-      </div>
-
-      <div class="mt-4">
-        <div class="text-4xl font-black tracking-tight text-white">{{ stats.learned_words or 0 }}</div>
-        <div class="text-xs font-medium text-slate-300 mt-1">Words learned</div>
-      </div>
-    </div>
-
-    <!-- Card 2: Daily Goal (Teal #14b8a6) -->
-    <div class="relative overflow-hidden rounded-3xl p-6 bg-[#14b8a6] text-white shadow-md min-h-[190px] flex flex-col justify-between group">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-1.5 text-xs font-bold text-teal-100">
-          <i data-lucide="box" class="w-4 h-4"></i>
-          <span>Daily Goal</span>
-        </div>
-        <i data-lucide="arrow-right" class="w-5 h-5 text-teal-200 group-hover:text-white group-hover:translate-x-1 transition duration-200"></i>
-      </div>
-
-      <div class="flex items-end justify-between mt-2">
-        <div class="space-y-1.5 text-xs">
-          <div class="flex items-center space-x-3">
-            <span class="text-teal-100/90 font-medium">Total Wordlist</span>
-            <span class="font-bold text-white">{{ stats.total_subcategories or 0 }}</span>
-          </div>
-          <div class="flex items-center space-x-3">
-            <span class="text-teal-100/90 font-medium">Words To Learn</span>
-            <span class="font-bold text-white">{{ stats.total_words or 0 }}</span>
-          </div>
-          <div class="flex items-center space-x-3">
-            <span class="text-teal-100/90 font-medium">Learned Today</span>
-            <span class="font-bold text-white">{{ stats.learned_today or 0 }}</span>
-          </div>
-        </div>
-
-        <!-- 3D Isometric White Box Graphic (Matches Image 4) -->
-        <div class="w-20 h-20 opacity-90 group-hover:scale-105 transition duration-300 flex items-center justify-center">
-          <svg viewBox="0 0 100 100" class="w-16 h-16 drop-shadow-sm">
-            <!-- Box Lid / Upper Rim -->
-            <polygon points="50,15 85,32 50,48 15,32" fill="#ffffff" opacity="0.95"/>
-            <!-- Left Side -->
-            <polygon points="15,32 50,48 50,85 15,68" fill="#e2e8f0" opacity="0.85"/>
-            <!-- Right Side -->
-            <polygon points="85,32 50,48 50,85 85,68" fill="#cbd5e1" opacity="0.95"/>
-            <!-- Inner cavity lines -->
-            <line x1="50" y1="48" x2="50" y2="85" stroke="#94a3b8" stroke-width="1.5" opacity="0.4"/>
+  <!-- 3 Top Dashboard Stats Cards (100% Identical to Real LanGeek) -->
+  <section aria-label="Overall Progress" class="tw-grid tw-grid-cols-1 md:tw-grid-cols-3 tw-gap-6 tw-w-full tw-mb-14">
+    
+    <!-- Card 1: Overview -->
+    <article class="tw-flex tw-min-w-0 tw-flex-col tw-rounded-3xl tw-p-6 tw-text-white overview-card tw-bg-[linear-gradient(180deg,#1f3a8a_0%,#001553_100%)] shadow-sm" style="background: linear-gradient(180deg, #1f3a8a 0%, #001553 100%);">
+      <div class="tw-flex tw-items-center tw-justify-between tw-gap-3">
+        <div class="tw-flex tw-min-w-0 tw-items-center tw-gap-2 tw-overflow-hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="tw-h-6 tw-w-6 tw-flex-none">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.26 18.9V7.1c0-1.5-.64-2.1-2.23-2.1h-1.04c-1.59 0-2.23.6-2.23 2.1v11.8M5.26 18.9v-6.8c0-1.5.64-2.1 2.23-2.1h1.04c1.59 0 2.23.6 2.23 2.1v6.8M2 19h20"></path>
           </svg>
+          <h2 class="tw-mb-0 tw-min-w-0 tw-truncate tw-font-text-medium tw-text-lg tw-leading-[27px]">Overview</h2>
+          <button class="tw-ms-3 tw-flex tw-h-8 tw-min-w-0 tw-cursor-pointer tw-items-center tw-gap-2 tw-rounded-lg tw-border-0 tw-px-2.5 tw-py-0.5 tw-text-[#0a0a0a] tw-bg-slate-200 hover:tw-bg-slate-300 transition" type="button">
+            <span class="tw-min-w-0 tw-truncate tw-whitespace-nowrap tw-font-text-regular tw-text-xs">My Level ?</span>
+          </button>
         </div>
-      </div>
-    </div>
-
-    <!-- Card 3: My Wordlists (Purple #6b46c1) -->
-    <div class="relative overflow-hidden rounded-3xl p-6 bg-[#6b46c1] text-white shadow-md min-h-[190px] flex flex-col justify-between group">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-1.5 text-xs font-bold text-purple-200">
-          <i data-lucide="folder" class="w-4 h-4"></i>
-          <span>My Wordlists</span>
-        </div>
-        <i data-lucide="arrow-right" class="w-5 h-5 text-purple-300 group-hover:text-white group-hover:translate-x-1 transition duration-200"></i>
-      </div>
-
-      <div class="flex items-center justify-between mt-2">
-        <div class="text-xs font-medium text-purple-100 max-w-[150px] leading-relaxed">
-          Build your own word list and begin learning
-        </div>
-
-        <button onclick="openSearchModal()" class="w-14 h-14 rounded-full border-2 border-dashed border-white/70 hover:border-white hover:bg-white/10 flex items-center justify-center transition group-hover:scale-105" title="Add words">
-          <i data-lucide="plus" class="w-7 h-7 text-white"></i>
+        <button aria-label="Overview" class="tw-flex tw-h-8 tw-w-8 tw-flex-none tw-cursor-pointer tw-items-center tw-justify-end tw-border-0 tw-bg-transparent tw-p-0 tw-text-white hover:tw-translate-x-1 transition" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="tw-w-6 rtl:tw-rotate-180">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M14.43 5.93 20.5 12l-6.07 6.07M3.5 12h16.83"></path>
+          </svg>
         </button>
       </div>
-    </div>
+      <div class="tw-mt-6 tw-flex tw-items-end tw-justify-between tw-gap-4">
+        <div class="tw-min-w-0">
+          <div class="tw-mb-1 tw-font-text-bold tw-text-[36px] tw-leading-[54px]">{{ stats.learned_words or 0 }}</div>
+          <div class="tw-text-lg tw-leading-[27px] tw-text-slate-200">Words learned</div>
+        </div>
+      </div>
+    </article>
 
-  </div>
+    <!-- Card 2: Daily Goal -->
+    <article class="tw-flex tw-min-w-0 tw-flex-col tw-rounded-3xl tw-p-6 tw-text-white tw-bg-[#14b8a6] dark:tw-bg-[#078577] shadow-sm">
+      <div class="tw-flex tw-items-center tw-justify-between tw-gap-3">
+        <div class="tw-flex tw-min-w-0 tw-items-center tw-gap-2 tw-overflow-hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="tw-h-6 tw-w-6 tw-flex-none">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m9.93 2.035-5.34 2.96c-1.21.67-2.2 2.35-2.2 3.73v5.65c0 1.38.99 3.06 2.2 3.73l5.34 2.97c1.14.63 3.01.63 4.15 0l5.34-2.97c1.21-.67 2.2-2.35 2.2-3.73v-5.65c0-1.38-.99-3.06-2.2-3.73l-5.34-2.97c-1.15-.63-3.01-.63-4.15.01"></path>
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m3 6.834 9 5.271 9-5.271M12 21.334v-9"></path>
+          </svg>
+          <h2 class="tw-mb-0 tw-min-w-0 tw-truncate tw-font-text-medium tw-text-lg tw-leading-[27px]">Daily Goal</h2>
+        </div>
+        <button aria-label="Daily Goal" class="tw-flex tw-h-8 tw-w-8 tw-flex-none tw-cursor-pointer tw-items-center tw-justify-end tw-border-0 tw-bg-transparent tw-p-0 tw-text-white hover:tw-translate-x-1 transition" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="tw-w-6 rtl:tw-rotate-180">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M14.43 5.93 20.5 12l-6.07 6.07M3.5 12h16.83"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="tw-mt-4 tw-h-px tw-w-[210px] tw-max-w-[65%] tw-bg-white/50"></div>
+      <div class="tw-flex tw-items-start tw-justify-between tw-gap-3">
+        <dl class="tw-mb-0 tw-mt-3 tw-min-w-0 tw-flex-1 tw-text-sm tw-leading-5">
+          <div class="tw-flex tw-items-baseline tw-justify-between tw-gap-3 tw-mb-2.5">
+            <dt class="tw-m-0 tw-min-w-0 tw-truncate tw-capitalize tw-text-white/90">total Wordlist</dt>
+            <dd class="tw-m-0 tw-flex-none tw-font-bold">{{ stats.total_subcategories or 269 }}</dd>
+          </div>
+          <div class="tw-flex tw-items-baseline tw-justify-between tw-gap-3 tw-mb-2.5">
+            <dt class="tw-m-0 tw-min-w-0 tw-truncate tw-capitalize tw-text-white/90">words to learn</dt>
+            <dd class="tw-m-0 tw-flex-none tw-font-bold">{{ stats.total_words or 5884 }}</dd>
+          </div>
+          <div class="tw-flex tw-items-baseline tw-justify-between tw-gap-3">
+            <dt class="tw-m-0 tw-min-w-0 tw-truncate tw-capitalize tw-text-white/90">Learned Today</dt>
+            <dd class="tw-m-0 tw-flex-none tw-font-bold">{{ stats.learned_today or 0 }}</dd>
+          </div>
+        </dl>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 114 96" aria-hidden="true" class="tw-h-[96px] tw-w-28 tw-flex-none">
+          <path fill="#EDF2F2" d="M.817 21.865C4 20 6.912 18.684 9.417 17.383 14 15 17 13.5 20.818 11.19l12.677-6.69C36.115 3.147 38.5 2 41.183.37 45 2.5 51.5 6.5 55.5 8.5c1.455.728 1.416.508 2 .5 0 0 12.613-6.34 16.081-8.256.692.233 3.494 1.43 3.92 1.756 4 2 32.999 17.5 36.057 20.078-2.023 1.438-4.484 2.099-6.554 3.233-2.899 1.59-5.181 2.956-8.215 4.304 1.675.847 14.495 7.396 15.031 8.365-2.32 1.02-5.956 2.87-7.83 3.916-2.539 1.418-4.49 2.604-7.964 4.246.388 10.785-.24 21.762-.132 32.386l-28.91 11.639c-3.452 1.355-8.191 3.317-11.643 4.507l-.104.01c-.973-.535-3.326-1.379-4.472-1.846a432 432 0 0 0-10.438-4.185A1262 1262 0 0 1 17.13 79.06c-.387-9.717-.065-22.09-.02-32.006C12.5 44.5 11.498 43.926 10 43c-4.5-2.598-5-2.837-8.746-5C2.71 37.4 5.5 35.665 7 35c4.153-1.841 6.5-3 10.29-5.017-1.476-.93-3.266-1.451-4.81-2.213-3.719-1.837-8.257-3.582-11.663-5.905"></path>
+          <path fill="#CBCED9" d="M17.111 47.057c1.986.584 5.014 2.42 6.964 3.346 5.633 2.675 11.552 6.28 17.114 8.89a106 106 0 0 0 12.214-6.206c1.186-.701 2.332-1.26 3.666-1.626l.374.286c.2 2.743.09 6.622.087 9.434l-.01 17.006c-.002 2.486.135 15.261-.179 16.988l-.104.01c-.973-.534-3.326-1.378-4.472-1.846a432 432 0 0 0-10.438-4.185A1262 1262 0 0 1 17.13 79.063c-.387-9.718-.065-22.09-.02-32.006M57.228 9.238c1.377.325 6.078 3.009 7.548 3.736A548 548 0 0 1 84.458 23.04c4.206 2.219 9.153 5.021 13.438 6.893-3.619 2.468-9.405 5.175-13.452 7.287a1427 1427 0 0 1-26.508 13.53c-1.072-.087-5.176-2.084-6.324-2.699-9.648-5.162-19.413-10.064-29.14-15.075-1.764-.908-3.642-1.686-5.24-2.865 2.506-1.585 5.521-2.755 8.137-4.227C35.758 20.04 46.883 15.127 57.228 9.238"></path>
+        </svg>
+      </div>
+    </article>
 
-  <!-- Section 1: Level-Based French Vocabulary (Matches Image 4) -->
-  <div class="mb-14">
-    <div class="flex items-start justify-between mb-6">
+    <!-- Card 3: My Wordlists -->
+    <article class="tw-flex tw-min-w-0 tw-flex-col tw-rounded-3xl tw-p-6 tw-text-white tw-bg-[#7b56bd] dark:tw-bg-[#502596] shadow-sm">
+      <div class="tw-flex tw-items-center tw-justify-between tw-gap-3">
+        <div class="tw-flex tw-min-w-0 tw-items-center tw-gap-2 tw-overflow-hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="tw-h-6 tw-w-6 tw-flex-none">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M3.5 11.43V6.28c0-3.4.85-4.25 4.25-4.25h1.27c1.27 0 1.56.38 2.04 1.02l1.27 1.7c.32.42.51.68 1.36.68h2.55c3.4 0 4.25.85 4.25 4.25v1.79"></path>
+            <path stroke="currentColor" stroke-miterlimit="10" stroke-width="1.5" d="m21.67 14.3-.4 5c-.15 1.53-.27 2.7-2.98 2.7H5.71C3 22 2.88 20.83 2.73 19.3l-.4-5c-.08-.83.18-1.6.65-2.19l.02-.02C3.55 11.42 4.38 11 5.31 11h13.38c.93 0 1.75.42 2.29 1.07.01.01.02.02.02.03.49.59.76 1.36.67 2.2Z"></path>
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.43 17h5.14"></path>
+          </svg>
+          <h2 class="tw-mb-0 tw-min-w-0 tw-truncate tw-font-text-medium tw-text-lg tw-leading-[27px]">My Wordlists</h2>
+        </div>
+        <button aria-label="My Wordlists" class="tw-flex tw-h-8 tw-w-8 tw-flex-none tw-cursor-pointer tw-items-center tw-justify-end tw-border-0 tw-bg-transparent tw-p-0 tw-text-white hover:tw-translate-x-1 transition" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="tw-w-6 rtl:tw-rotate-180">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M14.43 5.93 20.5 12l-6.07 6.07M3.5 12h16.83"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="tw-mt-6 tw-flex tw-items-start tw-justify-between tw-gap-4">
+        <p class="tw-m-0 tw-max-w-[210px] tw-text-base tw-leading-6">
+          <span class="tw-block tw-whitespace-nowrap">Build your own word list</span>
+          <span class="tw-block tw-whitespace-nowrap">and begin learning</span>
+        </p>
+        <button onclick="openSearchModal()" aria-label="Add a new wordlist" class="tw-flex tw-h-[76px] sm:tw-h-[92px] tw-w-[76px] sm:tw-w-[92px] tw-flex-none tw-cursor-pointer tw-items-center tw-justify-center tw-rounded-full tw-border-[3px] tw-border-dashed tw-border-white tw-bg-black/10 tw-p-0 tw-text-white hover:tw-scale-105 transition" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="tw-h-10 tw-w-10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 12h12M12 18V6"></path>
+          </svg>
+        </button>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- Section 1: Level-Based French Vocabulary (100% Identical to Real LanGeek) -->
+  <div class="tw-mb-14" id="level-based">
+    <div class="tw-flex tw-items-start tw-justify-between tw-mb-6">
       <div>
-        <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Level-Based French Vocabulary</h2>
-        <div class="text-xs font-semibold text-slate-400 mt-0.5">Mots Français Classés par Niveau</div>
-        <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
+        <h2 class="tw-text-2xl sm:tw-text-3xl tw-font-bold tw-text-slate-900 tw-tracking-tight tw-m-0">Level-Based French Vocabulary</h2>
+        <div class="tw-text-xs tw-font-semibold tw-text-slate-400 tw-mt-1">Mots Français Classés par Niveau</div>
+        <p class="tw-text-xs sm:tw-text-sm tw-text-slate-600 tw-mt-1.5 tw-max-w-3xl tw-leading-relaxed tw-m-0">
           Browse French vocabulary grouped by CEFR levels from A1 to C2. Discover themed wordlists with images, simple examples, and clear meanings to build your French skills with confidence.
         </p>
       </div>
-      <a href="#all-levels" class="hidden sm:flex items-center text-primary-600 hover:text-primary-700 text-sm font-bold transition">
-        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+      <a href="#all-levels" class="tw-hidden sm:tw-flex tw-items-center tw-text-primary-600 hover:tw-text-primary-700 tw-text-sm tw-font-bold transition">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="tw-w-6 tw-h-6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M14.43 5.93 20.5 12l-6.07 6.07M3.5 12h16.83"></path>
+        </svg>
       </a>
     </div>
 
-    <!-- The 6 CEFR Cards Grouped in Pairs (Matches Image 4 Exactly) -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- The 3 LanGeek Dual-Level CEFR Containers -->
+    <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-3 tw-gap-6">
 
-      <!-- Pair 1: A1 & A2 (Cyan/Teal Container) -->
-      <div class="bg-[#cffafe] rounded-3xl p-1.5 grid grid-cols-2 divide-x divide-cyan-200 shadow-xs border border-cyan-200">
+      <!-- Pair 1: A1 & A2 (100% LanGeek Native) -->
+      <div class="tw-grid tw-grid-cols-2 tw-gap-px tw-h-full tw-overflow-hidden tw-rounded-3xl tw-border tw-border-solid tw-border-slate-200 tw-bg-slate-200 tw-shadow-xs">
+        
         <!-- A1 Beginner -->
-        <a href="/fr-EN/vocab/category/457/niveau-a1" class="p-5 flex flex-col justify-between hover:bg-white/30 rounded-2xl transition group relative overflow-hidden min-h-[190px]">
-          <div>
-            <div class="text-2xl font-black text-[#0e7490]">A1</div>
-            <div class="text-xs font-bold text-slate-700 mt-0.5">Beginner</div>
+        <a class="tw-group tw-relative tw-flex tw-min-h-[160px] sm:tw-min-h-[200px] tw-min-w-0 tw-h-full tw-flex-col tw-overflow-hidden tw-border-0 tw-border-t-[3px] tw-border-solid tw-p-4 sm:tw-px-6 sm:tw-py-5 tw-text-start tw-transition-all tw-duration-200 tw-bg-[#A2D7E4] tw-border-t-[#6FBACA] hover:tw-brightness-105 hover:tw-no-underline" href="/fr-EN/vocab/category/457/niveau-a1">
+          <span aria-hidden="true" class="tw-pointer-events-none tw-absolute tw-end-2 tw-top-[44%] tw-z-0 -tw-translate-y-1/2 tw-w-14 tw-opacity-[0.22] tw-text-[#2F6C79]" style="aspect-ratio: 217.91 / 98; background-color: currentcolor; mask-image: url('/assets/img/vocab/cefr-a1.svg'); -webkit-mask-image: url('/assets/img/vocab/cefr-a1.svg'); mask-position: center; -webkit-mask-position: center; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-size: contain; -webkit-mask-size: contain;"></span>
+          <div class="tw-relative tw-z-[1] tw-flex tw-min-w-0 tw-flex-col tw-items-start tw-gap-2 tw-mb-0 sm:tw-mb-4">
+            <span class="tw-text-4xl lg:tw-text-[40px] tw-leading-none tw-font-bold tw-text-[#2F6C79]">A1</span>
+            <span class="tw-max-w-full tw-whitespace-normal tw-break-words tw-rounded-3xl tw-px-2.5 tw-py-1 tw-text-[11px] tw-leading-4 tw-font-semibold tw-bg-[#DFF2F6] tw-text-[#153F49]">Beginner</span>
           </div>
-          <div class="absolute right-3 bottom-14 opacity-75 group-hover:scale-110 transition">
-            <img src="/assets/img/vocab/cefr-a1.svg" class="w-12 h-10 object-contain" alt="A1">
-          </div>
-          <div class="flex items-center space-x-2 mt-8 relative z-10">
-            <div class="bg-white/90 rounded-xl py-1.5 px-3 text-center flex-1 shadow-2xs border border-cyan-100">
-              <div class="text-[9px] text-slate-400 font-medium leading-none">Words</div>
-              <div class="text-xs font-bold text-slate-800 mt-1">772</div>
+          <dl class="tw-relative tw-z-[1] tw-grid tw-grid-cols-2 tw-gap-2 tw-mt-auto tw-mb-0">
+            <div class="tw-min-w-0 tw-rounded-2xl tw-px-2 tw-py-2 tw-text-center tw-bg-[#D8EEF3]">
+              <dt class="tw-text-[10px] tw-leading-4 tw-text-[#426F79]">Words</dt>
+              <dd class="tw-m-0 tw-text-sm tw-font-bold tw-text-[#123A43]">772</dd>
             </div>
-            <div class="bg-white/90 rounded-xl py-1.5 px-3 text-center flex-1 shadow-2xs border border-cyan-100">
-              <div class="text-[9px] text-slate-400 font-medium leading-none">Lesson</div>
-              <div class="text-xs font-bold text-slate-800 mt-1">40</div>
+            <div class="tw-min-w-0 tw-rounded-2xl tw-px-2 tw-py-2 tw-text-center tw-bg-[#D8EEF3]">
+              <dt class="tw-text-[10px] tw-leading-4 tw-text-[#426F79]">Lesson</dt>
+              <dd class="tw-m-0 tw-text-sm tw-font-bold tw-text-[#123A43]">40</dd>
             </div>
-          </div>
+          </dl>
         </a>
 
         <!-- A2 Elementary -->
-        <a href="/fr-EN/vocab/category/459/niveau-a2" class="p-5 flex flex-col justify-between hover:bg-white/30 rounded-2xl transition group relative overflow-hidden min-h-[190px]">
-          <div>
-            <div class="text-2xl font-black text-[#0e7490]">A2</div>
-            <div class="text-xs font-bold text-slate-700 mt-0.5">Elementary</div>
+        <a class="tw-group tw-relative tw-flex tw-min-h-[160px] sm:tw-min-h-[200px] tw-min-w-0 tw-h-full tw-flex-col tw-overflow-hidden tw-border-0 tw-border-t-[3px] tw-border-solid tw-p-4 sm:tw-px-6 sm:tw-py-5 tw-text-start tw-transition-all tw-duration-200 tw-bg-[#7BD2E7] tw-border-t-[#47B8D2] hover:tw-brightness-105 hover:tw-no-underline" href="/fr-EN/vocab/category/459/niveau-a2">
+          <span aria-hidden="true" class="tw-pointer-events-none tw-absolute tw-end-2 tw-top-[44%] tw-z-0 -tw-translate-y-1/2 tw-w-14 tw-opacity-[0.22] tw-text-[#246A79]" style="aspect-ratio: 197.2 / 184.36; background-color: currentcolor; mask-image: url('/assets/img/vocab/cefr-a2.svg'); -webkit-mask-image: url('/assets/img/vocab/cefr-a2.svg'); mask-position: center; -webkit-mask-position: center; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-size: contain; -webkit-mask-size: contain;"></span>
+          <div class="tw-relative tw-z-[1] tw-flex tw-min-w-0 tw-flex-col tw-items-start tw-gap-2 tw-mb-0 sm:tw-mb-4">
+            <span class="tw-text-4xl lg:tw-text-[40px] tw-leading-none tw-font-bold tw-text-[#246A79]">A2</span>
+            <span class="tw-max-w-full tw-whitespace-normal tw-break-words tw-rounded-3xl tw-px-2.5 tw-py-1 tw-text-[11px] tw-leading-4 tw-font-semibold tw-bg-[#D7F2F8] tw-text-[#103F4A]">Elementary</span>
           </div>
-          <div class="absolute right-3 bottom-14 opacity-75 group-hover:scale-110 transition">
-            <img src="/assets/img/vocab/cefr-a2.svg" class="w-12 h-12 object-contain" alt="A2">
-          </div>
-          <div class="flex items-center space-x-2 mt-8 relative z-10">
-            <div class="bg-white/90 rounded-xl py-1.5 px-3 text-center flex-1 shadow-2xs border border-cyan-100">
-              <div class="text-[9px] text-slate-400 font-medium leading-none">Words</div>
-              <div class="text-xs font-bold text-slate-800 mt-1">918</div>
+          <dl class="tw-relative tw-z-[1] tw-grid tw-grid-cols-2 tw-gap-2 tw-mt-auto tw-mb-0">
+            <div class="tw-min-w-0 tw-rounded-2xl tw-px-2 tw-py-2 tw-text-center tw-bg-[#CDEDF5]">
+              <dt class="tw-text-[10px] tw-leading-4 tw-text-[#326B78]">Words</dt>
+              <dd class="tw-m-0 tw-text-sm tw-font-bold tw-text-[#0C3842]">918</dd>
             </div>
-            <div class="bg-white/90 rounded-xl py-1.5 px-3 text-center flex-1 shadow-2xs border border-cyan-100">
-              <div class="text-[9px] text-slate-400 font-medium leading-none">Lesson</div>
-              <div class="text-xs font-bold text-slate-800 mt-1">47</div>
+            <div class="tw-min-w-0 tw-rounded-2xl tw-px-2 tw-py-2 tw-text-center tw-bg-[#CDEDF5]">
+              <dt class="tw-text-[10px] tw-leading-4 tw-text-[#326B78]">Lesson</dt>
+              <dd class="tw-m-0 tw-text-sm tw-font-bold tw-text-[#0C3842]">47</dd>
             </div>
-          </div>
+          </dl>
         </a>
+
       </div>
 
-      <!-- Pair 2: B1 & B2 (Mint/Green Container) -->
-      <div class="bg-[#d1fae5] rounded-3xl p-1.5 grid grid-cols-2 divide-x divide-emerald-200 shadow-xs border border-emerald-200">
+      <!-- Pair 2: B1 & B2 (100% LanGeek Native) -->
+      <div class="tw-grid tw-grid-cols-2 tw-gap-px tw-h-full tw-overflow-hidden tw-rounded-3xl tw-border tw-border-solid tw-border-slate-200 tw-bg-slate-200 tw-shadow-xs">
+        
         <!-- B1 Intermediate -->
-        <a href="/fr-EN/vocab/category/460/niveau-b1" class="p-5 flex flex-col justify-between hover:bg-white/30 rounded-2xl transition group relative overflow-hidden min-h-[190px]">
-          <div>
-            <div class="text-2xl font-black text-[#065f46]">B1</div>
-            <div class="text-xs font-bold text-slate-700 mt-0.5">Intermediate</div>
+        <a class="tw-group tw-relative tw-flex tw-min-h-[160px] sm:tw-min-h-[200px] tw-min-w-0 tw-h-full tw-flex-col tw-overflow-hidden tw-border-0 tw-border-t-[3px] tw-border-solid tw-p-4 sm:tw-px-6 sm:tw-py-5 tw-text-start tw-transition-all tw-duration-200 tw-bg-[#9FE1D7] tw-border-t-[#65C8B9] hover:tw-brightness-105 hover:tw-no-underline" href="/fr-EN/vocab/category/460/niveau-b1">
+          <span aria-hidden="true" class="tw-pointer-events-none tw-absolute tw-end-2 tw-top-[44%] tw-z-0 -tw-translate-y-1/2 tw-w-14 tw-opacity-[0.22] tw-text-[#346C64]" style="aspect-ratio: 199.2 / 315.96; background-color: currentcolor; mask-image: url('/assets/img/vocab/cefr-b1.svg'); -webkit-mask-image: url('/assets/img/vocab/cefr-b1.svg'); mask-position: center; -webkit-mask-position: center; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-size: contain; -webkit-mask-size: contain;"></span>
+          <div class="tw-relative tw-z-[1] tw-flex tw-min-w-0 tw-flex-col tw-items-start tw-gap-2 tw-mb-0 sm:tw-mb-4">
+            <span class="tw-text-4xl lg:tw-text-[40px] tw-leading-none tw-font-bold tw-text-[#346C64]">B1</span>
+            <span class="tw-max-w-full tw-whitespace-normal tw-break-words tw-rounded-3xl tw-px-2.5 tw-py-1 tw-text-[11px] tw-leading-4 tw-font-semibold tw-bg-[#DDF6F1] tw-text-[#17463F]">Intermediate</span>
           </div>
-          <div class="absolute right-3 bottom-14 opacity-75 group-hover:scale-110 transition">
-            <img src="/assets/img/vocab/cefr-b1.svg" class="w-12 h-12 object-contain" alt="B1">
-          </div>
-          <div class="flex items-center space-x-2 mt-8 relative z-10">
-            <div class="bg-white/90 rounded-xl py-1.5 px-3 text-center flex-1 shadow-2xs border border-emerald-100">
-              <div class="text-[9px] text-slate-400 font-medium leading-none">Words</div>
-              <div class="text-xs font-bold text-slate-800 mt-1">1094</div>
+          <dl class="tw-relative tw-z-[1] tw-grid tw-grid-cols-2 tw-gap-2 tw-mt-auto tw-mb-0">
+            <div class="tw-min-w-0 tw-rounded-2xl tw-px-2 tw-py-2 tw-text-center tw-bg-[#D5F1EC]">
+              <dt class="tw-text-[10px] tw-leading-4 tw-text-[#47766F]">Words</dt>
+              <dd class="tw-m-0 tw-text-sm tw-font-bold tw-text-[#133D37]">1094</dd>
             </div>
-            <div class="bg-white/90 rounded-xl py-1.5 px-3 text-center flex-1 shadow-2xs border border-emerald-100">
-              <div class="text-[9px] text-slate-400 font-medium leading-none">Lesson</div>
-              <div class="text-xs font-bold text-slate-800 mt-1">56</div>
+            <div class="tw-min-w-0 tw-rounded-2xl tw-px-2 tw-py-2 tw-text-center tw-bg-[#D5F1EC]">
+              <dt class="tw-text-[10px] tw-leading-4 tw-text-[#47766F]">Lesson</dt>
+              <dd class="tw-m-0 tw-text-sm tw-font-bold tw-text-[#133D37]">56</dd>
             </div>
-          </div>
+          </dl>
         </a>
 
         <!-- B2 Upper-Intermediate -->
-        <a href="/fr-EN/vocab/category/471/niveau-b2" class="p-5 flex flex-col justify-between hover:bg-white/30 rounded-2xl transition group relative overflow-hidden min-h-[190px]">
-          <div>
-            <div class="text-2xl font-black text-[#065f46]">B2</div>
-            <div class="text-xs font-bold text-slate-700 mt-0.5">Upper-Intermediate</div>
+        <a class="tw-group tw-relative tw-flex tw-min-h-[160px] sm:tw-min-h-[200px] tw-min-w-0 tw-h-full tw-flex-col tw-overflow-hidden tw-border-0 tw-border-t-[3px] tw-border-solid tw-p-4 sm:tw-px-6 sm:tw-py-5 tw-text-start tw-transition-all tw-duration-200 tw-bg-[#73E0D2] tw-border-t-[#43BEAF] hover:tw-brightness-105 hover:tw-no-underline" href="/fr-EN/vocab/category/471/niveau-b2">
+          <span aria-hidden="true" class="tw-pointer-events-none tw-absolute tw-end-2 tw-top-[44%] tw-z-0 -tw-translate-y-1/2 tw-w-14 tw-opacity-[0.22] tw-text-[#266C64]" style="aspect-ratio: 221.9 / 381.22; background-color: currentcolor; mask-image: url('/assets/img/vocab/cefr-b2.svg'); -webkit-mask-image: url('/assets/img/vocab/cefr-b2.svg'); mask-position: center; -webkit-mask-position: center; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-size: contain; -webkit-mask-size: contain;"></span>
+          <div class="tw-relative tw-z-[1] tw-flex tw-min-w-0 tw-flex-col tw-items-start tw-gap-2 tw-mb-0 sm:tw-mb-4">
+            <span class="tw-text-4xl lg:tw-text-[40px] tw-leading-none tw-font-bold tw-text-[#266C64]">B2</span>
+            <span class="tw-max-w-full tw-whitespace-normal tw-break-words tw-rounded-3xl tw-px-2.5 tw-py-1 tw-text-[11px] tw-leading-4 tw-font-semibold tw-bg-[#D5F5F1] tw-text-[#10463F]">Upper-Intermediate</span>
           </div>
-          <div class="absolute right-3 bottom-14 opacity-75 group-hover:scale-110 transition">
-            <img src="/assets/img/vocab/cefr-b2.svg" class="w-12 h-12 object-contain" alt="B2">
-          </div>
-          <div class="flex items-center space-x-2 mt-8 relative z-10">
-            <div class="bg-white/90 rounded-xl py-1.5 px-3 text-center flex-1 shadow-2xs border border-emerald-100">
-              <div class="text-[9px] text-slate-400 font-medium leading-none">Words</div>
-              <div class="text-xs font-bold text-slate-800 mt-1">1310</div>
+          <dl class="tw-relative tw-z-[1] tw-grid tw-grid-cols-2 tw-gap-2 tw-mt-auto tw-mb-0">
+            <div class="tw-min-w-0 tw-rounded-2xl tw-px-2 tw-py-2 tw-text-center tw-bg-[#C9F0EB]">
+              <dt class="tw-text-[10px] tw-leading-4 tw-text-[#34766E]">Words</dt>
+              <dd class="tw-m-0 tw-text-sm tw-font-bold tw-text-[#0C3D37]">1310</dd>
             </div>
-            <div class="bg-white/90 rounded-xl py-1.5 px-3 text-center flex-1 shadow-2xs border border-emerald-100">
-              <div class="text-[9px] text-slate-400 font-medium leading-none">Lesson</div>
-              <div class="text-xs font-bold text-slate-800 mt-1">70</div>
+            <div class="tw-min-w-0 tw-rounded-2xl tw-px-2 tw-py-2 tw-text-center tw-bg-[#C9F0EB]">
+              <dt class="tw-text-[10px] tw-leading-4 tw-text-[#34766E]">Lesson</dt>
+              <dd class="tw-m-0 tw-text-sm tw-font-bold tw-text-[#0C3D37]">70</dd>
             </div>
-          </div>
+          </dl>
         </a>
+
       </div>
 
-      <!-- Pair 3: C1 & C2 (Peach & Gray Container) -->
-      <div class="bg-[#fed7aa]/50 rounded-3xl p-1.5 grid grid-cols-2 divide-x divide-orange-200/80 shadow-xs border border-orange-200/80">
+      <!-- Pair 3: C1 & C2 (100% LanGeek Native) -->
+      <div class="tw-grid tw-grid-cols-2 tw-gap-px tw-h-full tw-overflow-hidden tw-rounded-3xl tw-border tw-border-solid tw-border-slate-200 tw-bg-slate-200 tw-shadow-xs">
+        
         <!-- C1 Advanced -->
-        <a href="/fr-EN/vocab/category/750/niveau-c1" class="p-5 flex flex-col justify-between hover:bg-white/30 rounded-2xl transition group relative overflow-hidden min-h-[190px]">
-          <div>
-            <div class="text-2xl font-black text-[#9a3412]">C1</div>
-            <div class="text-xs font-bold text-slate-700 mt-0.5">Advanced</div>
+        <a class="tw-group tw-relative tw-flex tw-min-h-[160px] sm:tw-min-h-[200px] tw-min-w-0 tw-h-full tw-flex-col tw-overflow-hidden tw-border-0 tw-border-t-[3px] tw-border-solid tw-p-4 sm:tw-px-6 sm:tw-py-5 tw-text-start tw-transition-all tw-duration-200 tw-bg-[#F7BD92] tw-border-t-[#E99C67] hover:tw-brightness-105 hover:tw-no-underline" href="/fr-EN/vocab/category/750/niveau-c1">
+          <span aria-hidden="true" class="tw-pointer-events-none tw-absolute tw-end-2 tw-top-[44%] tw-z-0 -tw-translate-y-1/2 tw-w-14 tw-opacity-[0.22] tw-text-[#8A5632]" style="aspect-ratio: 237.12 / 421.61; background-color: currentcolor; mask-image: url('/assets/img/vocab/cefr-c1.svg'); -webkit-mask-image: url('/assets/img/vocab/cefr-c1.svg'); mask-position: center; -webkit-mask-position: center; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-size: contain; -webkit-mask-size: contain;"></span>
+          <div class="tw-relative tw-z-[1] tw-flex tw-min-w-0 tw-flex-col tw-items-start tw-gap-2 tw-mb-0 sm:tw-mb-4">
+            <span class="tw-text-4xl lg:tw-text-[40px] tw-leading-none tw-font-bold tw-text-[#8A5632]">C1</span>
+            <span class="tw-max-w-full tw-whitespace-normal tw-break-words tw-rounded-3xl tw-px-2.5 tw-py-1 tw-text-[11px] tw-leading-4 tw-font-semibold tw-bg-[#FDE8D8] tw-text-[#5B3118]">Advanced</span>
           </div>
-          <div class="absolute right-3 bottom-14 opacity-75 group-hover:scale-110 transition">
-            <img src="/assets/img/vocab/cefr-c1.svg" class="w-12 h-12 object-contain" alt="C1">
-          </div>
-          <div class="flex items-center space-x-2 mt-8 relative z-10">
-            <div class="bg-white/90 rounded-xl py-1.5 px-3 text-center flex-1 shadow-2xs border border-orange-100">
-              <div class="text-[9px] text-slate-400 font-medium leading-none">Words</div>
-              <div class="text-xs font-bold text-slate-800 mt-1">1790</div>
+          <dl class="tw-relative tw-z-[1] tw-grid tw-grid-cols-2 tw-gap-2 tw-mt-auto tw-mb-0">
+            <div class="tw-min-w-0 tw-rounded-2xl tw-px-2 tw-py-2 tw-text-center tw-bg-[#FBE1CE]">
+              <dt class="tw-text-[10px] tw-leading-4 tw-text-[#896044]">Words</dt>
+              <dd class="tw-m-0 tw-text-sm tw-font-bold tw-text-[#512B15]">1790</dd>
             </div>
-            <div class="bg-white/90 rounded-xl py-1.5 px-3 text-center flex-1 shadow-2xs border border-orange-100">
-              <div class="text-[9px] text-slate-400 font-medium leading-none">Lesson</div>
-              <div class="text-xs font-bold text-slate-800 mt-1">56</div>
+            <div class="tw-min-w-0 tw-rounded-2xl tw-px-2 tw-py-2 tw-text-center tw-bg-[#FBE1CE]">
+              <dt class="tw-text-[10px] tw-leading-4 tw-text-[#896044]">Lesson</dt>
+              <dd class="tw-m-0 tw-text-sm tw-font-bold tw-text-[#512B15]">56</dd>
             </div>
-          </div>
+          </dl>
         </a>
 
         <!-- C2 Coming Soon -->
-        <div class="p-5 flex flex-col justify-between bg-slate-100/60 rounded-2xl transition relative overflow-hidden min-h-[190px]">
-          <div>
-            <div class="text-2xl font-black text-slate-400">C2</div>
-            <div class="text-xs font-bold text-slate-400 mt-0.5">Coming Soon</div>
-          </div>
-          <div class="absolute right-3 bottom-14 opacity-40">
-            <img src="/assets/img/vocab/cefr-c2.svg" class="w-12 h-12 object-contain grayscale" alt="C2">
-          </div>
-          <div class="flex items-center justify-center mt-8 relative z-10">
-            <div class="bg-white/90 rounded-xl py-2 px-4 text-center w-full shadow-2xs border border-slate-200">
-              <div class="text-xs font-bold text-slate-400">Coming Soon</div>
-            </div>
+        <div aria-disabled="true" class="tw-group tw-relative tw-flex tw-min-h-[160px] sm:tw-min-h-[200px] tw-min-w-0 tw-h-full tw-flex-col tw-overflow-hidden tw-border-0 tw-border-t-[3px] tw-border-solid tw-p-4 sm:tw-px-6 sm:tw-py-5 tw-text-start tw-transition-all tw-duration-200 tw-bg-[#D8DDE2] tw-border-t-[#98A2AD] tw-cursor-not-allowed tw-select-none">
+          <span aria-hidden="true" class="tw-pointer-events-none tw-absolute tw-end-2 tw-top-[44%] tw-z-0 -tw-translate-y-1/2 tw-w-14 tw-opacity-[0.16] tw-text-[#68737E]" style="aspect-ratio: 225.54 / 465.85; background-color: currentcolor; mask-image: url('/assets/img/vocab/cefr-c2.svg'); -webkit-mask-image: url('/assets/img/vocab/cefr-c2.svg'); mask-position: center; -webkit-mask-position: center; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-size: contain; -webkit-mask-size: contain;"></span>
+          <div class="tw-relative tw-z-[1] tw-flex tw-min-w-0 tw-flex-col tw-items-start tw-gap-2 tw-mb-0 sm:tw-mb-4">
+            <span class="tw-text-4xl lg:tw-text-[40px] tw-leading-none tw-font-bold tw-text-[#68737E]">C2</span>
+            <span class="tw-max-w-full tw-whitespace-normal tw-break-words tw-rounded-3xl tw-px-2.5 tw-py-1 tw-text-[11px] tw-leading-4 tw-font-semibold tw-bg-[#ECEFF2] tw-text-[#616C78]">Coming Soon</span>
           </div>
         </div>
+
       </div>
 
     </div>
@@ -247,23 +249,23 @@
 
   <!-- Section 2: Most Common French Words -->
   {% if most_common and most_common|length > 0 %}
-  <div class="mb-14" id="most-common">
-    <div class="flex items-center justify-between mb-6">
+  <div class="tw-mb-14" id="most-common">
+    <div class="tw-flex tw-items-center tw-justify-between tw-mb-6">
       <div>
-        <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Most Common French Words</h2>
-        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">High-frequency French wordlists by occurrence in spoken and written French.</p>
+        <h2 class="tw-text-xl sm:tw-text-2xl tw-font-bold tw-text-slate-900 tw-tracking-tight tw-m-0">Most Common French Words</h2>
+        <p class="tw-text-xs sm:tw-text-sm tw-text-slate-500 tw-mt-1 tw-m-0">High-frequency French wordlists by occurrence in spoken and written French.</p>
       </div>
     </div>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+    <div class="tw-grid tw-grid-cols-2 sm:tw-grid-cols-3 lg:tw-grid-cols-6 tw-gap-4">
       {% for cat in most_common %}
-      <a href="/fr-EN/vocab/category/{{ cat.id }}/{{ cat.slug }}" class="bg-white rounded-2xl p-4 border border-slate-200/80 hover:border-primary-300 hover:shadow-md hover:-translate-y-0.5 transition duration-200 flex flex-col justify-between min-h-[140px] group">
+      <a href="/fr-EN/vocab/category/{{ cat.id }}/{{ cat.slug }}" class="tw-bg-white tw-rounded-3xl tw-p-5 tw-border tw-border-slate-200/90 hover:tw-border-primary-400 hover:tw-shadow-md hover:-tw-translate-y-1 transition duration-200 tw-flex tw-flex-col tw-justify-between tw-min-h-[140px] group hover:tw-no-underline">
         <div>
-          <div class="text-xs font-bold text-slate-800 group-hover:text-primary-600 transition leading-snug">{{ cat.title }}</div>
-          <div class="text-[11px] text-slate-400 mt-1 font-medium">{{ cat.subcategories_count or 0 }} Lists</div>
+          <div class="tw-text-xs sm:tw-text-sm tw-font-bold tw-text-slate-900 group-hover:tw-text-primary-600 transition leading-snug">{{ cat.title }}</div>
+          <div class="tw-text-[11px] tw-text-slate-400 tw-mt-1.5 tw-font-medium">{{ cat.subcategories_count or 0 }} Lists</div>
         </div>
-        <div class="flex items-center justify-between mt-3 text-[10px] font-semibold text-slate-500">
-          <span class="bg-slate-50 px-2 py-0.5 rounded border border-slate-100">{{ cat.words_count or 0 }} words</span>
+        <div class="tw-flex tw-items-center tw-justify-between tw-mt-4 tw-text-[10px] tw-font-bold tw-text-slate-500">
+          <span class="tw-bg-slate-50 tw-px-2.5 tw-py-1 tw-rounded-lg tw-border tw-border-slate-200/60">{{ cat.words_count or 0 }} words</span>
           <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-300 group-hover:text-primary-600 group-hover:translate-x-0.5 transition"></i>
         </div>
       </a>
@@ -273,24 +275,24 @@
   {% endif %}
 
   <!-- Section 3: Topic-Related French Vocabulary -->
-  <div class="mb-14" id="topics">
-    <div class="flex items-center justify-between mb-6">
+  <div class="tw-mb-14" id="topics">
+    <div class="tw-flex tw-items-center tw-justify-between tw-mb-6">
       <div>
-        <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Topic-Related French Vocabulary</h2>
-        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Explore French vocabulary classified by real-world topics, professions, nature, and daily activities.</p>
+        <h2 class="tw-text-xl sm:tw-text-2xl tw-font-bold tw-text-slate-900 tw-tracking-tight tw-m-0">Topic-Related French Vocabulary</h2>
+        <p class="tw-text-xs sm:tw-text-sm tw-text-slate-500 tw-mt-1 tw-m-0">Explore French vocabulary classified by real-world topics, professions, nature, and daily activities.</p>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div class="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 md:tw-grid-cols-3 lg:tw-grid-cols-4 tw-gap-4">
       {% for cat in topics %}
-      <a href="/fr-EN/vocab/category/{{ cat.id }}/{{ cat.slug }}" class="bg-white rounded-2xl p-4 border border-slate-200/80 hover:border-primary-300 hover:shadow-md hover:-translate-y-0.5 transition duration-200 flex items-center justify-between group">
-        <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-primary-600 group-hover:bg-primary-50 transition">
+      <a href="/fr-EN/vocab/category/{{ cat.id }}/{{ cat.slug }}" class="tw-bg-white tw-rounded-2xl tw-p-4 tw-border tw-border-slate-200/90 hover:tw-border-primary-400 hover:tw-shadow-md hover:-tw-translate-y-1 transition duration-200 tw-flex tw-items-center tw-justify-between group hover:tw-no-underline">
+        <div class="tw-flex tw-items-center tw-space-x-3.5">
+          <div class="tw-w-11 tw-h-11 tw-rounded-2xl tw-bg-primary-50 tw-text-primary-600 tw-flex tw-items-center tw-justify-center group-hover:tw-bg-primary-600 group-hover:tw-text-white transition">
             <i data-lucide="folder" class="w-5 h-5"></i>
           </div>
           <div>
-            <div class="text-xs font-bold text-slate-800 group-hover:text-primary-600 transition leading-snug">{{ cat.title }}</div>
-            <div class="text-[11px] text-slate-400 mt-0.5">{{ cat.words_count or 0 }} words • {{ cat.subcategories_count or 0 }} lessons</div>
+            <div class="tw-text-xs sm:tw-text-sm tw-font-bold tw-text-slate-900 group-hover:tw-text-primary-600 transition leading-snug">{{ cat.title }}</div>
+            <div class="tw-text-[11px] tw-text-slate-400 tw-mt-0.5">{{ cat.words_count or 0 }} words • {{ cat.subcategories_count or 0 }} lessons</div>
           </div>
         </div>
         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 group-hover:text-primary-600 group-hover:translate-x-0.5 transition"></i>

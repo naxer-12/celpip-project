@@ -3,153 +3,174 @@
 {% block title %}Learn French Online 🇫🇷 LanGeek{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="tw-w-full old-container tw-mx-auto tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-py-6">
 
-  <!-- Language Switcher Pill Header (Matches Reference Image 3 Exactly) -->
-  <div class="flex justify-center mb-10">
-    <div class="inline-flex bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200/80 shadow-xs space-x-1">
-      <a href="/es" class="flex items-center space-x-2.5 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-        <img src="/assets/img/flags/es-rectangle.svg" class="w-5 h-3.5 rounded-xs shadow-xs object-cover" alt="Spanish">
-        <div class="text-left">
-          <div class="leading-tight font-bold">Spanish</div>
-          <div class="text-[10px] text-slate-400 font-normal">español</div>
-        </div>
-      </a>
+  <!-- Language Switcher Bar (100% Identical to Real LanGeek) -->
+  <div class="tw-flex tw-justify-center tw-mt-4 tw-relative tw-z-10 tw-w-full lg:tw-mb-6 sm:tw-mb-4">
+    <span class="tw-absolute tw-top-1/2 -tw-translate-y-1/2 tw-bg-blue-light-6 tw-h-4 tw-w-full tw-left-0 -tw-z-10"></span>
+    <div class="tw-flex tw-items-center">
       
-      <!-- Active French Tab -->
-      <a href="/fr-EN" class="flex items-center space-x-2.5 px-4 py-2 rounded-xl text-xs font-semibold bg-white text-primary-600 shadow-sm border border-slate-200/80 transition">
-        <img src="/assets/img/flags/fr-rectangle.svg" class="w-5 h-3.5 rounded-xs shadow-xs object-cover" alt="French">
-        <div class="text-left">
-          <div class="leading-tight font-bold">French</div>
-          <div class="text-[10px] text-primary-500 font-medium">français</div>
-        </div>
-      </a>
+      <!-- Spanish -->
+      <div class="tw-relative">
+        <a class="tw-text-title tw-flex tw-flex-col md:tw-flex-row tw-gap-2 sm:tw-gap-4 tw-px-3 md:tw-px-6 tw-py-3 tw-border-solid tw-border-blue-light-6 tw-border-[6px] tw-bg-blue-light-3 tw-items-center tw-justify-center tw-rounded-3xl hover:tw-no-underline transition" href="/es">
+          <img src="/assets/img/flags/es-rectangle.svg" alt="es" width="75" height="40" class="tw-rounded-[8px] tw-w-10 sm:tw-w-[50px] lg:tw-w-[70px]">
+          <div class="tw-flex tw-flex-col text-left">
+            <b class="tw-text-sm lg:tw-text-base">Spanish</b>
+            <span class="tw-hidden sm:tw-block tw-text-gray-400 tw-text-xs">español</span>
+          </div>
+        </a>
+      </div>
 
-      <a href="/de" class="flex items-center space-x-2.5 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-        <img src="/assets/img/flags/de-rectangle.svg" class="w-5 h-3.5 rounded-xs shadow-xs object-cover" alt="German">
-        <div class="text-left">
-          <div class="leading-tight font-bold">German</div>
-          <div class="text-[10px] text-slate-400 font-normal">Deutsch</div>
-        </div>
-      </a>
+      <!-- French (Active Highlighted Tab) -->
+      <div class="tw-relative">
+        <a class="tw-text-title tw-flex tw-flex-col md:tw-flex-row tw-gap-2 sm:tw-gap-4 tw-px-3 md:tw-px-6 tw-py-3 tw-border-solid tw-border-blue-light-6 tw-border-[6px] tw-bg-blue-light-3 tw-items-center tw-justify-center tw-rounded-3xl tw-ms-2 sm:tw-ms-4 md:tw-ms-6 !tw-bg-[#C8DBFC] !tw-border-[#C8DBFC] dark:!tw-bg-[#1A3570] dark:!tw-border-[#1A3570] hover:tw-no-underline transition shadow-xs" href="/fr-EN">
+          <img src="/assets/img/flags/fr-rectangle.svg" alt="fr" width="75" height="40" class="tw-rounded-[8px] tw-w-10 sm:tw-w-[50px] lg:tw-w-[70px]">
+          <div class="tw-text-[#1d4ed8] tw-flex tw-flex-col text-left">
+            <b class="tw-text-sm lg:tw-text-base">French</b>
+            <span class="tw-hidden sm:tw-block tw-text-gray-400 tw-text-[#1d4ed8] tw-text-xs">français</span>
+          </div>
+        </a>
+      </div>
 
-      <a href="/en" class="flex items-center space-x-2.5 px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-        <img src="/assets/img/flags/en-rectangle.svg" class="w-5 h-3.5 rounded-xs shadow-xs object-cover" alt="English">
-        <div class="text-left">
-          <div class="leading-tight font-bold">English</div>
-          <div class="text-[10px] text-slate-400 font-normal">English</div>
-        </div>
-      </a>
+      <!-- German -->
+      <div class="tw-relative">
+        <a class="tw-text-title tw-flex tw-flex-col md:tw-flex-row tw-gap-2 sm:tw-gap-4 tw-px-3 md:tw-px-6 tw-py-3 tw-border-solid tw-border-blue-light-6 tw-border-[6px] tw-bg-blue-light-3 tw-items-center tw-justify-center tw-rounded-3xl tw-ms-2 sm:tw-ms-4 md:tw-ms-6 hover:tw-no-underline transition" href="/de">
+          <img src="/assets/img/flags/de-rectangle.svg" alt="de" width="75" height="40" class="tw-rounded-[8px] tw-w-10 sm:tw-w-[50px] lg:tw-w-[70px]">
+          <div class="tw-flex tw-flex-col text-left">
+            <b class="tw-text-sm lg:tw-text-base">German</b>
+            <span class="tw-hidden sm:tw-block tw-text-gray-400 tw-text-xs">Deutsch</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- English -->
+      <div class="tw-relative">
+        <a class="tw-text-title tw-flex tw-flex-col md:tw-flex-row tw-gap-2 sm:tw-gap-4 tw-px-3 md:tw-px-6 tw-py-3 tw-border-solid tw-border-blue-light-6 tw-border-[6px] tw-bg-blue-light-3 tw-items-center tw-justify-center tw-rounded-3xl tw-ms-2 sm:tw-ms-4 md:tw-ms-6 hover:tw-no-underline transition" href="/en">
+          <img src="/assets/img/flags/en-rectangle.svg" alt="en" width="75" height="40" class="tw-rounded-[8px] tw-w-10 sm:tw-w-[50px] lg:tw-w-[70px]">
+          <div class="tw-flex tw-flex-col text-left">
+            <b class="tw-text-sm lg:tw-text-base">English</b>
+            <span class="tw-hidden sm:tw-block tw-text-gray-400 tw-text-xs">English</span>
+          </div>
+        </a>
+      </div>
+
     </div>
   </div>
 
-  <!-- Hero Headline (Matches Reference Image 3) -->
-  <div class="text-center max-w-3xl mx-auto mb-14">
-    <div class="flex items-center justify-center space-x-3 mb-3">
-      <img src="/assets/img/flags/fr-rectangle.svg" class="w-7 h-5 rounded-xs shadow-xs object-cover" alt="French">
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-        Learn French with <span class="bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent">LanGeek</span>
+  <!-- Hero Headline (100% Identical to Real LanGeek) -->
+  <div class="tw-text-center tw-max-w-4xl tw-mx-auto tw-my-10">
+    <div class="tw-flex tw-items-center tw-justify-center tw-gap-3 sm:tw-gap-4 tw-mb-3">
+      <img src="/assets/img/flags/fr-rectangle.svg" alt="fr" width="40" height="26" class="tw-rounded-[4px] tw-w-8 sm:tw-w-10 shadow-xs">
+      <h1 class="tw-text-3xl sm:tw-text-5xl tw-font-bold tw-text-slate-900 tw-m-0">
+        Learn French with <span class="tw-text-[#2563eb]">LanGeek</span>
       </h1>
-      <img src="/assets/img/flags/fr-rectangle.svg" class="w-7 h-5 rounded-xs shadow-xs object-cover" alt="French">
+      <img src="/assets/img/flags/fr-rectangle.svg" alt="fr" width="40" height="26" class="tw-rounded-[4px] tw-w-8 sm:tw-w-10 shadow-xs">
     </div>
-    <p class="text-sm sm:text-base text-slate-600 font-medium">
+    <p class="tw-text-slate-500 tw-text-sm sm:tw-text-base tw-font-normal tw-m-0">
       LanGeek is a language learning platform that makes your learning process faster and easier.
     </p>
   </div>
 
-  <!-- 5 Core Category Feature Cards (Pixel-Perfect from Reference Image 3) -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-
-    <!-- Card 1: Vocabulary (Sky Blue #6ec1e4 / #7dd3fc) -->
-    <a href="/fr-EN/vocab" class="relative group block rounded-3xl p-6 bg-[#6ec1e4] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[360px] flex flex-col items-center justify-center text-center">
-      <!-- Background SVG corner textures -->
-      <img src="/assets/img/home/vocab-card-pattern1.svg" class="absolute top-0 right-0 w-28 h-28 opacity-40 pointer-events-none" alt="" aria-hidden="true">
-      <img src="/assets/img/home/vocab-card-pattern2.svg" class="absolute bottom-0 left-0 w-28 h-28 opacity-40 pointer-events-none" alt="" aria-hidden="true">
-
-      <div class="relative z-10 flex flex-col items-center">
-        <div class="w-20 h-20 rounded-full bg-white/70 backdrop-blur shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
-          <i data-lucide="layers" class="w-10 h-10 text-[#0284c7]"></i>
+  <!-- 5 Feature Cards (100% Exact LanGeek Staggered Wave Layout: 100% -> 75% -> 85% -> 75% -> 100%) -->
+  <div class="tw-grid tw-grid-cols-2 tw-grid-rows-10 tw-gap-3 tw-px-2 sm:tw-px-4 tw-h-[460px] lg:tw-flex lg:tw-flex-row lg:tw-items-end lg:tw-h-[380px] tw-my-12">
+    
+    <!-- Card 1: Vocabulary (100% height, #85C8DE) -->
+    <div class="tw-relative tw-col-start-1 tw-row-start-1 tw-row-span-6 lg:tw-px-2 lg:tw-py-0 xl:tw-px-3 lg:tw-h-[100%] lg:tw-flex-1">
+      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="Learn French Vocabulary" href="/fr-EN/vocab">
+        <div class="tw-relative tw-w-full tw-h-full tw-bg-[#85C8DE] tw-rounded-3xl tw-flex tw-text-black tw-overflow-hidden shadow-xs hover:shadow-md transition" style="background-color: #85C8DE;">
+          <div class="tw-p-5 tw-pt-10 lg:tw-pt-6 tw-relative tw-w-full lg:tw-flex tw-flex-col lg:tw-mx-auto lg:tw-my-auto lg:tw-items-center tw-gap-2">
+            <div class="tw-absolute tw-bottom-5 tw-block tw-right-5 lg:tw-relative lg:tw-bottom-0 lg:tw-right-0 tw-p-3.5 tw-rounded-full tw-bg-[#0000001A]">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="tw-text-white tw-w-6 tw-h-6 sm:tw-w-8 sm:tw-h-8 lg:tw-w-12 lg:tw-h-12">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m21.66 10.44-.98 4.18c-.84 3.61-2.5 5.07-5.62 4.77q-.75-.06-1.62-.27l-1.68-.4c-4.17-.99-5.46-3.05-4.48-7.23l.98-4.19c.2-.85.44-1.59.74-2.2 1.17-2.42 3.16-3.07 6.5-2.28l1.67.39c4.19.98 5.47 3.05 4.49 7.23"></path>
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.06 19.39c-.62.42-1.4.77-2.35 1.08l-1.58.52c-3.97 1.28-6.06.21-7.35-3.76L2.5 13.28c-1.28-3.97-.22-6.07 3.75-7.35l1.58-.52c.41-.13.8-.24 1.17-.31-.3.61-.54 1.35-.74 2.2l-.98 4.19c-.98 4.18.31 6.24 4.48 7.23l1.68.4q.87.21 1.62.27M12.64 8.53l4.85 1.23M11.66 12.4l2.9.74"></path>
+              </svg>
+            </div>
+            <h2 class="tw-m-0 tw-text-sm sm:tw-text-lg lg:tw-text-xl tw-font-bold text-center">Vocabulary</h2>
+            <p class="lg:tw-text-center tw-m-0 lg:tw-text-base sm:tw-text-sm tw-text-xs font-medium">Learn French Vocabulary</p>
+          </div>
+          <img src="/assets/img/home/vocab-card-pattern2.svg" width="202" height="255" alt="" class="tw-absolute rtl:tw-scale-x-[-1] tw-right-0 -tw-top-10 sm:tw-top-0 ltr:tw-rounded-tr-3xl rtl:tw-rounded-tr-3xl tw-w-32 sm:tw-w-48 pointer-events-none opacity-80">
+          <img src="/assets/img/home/vocab-card-pattern1.svg" width="202" height="230" alt="" class="tw-absolute rtl:tw-scale-x-[-1] tw-left-0 -tw-bottom-10 sm:tw-bottom-0 ltr:tw-rounded-bl-3xl rtl:tw-rounded-bl-3xl tw-w-32 sm:tw-w-48 pointer-events-none opacity-80">
         </div>
-        <h3 class="text-xl font-extrabold tracking-tight mb-1 text-slate-900">Vocabulary</h3>
-        <p class="text-xs font-semibold text-slate-700">Learn French Vocabulary</p>
-      </div>
-    </a>
-
-    <!-- Card 2: Expressions (Warm Peach #f8b179 / #fed7aa) -->
-    <a href="/fr-EN/vocab#expressions" class="relative group block rounded-3xl p-6 bg-[#f8b179] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[360px] flex flex-col items-center justify-center text-center">
-      <!-- Subtle dot matrix pattern in background -->
-      <img src="/assets/img/home/expression-card-pattern.svg" class="absolute top-2 right-2 w-20 h-20 opacity-40 pointer-events-none" alt="" aria-hidden="true">
-      <img src="/assets/img/home/expression-card-pattern.svg" class="absolute bottom-2 left-2 w-20 h-20 opacity-40 pointer-events-none" alt="" aria-hidden="true">
-
-      <div class="relative z-10 flex flex-col items-center">
-        <div class="w-20 h-20 rounded-full bg-white/70 backdrop-blur shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
-          <i data-lucide="lightbulb" class="w-10 h-10 text-[#ea580c]"></i>
-        </div>
-        <h3 class="text-xl font-extrabold tracking-tight mb-1 text-slate-900">Expressions</h3>
-        <p class="text-xs font-semibold text-slate-700">Learn Expressions and Idioms</p>
-      </div>
-    </a>
-
-    <!-- Card 3: Reading (Soft Mint/Teal #51cdb4 / #5eead4) -->
-    <a href="/fr-EN/reading" class="relative group block rounded-3xl p-6 bg-[#51cdb4] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[360px] flex flex-col items-center justify-center text-center">
-      <!-- Concentric arches pattern -->
-      <img src="/assets/img/home/reading-card-pattern.svg" class="absolute top-0 right-0 w-24 h-24 opacity-40 pointer-events-none" alt="" aria-hidden="true">
-      <img src="/assets/img/home/reading-card-pattern.svg" class="absolute bottom-0 left-0 w-24 h-24 opacity-40 pointer-events-none rotate-180" alt="" aria-hidden="true">
-
-      <div class="relative z-10 flex flex-col items-center">
-        <div class="w-20 h-20 rounded-full bg-white/70 backdrop-blur shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
-          <i data-lucide="book-open" class="w-10 h-10 text-[#0f766e]"></i>
-        </div>
-        <h3 class="text-xl font-extrabold tracking-tight mb-1 text-slate-900">Reading</h3>
-        <p class="text-xs font-semibold text-slate-700">Reading comprehension</p>
-      </div>
-    </a>
-
-    <!-- Card 4: Pronunciation (Warm Golden Yellow #f5c767 / #fde047) -->
-    <a href="/fr-EN/pronunciation" class="relative group block rounded-3xl p-6 bg-[#f5c767] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[360px] flex flex-col items-center justify-center text-center">
-      <!-- Zigzag lines pattern -->
-      <img src="/assets/img/home/pronunciation-card-pattern.svg" class="absolute top-2 right-2 w-20 h-20 opacity-40 pointer-events-none" alt="" aria-hidden="true">
-      <img src="/assets/img/home/pronunciation-card-pattern.svg" class="absolute bottom-2 left-2 w-20 h-20 opacity-40 pointer-events-none" alt="" aria-hidden="true">
-
-      <div class="relative z-10 flex flex-col items-center">
-        <div class="w-20 h-20 rounded-full bg-white/70 backdrop-blur shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
-          <i data-lucide="message-circle" class="w-10 h-10 text-[#a16207]"></i>
-        </div>
-        <h3 class="text-xl font-extrabold tracking-tight mb-1 text-slate-900">Pronunciation</h3>
-        <p class="text-xs font-semibold text-slate-700">Pronunciation Lessons</p>
-      </div>
-    </a>
-
-    <!-- Card 5: Grammar (Terracotta / Coral Salmon #ea8774 / #fca5a5) -->
-    <a href="/fr-EN/grammar" class="relative group block rounded-3xl p-6 bg-[#ea8774] text-slate-900 overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 min-h-[360px] flex flex-col items-center justify-center text-center">
-      <!-- Leafy botanical pattern -->
-      <img src="/assets/img/home/grammar-card-pattern.svg" class="absolute top-0 right-0 w-24 h-24 opacity-40 pointer-events-none" alt="" aria-hidden="true">
-      <img src="/assets/img/home/grammar-card-pattern.svg" class="absolute bottom-0 left-0 w-24 h-24 opacity-40 pointer-events-none rotate-180" alt="" aria-hidden="true">
-
-      <div class="relative z-10 flex flex-col items-center">
-        <div class="w-20 h-20 rounded-full bg-white/70 backdrop-blur shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
-          <i data-lucide="book-marked" class="w-10 h-10 text-[#b91c1c]"></i>
-        </div>
-        <h3 class="text-xl font-extrabold tracking-tight mb-1 text-slate-900">Grammar</h3>
-        <p class="text-xs font-semibold text-slate-700">French Grammar lessons</p>
-      </div>
-    </a>
-
-  </div>
-
-  <!-- CEFR Quick Navigation Bar -->
-  <div class="mt-16 bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs flex flex-col md:flex-row items-center justify-between">
-    <div>
-      <h4 class="text-base font-bold text-slate-900">Start by CEFR Level</h4>
-      <p class="text-xs text-slate-500">From A1 Beginner to C1 Advanced French vocabulary and exams.</p>
+      </a>
     </div>
-    <div class="flex items-center space-x-2 mt-4 md:mt-0">
-      <a href="/fr-EN/vocab/category/457/niveau-a1" class="px-3.5 py-1.5 rounded-xl bg-teal-50 text-teal-700 font-bold text-xs hover:bg-teal-100 transition">A1</a>
-      <a href="/fr-EN/vocab/category/459/niveau-a2" class="px-3.5 py-1.5 rounded-xl bg-sky-50 text-sky-700 font-bold text-xs hover:bg-sky-100 transition">A2</a>
-      <a href="/fr-EN/vocab/category/460/niveau-b1" class="px-3.5 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 font-bold text-xs hover:bg-emerald-100 transition">B1</a>
-      <a href="/fr-EN/vocab/category/471/niveau-b2" class="px-3.5 py-1.5 rounded-xl bg-green-50 text-green-700 font-bold text-xs hover:bg-green-100 transition">B2</a>
-      <a href="/fr-EN/vocab/category/750/niveau-c1" class="px-3.5 py-1.5 rounded-xl bg-amber-50 text-amber-700 font-bold text-xs hover:bg-amber-100 transition">C1</a>
+
+    <!-- Card 2: Expressions (75% height, #FFAE7A) -->
+    <div class="tw-relative tw-col-start-2 tw-row-start-1 tw-row-span-4 lg:tw-px-2 lg:tw-py-0 xl:tw-px-3 lg:tw-h-[75%] lg:tw-flex-1">
+      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="French Expressions" href="/fr-EN/expressions">
+        <div class="tw-relative tw-w-full tw-h-full tw-bg-[#FFAE7A] tw-rounded-3xl tw-flex tw-text-black shadow-xs hover:shadow-md transition" style="background-color: #FFAE7A;">
+          <div class="tw-p-5 tw-pt-8 lg:tw-pt-5 tw-relative tw-w-full lg:tw-flex tw-flex-col lg:tw-mx-auto lg:tw-my-auto lg:tw-items-center tw-gap-2">
+            <div class="tw-absolute tw-bottom-5 tw-block tw-right-5 lg:tw-relative lg:tw-bottom-0 lg:tw-right-0 tw-p-3.5 tw-rounded-full tw-bg-[#0000001A]">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="tw-text-white tw-w-6 tw-h-6 sm:tw-w-8 sm:tw-h-8 lg:tw-w-12 lg:tw-h-12">
+                <path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9z"/>
+              </svg>
+            </div>
+            <h2 class="tw-m-0 tw-text-sm sm:tw-text-lg lg:tw-text-xl tw-font-bold text-center">Expressions</h2>
+            <p class="lg:tw-text-center tw-m-0 lg:tw-text-base sm:tw-text-sm tw-text-xs font-medium">Learn Expressions and Idioms</p>
+          </div>
+          <img src="/assets/img/home/expression-card-pattern.svg" width="56" height="56" alt="" class="tw-absolute tw-top-2 tw-right-2 tw-w-16 pointer-events-none opacity-60">
+          <img src="/assets/img/home/expression-card-pattern.svg" width="56" height="56" alt="" class="tw-absolute tw-bottom-2 tw-left-2 tw-w-16 pointer-events-none opacity-60">
+        </div>
+      </a>
     </div>
+
+    <!-- Card 3: Reading (85% height, #78E3D9) -->
+    <div class="tw-relative tw-col-start-1 tw-row-start-7 tw-row-span-4 lg:tw-px-2 lg:tw-py-0 xl:tw-px-3 lg:tw-h-[85%] lg:tw-flex-1">
+      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="French Reading Comprehension" href="/fr-EN/reading">
+        <div class="tw-relative tw-w-full tw-h-full tw-bg-[#78E3D9] tw-rounded-3xl tw-flex tw-text-black shadow-xs hover:shadow-md transition" style="background-color: #78E3D9;">
+          <div class="tw-p-5 null lg:tw-pt-5 tw-relative tw-w-full lg:tw-flex tw-flex-col lg:tw-mx-auto lg:tw-my-auto lg:tw-items-center tw-gap-2">
+            <div class="tw-absolute tw-bottom-5 tw-block tw-right-5 lg:tw-relative lg:tw-bottom-0 lg:tw-right-0 tw-p-3.5 tw-rounded-full tw-bg-[#0000001A]">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="tw-text-white tw-w-6 tw-h-6 sm:tw-w-8 sm:tw-h-8 lg:tw-w-12 lg:tw-h-12">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+              </svg>
+            </div>
+            <h2 class="tw-m-0 tw-text-sm sm:tw-text-lg lg:tw-text-xl tw-font-bold text-center">Reading</h2>
+            <p class="lg:tw-text-center tw-m-0 lg:tw-text-base sm:tw-text-sm tw-text-xs font-medium">Reading comprehension</p>
+          </div>
+          <img src="/assets/img/home/reading-card-pattern.svg" width="67" height="69" alt="" class="tw-absolute rtl:tw-scale-x-[1] tw-scale-x-[-1] tw-right-0 tw-top-0 ltr:tw-rounded-tl-3xl rtl:tw-rounded-tl-3xl tw-hidden sm:tw-block tw-w-16 pointer-events-none opacity-60">
+          <img src="/assets/img/home/reading-card-pattern.svg" width="67" height="69" alt="" class="tw-absolute rtl:tw-scale-x-[-1] tw-scale-y-[-1] lg:tw-scale-y-[1] tw-left-0 tw-bottom-0 lg:tw-top-0 ltr:tw-rounded-tl-3xl rtl:tw-rounded-tl-3xl tw-w-12 sm:tw-w-16 pointer-events-none opacity-60">
+        </div>
+      </a>
+    </div>
+
+    <!-- Card 4: Pronunciation (75% height, #FFD78A) -->
+    <div class="tw-relative tw-col-start-2 tw-row-start-5 tw-row-span-3 tw-px-2 lg:tw-py-0 xl:tw-px-3 lg:tw-h-[75%] lg:tw-flex-1">
+      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="French Pronunciation" href="/fr-EN/pronunciation">
+        <div class="tw-relative tw-w-full tw-h-full tw-bg-[#FFD78A] tw-rounded-3xl tw-flex tw-text-black shadow-xs hover:shadow-md transition" style="background-color: #FFD78A;">
+          <div class="tw-p-5 null lg:tw-pt-5 tw-relative tw-w-full lg:tw-flex tw-flex-col lg:tw-mx-auto lg:tw-my-auto lg:tw-items-center tw-gap-2">
+            <div class="tw-absolute tw-bottom-5 tw-block tw-right-5 lg:tw-relative lg:tw-bottom-0 lg:tw-right-0 tw-p-3.5 tw-rounded-full tw-bg-[#0000001A]">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="tw-text-white tw-w-6 tw-h-6 sm:tw-w-8 sm:tw-h-8 lg:tw-w-12 lg:tw-h-12">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m18.47 16.83.39 3.16c.1.83-.79 1.41-1.5.98l-4.19-2.49q-.69 0-1.35-.09A4.86 4.86 0 0 0 13 15.23c0-2.84-2.46-5.14-5.5-5.14-1.16 0-2.23.33-3.12.91-.03-.25-.04-.5-.04-.76C4.34 5.69 8.29 2 13.17 2S22 5.69 22 10.24c0 2.7-1.39 5.09-3.53 6.59"></path>
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 15.23c0 1.19-.44 2.29-1.18 3.16-.99 1.2-2.56 1.97-4.32 1.97l-2.61 1.55c-.44.27-1-.1-.94-.61l.25-1.97C2.86 18.4 2 16.91 2 15.23c0-1.76.94-3.31 2.38-4.23.89-.58 1.96-.91 3.12-.91 3.04 0 5.5 2.3 5.5 5.14"></path>
+              </svg>
+            </div>
+            <h2 class="tw-m-0 tw-text-sm sm:tw-text-lg lg:tw-text-xl tw-font-bold text-center">Pronunciation</h2>
+            <p class="lg:tw-text-center tw-m-0 lg:tw-text-base sm:tw-text-sm tw-text-xs font-medium">Pronunciation Lessons</p>
+          </div>
+          <img src="/assets/img/home/pronunciation-card-pattern.svg" width="70" height="40" alt="" class="tw-absolute tw-right-0 tw-top-4 tw-hidden sm:tw-block pointer-events-none opacity-60">
+          <img src="/assets/img/home/pronunciation-card-pattern.svg" width="70" height="40" alt="" class="tw-absolute tw-left-0 tw-bottom-4 tw-block tw-w-12 sm:tw-w-16 pointer-events-none opacity-60">
+        </div>
+      </a>
+    </div>
+
+    <!-- Card 5: Grammar (100% height, #EF9686) -->
+    <div class="tw-relative tw-col-start-1 tw-row-start-7 tw-row-span-4 lg:tw-px-2 lg:tw-py-0 xl:tw-px-3 lg:tw-h-[100%] lg:tw-flex-1">
+      <a class="tw-relative tw-text-title hover:tw-no-underline group block tw-h-full" title="French Grammar Lessons" href="/fr-EN/grammar">
+        <div class="tw-relative tw-w-full tw-h-full tw-bg-[#EF9686] tw-rounded-3xl tw-flex tw-text-black shadow-xs hover:shadow-md transition" style="background-color: #EF9686;">
+          <div class="tw-p-5 null lg:tw-pt-5 tw-relative tw-w-full lg:tw-flex tw-flex-col lg:tw-mx-auto lg:tw-my-auto lg:tw-items-center tw-gap-2">
+            <div class="tw-absolute tw-bottom-5 tw-block tw-right-5 lg:tw-relative lg:tw-bottom-0 lg:tw-right-0 tw-p-3.5 tw-rounded-full tw-bg-[#0000001A]">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="tw-text-white tw-w-6 tw-h-6 sm:tw-w-8 sm:tw-h-8 lg:tw-w-12 lg:tw-h-12">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M22 16.74V4.67c0-1.2-.98-2.09-2.17-1.99h-.06c-2.1.18-5.29 1.25-7.07 2.37l-.17.11c-.29.18-.77.18-1.06 0l-.25-.15C9.44 3.9 6.26 2.84 4.16 2.67 2.97 2.57 2 3.47 2 4.66v12.08c0 .96.78 1.86 1.74 1.98l.29.04c2.17.29 5.52 1.39 7.44 2.44l.04.02c.27.15.7.15.96 0 1.92-1.06 5.28-2.17 7.46-2.46l.33-.04c.96-.12 1.74-1.02 1.74-1.98M12 5.49v15M7.75 8.49H5.5M8.5 11.49h-3"></path>
+              </svg>
+            </div>
+            <h2 class="tw-m-0 tw-text-sm sm:tw-text-lg lg:tw-text-xl tw-font-bold text-center">Grammar</h2>
+            <p class="lg:tw-text-center tw-m-0 lg:tw-text-base sm:tw-text-sm tw-text-xs font-medium">French Grammar lessons</p>
+          </div>
+          <img src="/assets/img/home/grammar-card-pattern.svg" width="84" height="70" alt="" class="tw-absolute rtl:tw-scale-x-[1] tw-scale-x-[-1] tw-right-0 tw-top-0 tw-hidden sm:tw-block pointer-events-none opacity-60">
+          <img src="/assets/img/home/grammar-card-pattern.svg" width="84" height="70" alt="" class="tw-absolute rtl:tw-scale-x-[-1] tw-scale-y-[-1] tw-w-12 sm:tw-w-20 tw-left-0 tw-bottom-0 pointer-events-none opacity-60">
+        </div>
+      </a>
+    </div>
+
   </div>
 
 </div>

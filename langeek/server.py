@@ -107,7 +107,7 @@ async def ensure_subcategory_words(sub_id: int) -> List[Dict[str, Any]]:
         SELECT id, entry, part_of_speech, french_def, english_trans, other_trans, photo_url, thumb_url, audio_url, audio_ca_url, ipa, ipa_loc, grammar_info, card_json
         FROM words
         WHERE subcategory_id = ?
-        ORDER BY id ASC
+        ORDER BY position ASC, id ASC
     """, (sub_id,)).fetchall()
 
     if rows:
@@ -154,7 +154,7 @@ async def ensure_subcategory_words(sub_id: int) -> List[Dict[str, Any]]:
                 d = json.loads(m.group(1))
                 sub_data = d.get('props', {}).get('pageProps', {}).get('initialState', {}).get('static', {}).get('subcategory', {})
                 cards = sub_data.get('cards', [])
-                for card in cards:
+                for idx, card in enumerate(cards):
                     mt = card.get('mainTranslation', {})
                     if not mt: continue
                     w_id = card.get('id') or mt.get('id')
@@ -176,9 +176,9 @@ async def ensure_subcategory_words(sub_id: int) -> List[Dict[str, Any]]:
                     card_str = json.dumps(card, ensure_ascii=False)
 
                     cur.execute("""
-                        INSERT OR REPLACE INTO words (id, subcategory_id, entry, part_of_speech, french_def, english_trans, other_trans, photo_url, thumb_url, audio_url, audio_ca_url, ipa, ipa_loc, grammar_info, card_json)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    """, (w_id, sub_id, entry, pos, french_def, eng, other, photo, thumb, audio, audio_ca, ipa, ipa_loc, grammar, card_str))
+                        INSERT OR REPLACE INTO words (id, subcategory_id, entry, part_of_speech, french_def, english_trans, other_trans, photo_url, thumb_url, audio_url, audio_ca_url, ipa, ipa_loc, grammar_info, card_json, position)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """, (w_id, sub_id, entry, pos, french_def, eng, other, photo, thumb, audio, audio_ca, ipa, ipa_loc, grammar, card_str, idx))
 
                     for ex in mt.get('examples', []):
                         ex_id = ex.get('id')
@@ -221,6 +221,29 @@ async def serve_site_assets(asset_path: str):
         logger.warning(f"Error fetching asset {upstream_url}: {e}")
 
     raise HTTPException(status_code=404, detail="Asset not found")
+
+
+@app.get("/next/{next_path:path}")
+async def serve_next_assets(next_path: str):
+    """Serve Next.js CSS, JS, and font media assets with caching."""
+    local_file = os.path.join(STATIC_DIR, "next", next_path)
+    if os.path.exists(local_file) and os.path.getsize(local_file) > 0:
+        mime = guess_content_type(local_file)
+        return FileResponse(local_file, media_type=mime)
+
+    upstream_url = f"{UPSTREAM_BASE}/next/{next_path}"
+    try:
+        resp = await http_client.get(upstream_url)
+        if resp.status_code == 200:
+            os.makedirs(os.path.dirname(local_file), exist_ok=True)
+            with open(local_file, "wb") as f:
+                f.write(resp.content)
+            mime = guess_content_type(next_path, resp.content)
+            return Response(content=resp.content, media_type=mime, headers={"Cache-Control": "public, max-age=31536000"})
+    except Exception as e:
+        logger.warning(f"Error fetching next asset {upstream_url}: {e}")
+
+    raise HTTPException(status_code=404, detail="Next asset not found")
 
 
 @app.get("/media-proxy")
@@ -360,7 +383,7 @@ async def category_detail_view(cat_id: int, request: Request, slug: Optional[str
         conn.close()
         raise HTTPException(status_code=404, detail="Category not found")
     
-    sub_rows = cur.execute("SELECT * FROM subcategories WHERE category_id = ? ORDER BY id ASC", (cat_id,)).fetchall()
+    sub_rows = cur.execute("SELECT * FROM subcategories WHERE category_id = ? ORDER BY position ASC, id ASC", (cat_id,)).fetchall()
     conn.close()
 
     return templates.TemplateResponse(request, "category_detail.html", {
