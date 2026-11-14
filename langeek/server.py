@@ -1400,7 +1400,7 @@ async def global_search_api(q: str = "", locale: Optional[str] = None, limit: in
     if not clean_q:
         return {"query": q, "locale": locale or "en", "results": []}
 
-    match_query = " ".join(f"{w}*" for w in clean_q.split())
+    match_query = " ".join(f'"{w}"*' for w in clean_q.split())
     conn = get_db()
     cur = conn.cursor()
 
@@ -1471,6 +1471,8 @@ async def record_progress(request: Request):
     try:
         data = await request.json()
         word_id = data.get("word_id")
+        if not word_id:
+            return JSONResponse({"status": "error", "message": "word_id is required"}, status_code=400)
         score = int(data.get("score", 3))
         raw_locale = data.get("locale", "fr")
         locale = "en" if raw_locale == "en" else "fr"

@@ -100,6 +100,16 @@ def test_search_and_progress_apis():
     assert resp_prog.json()["status"] == "recorded"
     assert resp_prog.json()["state"] == "mastered"
 
+    # Test progress validation (word_id required)
+    resp_no_id = client.post("/api/progress/mark", json={"score": 4})
+    assert resp_no_id.status_code == 400
+    assert resp_no_id.json()["message"] == "word_id is required"
+
+    # Test FTS5 search with boolean keywords
+    resp_bool = client.get("/api/search?q=cat+AND+dog")
+    assert resp_bool.status_code == 200
+    assert "results" in resp_bool.json()
+
     # Test progress summary
     resp_sum = client.get("/api/progress/summary")
     assert resp_sum.status_code == 200
@@ -451,6 +461,16 @@ def test_dual_locale_search_and_progress():
     assert r_prog_fr.json()["status"] == "recorded"
     assert r_prog_fr.json()["state"] == "learned"
 
+    # Test progress validation (word_id required)
+    resp_no_id = client.post("/api/progress/mark", json={"score": 4})
+    assert resp_no_id.status_code == 400
+    assert resp_no_id.json()["message"] == "word_id is required"
+
+    # Test FTS5 search with boolean keywords
+    resp_bool = client.get("/api/search?q=cat+AND+dog")
+    assert resp_bool.status_code == 200
+    assert "results" in resp_bool.json()
+
     # Test progress summary per locale
     r_sum_en = client.get("/api/progress/summary?locale=en")
     assert r_sum_en.status_code == 200
@@ -461,6 +481,44 @@ def test_dual_locale_search_and_progress():
     assert r_sum_fr.status_code == 200
     data_sum_fr = r_sum_fr.json()
     assert data_sum_fr["learned"] >= 1
+
+
+def test_comprehensive_platform_verification():
+    """Task 7: Comprehensive verification across both locales and sub-atomic platform components."""
+    locales = ["en", "fr-EN"]
+    sections = ["vocab", "grammar", "expressions", "pronunciation", "reading"]
+
+    # Verify all 5 core modules render with HTTP 200 in both locales
+    for loc in locales:
+        home_res = client.get(f"/{loc}")
+        assert home_res.status_code == 200
+        assert "LanGeek" in home_res.text
+
+        for sec in sections:
+            sec_res = client.get(f"/{loc}/{sec}")
+            assert sec_res.status_code == 200, f"Failed for {loc}/{sec}"
+
+    # Verify Reading story with chapter stepper, photo, translation
+    story_res = client.get("/fr-EN/reading/course/2304/animaux-de-ferme/0")
+    assert story_res.status_code == 200
+    assert "Animaux de la ferme" in story_res.text
+    assert "Vache" in story_res.text
+    assert "audio-scrubber" in story_res.text
+
+    # Verify search escaping and boolean token safety
+    search_res = client.get("/api/search?q=NOT+AND+OR+fruit*")
+    assert search_res.status_code == 200
+    assert "results" in search_res.json()
+
+    # Verify progress recording validation
+    bad_req1 = client.post("/api/progress/record", json={"score": 5})
+    assert bad_req1.status_code == 400
+    assert bad_req1.json()["message"] == "word_id is required"
+
+    bad_req2 = client.post("/api/progress/mark", json={"word_id": None, "score": 2})
+    assert bad_req2.status_code == 400
+    assert bad_req2.json()["message"] == "word_id is required"
+
 
 
 
