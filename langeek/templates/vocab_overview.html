@@ -208,56 +208,53 @@
         <h3 class="text-xl font-bold text-slate-900 tracking-tight">Most Common French Words</h3>
         <p class="text-xs text-slate-500">High-frequency vocabulary lists ordered by real-world usage.</p>
       </div>
+      <span class="text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 text-slate-700">
+        {{ most_common|length }} Frequency Lists
+      </span>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <a href="/fr-EN/vocab/category/818/3000-mots-francais-les-plus-courants" class="p-4 bg-white rounded-2xl border border-slate-200 hover:border-primary-400 hover:shadow-md transition group">
-        <div class="w-8 h-8 rounded-lg bg-primary-50 text-primary-600 flex items-center justify-center mb-3">
-          <i data-lucide="trending-up" class="w-4 h-4"></i>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for mc in most_common %}
+      <a href="/fr-EN/vocab/category/{{ mc.id }}/{{ mc.slug }}" class="p-5 bg-white rounded-2xl border border-slate-200/90 hover:border-primary-400 hover:shadow-md transition duration-200 group flex items-start gap-4">
+        <div class="w-10 h-10 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+          <i data-lucide="trending-up" class="w-5 h-5"></i>
         </div>
-        <h4 class="font-bold text-slate-900 text-sm group-hover:text-primary-600 transition">3,000 Most Common Words</h4>
-        <p class="text-xs text-slate-500 mt-1">Core frequency vocabulary essential for French fluency.</p>
-      </a>
-
-      <a href="/fr-EN/vocab/category/814/500-verbes-les-plus-courants" class="p-4 bg-white rounded-2xl border border-slate-200 hover:border-primary-400 hover:shadow-md transition group">
-        <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3">
-          <i data-lucide="zap" class="w-4 h-4"></i>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-2">
+            <h4 class="font-bold text-slate-900 text-sm group-hover:text-primary-600 transition truncate">{{ mc.title }}</h4>
+            <span class="text-[10px] font-bold text-primary-700 bg-primary-50 px-2 py-0.5 rounded-md shrink-0">
+              {{ mc.subcategories_count or 10 }} lists
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1 line-clamp-1">
+            {{ mc.words_count or 'Core' }} high-frequency words for fluency.
+          </p>
         </div>
-        <h4 class="font-bold text-slate-900 text-sm group-hover:text-primary-600 transition">500 Most Common Verbs</h4>
-        <p class="text-xs text-slate-500 mt-1">Action words and irregular verbs you will hear every day.</p>
       </a>
-
-      <a href="/fr-EN/vocab/category/815/500-noms-les-plus-courants" class="p-4 bg-white rounded-2xl border border-slate-200 hover:border-primary-400 hover:shadow-md transition group">
-        <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center mb-3">
-          <i data-lucide="tag" class="w-4 h-4"></i>
-        </div>
-        <h4 class="font-bold text-slate-900 text-sm group-hover:text-primary-600 transition">500 Most Common Nouns</h4>
-        <p class="text-xs text-slate-500 mt-1">Essential everyday nouns with grammatical genders.</p>
-      </a>
-
-      <a href="/fr-EN/vocab/category/816/500-adjectifs-les-plus-courants" class="p-4 bg-white rounded-2xl border border-slate-200 hover:border-primary-400 hover:shadow-md transition group">
-        <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center mb-3">
-          <i data-lucide="sparkles" class="w-4 h-4"></i>
-        </div>
-        <h4 class="font-bold text-slate-900 text-sm group-hover:text-primary-600 transition">500 Most Common Adjectives</h4>
-        <p class="text-xs text-slate-500 mt-1">Descriptive words to express feelings, shapes, and colors.</p>
-      </a>
+      {% endfor %}
     </div>
   </div>
 
   <!-- Section 3: Topic-Related French Vocabulary -->
-  <div>
+  <div class="mb-14">
     <div class="flex items-center justify-between mb-6">
       <div>
-        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Themed & Topic Vocabulary</h3>
-        <p class="text-xs text-slate-500">Vocabulary grouped by situation, field, and context.</p>
+        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Themed &amp; Topic Vocabulary</h3>
+        <p class="text-xs text-slate-500">All 28 comprehensive topic categories covering situation, field, and daily context.</p>
       </div>
+      <span class="text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 text-slate-700">
+        {{ topics|length }} Topics
+      </span>
     </div>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3.5">
       {% for topic in topics %}
-      <a href="/fr-EN/vocab/category/{{ topic.id }}/{{ topic.slug }}" class="p-3 bg-white rounded-xl border border-slate-200 hover:border-primary-300 hover:bg-slate-50 transition text-center group">
-        <div class="text-xs font-bold text-slate-800 group-hover:text-primary-600 transition truncate">{{ topic.title }}</div>
+      <a href="/fr-EN/vocab/category/{{ topic.id }}/{{ topic.slug }}" class="p-3.5 bg-white rounded-xl border border-slate-200/90 hover:border-primary-400 hover:bg-sky-50/20 hover:shadow-xs transition duration-200 flex items-center justify-between gap-2 group">
+        <div class="min-w-0 flex-1">
+          <div class="text-xs font-bold text-slate-800 group-hover:text-primary-600 transition truncate">{{ topic.title }}</div>
+          <div class="text-[10px] text-slate-400 font-medium mt-0.5">{{ topic.subcategories_count or 12 }} lessons</div>
+        </div>
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-300 group-hover:text-primary-500 group-hover:translate-x-0.5 transition shrink-0"></i>
       </a>
       {% endfor %}
     </div>

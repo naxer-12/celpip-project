@@ -236,7 +236,8 @@ async def media_proxy(request: Request, url: str = ""):
         raise HTTPException(status_code=400, detail="Missing or invalid url parameter")
 
     parsed = urlparse(url)
-    if not (parsed.netloc.endswith("langeek.co") or "langeek" in parsed.netloc):
+    allowed_domains = ("langeek.co", "b-amooz.com", "bamooz.com", "googleapis.com", "gstatic.com")
+    if not any(parsed.netloc.endswith(dom) or dom in parsed.netloc for dom in allowed_domains):
         raise HTTPException(status_code=400, detail="External domains forbidden")
 
     url_hash = hashlib.sha256(url.encode("utf-8")).hexdigest()
@@ -306,19 +307,23 @@ async def vocab_overview_view(request: Request):
     total_words = cur.execute("SELECT count(*) FROM words").fetchone()[0]
     total_subcategories = cur.execute("SELECT count(*) FROM subcategories").fetchone()[0]
     
-    topics = cur.execute("SELECT id, slug, title FROM categories WHERE category_type = 'topic-related' ORDER BY title LIMIT 18").fetchall()
+    topics = cur.execute("SELECT id, slug, title, photo, words_count, subcategories_count FROM categories WHERE collection_id = 'topic-related' ORDER BY title").fetchall()
+    most_common = cur.execute("SELECT id, slug, title, photo, words_count, subcategories_count FROM categories WHERE collection_id = 'most-common' ORDER BY id").fetchall()
+    categorized = cur.execute("SELECT id, slug, title, photo, words_count, subcategories_count FROM categories WHERE collection_id = 'categorized-words' ORDER BY id").fetchall()
     conn.close()
 
     stats = {
         "learned_words": learned_words,
         "total_words": total_words if total_words > 0 else 5884,
-        "total_subcategories": total_subcategories if total_subcategories > 0 else 269,
+        "total_subcategories": total_subcategories if total_subcategories > 0 else 796,
         "learned_today": 0
     }
     return templates.TemplateResponse(request, "vocab_overview.html", {
         "active_tab": "vocab",
         "stats": stats,
-        "topics": [dict(t) for t in topics]
+        "topics": [dict(t) for t in topics],
+        "most_common": [dict(m) for m in most_common],
+        "categorized": [dict(c) for c in categorized]
     })
 
 @app.get("/fr-EN/vocab/category/{cat_id}/{slug}")
@@ -439,7 +444,7 @@ async def grammar_overview_view(request: Request):
     conn = get_db()
     cur = conn.cursor()
     categories = cur.execute("SELECT * FROM grammar_categories ORDER BY position ASC").fetchall()
-    courses = cur.execute("SELECT id, url_id, title, level, web_title, description, blocks_count FROM grammar_courses").fetchall()
+    courses = cur.execute("SELECT id, url_id, title, level, web_title, description, blocks_count FROM grammar_courses ORDER BY id ASC LIMIT 6").fetchall()
     conn.close()
     return templates.TemplateResponse(request, "grammar_overview.html", {
         "active_tab": "grammar",
@@ -447,44 +452,137 @@ async def grammar_overview_view(request: Request):
         "courses": [dict(c) for c in courses]
     })
 
+@app.get("/fr-EN/grammar/{cat_id}/{slug}")
+@app.get("/fr-EN/grammar/{cat_id}")
+async def grammar_category_view(cat_id: int, request: Request, slug: Optional[str] = None):
+    """Render courses for a French Grammar module."""
+    conn = get_db()
+    cur = conn.cursor()
+    cat_row = cur.execute("SELECT * FROM grammar_categories WHERE id = ?", (cat_id,)).fetchone()
+    if not cat_row:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Grammar category not found")
+    courses = cur.execute("SELECT * FROM grammar_courses WHERE category_id = ? ORDER BY id ASC", (cat_id,)).fetchall()
+    conn.close()
+    return templates.TemplateResponse(request, "grammar_category.html", {
+        "active_tab": "grammar",
+        "category": dict(cat_row),
+        "courses": [dict(c) for c in courses]
+    })
+
 @app.get("/fr-EN/grammar/course/{course_id}/{slug}/{level}")
 @app.get("/fr-EN/grammar/course/{course_id}/{slug}")
 async def grammar_lesson_view(course_id: int, request: Request, slug: Optional[str] = None, level: Optional[str] = None):
-    """Render French Grammar Lesson Course."""
+    """Render French Grammar Lesson Course with syntax blocks & quiz."""
     conn = get_db()
     cur = conn.cursor()
     row = cur.execute("SELECT * FROM grammar_courses WHERE id = ?", (course_id,)).fetchone()
-    conn.close()
     if not row:
+        conn.close()
         raise HTTPException(status_code=404, detail="Grammar course not found")
     
     course_dict = dict(row)
-    blocks = json.loads(course_dict.get('blocks_json') or '[]')
+    cat_row = cur.execute("SELECT * FROM grammar_categories WHERE id = ?", (course_dict.get('category_id'),)).fetchone()
+    conn.close()
+
+    blocks = []
+    questions = []
+    if course_dict.get('blocks_json'):
+        try:
+            bj = json.loads(course_dict['blocks_json'])
+            if isinstance(bj, dict):
+                blocks = bj.get('blocks', [])
+                questions = bj.get('questions', [])
+            elif isinstance(bj, list):
+                blocks = bj
+        except Exception:
+            pass
+
     return templates.TemplateResponse(request, "grammar_lesson.html", {
         "active_tab": "grammar",
         "course": course_dict,
-        "blocks": blocks
+        "category": dict(cat_row) if cat_row else None,
+        "blocks": blocks,
+        "questions": questions
     })
 
 @app.get("/fr-EN/reading")
 async def reading_overview_view(request: Request):
     """Render French Reading Comprehension Overview."""
-    topics = [
-        {"title": "Animaux (Animals)", "description": "Passages on wildlife, household pets, and biodiversity in the Francophone world."},
-        {"title": "Nature et Climat (Nature)", "description": "Short stories and articles about French landscapes, seasons, and ecology."},
-        {"title": "Maison et Vie Quotidienne (Daily Life)", "description": "Everyday conversations, modern living, and Parisian routines."},
-        {"title": "Corps et Santé (Health)", "description": "Medical terminology, healthy habits, and well-being dialogues."}
-    ]
+    conn = get_db()
+    cur = conn.cursor()
+    collections = cur.execute("SELECT * FROM reading_collections ORDER BY position ASC").fetchall()
+    conn.close()
     return templates.TemplateResponse(request, "reading_overview.html", {
         "active_tab": "reading",
-        "reading_topics": topics
+        "collections": [dict(c) for c in collections]
+    })
+
+@app.get("/fr-EN/reading/{col_id}/{slug}")
+@app.get("/fr-EN/reading/{col_id}")
+async def reading_collection_view(col_id: int, request: Request, slug: Optional[str] = None):
+    """Render stories in a French Reading Collection."""
+    conn = get_db()
+    cur = conn.cursor()
+    col_row = cur.execute("SELECT * FROM reading_collections WHERE id = ?", (col_id,)).fetchone()
+    if not col_row:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Reading collection not found")
+    stories = cur.execute("SELECT * FROM reading_stories WHERE collection_id = ? ORDER BY id ASC", (col_id,)).fetchall()
+    conn.close()
+    return templates.TemplateResponse(request, "reading_collection.html", {
+        "active_tab": "reading",
+        "collection": dict(col_row),
+        "stories": [dict(s) for s in stories]
+    })
+
+@app.get("/fr-EN/reading/course/{story_id}/{slug}/{segment}")
+@app.get("/fr-EN/reading/course/{story_id}/{slug}")
+async def reading_story_view(story_id: int, request: Request, slug: Optional[str] = None, segment: Optional[str] = None):
+    """Render French Reading Story with aligned translation & audio."""
+    conn = get_db()
+    cur = conn.cursor()
+    story_row = cur.execute("SELECT * FROM reading_stories WHERE id = ?", (story_id,)).fetchone()
+    if not story_row:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Reading story not found")
+    
+    story_dict = dict(story_row)
+    col_row = cur.execute("SELECT * FROM reading_collections WHERE id = ?", (story_dict.get('collection_id'),)).fetchone()
+    conn.close()
+
+    paragraphs = []
+    if story_dict.get('content_json'):
+        try:
+            paragraphs = json.loads(story_dict['content_json'])
+        except Exception:
+            pass
+
+    return templates.TemplateResponse(request, "reading_story.html", {
+        "active_tab": "reading",
+        "story": story_dict,
+        "collection": dict(col_row) if col_row else None,
+        "paragraphs": paragraphs
     })
 
 @app.get("/fr-EN/pronunciation")
 async def pronunciation_overview_view(request: Request):
     """Render French Pronunciation Guide."""
-    return templates.TemplateResponse(request, "home.html", {
+    return templates.TemplateResponse(request, "pronunciation_overview.html", {
         "active_tab": "pronunciation"
+    })
+
+@app.get("/fr-EN/pronunciation/101/alphabet-francais")
+@app.get("/fr-EN/pronunciation/alphabet-francais")
+async def pronunciation_alphabet_view(request: Request):
+    """Render French Alphabet Guide (26 letters with pronunciation)."""
+    conn = get_db()
+    cur = conn.cursor()
+    courses = cur.execute("SELECT * FROM pronunciation_courses ORDER BY position ASC").fetchall()
+    conn.close()
+    return templates.TemplateResponse(request, "pronunciation_alphabet.html", {
+        "active_tab": "pronunciation",
+        "courses": [dict(c) for c in courses]
     })
 
 

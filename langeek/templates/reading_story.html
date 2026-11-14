@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}{{ story.title }} 🇫🇷 French Reading Story LanGeek{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+  <!-- Breadcrumbs -->
+  <nav class="flex items-center gap-2 text-xs text-slate-500 mb-6 overflow-x-auto whitespace-nowrap">
+    <a href="/fr-EN" class="hover:text-teal-600 transition">Home</a>
+    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-300"></i>
+    <a href="/fr-EN/reading" class="hover:text-teal-600 transition">Reading</a>
+    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-300"></i>
+    {% if collection %}
+    <a href="/fr-EN/reading/{{ collection.id }}/{{ collection.url_id }}" class="hover:text-teal-600 transition">{{ collection.title }}</a>
+    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-300"></i>
+    {% endif %}
+    <span class="text-slate-800 font-semibold">{{ story.title }}</span>
+  </nav>
+
+  <!-- Story Header -->
+  <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm mb-8">
+    <div class="flex items-center justify-between gap-4 flex-wrap">
+      <div class="flex items-center gap-3">
+        <a href="{% if collection %}/fr-EN/reading/{{ collection.id }}/{{ collection.url_id }}{% else %}/fr-EN/reading{% endif %}" class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:text-teal-600 flex items-center justify-center transition" title="Back to Collection">
+          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-teal-50 text-teal-700 border border-teal-100 uppercase">
+              {{ story.level or 'Beginner' }}
+            </span>
+            <span class="text-xs text-slate-400 font-medium">{{ paragraphs|length }} Paragraphs</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">{{ story.title }}</h1>
+        </div>
+      </div>
+
+      <!-- Utilities: Translation Toggle & Play All -->
+      <div class="flex items-center gap-2">
+        <button onclick="toggleAllTranslations()" id="btn-toggle-translations" class="px-3.5 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 shadow-2xs">
+          <i data-lucide="languages" class="w-4 h-4 text-teal-600"></i>
+          <span id="trans-toggle-label">Hide English</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Story Paragraphs -->
+  <div class="space-y-6">
+    {% for p in paragraphs %}
+    <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs hover:border-teal-200 transition group paragraph-card">
+      <div class="flex items-start justify-between gap-4">
+        
+        <!-- French Paragraph Text -->
+        <div class="space-y-3 flex-1">
+          <p class="text-base sm:text-lg text-slate-900 leading-relaxed font-medium">
+            {{ p.fr }}
+          </p>
+
+          <!-- Aligned English Translation -->
+          {% if p.en %}
+          <p class="text-xs sm:text-sm text-slate-500 leading-relaxed font-normal english-translation border-t border-slate-100 pt-2.5">
+            {{ p.en }}
+          </p>
+          {% endif %}
+        </div>
+
+        <!-- Audio Player Button -->
+        {% if p.audio %}
+        <button onclick="playReadingAudio('{{ p.audio }}', this)" class="w-10 h-10 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-600 hover:text-white transition flex items-center justify-center shrink-0 shadow-xs cursor-pointer audio-btn" title="Listen to paragraph">
+          <i data-lucide="volume-2" class="w-5 h-5"></i>
+        </button>
+        {% endif %}
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="pt-8 mt-10 border-t border-slate-200 flex items-center justify-between gap-4">
+    <a href="{% if collection %}/fr-EN/reading/{{ collection.id }}/{{ collection.url_id }}{% else %}/fr-EN/reading{% endif %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold shadow-xs transition">
+      <i data-lucide="arrow-left" class="w-4 h-4"></i>
+      <span>Collection Stories</span>
+    </a>
+
+    <a href="/fr-EN/reading" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-sm transition">
+      <span>All Collections</span>
+      <i data-lucide="arrow-right" class="w-4 h-4"></i>
+    </a>
+  </div>
+
+</div>
+
+<!-- Audio Player -->
+<audio id="reading-audio-player" class="hidden"></audio>
+
+<script>
+  let showEnglish = true;
+  function toggleAllTranslations() {
+    showEnglish = !showEnglish;
+    const trans = document.querySelectorAll('.english-translation');
+    trans.forEach(el => {
+      el.style.display = showEnglish ? 'block' : 'none';
+    });
+    const label = document.getElementById('trans-toggle-label');
+    if (label) {
+      label.textContent = showEnglish ? 'Hide English' : 'Show English';
+    }
+  }
+
+  function playReadingAudio(url, btn) {
+    if (!url) return;
+    const player = document.getElementById('reading-audio-player');
+    
+    // Reset all other audio button styles
+    document.querySelectorAll('.audio-btn').forEach(b => {
+      b.classList.remove('bg-teal-600', 'text-white');
+      b.classList.add('bg-teal-50', 'text-teal-700');
+    });
+
+    if (btn) {
+      btn.classList.remove('bg-teal-50', 'text-teal-700');
+      btn.classList.add('bg-teal-600', 'text-white');
+    }
+
+    player.src = '/media-proxy?url=' + encodeURIComponent(url);
+    player.play().catch(e => console.log('Audio playback error:', e));
+
+    player.onended = () => {
+      if (btn) {
+        btn.classList.remove('bg-teal-600', 'text-white');
+        btn.classList.add('bg-teal-50', 'text-teal-700');
+      }
+    };
+  }
+</script>
+{% endblock %}

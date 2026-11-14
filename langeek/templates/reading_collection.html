@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}{{ collection.title }} 🇫🇷 French Reading Stories LanGeek{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+  <!-- Breadcrumbs -->
+  <nav class="flex items-center gap-2 text-xs text-slate-500 mb-6 overflow-x-auto whitespace-nowrap">
+    <a href="/fr-EN" class="hover:text-teal-600 transition">Home</a>
+    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-300"></i>
+    <a href="/fr-EN/reading" class="hover:text-teal-600 transition">Reading</a>
+    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-300"></i>
+    <span class="text-slate-800 font-semibold">{{ collection.title }}</span>
+  </nav>
+
+  <!-- Collection Header -->
+  <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm mb-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+    <div class="max-w-2xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-teal-700 text-xs font-bold border border-teal-100 mb-3">
+        <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Reading Collection
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+        {{ collection.title }}
+      </h1>
+      <p class="text-xs sm:text-sm text-slate-600 mt-2.5 leading-relaxed">
+        {{ collection.description or 'Graded French stories with native audio recordings and sentence-by-sentence translations.' }}
+      </p>
+
+      <div class="flex items-center space-x-4 mt-4 text-xs font-bold text-slate-600">
+        <span class="flex items-center space-x-1.5">
+          <i data-lucide="layers" class="w-4 h-4 text-slate-400"></i>
+          <span>{{ stories|length }} Stories</span>
+        </span>
+        <span class="flex items-center space-x-1.5">
+          <i data-lucide="headphones" class="w-4 h-4 text-teal-600"></i>
+          <span>Native Audio Included</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Collection Graphic -->
+    <div class="hidden md:flex flex-col items-center justify-center p-4 bg-teal-50/70 border border-teal-200 text-teal-700 rounded-2xl w-36 h-36 relative shadow-sm">
+      <div class="w-16 h-16 rounded-full border-2 border-teal-300 text-teal-600 flex items-center justify-center font-black text-2xl mb-1">
+        <i data-lucide="book-marked" class="w-8 h-8"></i>
+      </div>
+      <span class="text-[11px] font-bold text-center px-1 leading-tight text-slate-800">{{ collection.title }}</span>
+    </div>
+  </div>
+
+  <!-- Stories Grid -->
+  <div class="mb-6 flex items-center justify-between">
+    <h2 class="text-lg font-bold text-slate-900">Stories in this Collection ({{ stories|length }})</h2>
+    <span class="text-xs text-slate-500 font-medium">Click any story to read with synchronized audio.</span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for story in stories %}
+    <a href="/fr-EN/reading/course/{{ story.id }}/{{ story.url_id }}/0" class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:shadow-md hover:border-teal-300 transition duration-200 group flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-teal-50 text-teal-700 border border-teal-100 uppercase">
+            {{ story.level or 'Beginner' }}
+          </span>
+          <span class="text-xs font-semibold text-slate-400">Story {{ loop.index }}</span>
+        </div>
+        <h3 class="text-base font-bold text-slate-900 group-hover:text-teal-600 transition mb-1">
+          {{ story.title }}
+        </h3>
+        <p class="text-xs text-slate-500 line-clamp-3 leading-relaxed">
+          {{ story.description or 'A graded French reading story with native pronunciation audio and interactive vocabulary aids.' }}
+        </p>
+      </div>
+
+      <div class="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-teal-600">
+        <span>Read Story</span>
+        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

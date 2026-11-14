@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}French Pronunciation Guide 🇫🇷 LanGeek{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+  <!-- Header -->
+  <div class="text-center max-w-3xl mx-auto mb-12">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold border border-amber-100 mb-3">
+      <i data-lucide="mic" class="w-3.5 h-3.5"></i> Prononciation Française
+    </div>
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+      French Pronunciation &amp; Alphabet Guide
+    </h1>
+    <p class="text-sm sm:text-base text-slate-600 mt-2.5 leading-relaxed">
+      Learn the French phonetic system, letter sounds, accents (é, è, ê, ë, ç), and liaison rules to speak with authentic French pronunciation.
+    </p>
+  </div>
+
+  <!-- Pronunciation Hub Modules -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-14">
+
+    <!-- Card 1: French Alphabet -->
+    <a href="/fr-EN/pronunciation/101/alphabet-francais" class="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-xs hover:shadow-md hover:border-amber-300 transition duration-200 group flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-6">
+          <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-black text-2xl group-hover:scale-110 transition">
+            Aa
+          </div>
+          <span class="text-xs font-bold text-amber-800 bg-amber-50 px-3 py-1 rounded-full">
+            26 Letters (A-Z)
+          </span>
+        </div>
+
+        <h3 class="text-2xl font-extrabold text-slate-900 group-hover:text-amber-600 transition mb-2">
+          French Alphabet (Alphabet français)
+        </h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Learn all 26 letters of the French alphabet, their native vowel and consonant sounds, accents, and common letter combinations.
+        </p>
+      </div>
+
+      <div class="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-600">
+        <span>Explore All 26 Letters &rarr;</span>
+        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+      </div>
+    </a>
+
+    <!-- Card 2: Accents & Special Characters -->
+    <div class="bg-white rounded-3xl p-8 border border-slate-200/90 shadow-xs flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-6">
+          <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-black text-2xl">
+            é ç
+          </div>
+          <span class="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+            Essential Diacritics
+          </span>
+        </div>
+
+        <h3 class="text-2xl font-extrabold text-slate-900 mb-2">
+          French Diacritics &amp; Accents
+        </h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Understand the 5 French accents: l'accent aigu (é), l'accent grave (à, è, ù), l'accent circonflexe (â, ê, î, ô, û), le tréma (ë, ï, ü), and la cédille (ç).
+        </p>
+      </div>
+
+      <div class="mt-8 pt-4 border-t border-slate-100">
+        <a href="/fr-EN/pronunciation/101/alphabet-francais" class="text-xs font-bold text-amber-600 hover:text-amber-700 transition">
+          Practice In Alphabet Guide &rarr;
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

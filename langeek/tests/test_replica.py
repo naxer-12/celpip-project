@@ -138,3 +138,62 @@ def test_grammar_hub_and_lessons():
     assert resp_lesson.status_code == 200
     assert "Pronoms sujets" in resp_lesson.text
     assert "What Are Subject Pronouns" in resp_lesson.text
+
+
+def test_topic_and_common_vocabulary():
+    # Test Topic-Related category (637: Animaux)
+    resp_topic = client.get("/fr-EN/vocab/category/637/Animaux")
+    assert resp_topic.status_code == 200
+    assert "Animaux" in resp_topic.text
+    assert "Lessons (" in resp_topic.text
+
+    # Test Most Common category (818: 3000 mots les plus courants)
+    resp_common = client.get("/fr-EN/vocab/category/818/3000-mots-francais-les-plus-courants")
+    assert resp_common.status_code == 200
+    assert "3000" in resp_common.text
+    assert "Start" in resp_common.text
+
+
+def test_grammar_category_module():
+    resp_cat = client.get("/fr-EN/grammar/13/pronoms")
+    assert resp_cat.status_code == 200
+    assert "Pronoms" in resp_cat.text
+    assert "Pronoms sujets" in resp_cat.text
+    assert "Courses in this Module" in resp_cat.text
+
+
+def test_reading_comprehension_suite():
+    # Test Reading Overview
+    resp_read = client.get("/fr-EN/reading")
+    assert resp_read.status_code == 200
+    assert "French Reading Comprehension" in resp_read.text
+    assert "Animaux" in resp_read.text
+    assert "Nature" in resp_read.text
+    assert "Maison et meubles" in resp_read.text
+
+    # Test Reading Collection (87: Animaux)
+    resp_col = client.get("/fr-EN/reading/87/animaux")
+    assert resp_col.status_code == 200
+    assert "Animaux de la ferme" in resp_col.text
+
+    # Test Reading Story (2304: Animaux de la ferme)
+    resp_story = client.get("/fr-EN/reading/course/2304/animaux-de-ferme/0")
+    assert resp_story.status_code == 200
+    assert "Animaux de la ferme" in resp_story.text
+    assert "Une vache est un grand animal" in resp_story.text
+    assert "Hide English" in resp_story.text
+
+
+def test_pronunciation_alphabet_suite():
+    # Test Pronunciation Overview
+    resp_pron = client.get("/fr-EN/pronunciation")
+    assert resp_pron.status_code == 200
+    assert "French Pronunciation" in resp_pron.text
+    assert "French Alphabet" in resp_pron.text
+
+    # Test Alphabet Hub (26 Letters)
+    resp_alpha = client.get("/fr-EN/pronunciation/101/alphabet-francais")
+    assert resp_alpha.status_code == 200
+    assert "Alphabet français" in resp_alpha.text
+    assert "The Letter \"A\" in French" in resp_alpha.text
+    assert "The Letter \"Z\" in French" in resp_alpha.text
