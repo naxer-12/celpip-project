@@ -642,6 +642,8 @@ async def reading_story_view(story_id: int, request: Request, slug: Optional[str
 
     return templates.TemplateResponse(request, "reading_story.html", {
         "active_tab": "reading",
+        "hide_site_nav": True,
+        "hide_site_footer": True,
         "story": story_dict,
         "collection": dict(col_row) if col_row else None,
         "segments": segments,

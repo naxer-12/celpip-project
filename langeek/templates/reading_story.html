@@ -13,8 +13,26 @@
   @font-face {
     font-family: 'Crimson Text';
     font-style: normal;
+    font-weight: 600;
+    src: local('Crimson Text SemiBold'), local('CrimsonText-SemiBold'), url(https://fonts.gstatic.com/s/crimsontext/v19/wkhQ3bE96EAgk33r2_f3mNkPscE.woff2) format('woff2');
+  }
+  @font-face {
+    font-family: 'Crimson Text';
+    font-style: normal;
     font-weight: 700;
     src: local('Crimson Text Bold'), local('CrimsonText-Bold'), url(https://fonts.gstatic.com/s/crimsontext/v19/wkhS3bE96EAgk33r2_f3ce5eul8.woff2) format('woff2');
+  }
+  @font-face {
+    font-family: 'Crimson Text';
+    font-style: italic;
+    font-weight: 400;
+    src: local('Crimson Text Italic'), local('CrimsonText-Italic'), url(https://fonts.gstatic.com/s/crimsontext/v19/wkhX3bE96EAgk33r2_f37VdfvMo.woff2) format('woff2');
+  }
+  @font-face {
+    font-family: 'Crimson Text';
+    font-style: italic;
+    font-weight: 700;
+    src: local('Crimson Text Bold Italic'), local('CrimsonText-BoldItalic'), url(https://fonts.gstatic.com/s/crimsontext/v19/wkhP3bE96EAgk33r2_f37VevXMsUHg.woff2) format('woff2');
   }
   .font-reading-regular {
     font-family: 'Crimson Text', Georgia, Cambria, serif;
@@ -26,231 +44,367 @@
     font-weight: 700;
     -webkit-font-smoothing: antialiased;
   }
-  .active-paragraph {
-    border-color: #2563eb !important;
-    background-color: #f8faff !important;
+  .font-reading-italic {
+    font-family: 'Crimson Text', Georgia, Cambria, serif;
+    font-style: italic;
+    -webkit-font-smoothing: antialiased;
+  }
+  .font-reading-bold-italic {
+    font-family: 'Crimson Text', Georgia, Cambria, serif;
+    font-weight: 700;
+    font-style: italic;
+    -webkit-font-smoothing: antialiased;
+  }
+  .active-para-highlight {
+    background-color: #f0f7ff !important;
+    border-radius: 12px;
+  }
+  .banner-collapsed {
+    max-height: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+  .rotate-180-smooth {
+    transform: rotate(180deg);
   }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="tw-w-full">
+<div class="w-full relative bg-white min-h-screen font-sans">
 
-  <!-- Chapter Stepper Bar (Multi-Segment Navigation) -->
-  {% if segments and segments|length > 1 %}
-  <div class="tw-bg-white tw-border-b tw-border-slate-200/90 tw-shadow-2xs tw-sticky tw-top-[58px] tw-z-30">
-    <div class="tw-max-w-[1200px] tw-mx-auto tw-px-4 sm:tw-px-6 tw-py-2.5">
-      <div class="tw-flex tw-items-center tw-gap-2 sm:tw-gap-3 tw-overflow-x-auto scrollbar-none tw-py-1">
-        <span class="tw-text-xs tw-font-bold tw-text-slate-400 tw-uppercase tw-tracking-wider tw-shrink-0 tw-mr-1">
-          Chapters:
-        </span>
+  <!-- 1. Top Immersive Chapter Stepper Bar (Replaces Standard Header) -->
+  <header class="bg-white border-b border-slate-200/90 shadow-2xs sticky top-0 z-50 h-[86px] flex items-center justify-between px-4 sm:px-8">
+    
+    <!-- Left Navigation Return -->
+    <div class="w-20 sm:w-28 shrink-0">
+      <a href="/fr-EN/reading/{{ collection.id }}/{{ collection.url_id }}" class="text-xs font-bold text-slate-500 hover:text-blue-600 inline-flex items-center gap-1 transition no-underline">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 19l-7-7 7-7"/></svg>
+        <span>Reading</span>
+      </a>
+    </div>
+
+    <!-- Center: Connected Circular Chapter Nodes -->
+    <div class="flex items-center justify-center py-1">
+      <div class="flex items-center">
         {% for seg in segments %}
-        <a href="/fr-EN/reading/course/{{ story.id }}/{{ story.url_id }}/{{ seg.segment_index }}" 
-           class="tw-flex tw-items-center tw-gap-2 tw-px-3.5 tw-py-1.5 tw-rounded-xl tw-text-xs sm:tw-text-sm tw-font-bold tw-transition-all tw-duration-200 tw-shrink-0 hover:tw-no-underline {% if seg.segment_index == current_segment_index %}tw-bg-blue-1 tw-text-white tw-shadow-sm{% else %}tw-bg-slate-100 hover:tw-bg-slate-200/80 tw-text-slate-700{% endif %}">
-          <span class="tw-w-4 tw-h-4 tw-rounded-full tw-flex tw-items-center tw-justify-center tw-text-[10px] {% if seg.segment_index == current_segment_index %}tw-bg-white tw-text-blue-1{% else %}tw-bg-slate-300 text-slate-800{% endif %}">
-            {{ loop.index }}
-          </span>
-          <span>{{ seg.title }}</span>
-        </a>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-  {% endif %}
-
-  <div class="tw-max-w-[960px] tw-mx-auto tw-px-4 sm:tw-px-6 tw-py-6">
-
-    <!-- Breadcrumbs -->
-    <div class="tw-text-[0.8rem] tw-font-text-bold sm:tw-text-[0.9rem] tw-font-medium tw-text-[#6a778db9] tw-tracking-[0.15px] tw-z-[2] tw-w-full tw-flex tw-mb-4">
-      <nav aria-label="breadcrumbs">
-        <ol class="tw-flex tw-flex-wrap tw-list-none tw-m-0 tw-p-0 tw-capitalize">
-          <li class="[&amp;:not(:last-child)]:after:tw-content-['/'] [&amp;:not(:last-child)]:after:tw-px-1.5 [&amp;:not(:last-child)]:after:tw-opacity-70 tw-text-blue-1">
-            <a class="!tw-text-inherit hover:tw-text-inherit" href="/fr-EN" title="Home">Home</a>
-          </li>
-          <li class="[&amp;:not(:last-child)]:after:tw-content-['/'] [&amp;:not(:last-child)]:after:tw-px-1.5 [&amp;:not(:last-child)]:after:tw-opacity-70 tw-text-blue-1">
-            <a class="!tw-text-inherit hover:tw-text-inherit" href="/fr-EN/reading" title="Reading">Reading</a>
-          </li>
-          {% if collection %}
-          <li class="[&amp;:not(:last-child)]:after:tw-content-['/'] [&amp;:not(:last-child)]:after:tw-px-1.5 [&amp;:not(:last-child)]:after:tw-opacity-70 tw-text-blue-1">
-            <a class="!tw-text-inherit hover:tw-text-inherit" href="/fr-EN/reading/{{ collection.id }}/{{ collection.url_id }}">{{ collection.title }}</a>
-          </li>
-          {% endif %}
-          <li class="[&amp;:not(:last-child)]:after:tw-content-['/'] [&amp;:not(:last-child)]:after:tw-px-1.5 [&amp;:not(:last-child)]:after:tw-opacity-70 tw-text-sub-title">
-            {{ story.title }}
-          </li>
-        </ol>
-      </nav>
-    </div>
-
-    <!-- Story Header Banner -->
-    <div class="tw-w-full tw-p-6 sm:tw-p-8 tw-rounded-3xl tw-relative tw-overflow-hidden tw-border tw-border-slate-200/90 tw-shadow-xs tw-mb-8 tw-bg-gradient-to-r tw-from-amber-50/50 tw-to-orange-50/40">
-      <img src="/assets/img/reading/background.png" alt="" class="tw-absolute tw-inset-0 tw-w-full tw-h-full tw-object-cover tw-opacity-30 pointer-events-none" />
-      
-      <div class="tw-relative tw-z-10 tw-flex tw-flex-col sm:tw-flex-row tw-items-center sm:tw-items-start tw-justify-between tw-gap-6">
-        <div class="tw-flex-1 tw-text-center sm:tw-text-left">
+        <div class="flex items-center">
           
-          <div class="tw-flex tw-items-center tw-justify-center sm:tw-justify-start tw-gap-2.5 tw-mb-2">
-            <img src="/assets/img/reading/level-beginner.svg" alt="Beginner" class="tw-h-5 tw-w-auto" />
-            <span class="tw-text-xs tw-font-bold tw-text-slate-500 tw-bg-white/80 tw-px-2.5 tw-py-0.5 tw-rounded-full tw-border tw-border-slate-200/60">
-              Chapter {{ (current_segment_index + 1) if current_segment_index is not none else 1 }} of {{ segments|length if segments else 1 }}
+          <!-- Connecting Timeline Bar -->
+          {% if not loop.first %}
+          <div class="w-6 sm:w-10 md:w-14 h-[2px] shrink-0 {% if loop.index0 <= current_segment_index %}bg-[#059669]{% else %}bg-slate-200{% endif %}"></div>
+          {% endif %}
+
+          <!-- Node Item -->
+          <div class="flex flex-col items-center relative group shrink-0">
+            <a href="/fr-EN/reading/course/{{ story.id }}/{{ story.url_id }}/{{ seg.segment_index }}" 
+               class="no-underline relative transition-all duration-300"
+               title="{{ seg.title }}">
+              <div class="w-[36px] h-[36px] sm:w-[42px] sm:h-[42px] rounded-full overflow-hidden p-0.5 transition-transform duration-200 shrink-0
+                          {% if seg.segment_index == current_segment_index %}
+                            ring-2 ring-[#059669] ring-offset-2 scale-115 shadow-sm bg-white
+                          {% else %}
+                            ring-1 ring-slate-300 hover:scale-105 opacity-60 hover:opacity-100 bg-white
+                          {% endif %}">
+                <img src="/media-proxy?url={{ seg.photo or story.photo | urlencode }}" 
+                     alt="{{ seg.title }}" 
+                     class="w-full h-full rounded-full object-cover bg-white" />
+              </div>
+            </a>
+            
+            <!-- Chapter Title Label (Underneath node) -->
+            <span class="absolute top-[48px] sm:top-[52px] text-[12px] font-reading-regular whitespace-nowrap transition-opacity
+                         {% if seg.segment_index == current_segment_index %}
+                           opacity-100 font-bold text-slate-900
+                         {% else %}
+                           opacity-0 group-hover:opacity-100 text-slate-500
+                         {% endif %}">
+              {{ seg.title }}
             </span>
           </div>
 
-          <h1 class="tw-text-2xl sm:tw-text-3xl lg:tw-text-4xl font-reading-bold tw-text-slate-900 tw-tracking-tight tw-mb-1">
-            {{ story.title }}
-          </h1>
-
-          <p class="tw-text-base sm:tw-text-lg font-reading-regular tw-text-slate-600 tw-m-0">
-            {% if current_segment %}{{ current_segment.title }} &mdash; {% endif %}{{ story.description or 'Graded French story with sentence audio and aligned English translations.' }}
-          </p>
-
-          <div class="tw-flex tw-items-center tw-justify-center sm:tw-justify-start tw-gap-3 tw-mt-4">
-            <button onclick="playFullStoryAudio()" id="btn-header-play" class="tw-inline-flex tw-items-center tw-gap-2 tw-px-5 tw-py-2 tw-rounded-2xl tw-bg-blue-1 hover:tw-opacity-90 tw-text-white tw-text-xs sm:tw-text-sm tw-font-bold tw-shadow-sm tw-transition cursor-pointer">
-              <svg class="tw-w-4 tw-h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              <span id="header-play-label">Listen to Chapter</span>
-            </button>
-
-            <button onclick="toggleAllTranslations()" class="tw-inline-flex tw-items-center tw-gap-1.5 tw-px-4 tw-py-2 tw-rounded-2xl tw-bg-white hover:tw-bg-slate-50 tw-text-slate-700 tw-border tw-border-slate-200/90 tw-text-xs sm:tw-text-sm tw-font-bold tw-shadow-2xs tw-transition cursor-pointer">
-              <span class="tw-font-bold tw-text-blue-1">文A</span>
-              <span id="trans-btn-label">Hide English</span>
-            </button>
-          </div>
         </div>
-
-        <!-- Cover Artwork -->
-        <div class="tw-w-28 tw-h-28 sm:tw-w-36 sm:tw-h-36 tw-rounded-2xl tw-overflow-hidden tw-border-4 tw-border-white tw-shadow-md tw-shrink-0 tw-bg-white tw-p-1">
-          <img src="/media-proxy?url={{ story.photo | urlencode }}" alt="{{ story.title }}" class="tw-w-full tw-h-full tw-object-contain" />
-        </div>
+        {% endfor %}
       </div>
     </div>
 
-    <!-- Paragraph Blocks -->
-    <div class="tw-space-y-5 sm:tw-space-y-6 tw-mb-24" id="paragraphs-container">
-      {% for p in paragraphs %}
-      <div id="para-{{ loop.index0 }}" class="paragraph-card tw-bg-white tw-rounded-2xl tw-p-5 sm:tw-p-6 tw-border tw-border-slate-200/90 tw-shadow-2xs tw-transition-all tw-duration-200 group">
-        <div class="tw-flex tw-items-start tw-gap-3.5 sm:tw-gap-5">
-          
-          <!-- Number Badge (1.1, 1.2...) -->
-          <div class="tw-w-9 tw-h-9 sm:tw-w-12 sm:tw-h-12 tw-bg-black tw-text-white font-reading-bold tw-text-sm sm:tw-text-lg tw-rounded-xl tw-flex tw-items-center tw-justify-center tw-shrink-0 shadow-2xs">
-            {{ (current_segment_index + 1) if current_segment_index is not none else 1 }}.{{ loop.index }}
+    <!-- Right: Language & Exit Button -->
+    <div class="flex items-center gap-2.5 sm:gap-3.5 shrink-0">
+      <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-100 text-xs font-semibold text-slate-700">
+        <span class="text-sm">🇬🇧</span>
+        <span>EN</span>
+      </div>
+
+      <a href="/fr-EN/reading/{{ collection.id }}/{{ collection.url_id }}" 
+         class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 flex items-center justify-center transition shadow-2xs no-underline" 
+         title="Close &amp; Return to Collection">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </a>
+    </div>
+
+  </header>
+
+  <!-- 2. Hero Story Overview Banner (Textured Paper, Organic Vignette, Collapsible) -->
+  <div id="hero-story-banner" class="relative w-full bg-[url('/assets/img/reading/background.png')] border-b border-slate-200/60 py-8 sm:py-12 lg:py-14 px-4 sm:px-8 transition-all duration-300 ease-in-out overflow-hidden">
+    <div class="max-w-[790px] mx-auto flex flex-col md:flex-row items-center gap-8 sm:gap-12">
+      
+      <!-- Organic Feathered Vignette Artwork -->
+      <div class="w-[180px] sm:w-[240px] lg:w-[280px] h-auto shrink-0 flex items-center justify-center">
+        <img src="/media-proxy?url={{ current_segment.photo or story.photo | urlencode }}" 
+             alt="{{ story.title }}" 
+             class="w-full h-auto object-contain drop-shadow-sm select-none" />
+      </div>
+
+      <!-- Right Metadata & Actions -->
+      <div class="flex-1 text-center md:text-left">
+        <h1 class="font-reading-bold text-2xl sm:text-4xl lg:text-[42px] text-slate-900 leading-tight mb-2">
+          {{ story.title }}
+        </h1>
+
+        <p class="text-sm sm:text-base text-slate-600 mb-4 font-normal">
+          {{ current_segment.title }} - {{ collection.title }}
+        </p>
+
+        <div class="flex items-center justify-center md:justify-start gap-4 mb-4">
+          <div class="flex items-center gap-1.5 text-xs sm:text-sm text-slate-600">
+            <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span>6 chapters</span>
           </div>
 
-          <!-- Paragraph Content -->
-          <div class="tw-flex-1 tw-space-y-3">
-            <p class="font-reading-regular tw-text-lg sm:tw-text-[21px] tw-leading-relaxed tw-text-slate-900 tw-m-0">
-              {{ p.fr }}
-            </p>
-
-            {% if p.en %}
-            <div class="english-translation tw-bg-slate-50 tw-p-3 sm:tw-p-3.5 tw-rounded-xl tw-border tw-border-slate-200/70 tw-text-xs sm:tw-text-sm tw-text-slate-600 tw-leading-relaxed">
-              {{ p.en }}
-            </div>
-            {% endif %}
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#d1fae5] text-[#065f46] text-xs font-bold">
+            <img src="/assets/img/reading/level-beginner.svg" alt="" class="w-4 h-4" />
+            <span>beginner</span>
           </div>
-
-          <!-- Play Paragraph Audio Button -->
-          {% if p.audio %}
-          <button onclick="playParagraphAudio('{{ p.audio }}', {{ loop.index0 }})" class="tw-w-9 tw-h-9 sm:tw-w-10 sm:tw-h-10 tw-rounded-full tw-bg-slate-100 hover:tw-bg-blue-600 hover:tw-text-white tw-text-slate-600 tw-flex tw-items-center tw-justify-center tw-shrink-0 tw-transition-colors shadow-2xs cursor-pointer para-play-btn" title="Listen to this paragraph">
-            <svg class="tw-w-4 tw-h-4 sm:tw-w-5 sm:tw-h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-          {% endif %}
-
         </div>
+
+        <p class="font-reading-regular text-base sm:text-lg text-slate-700 leading-relaxed mb-6">
+          {{ story.description or "Apprenez à connaître les animaux de la ferme, les sons qu'ils font et ce qu'ils mangent en français simple." }}
+        </p>
+
+        <!-- Action Buttons (Cleanly separated) -->
+        <div class="flex items-center justify-center md:justify-start gap-4">
+          <button onclick="playFullStoryAudio()" class="px-8 py-2.5 rounded-full bg-[#1554ad] hover:bg-[#12458f] text-white font-bold text-sm shadow-sm transition flex items-center gap-2 cursor-pointer">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <span>Play</span>
+          </button>
+
+          <button onclick="scrollToReading()" class="px-8 py-2.5 rounded-full border-[1.5px] border-[#1554ad] text-[#1554ad] hover:bg-[#1554ad] hover:text-white font-bold text-sm transition flex items-center gap-2 cursor-pointer">
+            <span>Read</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Collapse / Expand Chevron Tab (button.svg) -->
+    <div onclick="toggleHeroBanner()" 
+         class="cursor-pointer absolute bottom-0 right-6 sm:right-16 w-[70px] sm:w-[88px] h-[26px] sm:h-[32px] bg-[url('/assets/img/reading/button.svg')] bg-no-repeat bg-contain bg-bottom flex items-center justify-center z-10 group" 
+         title="Collapse / Expand Overview">
+      <svg id="hero-chevron" class="w-4 h-4 text-slate-600 group-hover:text-slate-900 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Decorative Background Margin Patterns -->
+  <img alt="" class="absolute top-[350px] left-0 hidden xl:block opacity-40 pointer-events-none" src="/assets/img/reading/circle-pattern.png" width="135"/>
+  <img alt="" class="absolute top-[750px] left-0 hidden xl:block opacity-35 pointer-events-none" src="/assets/img/reading/circle-pattern.png" width="135"/>
+  <img alt="" class="absolute top-[450px] right-0 hidden xl:block opacity-40 pointer-events-none" src="/assets/img/reading/pattern.svg" width="90"/>
+  <img alt="" class="absolute top-[900px] right-0 hidden xl:block opacity-40 pointer-events-none" src="/assets/img/reading/pattern.svg" width="90"/>
+
+  <!-- 3. Reading Story Content Area -->
+  <main id="reading-content" class="max-w-[790px] mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-32 relative z-10">
+
+    <!-- Chapter Framed Header Block -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10 mb-10 sm:mb-14">
+      
+      <!-- Box with Chapter Number & Sparkle -->
+      <div class="border-2 border-slate-900 p-2 sm:p-3 relative flex flex-col items-center justify-center w-[75px] sm:w-[85px] h-[95px] sm:h-[110px] bg-white shrink-0 shadow-2xs">
+        <span class="font-reading-bold text-[48px] sm:text-[68px] text-slate-900 leading-[0.85]">
+          {{ current_segment_index + 1 }}
+        </span>
+        <span class="font-reading-regular text-xs sm:text-sm text-slate-600 mt-1">
+          Chapter
+        </span>
+        <img alt="" class="absolute top-[-10px] right-[-12px] w-6 h-6" src="/assets/img/reading/star.svg" />
+      </div>
+
+      <!-- Chapter Heading & Italicized Description -->
+      <div class="flex-1">
+        <h2 class="font-reading-bold-italic text-3xl sm:text-4xl lg:text-[42px] text-slate-900 m-0">
+          {{ current_segment.title }}
+        </h2>
+        <p class="font-reading-italic text-lg sm:text-xl text-slate-600 mt-2 leading-relaxed m-0">
+          Lisez ce texte simple en français sur les {{ current_segment.title|lower }}s, ce qu'elles mangent et comment elles aident les gens.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- 4. Paragraph Blocks List (Free-Flowing Editorial Typography) -->
+    <div class="space-y-8 sm:space-y-11" id="story-paragraphs">
+      {% for p in paragraphs %}
+      <div id="para-{{ loop.index0 }}" class="paragraph-entry flex items-start gap-4 sm:gap-6 p-2 transition-colors duration-200">
+        
+        <!-- Black Square Paragraph Number (1.1, 1.2...) -->
+        <div class="w-10 sm:w-12 h-10 sm:h-12 bg-black text-white font-reading-bold text-base sm:text-lg flex items-center justify-center shrink-0 shadow-2xs select-none">
+          {{ current_segment_index + 1 }}.{{ loop.index }}
+        </div>
+
+        <!-- Paragraph Text and Translation -->
+        <div class="flex-1 min-w-0">
+          <!-- French Sentence (Editorial Serif) -->
+          <p class="font-reading-regular text-[19px] sm:text-[21px] leading-[1.75] text-slate-900 m-0 hover:text-blue-900 transition-colors">
+            {{ p.fr }}
+          </p>
+
+          <!-- Sentence-Aligned English Translation Card -->
+          {% if p.en %}
+          <div class="english-box bg-[#f3f4f6] rounded-2xl p-4 mt-3.5 text-sm sm:text-[15px] text-slate-600 leading-relaxed font-normal">
+            {{ p.en }}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Play Individual Paragraph Button -->
+        {% if p.audio %}
+        <button onclick="playParagraphAudio('{{ p.audio }}', {{ loop.index0 }})" 
+                class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-transparent hover:bg-slate-100 text-slate-400 hover:text-blue-600 flex items-center justify-center shrink-0 transition cursor-pointer" 
+                title="Listen to this paragraph">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        {% endif %}
+
       </div>
       {% endfor %}
     </div>
 
-    <!-- Chapter Navigation Footer -->
-    <div class="tw-flex tw-items-center tw-justify-between tw-pt-6 tw-pb-20 tw-border-t tw-border-slate-200/90 tw-gap-4">
-      {% if prev_segment_index is not none %}
-      <a href="/fr-EN/reading/course/{{ story.id }}/{{ story.url_id }}/{{ prev_segment_index }}" class="tw-inline-flex tw-items-center tw-gap-2 tw-px-5 tw-py-2.5 tw-rounded-2xl tw-bg-white hover:tw-bg-slate-50 tw-border tw-border-slate-200 tw-text-xs sm:tw-text-sm tw-font-bold tw-text-slate-700 tw-shadow-2xs tw-transition hover:tw-no-underline">
-        <svg class="tw-w-4 tw-h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-        <span>Previous Chapter</span>
-      </a>
-      {% else %}
-      <a href="/fr-EN/reading/{{ collection.id }}/{{ collection.url_id }}" class="tw-inline-flex tw-items-center tw-gap-2 tw-px-5 tw-py-2.5 tw-rounded-2xl tw-bg-white hover:tw-bg-slate-50 tw-border tw-border-slate-200 tw-text-xs sm:tw-text-sm tw-font-bold tw-text-slate-700 tw-shadow-2xs tw-transition hover:tw-no-underline">
-        <svg class="tw-w-4 tw-h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-        <span>Collection Stories</span>
-      </a>
-      {% endif %}
-
+    <!-- 5. Chapter Bottom Action (Next Chapter Pill) -->
+    <div class="mt-14 sm:mt-16 pt-6 flex justify-center">
       {% if next_segment_index is not none %}
-      <a href="/fr-EN/reading/course/{{ story.id }}/{{ story.url_id }}/{{ next_segment_index }}" class="tw-inline-flex tw-items-center tw-gap-2 tw-px-6 tw-py-2.5 tw-rounded-2xl tw-bg-blue-1 hover:tw-opacity-90 tw-text-white tw-text-xs sm:tw-text-sm tw-font-bold tw-shadow-sm tw-transition hover:tw-no-underline">
+      <a href="/fr-EN/reading/course/{{ story.id }}/{{ story.url_id }}/{{ next_segment_index }}" 
+         class="inline-flex items-center gap-2.5 px-8 py-3 rounded-full bg-[#1554ad] hover:bg-[#12458f] text-white font-bold text-sm sm:text-base shadow-md transition no-underline">
         <span>Next Chapter</span>
-        <svg class="tw-w-4 tw-h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+        </svg>
       </a>
       {% else %}
-      <a href="/fr-EN/reading" class="tw-inline-flex tw-items-center tw-gap-2 tw-px-6 tw-py-2.5 tw-rounded-2xl tw-bg-blue-1 hover:tw-opacity-90 tw-text-white tw-text-xs sm:tw-text-sm tw-font-bold tw-shadow-sm tw-transition hover:tw-no-underline">
+      <a href="/fr-EN/reading/{{ collection.id }}/{{ collection.url_id }}" 
+         class="inline-flex items-center gap-2.5 px-8 py-3 rounded-full bg-[#1554ad] hover:bg-[#12458f] text-white font-bold text-sm sm:text-base shadow-md transition no-underline">
         <span>Finish &amp; All Stories</span>
-        <svg class="tw-w-4 tw-h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+        </svg>
       </a>
       {% endif %}
     </div>
 
-  </div>
+  </main>
 
-  <!-- Bottom Floating Audio Player Bar (1:1 Mirrored) -->
-  <div class="tw-fixed tw-bottom-0 tw-left-0 tw-w-full tw-z-50 tw-bg-[#EDECEB] tw-border-t tw-border-slate-300/80 tw-shadow-2xl tw-py-2 tw-px-4 sm:tw-px-6">
-    <div class="tw-max-w-[1200px] tw-mx-auto tw-flex tw-flex-col sm:tw-flex-row tw-items-center tw-justify-between tw-gap-3">
+  <!-- 6. Sticky Bottom Synchronized Audio Dock (Matches LanGeek Exactly) -->
+  <div class="fixed bottom-0 left-0 w-full z-50 bg-[#EDECEB] border-t border-slate-300/80 shadow-2xl py-2 px-4 sm:px-8">
+    <div class="max-w-[1280px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-2 sm:gap-4">
       
-      <!-- Left: Chapter Info -->
-      <div class="tw-flex tw-items-center tw-gap-3 tw-w-full sm:tw-w-auto">
-        <div class="tw-w-10 tw-h-10 sm:tw-w-12 sm:tw-h-12 tw-rounded-xl tw-overflow-hidden tw-bg-white tw-p-1 tw-shrink-0 tw-border tw-border-slate-300">
-          <img src="/media-proxy?url={{ story.photo | urlencode }}" alt="" class="tw-w-full tw-h-full tw-object-contain" />
+      <!-- Left: Thumbnail & Title -->
+      <div class="flex items-center gap-3 w-full lg:w-auto">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden bg-white p-0.5 shrink-0 border border-slate-300 shadow-2xs">
+          <img src="/media-proxy?url={{ current_segment.photo or story.photo | urlencode }}" alt="" class="w-full h-full object-cover rounded-lg" />
         </div>
-        <div class="tw-min-w-0">
-          <h4 class="tw-text-xs sm:tw-text-sm tw-font-bold tw-text-slate-900 tw-truncate tw-m-0">
-            {{ (current_segment_index + 1) if current_segment_index is not none else 1 }}. {{ current_segment.title if current_segment else story.title }}
+        <div class="min-w-0">
+          <h4 class="text-xs sm:text-sm font-bold text-slate-900 truncate m-0">
+            {{ current_segment_index + 1 }}. {{ current_segment.title }}
           </h4>
-          <p class="tw-text-[11px] tw-text-slate-500 tw-truncate tw-m-0">
+          <p class="text-[11px] text-slate-500 truncate m-0">
             {{ story.title }}
           </p>
         </div>
       </div>
 
-      <!-- Center: Playback Controls & Time Scrubber -->
-      <div class="tw-flex tw-flex-col tw-items-center tw-gap-1.5 tw-w-full sm:tw-max-w-md">
-        <div class="tw-flex tw-items-center tw-gap-4">
-          <!-- -10s -->
-          <button onclick="skipAudio(-10)" class="tw-text-slate-600 hover:tw-text-slate-900 tw-transition p-1" title="Skip back 10 seconds">
-            <svg class="tw-w-5 tw-h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <!-- Center: Playback Controls & Multi-Segment Time Scrubber -->
+      <div class="flex flex-col items-center gap-1 w-full lg:max-w-[540px]">
+        
+        <div class="flex items-center gap-3 sm:gap-4">
+          <!-- Speed Toggle -->
+          <button onclick="cycleSpeed()" id="btn-speed" class="px-2 py-0.5 rounded-md bg-white/80 hover:bg-white border border-slate-300 text-[11px] font-bold text-slate-700 transition" title="Playback speed">
+            1.0x
+          </button>
+
+          <!-- Skip -10s -->
+          <button onclick="skipAudio(-10)" class="text-slate-600 hover:text-slate-900 transition p-1 cursor-pointer" title="Skip -10s">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.334 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z"/>
             </svg>
           </button>
 
-          <!-- Play / Pause Main -->
-          <button onclick="toggleAudioPlayback()" id="main-play-pause-btn" class="tw-w-10 tw-h-10 sm:tw-w-11 sm:tw-h-11 tw-rounded-full tw-bg-blue-1 hover:tw-opacity-90 tw-text-white tw-flex tw-items-center tw-justify-center tw-shadow-md tw-transition tw-cursor-pointer">
-            <svg id="play-icon" class="tw-w-5 tw-h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <svg id="pause-icon" class="tw-w-5 tw-h-5 tw-hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          <!-- Royal Blue Play / Pause Disc -->
+          <button onclick="toggleAudioPlayback()" id="main-play-btn" class="w-10 sm:w-11 h-10 sm:h-11 rounded-full bg-[#1554ad] hover:bg-[#12458f] text-white flex items-center justify-center shadow-md transition cursor-pointer">
+            <svg id="play-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="pause-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
           </button>
 
-          <!-- +10s -->
-          <button onclick="skipAudio(10)" class="tw-text-slate-600 hover:tw-text-slate-900 tw-transition p-1" title="Skip forward 10 seconds">
-            <svg class="tw-w-5 tw-h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <!-- Skip +10s -->
+          <button onclick="skipAudio(10)" class="text-slate-600 hover:text-slate-900 transition p-1 cursor-pointer" title="Skip +10s">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.934 12.8a1 1 0 000-1.6l-5.334-4A1 1 0 005 8v8a1 1 0 001.6.8l5.334-4zM19.934 12.8a1 1 0 000-1.6l-5.334-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.334-4z"/>
             </svg>
           </button>
         </div>
 
-        <!-- Scrubber Progress Bar -->
-        <div class="tw-flex tw-items-center tw-gap-2.5 tw-w-full">
-          <span id="audio-time-current" class="tw-text-[11px] tw-font-mono tw-text-slate-500 tw-w-9 tw-text-right">00:00</span>
-          <input type="range" id="audio-scrubber" min="0" max="100" value="0" step="0.1" class="tw-w-full tw-h-1.5 tw-bg-slate-300 tw-rounded-lg tw-appearance-none tw-cursor-pointer accent-blue-600" oninput="seekAudio(this.value)">
-          <span id="audio-time-duration" class="tw-text-[11px] tw-font-mono tw-text-slate-500 tw-w-9">00:00</span>
+        <!-- Scrubber Progress Bar & Time -->
+        <div class="flex items-center gap-2.5 w-full">
+          <span id="audio-time-current" class="text-[11px] font-mono text-slate-600 w-9 text-right">00:00</span>
+          
+          <div class="relative w-full flex items-center">
+            <input type="range" id="audio-scrubber" min="0" max="100" value="0" step="0.1" 
+                   class="w-full h-1.5 bg-slate-300 rounded-lg appearance-none cursor-pointer accent-[#1554ad]" 
+                   oninput="seekAudio(this.value)">
+          </div>
+
+          <span id="audio-time-duration" class="text-[11px] font-mono text-slate-600 w-9">02:04</span>
+          
+          <!-- Volume Icon & Slider -->
+          <div class="hidden sm:flex items-center gap-1.5 ml-1">
+            <svg class="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+            </svg>
+            <input type="range" min="0" max="1" step="0.05" value="1" 
+                   class="w-16 h-1 bg-slate-300 rounded appearance-none accent-[#1554ad]" 
+                   oninput="setVolume(this.value)">
+          </div>
         </div>
+
       </div>
 
-      <!-- Right: Utility Controls -->
-      <div class="tw-hidden md:tw-flex tw-items-center tw-gap-3">
-        <!-- Speed Toggle -->
-        <button onclick="cycleSpeed()" id="btn-speed" class="tw-px-2.5 tw-py-1 tw-rounded-lg tw-bg-white tw-border tw-border-slate-300 tw-text-xs tw-font-bold tw-text-slate-700 hover:tw-bg-slate-50 tw-transition">
-          1.0x
+      <!-- Right: Reading Accessibility Controls -->
+      <div class="hidden md:flex items-center gap-2.5">
+        
+        <!-- Safe Eyes Mode -->
+        <button onclick="toggleSafeEyes()" id="btn-safe-eyes" class="p-2 rounded-xl hover:bg-slate-200/80 text-slate-600 transition" title="Safe eyes mode">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
+          </svg>
         </button>
 
-        <!-- Translation Toggle -->
-        <button onclick="toggleAllTranslations()" class="tw-px-3 tw-py-1 tw-rounded-lg tw-bg-white tw-border tw-border-slate-300 tw-text-xs tw-font-bold tw-text-slate-700 hover:tw-bg-slate-50 tw-transition flex tw-items-center tw-gap-1">
-          <span class="tw-text-blue-600">文A</span>
+        <!-- Translation Toggle (文A) -->
+        <button onclick="toggleAllTranslations()" class="p-2 rounded-xl hover:bg-slate-200/80 text-slate-700 transition flex items-center gap-1" title="Toggle English Translations">
+          <span class="font-bold text-[#1554ad] text-sm">文A</span>
         </button>
+
+        <!-- Fullscreen Mode -->
+        <button onclick="toggleFullscreen()" class="p-2 rounded-xl hover:bg-slate-200/80 text-slate-600 transition" title="Toggle Fullscreen">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+          </svg>
+        </button>
+
       </div>
 
     </div>
@@ -258,11 +412,14 @@
 
 </div>
 
-<!-- Audio Element -->
+<!-- Hidden Audio Element -->
 <audio id="story-audio-player" class="hidden"></audio>
 
 <script>
   let showTranslations = true;
+  let heroCollapsed = false;
+  let isSafeEyes = false;
+  
   const audioList = [
     {% for p in paragraphs %}
       {% if p.audio %}'{{ p.audio }}'{% else %}''{% endif %}{% if not loop.last %},{% endif %}
@@ -307,7 +464,6 @@
   };
 
   player.onended = () => {
-    // If listening to full chapter, advance to next paragraph
     if (currentPlayingIdx >= 0 && currentPlayingIdx < audioList.length - 1) {
       playParagraphAudio(audioList[currentPlayingIdx + 1], currentPlayingIdx + 1);
     } else {
@@ -318,23 +474,23 @@
 
   function setPlayState(isPlaying) {
     if (isPlaying) {
-      playIcon.classList.add('tw-hidden');
-      pauseIcon.classList.remove('tw-hidden');
+      playIcon.classList.add('hidden');
+      pauseIcon.classList.remove('hidden');
     } else {
-      playIcon.classList.remove('tw-hidden');
-      pauseIcon.classList.add('tw-hidden');
+      playIcon.classList.remove('hidden');
+      pauseIcon.classList.add('hidden');
     }
   }
 
   function removeHighlight() {
-    document.querySelectorAll('.paragraph-card').forEach(c => c.classList.remove('active-paragraph'));
+    document.querySelectorAll('.paragraph-entry').forEach(c => c.classList.remove('active-para-highlight'));
   }
 
   function highlightParagraph(idx) {
     removeHighlight();
     const card = document.getElementById('para-' + idx);
     if (card) {
-      card.classList.add('active-paragraph');
+      card.classList.add('active-para-highlight');
       card.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }
@@ -379,14 +535,44 @@
     }
   }
 
+  function setVolume(val) {
+    player.volume = parseFloat(val);
+  }
+
   function toggleAllTranslations() {
     showTranslations = !showTranslations;
-    document.querySelectorAll('.english-translation').forEach(el => {
+    document.querySelectorAll('.english-box').forEach(el => {
       el.style.display = showTranslations ? 'block' : 'none';
     });
-    const label = document.getElementById('trans-btn-label');
-    if (label) {
-      label.textContent = showTranslations ? 'Hide English' : 'Show English';
+  }
+
+  function toggleHeroBanner() {
+    heroCollapsed = !heroCollapsed;
+    const banner = document.getElementById('hero-story-banner');
+    const chevron = document.getElementById('hero-chevron');
+    if (banner) {
+      banner.classList.toggle('banner-collapsed', heroCollapsed);
+    }
+    if (chevron) {
+      chevron.classList.toggle('rotate-180-smooth', heroCollapsed);
+    }
+  }
+
+  function scrollToReading() {
+    const el = document.getElementById('reading-content');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function toggleSafeEyes() {
+    isSafeEyes = !isSafeEyes;
+    document.body.style.filter = isSafeEyes ? 'sepia(0.3) brightness(0.95)' : 'none';
+  }
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
     }
   }
 </script>
