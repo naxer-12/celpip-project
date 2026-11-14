@@ -248,41 +248,55 @@
 
     </div>
 
-    <!-- 4. Paragraph Blocks List (Free-Flowing Editorial Typography) -->
+    <!-- 4. Story Content Blocks (Paragraphs & Illustrations) -->
     <div class="space-y-8 sm:space-y-11" id="story-paragraphs">
+      {% set ns = namespace(para_count=0) %}
       {% for p in paragraphs %}
-      <div id="para-{{ loop.index0 }}" class="paragraph-entry flex items-start gap-4 sm:gap-6 p-2 transition-colors duration-200">
-        
-        <!-- Black Square Paragraph Number (1.1, 1.2...) -->
-        <div class="w-10 sm:w-12 h-10 sm:h-12 bg-black text-white font-reading-bold text-base sm:text-lg flex items-center justify-center shrink-0 shadow-2xs select-none">
-          {{ current_segment_index + 1 }}.{{ loop.index }}
-        </div>
-
-        <!-- Paragraph Text and Translation -->
-        <div class="flex-1 min-w-0">
-          <!-- French Sentence (Editorial Serif) -->
-          <p class="font-reading-regular text-[19px] sm:text-[21px] leading-[1.75] text-slate-900 m-0 hover:text-blue-900 transition-colors">
-            {{ p.fr }}
-          </p>
-
-          <!-- Sentence-Aligned English Translation Card -->
-          {% if p.en %}
-          <div class="english-box bg-[#f3f4f6] rounded-2xl p-4 mt-3.5 text-sm sm:text-[15px] text-slate-600 leading-relaxed font-normal">
-            {{ p.en }}
+        {% if p.type == 'photo' or (not p.fr and (p.photo or p.photo_thumbnail)) %}
+          <!-- Inline Illustration (PhotoBlock) -->
+          <div class="w-full flex justify-center py-2 sm:py-4">
+            <div class="w-full max-w-[620px] rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-200/80 shadow-xs bg-slate-50">
+              <img src="/media-proxy?url={{ (p.photo or p.photo_thumbnail) | urlencode }}" 
+                   alt="Story illustration" 
+                   class="w-full h-auto object-cover block"
+                   loading="lazy" />
+            </div>
           </div>
-          {% endif %}
-        </div>
+        {% elif p.fr %}
+          {% set ns.para_count = ns.para_count + 1 %}
+          <div id="para-{{ loop.index0 }}" class="paragraph-entry flex items-start gap-4 sm:gap-6 p-2 transition-colors duration-200">
+            
+            <!-- Black Square Paragraph Number (1.1, 1.2...) -->
+            <div class="w-10 sm:w-12 h-10 sm:h-12 bg-black text-white font-reading-bold text-base sm:text-lg flex items-center justify-center shrink-0 shadow-2xs select-none">
+              {{ current_segment_index + 1 }}.{{ ns.para_count }}
+            </div>
 
-        <!-- Play Individual Paragraph Button -->
-        {% if p.audio %}
-        <button onclick="playParagraphAudio('{{ p.audio }}', {{ loop.index0 }})" 
-                class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-transparent hover:bg-slate-100 text-slate-400 hover:text-blue-600 flex items-center justify-center shrink-0 transition cursor-pointer" 
-                title="Listen to this paragraph">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </button>
+            <!-- Paragraph Text and Translation -->
+            <div class="flex-1 min-w-0">
+              <!-- French Sentence (Editorial Serif) -->
+              <p class="font-reading-regular text-[19px] sm:text-[21px] leading-[1.75] text-slate-900 m-0 hover:text-blue-900 transition-colors">
+                {{ p.fr }}
+              </p>
+
+              <!-- Sentence-Aligned English Translation Card -->
+              {% if p.en %}
+              <div class="english-box bg-[#f3f4f6] rounded-2xl p-4 mt-3.5 text-sm sm:text-[15px] text-slate-600 leading-relaxed font-normal">
+                {{ p.en }}
+              </div>
+              {% endif %}
+            </div>
+
+            <!-- Play Individual Paragraph Button -->
+            {% if p.audio %}
+            <button onclick="playParagraphAudio('{{ p.audio }}', {{ loop.index0 }})" 
+                    class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-transparent hover:bg-slate-100 text-slate-400 hover:text-blue-600 flex items-center justify-center shrink-0 transition cursor-pointer" 
+                    title="Listen to this paragraph">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            {% endif %}
+
+          </div>
         {% endif %}
-
-      </div>
       {% endfor %}
     </div>
 
@@ -464,8 +478,12 @@
   };
 
   player.onended = () => {
-    if (currentPlayingIdx >= 0 && currentPlayingIdx < audioList.length - 1) {
-      playParagraphAudio(audioList[currentPlayingIdx + 1], currentPlayingIdx + 1);
+    let nextIdx = currentPlayingIdx + 1;
+    while (nextIdx < audioList.length && !audioList[nextIdx]) {
+      nextIdx++;
+    }
+    if (nextIdx < audioList.length && audioList[nextIdx]) {
+      playParagraphAudio(audioList[nextIdx], nextIdx);
     } else {
       setPlayState(false);
       removeHighlight();
@@ -506,8 +524,9 @@
   }
 
   function playFullStoryAudio() {
-    if (audioList.length > 0 && audioList[0]) {
-      playParagraphAudio(audioList[0], 0);
+    const firstIdx = audioList.findIndex(url => Boolean(url));
+    if (firstIdx !== -1) {
+      playParagraphAudio(audioList[firstIdx], firstIdx);
     }
   }
 

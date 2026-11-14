@@ -198,6 +198,12 @@ def test_reading_comprehension_suite():
     assert "Une vache est un grand animal" in resp_story0.text
     assert "story-audio-player" in resp_story0.text
     assert "audio-scrubber" in resp_story0.text
+    # Verify PhotoBlock inline illustration is rendered without empty badge
+    assert "Story illustration" in resp_story0.text
+    assert "Les vaches donnent du lait" in resp_story0.text
+    assert "Cows give milk" in resp_story0.text
+    assert "1.5" in resp_story0.text
+    assert "1.8" in resp_story0.text
 
     # Test Reading Story Segment 1 (Mouton)
     resp_story1 = client.get("/fr-EN/reading/course/2304/animaux-de-ferme/1")
