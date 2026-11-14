@@ -438,10 +438,12 @@ async def grammar_overview_view(request: Request):
     """Render French Grammar Overview."""
     conn = get_db()
     cur = conn.cursor()
+    categories = cur.execute("SELECT * FROM grammar_categories ORDER BY position ASC").fetchall()
     courses = cur.execute("SELECT id, url_id, title, level, web_title, description, blocks_count FROM grammar_courses").fetchall()
     conn.close()
     return templates.TemplateResponse(request, "grammar_overview.html", {
         "active_tab": "grammar",
+        "categories": [dict(c) for c in categories],
         "courses": [dict(c) for c in courses]
     })
 

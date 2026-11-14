@@ -121,3 +121,20 @@ def test_admin_monitor_and_crawling():
     assert data["total_monitored"] >= 10
     assert "snapshots" in data
     assert len(data["snapshots"]) >= 10
+
+
+def test_grammar_hub_and_lessons():
+    # Test Grammar Hub with 11 Reference Modules
+    resp_hub = client.get("/fr-EN/grammar")
+    assert resp_hub.status_code == 200
+    assert "French Grammar Guide" in resp_hub.text
+    assert "Pronoms" in resp_hub.text
+    assert "Déterminants" in resp_hub.text
+    assert "Verbes" in resp_hub.text
+    assert "Structure de la phrase" in resp_hub.text
+
+    # Test Grammar Lesson Course 86
+    resp_lesson = client.get("/fr-EN/grammar/course/86/pronoms-sujets/intermediate")
+    assert resp_lesson.status_code == 200
+    assert "Pronoms sujets" in resp_lesson.text
+    assert "What Are Subject Pronouns" in resp_lesson.text
