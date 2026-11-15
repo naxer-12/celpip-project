@@ -7,6 +7,10 @@ and unlimited credits without requiring external billing or account setup.
 from typing import Dict, Any
 from fastapi import APIRouter
 
+from celtestpip.server.config import DB_PATH
+from celtestpip.server.database import get_db_connection
+from celtestpip.server.turso import is_turso_enabled
+
 router = APIRouter(tags=["User"])
 
 
@@ -30,3 +34,31 @@ def get_user_membership() -> Dict[str, Any]:
 def get_user_credits() -> Dict[str, Any]:
     """Return unlimited test-taker practice credits."""
     return {"credits": 9999, "isPro": True, "isPremium": True}
+
+
+@router.get("/api/user/sync-status")
+def get_sync_status() -> Dict[str, Any]:
+    """Report active database mode (Turso Cloud vs local SQLite fallback) and record counts."""
+    turso_active = is_turso_enabled()
+    attempts_count = 0
+    words_count = 0
+    try:
+        conn = get_db_connection(DB_PATH)
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM user_attempts")
+        attempts_count = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(*) FROM user_words")
+        words_count = cur.fetchone()[0]
+        conn.close()
+    except Exception:
+        pass
+
+    return {
+        "mode": "turso" if turso_active else "sqlite_fallback",
+        "tursoEnabled": turso_active,
+        "localDbPath": DB_PATH,
+        "localCounts": {
+            "user_attempts": attempts_count,
+            "user_words": words_count,
+        },
+    }

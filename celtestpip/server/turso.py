@@ -20,14 +20,22 @@ TURSO_DATABASE_URL = os.environ.get("TURSO_DATABASE_URL", "").strip()
 TURSO_AUTH_TOKEN = os.environ.get("TURSO_AUTH_TOKEN", "").strip()
 
 
+def _get_turso_credentials() -> tuple[str, str]:
+    """Read Turso credentials dynamically from environment (supports runtime updates)."""
+    url = os.environ.get("TURSO_DATABASE_URL", "").strip()
+    token = os.environ.get("TURSO_AUTH_TOKEN", "").strip()
+    return url, token
+
+
 def is_turso_enabled() -> bool:
     """Return True if Turso cloud database credentials are configured."""
-    return bool(TURSO_DATABASE_URL and TURSO_AUTH_TOKEN)
+    url, token = _get_turso_credentials()
+    return bool(url and token)
 
 
 def _get_turso_pipeline_url() -> str:
     """Convert libsql:// or https:// URL to the /v2/pipeline endpoint."""
-    url = TURSO_DATABASE_URL
+    url, _ = _get_turso_credentials()
     if url.startswith("libsql://"):
         url = "https://" + url[len("libsql://"):]
     url = url.rstrip("/")
@@ -41,9 +49,10 @@ def execute_turso(sql: str, params: Optional[List[Any]] = None) -> Dict[str, Any
     if not is_turso_enabled():
         return {"error": "Turso not enabled"}
 
+    _, token = _get_turso_credentials()
     pipeline_url = _get_turso_pipeline_url()
     headers = {
-        "Authorization": f"Bearer {TURSO_AUTH_TOKEN}",
+        "Authorization": f"Bearer {token}",
         "Content-Type": "application/json",
     }
 
@@ -52,12 +61,12 @@ def execute_turso(sql: str, params: Optional[List[Any]] = None) -> Dict[str, Any
         for p in params:
             if p is None:
                 args.append({"type": "null"})
+            elif isinstance(p, bool):
+                args.append({"type": "integer", "value": "1" if p else "0"})
             elif isinstance(p, int):
                 args.append({"type": "integer", "value": str(p)})
             elif isinstance(p, float):
                 args.append({"type": "float", "value": p})
-            elif isinstance(p, bool):
-                args.append({"type": "integer", "value": "1" if p else "0"})
             else:
                 args.append({"type": "text", "value": str(p)})
 
@@ -118,3 +127,73 @@ def init_turso_tables() -> None:
         last_reviewed TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """)
+
+
+def sync_local_to_turso(db_path: str) -> Dict[str, Any]:
+    """Push local SQLite user_attempts and user_words rows to Turso cloud."""
+    import sqlite3
+
+    if not is_turso_enabled():
+        return {"status": "skipped", "reason": "turso_not_configured", "synced_attempts": 0, "synced_words": 0}
+
+    init_turso_tables()
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+
+    synced_words = 0
+    synced_attempts = 0
+    try:
+        cur.execute("SELECT id, word, bundle_id, mastered, review_count, notes, created_at, last_reviewed FROM user_words")
+        for row in cur.fetchall():
+            res = execute_turso(
+                """
+                INSERT INTO user_words (id, word, bundle_id, mastered, review_count, notes, created_at, last_reviewed)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(word) DO UPDATE SET
+                    mastered = excluded.mastered,
+                    review_count = excluded.review_count,
+                    notes = excluded.notes,
+                    last_reviewed = excluded.last_reviewed
+                """,
+                [
+                    row["id"],
+                    row["word"],
+                    row["bundle_id"],
+                    int(bool(row["mastered"])),
+                    row["review_count"],
+                    row["notes"],
+                    row["created_at"],
+                    row["last_reviewed"],
+                ],
+            )
+            if "error" not in res:
+                synced_words += 1
+
+        cur.execute("SELECT exam_id, part_number, score, total_questions, clb_estimate, answers_json, completed_at FROM user_attempts")
+        for row in cur.fetchall():
+            res = execute_turso(
+                """
+                INSERT INTO user_attempts (exam_id, part_number, score, total_questions, clb_estimate, answers_json, completed_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                """,
+                [
+                    row["exam_id"],
+                    row["part_number"],
+                    row["score"],
+                    row["total_questions"],
+                    row["clb_estimate"],
+                    row["answers_json"],
+                    row["completed_at"],
+                ],
+            )
+            if "error" not in res:
+                synced_attempts += 1
+    finally:
+        conn.close()
+
+    return {
+        "status": "synced",
+        "synced_attempts": synced_attempts,
+        "synced_words": synced_words,
+    }

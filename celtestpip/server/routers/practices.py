@@ -7,15 +7,19 @@ answer explanations, and Writing/Speaking submission feedback.
 import os
 import re
 import json
+import uuid
 from typing import Dict, Any, List
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
 from celtestpip.server.config import PAGES_DIR
+from celtestpip.server.scoring import evaluate_writing_response, evaluate_speaking_response
 
 router = APIRouter(tags=["Practices"])
 
 USER_ANSWERS: Dict[str, str] = {}
+WRITING_SUBMISSIONS: Dict[str, Dict[str, Any]] = {}
+SPEAKING_SUBMISSIONS: Dict[str, Dict[str, Any]] = {}
 
 
 def get_practice_questions(practice_id: str) -> List[Dict[str, Any]]:
@@ -252,32 +256,140 @@ async def report_question(request: Request) -> Dict[str, Any]:
     return {"ok": True, "status": "ok"}
 
 
+async def _extract_request_payload(request: Request) -> Dict[str, Any]:
+    """Parse either multipart/form-data or JSON body safely without failing on empty requests."""
+    content_type = (request.headers.get("content-type") or "").lower()
+    payload: Dict[str, Any] = {}
+    if "multipart/form-data" in content_type or "application/x-www-form-urlencoded" in content_type:
+        try:
+            form = await request.form()
+            for key, val in form.multi_items():
+                if hasattr(val, "read"):
+                    raw_bytes = await val.read()
+                    payload["_audio_size_bytes"] = len(raw_bytes)
+                else:
+                    payload[key] = val
+        except Exception:
+            pass
+    elif "application/json" in content_type:
+        try:
+            data = await request.json()
+            if isinstance(data, dict):
+                payload.update(data)
+        except Exception:
+            pass
+    else:
+        try:
+            raw_body = await request.body()
+            if raw_body:
+                data = json.loads(raw_body.decode("utf-8"))
+                if isinstance(data, dict):
+                    payload.update(data)
+        except Exception:
+            pass
+    return payload
+
+
 @router.post("/api/writing")
 @router.post("/api/writing/update")
 async def handle_writing_submit(request: Request) -> Dict[str, Any]:
-    """Process CELPIP Writing Task responses (Email / Survey)."""
-    return {
-        "id": "mock_writing_submit_1",
-        "score": 10,
-        "clb": 10,
-        "wordCount": 185,
-        "feedback": "Strong lexical variety, clear coherence, accurate paragraph transitions, and task fulfillment.",
-        "corrected": "Excellent draft. Minor stylistic tweaks applied.",
-        "createdAt": "2026-11-05T20:00:00Z",
-    }
+    """Process CELPIP Writing Task responses (Email / Survey) with offline CLB scoring."""
+    payload = await _extract_request_payload(request)
+    is_update = request.url.path.endswith("/update")
+    existing_id = str(payload.get("userPracticeSubmitId") or "").strip()
+
+    if is_update and existing_id and existing_id in WRITING_SUBMISSIONS:
+        prev = WRITING_SUBMISSIONS[existing_id]
+        result = evaluate_writing_response(
+            response_text=prev.get("_raw_text", ""),
+            practice_id=prev.get("practiceId") or "",
+            time_spent=prev.get("timeSpent"),
+            submission_id=existing_id,
+        )
+        WRITING_SUBMISSIONS[existing_id] = {**result, "_raw_text": prev.get("_raw_text", "")}
+        return result
+
+    response_text = str(
+        payload.get("response")
+        or payload.get("text")
+        or payload.get("content")
+        or payload.get("answer")
+        or ""
+    )
+    practice_id = str(payload.get("practiceId") or "")
+    time_spent_raw = payload.get("timeSpent")
+    try:
+        time_spent = int(time_spent_raw) if time_spent_raw is not None and str(time_spent_raw).strip() != "" else None
+    except (ValueError, TypeError):
+        time_spent = None
+
+    sub_id = existing_id or (f"writing_{uuid.uuid4().hex[:12]}" if response_text.strip() else "mock_writing_submit_1")
+    result = evaluate_writing_response(
+        response_text=response_text,
+        practice_id=practice_id,
+        time_spent=time_spent,
+        submission_id=sub_id,
+    )
+    WRITING_SUBMISSIONS[sub_id] = {**result, "_raw_text": response_text}
+    return result
 
 
 @router.post("/api/speaking")
 @router.post("/api/speaking/update")
 async def handle_speaking_submit(request: Request) -> Dict[str, Any]:
-    """Process CELPIP Speaking Task audio / responses."""
-    return {
-        "id": "mock_speaking_submit_1",
-        "score": 10,
-        "clb": 10,
-        "fluency": "High",
-        "pronunciation": "Clear",
-        "vocabulary": "Advanced",
-        "feedback": "Natural pace, coherent structure, varied vocabulary, and clear speech delivery.",
-        "createdAt": "2026-11-05T20:00:00Z",
+    """Process CELPIP Speaking Task audio / responses with offline CLB scoring."""
+    payload = await _extract_request_payload(request)
+    is_update = request.url.path.endswith("/update")
+    existing_id = str(payload.get("userPracticeSubmitId") or "").strip()
+
+    if is_update and existing_id and existing_id in SPEAKING_SUBMISSIONS:
+        prev = SPEAKING_SUBMISSIONS[existing_id]
+        result = evaluate_speaking_response(
+            audio_size_bytes=prev.get("_audio_size_bytes", 0),
+            transcript=prev.get("_transcript", ""),
+            practice_text=prev.get("_practice_text", ""),
+            practice_id=prev.get("practiceId") or "",
+            duration_seconds=prev.get("estimatedDurationSec"),
+            submission_id=existing_id,
+        )
+        SPEAKING_SUBMISSIONS[existing_id] = {
+            **result,
+            "_audio_size_bytes": prev.get("_audio_size_bytes", 0),
+            "_transcript": prev.get("_transcript", ""),
+            "_practice_text": prev.get("_practice_text", ""),
+        }
+        return result
+
+    audio_size_bytes = int(payload.get("_audio_size_bytes", 0) or 0)
+    transcript = str(
+        payload.get("transcript")
+        or payload.get("response")
+        or payload.get("text")
+        or ""
+    )
+    practice_text = str(payload.get("practiceText") or "")
+    practice_id = str(payload.get("practiceId") or "")
+    duration_raw = payload.get("duration") or payload.get("audioDuration")
+    try:
+        duration_seconds = float(duration_raw) if duration_raw is not None and str(duration_raw).strip() != "" else None
+    except (ValueError, TypeError):
+        duration_seconds = None
+
+    has_input = audio_size_bytes > 0 or bool(transcript.strip()) or duration_seconds is not None
+    sub_id = existing_id or (f"speaking_{uuid.uuid4().hex[:12]}" if has_input else "mock_speaking_submit_1")
+
+    result = evaluate_speaking_response(
+        audio_size_bytes=audio_size_bytes,
+        transcript=transcript,
+        practice_text=practice_text,
+        practice_id=practice_id,
+        duration_seconds=duration_seconds,
+        submission_id=sub_id,
+    )
+    SPEAKING_SUBMISSIONS[sub_id] = {
+        **result,
+        "_audio_size_bytes": audio_size_bytes,
+        "_transcript": transcript,
+        "_practice_text": practice_text,
     }
+    return result
