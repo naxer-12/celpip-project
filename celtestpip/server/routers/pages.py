@@ -106,7 +106,11 @@ def dynamic_content_page(full_path: str) -> HTMLResponse:
     if os.path.exists(page_file) and os.path.getsize(page_file) > 0:
         with open(page_file, "r", encoding="utf-8") as f:
             content = f.read()
-        content = content.replace("2fvw__nnw3kbd.js", "2fvw__nnw3kbd_v2.js").replace("24w9ng0sqrv9g.js", "24w9ng0sqrv9g_v2.js")
+        content = (
+            content.replace("2fvw__nnw3kbd.js", "2fvw__nnw3kbd_v2.js")
+            .replace("24w9ng0sqrv9g.js", "24w9ng0sqrv9g_v2.js")
+            .replace("00m674sfix9n3.js", "00m674sfix9n3_v2.js")
+        )
         PAGE_CACHE[safe_slug] = content
         return HTMLResponse(content, headers=PAGE_HEADERS)
 
