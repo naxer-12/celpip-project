@@ -132,20 +132,39 @@ def evaluate_writing_response(
 
     # Backward-compatible default for empty smoke-test requests
     if not text:
+        default_scores = {
+            "coherence": 10,
+            "vocabulary": 10,
+            "readability": 10,
+            "fulfillment": 10,
+        }
         return {
             "id": sub_id,
             "practiceId": practice_id or None,
             "score": 10,
             "clb": 10,
             "wordCount": 185,
-            "dimensions": {
-                "coherence": 10,
-                "vocabulary": 10,
-                "readability": 10,
-                "taskFulfillment": 10,
-            },
+            "submitText": "Sample response submitted for scoring.",
+            "dimensions": default_scores,
             "feedback": "Strong lexical variety, clear coherence, accurate paragraph transitions, and task fulfillment.",
             "corrected": "Excellent draft. Minor stylistic tweaks applied.",
+            "analysis": {
+                "version": 4,
+                "score": default_scores,
+                "assessment": {
+                    "description": "Strong lexical variety, clear coherence, accurate paragraph transitions, and task fulfillment.",
+                    "fixedResponse": "SAME",
+                    "revisedVersion": "GOOD",
+                    "tips": "Continue maintaining clear paragraph structure and varied vocabulary.",
+                },
+                "insights": {
+                    "summary": "Strong lexical variety, clear coherence, accurate paragraph transitions, and task fulfillment.",
+                },
+                "meta": {
+                    "wordCount": 185,
+                    "timeSpentSeconds": time_spent or 0,
+                },
+            },
             "createdAt": _utc_now_iso(),
         }
 
@@ -240,6 +259,16 @@ def evaluate_writing_response(
 
     feedback = " ".join(notes)
     corrected = "\n\n".join(paragraphs) if paragraphs else text
+    score_map = {
+        "coherence": coherence,
+        "vocabulary": vocabulary,
+        "readability": readability,
+        "fulfillment": task_fulfillment,
+    }
+    tips_text = (
+        f"Word count: {word_count} (target 150-200). "
+        + ("Good transition variety." if transition_hits >= 2 else "Use more linking words like 'However' or 'Furthermore'.")
+    )
 
     return {
         "id": sub_id,
@@ -250,14 +279,33 @@ def evaluate_writing_response(
         "wordCount": word_count,
         "sentenceCount": sentence_count,
         "timeSpent": time_spent,
-        "dimensions": {
-            "coherence": coherence,
-            "vocabulary": vocabulary,
-            "readability": readability,
-            "taskFulfillment": task_fulfillment,
-        },
+        "submitText": text,
+        "dimensions": score_map,
         "feedback": feedback,
         "corrected": corrected,
+        "analysis": {
+            "version": 4,
+            "score": score_map,
+            "assessment": {
+                "description": feedback,
+                "fixedResponse": corrected if corrected != text else "SAME",
+                "revisedVersion": "GOOD",
+                "tips": tips_text,
+            },
+            "insights": {
+                "summary": feedback,
+                "dimensionNotes": {
+                    "coherence": f"{len(paragraphs)} paragraph(s), {transition_hits} transition marker(s).",
+                    "vocabulary": f"Lexical diversity {round(lexical_diversity * 100)}% across {word_count} words.",
+                    "readability": f"Average sentence length: {round(avg_sentence_len, 1)} words.",
+                    "fulfillment": f"{word_count} words (CELPIP target: 150-200 words).",
+                },
+            },
+            "meta": {
+                "wordCount": word_count,
+                "timeSpentSeconds": time_spent or 0,
+            },
+        },
         "createdAt": _utc_now_iso(),
     }
 
@@ -276,6 +324,12 @@ def evaluate_speaking_response(
 
     # Backward-compatible default for empty smoke-test requests
     if audio_size_bytes <= 0 and not clean_transcript and duration_seconds is None:
+        default_scores = {
+            "coherence": 10,
+            "vocabulary": 10,
+            "listenability": 10,
+            "fulfillment": 10,
+        }
         return {
             "id": sub_id,
             "practiceId": practice_id or None,
@@ -284,13 +338,26 @@ def evaluate_speaking_response(
             "fluency": "High",
             "pronunciation": "Clear",
             "vocabulary": "Advanced",
-            "dimensions": {
-                "coherence": 10,
-                "vocabulary": 10,
-                "listenability": 10,
-                "taskFulfillment": 10,
-            },
+            "submitText": "Audio response recorded and evaluated offline.",
+            "dimensions": default_scores,
             "feedback": "Natural pace, coherent structure, varied vocabulary, and clear speech delivery.",
+            "analysis": {
+                "version": 4,
+                "score": default_scores,
+                "assessment": {
+                    "description": "Natural pace, coherent structure, varied vocabulary, and clear speech delivery.",
+                    "fixedResponse": "SAME",
+                    "revisedVersion": "GOOD",
+                    "tips": "Maintain a steady pace and support each point with a concrete example.",
+                },
+                "insights": {
+                    "summary": "Natural pace, coherent structure, varied vocabulary, and clear speech delivery.",
+                },
+                "meta": {
+                    "wordCount": 0,
+                    "timeSpentSeconds": 60,
+                },
+            },
             "createdAt": _utc_now_iso(),
         }
 
@@ -349,6 +416,15 @@ def evaluate_speaking_response(
     if clean_transcript and word_count < 60:
         notes.append("Expand your explanation with clear transitions and supporting details.")
 
+    feedback = " ".join(notes)
+    score_map = {
+        "coherence": coherence,
+        "vocabulary": vocabulary,
+        "listenability": listenability,
+        "fulfillment": task_fulfillment,
+    }
+    submit_text = clean_transcript or f"Spoken response recorded ({round(est_duration, 1)}s)."
+
     return {
         "id": sub_id,
         "practiceId": practice_id or None,
@@ -360,12 +436,25 @@ def evaluate_speaking_response(
         "fluency": fluency_label,
         "pronunciation": pronunciation_label,
         "vocabulary": vocab_label,
-        "dimensions": {
-            "coherence": coherence,
-            "vocabulary": vocabulary,
-            "listenability": listenability,
-            "taskFulfillment": task_fulfillment,
+        "submitText": submit_text,
+        "dimensions": score_map,
+        "feedback": feedback,
+        "analysis": {
+            "version": 4,
+            "score": score_map,
+            "assessment": {
+                "description": feedback,
+                "fixedResponse": "SAME",
+                "revisedVersion": "GOOD",
+                "tips": "Structure your answer with a clear opening, 2 supporting reasons, and a brief conclusion.",
+            },
+            "insights": {
+                "summary": feedback,
+            },
+            "meta": {
+                "wordCount": word_count,
+                "timeSpentSeconds": int(round(est_duration)),
+            },
         },
-        "feedback": " ".join(notes),
         "createdAt": _utc_now_iso(),
     }
