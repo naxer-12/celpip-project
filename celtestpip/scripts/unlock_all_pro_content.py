@@ -10,9 +10,15 @@ START_BTN_HDR = """<button class="inline-flex items-center justify-center whites
 START_BTN_BOX = """<div class="mt-6 flex flex-col w-full lg:w-fit"><button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold bg-primary blue-btn text-white rounded-xl border border-blue-800 hover:-translate-y-0.5 active:translate-y-0 duration-200 h-12 px-7 shadow text-[15px] font-bold" id="startTaskBtn">Start <svg class="lucide lucide-arrow-right w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button></div>"""
 
 def clean_html(html: str) -> str:
-    # 0. Point Clerk to local patched version to prevent origin domain crashes
-    if 'https://clerk.celtestpip.com/npm/@clerk/clerk-js@6/dist/clerk.browser.js' in html:
-        html = html.replace('https://clerk.celtestpip.com/npm/@clerk/clerk-js@6/dist/clerk.browser.js', '/static/js/clerk.browser.js')
+    # 0. Strip all Clerk auth, tracking scripts and beacons completely
+    html = re.sub(r'<script[^>]*clerk[^>]*>.*?</script>', '', html, flags=re.DOTALL | re.IGNORECASE)
+    html = re.sub(r'<script[^>]*clerk[^>]*>', '', html, flags=re.IGNORECASE)
+    html = re.sub(r'<link[^>]*clerk[^>]*>', '', html, flags=re.IGNORECASE)
+    html = re.sub(r'<script[^>]*cloudflareinsights[^>]*>.*?</script>', '', html, flags=re.DOTALL | re.IGNORECASE)
+    html = re.sub(r'<script[^>]*cloudflareinsights[^>]*>', '', html, flags=re.IGNORECASE)
+    html = html.replace('/static/js/clerk.browser.js', '')
+    html = html.replace('https://clerk.celtestpip.com/npm/@clerk/clerk-js@6/dist/clerk.browser.js', '')
+    html = html.replace('https://clerk.celtestpip.com', '')
 
     # 1. Update RSC JSON flags so React hydrates as Pro/authenticated
     if 'false' in html or 'undefined' in html:
@@ -142,11 +148,16 @@ def clean_html(html: str) -> str:
             html
         )
 
-    # 7. Replace spinning auth placeholder button with clean static Sign in / Sign up button
+    # 7. Replace spinning auth placeholder button & sign in buttons with clean Practice Tests CTA
+    practice_cta = '<a href="/exams"><button class="items-center justify-center whitespace-nowrap text-sm font-semibold ring-offset-background transition-[color,background-color,border-color,box-shadow,transform] ease-out-strong active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary blue-btn text-white rounded-xl hover:-translate-y-0.5 active:translate-y-0 duration-200 h-10 px-4 py-2 flex font-medium shadow-sm">Practice Tests</button></a>'
     if 'lucide-loader-circle' in html:
         spinner_btn_regex = r'<button[^>]*>\s*<svg[^>]*lucide-loader-circle[^>]*animate-spin[^>]*>.*?</svg>\s*</button>'
-        static_signin_btn = '<a href="/exams"><button class="items-center justify-center whitespace-nowrap text-sm font-semibold ring-offset-background transition-[color,background-color,border-color,box-shadow,transform] ease-out-strong active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-white white-btn text-zinc-900 rounded-xl border border-zinc-300 hover:-translate-y-0.5 active:translate-y-0 duration-200 h-10 px-4 py-2 flex lg:w-[128px] w-[80px]"><span class="lg:hidden">Sign in</span><span class="hidden lg:block">Login / Sign up</span></button></a>'
-        html = re.sub(spinner_btn_regex, static_signin_btn, html, flags=re.DOTALL)
+        html = re.sub(spinner_btn_regex, practice_cta, html, flags=re.DOTALL)
+
+    signin_pat = r'<a[^>]*href="/exams"[^>]*><button[^>]*>.*?Sign in.*?Login / Sign up.*?</button></a>'
+    html = re.sub(signin_pat, practice_cta, html, flags=re.DOTALL)
+    signin_btn_regex = r'<button[^>]*>\s*<span[^>]*>Sign in</span>\s*<span[^>]*>Login / Sign up</span>\s*</button>'
+    html = re.sub(signin_btn_regex, practice_cta, html, flags=re.DOTALL)
 
     # 8. Transform locked practice badges in part hub pages to Free badges
     if 'Pro practice' in html:

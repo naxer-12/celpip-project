@@ -7,6 +7,18 @@ from celtestpip.scripts.unlock_all_pro_content import clean_html
 def client():
     return TestClient(app)
 
+def test_auth_completely_removed(client):
+    resp = client.get("/practices/listening_cmcwhh3ft008jtgu9sjrb1lvy")
+    assert resp.status_code == 200
+    html = resp.text
+    # Verify no Clerk scripts or preloads exist
+    assert "clerk.browser.js" not in html
+    assert "clerk.celtestpip.com" not in html
+    assert "cloudflareinsights.com" not in html
+    # Verify no Sign in / Login button in header
+    assert "Sign in" not in html or 'data-auth="false"' in html or 'href="/exams"' in html
+    assert "Login / Sign up" not in html
+
 def test_mock_membership_api(client):
     resp = client.get("/api/user/membership")
     assert resp.status_code == 200
@@ -97,7 +109,7 @@ def test_clean_html_replaces_spinning_auth_loader():
     cleaned = clean_html(sample_spinning_html)
     assert "lucide-loader-circle" not in cleaned
     assert "animate-spin" not in cleaned
-    assert "Login / Sign up" in cleaned
+    assert "Practice Tests" in cleaned
     assert 'href="/exams"' in cleaned
 
 def test_practice_page_served_unlocked(client):
