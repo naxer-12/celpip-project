@@ -21,6 +21,34 @@
     for (const s of scripts) {
       const txt = s.textContent || '';
       if (txt.includes('steps')) {
+        const matchIdx = txt.search(/steps\\*":\s*\[/);
+        if (matchIdx !== -1) {
+          const startIdx = txt.indexOf('[', matchIdx);
+          let depth = 0;
+          let endIdx = -1;
+          for (let i = startIdx; i < txt.length; i++) {
+            const c = txt[i];
+            if (c === '[') depth++;
+            else if (c === ']') {
+              depth--;
+              if (depth === 0) {
+                endIdx = i + 1;
+                break;
+              }
+            }
+          }
+          if (endIdx !== -1) {
+            try {
+              let raw = txt.slice(startIdx, endIdx);
+              raw = raw.replace(/\\"/g, '"');
+              const steps = JSON.parse(raw);
+              if (Array.isArray(steps) && steps.length > 0) {
+                return { steps };
+              }
+            } catch (e) {}
+          }
+        }
+
         const match = txt.match(/steps\\*":\s*(\[[^\]]+\])/);
         if (match) {
           try {
@@ -307,4 +335,71 @@
     startCountdown,
     renderOptions,
   };
+
+  function initRunner() {
+    const startBtns = [
+      document.getElementById('startBtn'),
+      document.getElementById('startTaskBtn'),
+      document.getElementById('headerStartBtn')
+    ].filter(Boolean);
+    const data = extractPracticeData();
+    if (startBtns.length && data && data.steps) {
+      startBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          // Hide instructions container
+          const mainCard = btn.closest('.border') || btn.closest('div');
+          if (mainCard) mainCard.style.display = 'none';
+
+          const headerBtn = document.getElementById('headerStartBtn');
+          if (headerBtn) headerBtn.style.display = 'none';
+
+          let container = document.getElementById('practicePlayerContainer');
+          if (!container) {
+            container = document.createElement('div');
+            container.id = 'practicePlayerContainer';
+            if (mainCard && mainCard.parentNode) {
+              mainCard.parentNode.insertBefore(container, mainCard.nextSibling);
+            } else {
+              document.body.appendChild(container);
+            }
+          } else if (mainCard && mainCard.contains(container)) {
+            mainCard.parentNode.insertBefore(container, mainCard.nextSibling);
+          }
+
+          let currentStepIdx = 0;
+          function runNext() {
+            currentStepIdx++;
+            if (currentStepIdx < data.steps.length) {
+              const step = data.steps[currentStepIdx];
+              if (step.type === 'audio') {
+                mountAudioPlayer(step, runNext);
+              } else if (step.type === 'question') {
+                mountQuestionStep(step, currentStepIdx, data.steps.length - 1, null, runNext);
+              } else {
+                runNext();
+              }
+            } else {
+              window.location.reload();
+            }
+          }
+
+          // Start with first non-task step or audio step
+          const audioStep = data.steps.find(s => s.type === 'audio') || data.steps[1];
+          if (audioStep) {
+            currentStepIdx = data.steps.indexOf(audioStep);
+            mountAudioPlayer(audioStep, runNext);
+          } else {
+            runNext();
+          }
+        });
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initRunner);
+  } else {
+    initRunner();
+  }
 })();

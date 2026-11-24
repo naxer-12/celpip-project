@@ -197,6 +197,21 @@ def clean_html(html: str) -> str:
             '<style id="celtestpip-unlock-style">\n    @media (min-width: 1024px) { #headerStartBtn { display: none !important; } }'
         )
 
+    # 13. Inject practice runner script and player container
+    if ('/practices/' in html or 'practice' in html or 'practiceId' in html) and 'practicePlayerContainer' not in html:
+        container_tag = '<div id="practicePlayerContainer"></div>'
+        runner_tag = '<script src="/static/js/celtestpip-runner.js" defer></script>'
+        if '</body>' in html:
+            html = html.replace('</body>', f'{container_tag}\n{runner_tag}</body>', 1)
+        else:
+            html = f'{html}\n{container_tag}\n{runner_tag}'
+    elif '/static/js/celtestpip-runner.js' not in html and ('/practices/' in html or 'practice' in html or 'practiceId' in html or 'practicePlayerContainer' in html):
+        runner_tag = '<script src="/static/js/celtestpip-runner.js" defer></script>'
+        if '</body>' in html:
+            html = html.replace('</body>', f'{runner_tag}</body>', 1)
+        else:
+            html = f'{html}\n{runner_tag}'
+
     return html
 
 def process_file(path: str):

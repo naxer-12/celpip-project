@@ -184,3 +184,11 @@ def test_responsive_header_start_button_styling(client):
     assert "@media (min-width: 1024px)" in css_resp.text
     assert "#headerStartBtn" in css_resp.text
 
+def test_practice_page_has_runner_script(client):
+    resp = client.get("/practices/listening_cmn4hda7y00pyyqundlh38n09")
+    assert resp.status_code == 200
+    html = resp.text
+    assert "/static/js/celtestpip-runner.js" in html
+    assert "practicePlayerContainer" in html
+
+

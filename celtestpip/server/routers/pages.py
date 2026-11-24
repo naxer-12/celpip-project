@@ -164,6 +164,11 @@ def dynamic_content_page(full_path: str) -> HTMLResponse:
     safe_slug = slug.replace("/", "_")
     if safe_slug in PAGE_CACHE:
         content = PAGE_CACHE[safe_slug]
+        if safe_slug.startswith("practices_") or "/practices/" in slug:
+            if 'practicePlayerContainer' not in content:
+                content = content.replace('</body>', '<div id="practicePlayerContainer"></div>\n<script src="/static/js/celtestpip-runner.js" defer></script></body>')
+            elif '/static/js/celtestpip-runner.js' not in content:
+                content = content.replace('</body>', '<script src="/static/js/celtestpip-runner.js" defer></script></body>')
         if safe_slug.startswith("courses_"):
             content = _apply_course_progress(content, slug)
         return HTMLResponse(content, headers=PAGE_HEADERS)
@@ -178,7 +183,13 @@ def dynamic_content_page(full_path: str) -> HTMLResponse:
             .replace("00m674sfix9n3.js", "00m674sfix9n3_v2.js")
             .replace("1191lj8_x8otc.js", "1191lj8_x8otc_v2.js")
         )
+        content = clean_html(content)
         content = rewrite_celtestpip_links(content)
+        if safe_slug.startswith("practices_") or "/practices/" in slug:
+            if 'practicePlayerContainer' not in content:
+                content = content.replace('</body>', '<div id="practicePlayerContainer"></div>\n<script src="/static/js/celtestpip-runner.js" defer></script></body>')
+            elif '/static/js/celtestpip-runner.js' not in content:
+                content = content.replace('</body>', '<script src="/static/js/celtestpip-runner.js" defer></script></body>')
         PAGE_CACHE[safe_slug] = content
         if safe_slug.startswith("courses_"):
             content = _apply_course_progress(content, slug)
