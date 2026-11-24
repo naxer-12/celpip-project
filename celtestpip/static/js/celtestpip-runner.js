@@ -344,7 +344,202 @@
     startCountdown,
     renderOptions,
     findStartButtons,
+    initWritingEditor,
+    initSpeakingRecorder,
   };
+
+  function initWritingEditor() {
+    if (typeof window === 'undefined' || !window.location || !window.location.pathname) return;
+    if (!window.location.pathname.includes('/practices/writing_') && !window.location.pathname.includes('practices_writing_')) return;
+    if (document.getElementById('writingPracticeWorkspace')) return;
+
+    const container = document.getElementById('practicePlayerContainer') || document.querySelector('main') || document.body;
+    const workspace = document.createElement('div');
+    workspace.id = 'writingPracticeWorkspace';
+    workspace.className = 'w-full max-w-4xl mx-auto mt-8 p-6 bg-white rounded-2xl border border-zinc-200 shadow-sm';
+    workspace.innerHTML = `
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-zinc-100">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex size-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <h3 class="font-bold text-lg text-zinc-900">Your Response (Exam Simulation)</h3>
+        </div>
+        <div class="flex items-center gap-4 text-sm font-medium">
+          <span id="writingWordCount" class="px-3 py-1 rounded-full bg-zinc-100 text-zinc-700 font-semibold">Word count: 0 / 150–200</span>
+          <span id="writingTimer" class="px-3 py-1 rounded-full bg-blue-50 text-blue-700 font-bold tabular-nums">Time: 27:00</span>
+        </div>
+      </div>
+      <div class="space-y-4">
+        <textarea id="writingEditorTextarea" rows="12" class="w-full p-4 text-base border border-zinc-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:outline-none placeholder-zinc-400 font-sans leading-relaxed resize-y" placeholder="Type your response here. Word counter updates automatically as you type..."></textarea>
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+          <button id="toggleSampleAnswerBtn" type="button" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-zinc-700 bg-zinc-100 hover:bg-zinc-200 rounded-xl transition-colors">
+            <span>View Sample Answer (CLB 9+)</span>
+          </button>
+          <button id="saveWritingBtn" type="button" class="inline-flex items-center gap-2 px-5 py-2 text-sm font-bold text-white bg-primary blue-btn rounded-xl shadow-sm hover:opacity-95 transition-opacity">
+            <span>Submit for Review</span>
+          </button>
+        </div>
+        <div id="sampleAnswerAccordion" class="hidden mt-4 p-5 rounded-xl bg-blue-50/70 border border-blue-100 text-sm text-zinc-800 leading-relaxed">
+          <h4 class="font-bold text-blue-900 mb-2">CLB 9+ High-Scoring Sample Response:</h4>
+          <p class="whitespace-pre-line text-zinc-700">Dear Building Management,
+
+I am writing to express my view regarding the proposed changes to the building delivery policy. As a resident who frequently receives parcels, I believe having deliveries brought directly to unit doors is far more convenient and secure for all tenants.
+
+First and foremost, many residents work long hours or have mobility constraints, making trips down to the lobby for heavy packages burdensome. Direct door deliveries ensure that tenants can receive their essentials without unnecessary disruption. Furthermore, placing parcels inside apartment hallways significantly reduces the risk of accidental misplacement or theft that can happen in high-traffic common areas.
+
+While I understand the security and clutter concerns regarding delivery personnel entering upper floors, these can easily be mitigated by implementing keycard visitor logs or designated delivery hours.
+
+Thank you for considering my feedback on this matter.
+
+Sincerely,
+Resident</p>
+        </div>
+      </div>
+    `;
+
+    if (container.parentNode && container.id === 'practicePlayerContainer') {
+      container.parentNode.insertBefore(workspace, container);
+    } else {
+      container.appendChild(workspace);
+    }
+
+    const textarea = workspace.querySelector('#writingEditorTextarea');
+    const wordCountEl = workspace.querySelector('#writingWordCount');
+    const toggleBtn = workspace.querySelector('#toggleSampleAnswerBtn');
+    const sampleBox = workspace.querySelector('#sampleAnswerAccordion');
+    const submitBtn = workspace.querySelector('#saveWritingBtn');
+
+    if (textarea && wordCountEl) {
+      textarea.addEventListener('input', () => {
+        const text = textarea.value.trim();
+        const words = text ? text.split(/\s+/).length : 0;
+        wordCountEl.textContent = `Word count: ${words} / 150–200`;
+        if (words >= 150 && words <= 200) {
+          wordCountEl.className = 'px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-semibold';
+        } else if (words > 200) {
+          wordCountEl.className = 'px-3 py-1 rounded-full bg-amber-100 text-amber-800 font-semibold';
+        } else {
+          wordCountEl.className = 'px-3 py-1 rounded-full bg-zinc-100 text-zinc-700 font-semibold';
+        }
+      });
+    }
+
+    if (toggleBtn && sampleBox) {
+      toggleBtn.addEventListener('click', () => {
+        sampleBox.classList.toggle('hidden');
+        toggleBtn.textContent = sampleBox.classList.contains('hidden') ? 'View Sample Answer (CLB 9+)' : 'Hide Sample Answer';
+      });
+    }
+
+    if (submitBtn) {
+      submitBtn.addEventListener('click', () => {
+        submitBtn.textContent = 'Response Recorded ✓';
+        submitBtn.classList.add('bg-emerald-600');
+        if (sampleBox) sampleBox.classList.remove('hidden');
+      });
+    }
+  }
+
+  function initSpeakingRecorder() {
+    if (typeof window === 'undefined' || !window.location || !window.location.pathname) return;
+    if (!window.location.pathname.includes('/practices/speaking_') && !window.location.pathname.includes('practices_speaking_')) return;
+    if (document.getElementById('speakingPracticeWorkspace')) return;
+
+    const container = document.getElementById('practicePlayerContainer') || document.querySelector('main') || document.body;
+    const workspace = document.createElement('div');
+    workspace.id = 'speakingPracticeWorkspace';
+    workspace.className = 'w-full max-w-4xl mx-auto mt-8 p-6 bg-white rounded-2xl border border-zinc-200 shadow-sm';
+    workspace.innerHTML = `
+      <div class="flex items-center justify-between pb-4 mb-4 border-b border-zinc-100">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex size-2 rounded-full bg-purple-500 animate-pulse"></span>
+          <h3 class="font-bold text-lg text-zinc-900">Speaking Practice Simulation</h3>
+        </div>
+        <div id="speakingPhaseBadge" class="px-3 py-1 rounded-full bg-zinc-100 text-zinc-700 text-sm font-semibold">Ready to begin</div>
+      </div>
+      <div class="space-y-6 text-center py-4">
+        <div class="flex flex-col items-center justify-center">
+          <div id="speakingTimerDisplay" class="text-5xl font-black tabular-nums tracking-tight text-zinc-900">00:30</div>
+          <p id="speakingStatusLabel" class="text-sm font-medium text-zinc-500 mt-2">Preparation Time: 30 seconds</p>
+        </div>
+        <div class="flex items-center justify-center gap-4">
+          <button id="startSpeakingSessionBtn" type="button" class="inline-flex items-center gap-2 px-6 py-3 text-base font-bold text-white bg-primary blue-btn rounded-xl shadow-sm hover:opacity-95 transition-all">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
+            <span>Start Practice</span>
+          </button>
+          <button id="toggleSampleSpeakingBtn" type="button" class="inline-flex items-center gap-2 px-5 py-3 text-sm font-semibold text-zinc-700 bg-zinc-100 hover:bg-zinc-200 rounded-xl transition-colors">
+            <span>View Sample Response (CLB 9+)</span>
+          </button>
+        </div>
+        <div id="sampleSpeakingAccordion" class="hidden text-left mt-6 p-5 rounded-xl bg-purple-50/70 border border-purple-100 text-sm text-zinc-800 leading-relaxed">
+          <h4 class="font-bold text-purple-900 mb-2">CLB 9+ High-Scoring Spoken Response Transcript:</h4>
+          <p class="whitespace-pre-line text-zinc-700">"Hi everyone. In looking at the two options for our upcoming trip, I strongly recommend we choose the Downtown Hotel with Underground Access over the Boutique Hotel in Old Montreal. 
+
+First of all, Montreal winters can be exceptionally cold with severe snowstorms. Having direct access to the Underground City means we can easily reach transit, shopping, and dining without having to face freezing temperatures or slippery roads. 
+
+Secondly, while the boutique hotel has historic charm, its location makes walking to modern attractions more challenging in bad weather. The downtown option is much more practical and stress-free for our group. For these reasons, I believe the downtown hotel is clearly the superior choice."</p>
+        </div>
+      </div>
+    `;
+
+    if (container.parentNode && container.id === 'practicePlayerContainer') {
+      container.parentNode.insertBefore(workspace, container);
+    } else {
+      container.appendChild(workspace);
+    }
+
+    const startBtn = workspace.querySelector('#startSpeakingSessionBtn');
+    const timerDisplay = workspace.querySelector('#speakingTimerDisplay');
+    const statusLabel = workspace.querySelector('#speakingStatusLabel');
+    const phaseBadge = workspace.querySelector('#speakingPhaseBadge');
+    const toggleBtn = workspace.querySelector('#toggleSampleSpeakingBtn');
+    const sampleBox = workspace.querySelector('#sampleSpeakingAccordion');
+
+    if (toggleBtn && sampleBox) {
+      toggleBtn.addEventListener('click', () => {
+        sampleBox.classList.toggle('hidden');
+        toggleBtn.textContent = sampleBox.classList.contains('hidden') ? 'View Sample Response (CLB 9+)' : 'Hide Sample Response';
+      });
+    }
+
+    if (startBtn && timerDisplay && statusLabel && phaseBadge) {
+      let interval = null;
+      startBtn.addEventListener('click', () => {
+        if (interval) clearInterval(interval);
+        startBtn.style.display = 'none';
+
+        // Phase 1: Preparation (30s)
+        let prepSeconds = 30;
+        phaseBadge.textContent = 'Preparation Phase';
+        phaseBadge.className = 'px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-sm font-semibold';
+        statusLabel.textContent = 'Preparation Time remaining — organise your thoughts';
+
+        interval = setInterval(() => {
+          prepSeconds--;
+          timerDisplay.textContent = formatTime(prepSeconds);
+          if (prepSeconds <= 0) {
+            clearInterval(interval);
+            // Phase 2: Recording / Speaking (60s)
+            let speakSeconds = 60;
+            phaseBadge.textContent = 'Speaking / Recording';
+            phaseBadge.className = 'px-3 py-1 rounded-full bg-red-100 text-red-800 text-sm font-semibold animate-pulse';
+            statusLabel.textContent = 'Speak clearly into your microphone now';
+
+            interval = setInterval(() => {
+              speakSeconds--;
+              timerDisplay.textContent = formatTime(speakSeconds);
+              if (speakSeconds <= 0) {
+                clearInterval(interval);
+                phaseBadge.textContent = 'Completed';
+                phaseBadge.className = 'px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-sm font-semibold';
+                statusLabel.textContent = 'Speaking practice finished! Review the sample response below.';
+                if (sampleBox) sampleBox.classList.remove('hidden');
+              }
+            }, 1000);
+          }
+        }, 1000);
+      });
+    }
+  }
 
   function findStartButtons() {
     const byId = [
@@ -364,6 +559,9 @@
   }
 
   function initRunner() {
+    initWritingEditor();
+    initSpeakingRecorder();
+
     const startBtns = findStartButtons();
     const data = extractPracticeData();
     if (startBtns.length && data && data.steps) {

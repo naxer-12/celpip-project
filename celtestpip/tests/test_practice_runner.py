@@ -76,4 +76,11 @@ def test_universal_start_button_selector_logic(client):
     assert "findStartButtons" in content
     assert "startsWith('Start')" in content or "textContent.trim()" in content
 
+def test_writing_and_speaking_support_in_runner(client):
+    resp = client.get("/static/js/celtestpip-runner.js")
+    assert resp.status_code == 200
+    content = resp.text
+    assert "initWritingEditor" in content
+    assert "initSpeakingRecorder" in content
+
 
