@@ -2,9 +2,11 @@ import pytest
 from fastapi.testclient import TestClient
 from celtestpip.server.app import app
 
-client = TestClient(app)
+@pytest.fixture
+def client():
+    return TestClient(app)
 
-def test_index_page_returns_html_and_branding():
+def test_index_page_returns_html_and_branding(client):
     response = client.get("/")
     assert response.status_code == 200
     assert "text/html" in response.headers.get("content-type", "")
@@ -18,16 +20,28 @@ def test_index_page_returns_html_and_branding():
     assert "Writing" in content
     assert "Speaking" in content
 
-def test_static_css_served():
+def test_static_css_served(client):
     response = client.get("/static/css/style.css")
     assert response.status_code == 200
     assert "--bg-main: #f1f2ee" in response.text
     assert ".exams-grid" in response.text
     assert ".exam-badge" in response.text
 
-def test_static_js_served():
+def test_static_js_served(client):
     response = client.get("/static/js/app.js")
     assert response.status_code == 200
     assert "examsContainer" in response.text
     assert "/api/exams" in response.text
     assert "DOMContentLoaded" in response.text
+
+def test_header_navigation_has_calculator_and_pricing(client):
+    resp = client.get("/")
+    assert resp.status_code == 200
+    html = resp.text
+    assert "/calculator" in html
+    assert "Score Calculator" in html
+    assert "/exams" in html
+    assert "Pricing" in html
+
+    calc_resp = client.get("/calculator")
+    assert calc_resp.status_code == 200

@@ -90,6 +90,12 @@ def index_page() -> HTMLResponse:
         with open(path, "r", encoding="utf-8") as f:
             content = f.read()
         content = content.replace("1191lj8_x8otc.js", "1191lj8_x8otc_v2.js")
+        if "Score Calculator" not in content:
+            nav_links = '<div class="hidden lg:flex items-center gap-6"><a href="/calculator" class="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Score Calculator</a><a href="/exams" class="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Pricing</a></div>'
+            content = content.replace(
+                '<div class="flex items-end gap-3 flex-row-reverse w-full justify-start">',
+                f'{nav_links}<div class="flex items-end gap-3 flex-row-reverse w-full justify-start">'
+            )
         PAGE_CACHE["_index_v2"] = content
         return HTMLResponse(content, headers=PAGE_HEADERS)
     return HTMLResponse("<h1>CELTESTPIP Local Server Running</h1>", headers=PAGE_HEADERS)
@@ -138,6 +144,7 @@ def exam_page(exam_id: str, part_number: int) -> HTMLResponse:
     return HTMLResponse("<h1>CELTESTPIP Exam Page</h1>", headers=PAGE_HEADERS)
 
 
+@router.get("/calculator", response_class=HTMLResponse)
 @router.get("/tools/clb-calculator", response_class=HTMLResponse)
 def calculator_page() -> HTMLResponse:
     """Interactive Canadian Language Benchmark (CLB) score calculator tool."""

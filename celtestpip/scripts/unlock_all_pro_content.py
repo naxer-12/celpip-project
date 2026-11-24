@@ -97,7 +97,33 @@ def clean_html(html: str) -> str:
         floating_widget_simple = r'<div class="[^"]*fixed bottom-[48][^"]*">.*?Upgrade to Pro Membership.*?</div>\s*</div>\s*</div>'
         html = re.sub(floating_widget_simple, '', html, flags=re.DOTALL)
 
-    # 5. Remove "Mock exams are for Pro Members. Upgrade" banner
+    # 6. Desktop Header Navigation Alignment: ensure Score Calculator and Pricing links
+    if '<nav' in html and 'Score Calculator' not in html:
+        nav_links = '<div class="hidden lg:flex items-center gap-6"><a href="/calculator" class="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Score Calculator</a><a href="/exams" class="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Pricing</a></div>'
+        if '<div class="flex items-end gap-3 flex-row-reverse w-full justify-start">' in html:
+            html = html.replace(
+                '<div class="flex items-end gap-3 flex-row-reverse w-full justify-start">',
+                f'{nav_links}<div class="flex items-end gap-3 flex-row-reverse w-full justify-start">'
+            )
+        elif '<div class="lg:flex hidden flex-row gap-0 xl:gap-0.5' in html:
+            practice_links = '<a href="/calculator" class="text-[13px] xl:text-[14px] h-9 px-2 xl:px-3.5 rounded-xl transition-[color,background-color,box-shadow] duration-200 whitespace-nowrap flex items-center font-medium text-zinc-700 hover:text-zinc-900 hover:bg-zinc-200/50">Score Calculator</a><a href="/exams" class="text-[13px] xl:text-[14px] h-9 px-2 xl:px-3.5 rounded-xl transition-[color,background-color,box-shadow] duration-200 whitespace-nowrap flex items-center font-medium text-zinc-700 hover:text-zinc-900 hover:bg-zinc-200/50">Pricing</a>'
+            html = re.sub(
+                r'(<div class="lg:flex hidden flex-row gap-0 xl:gap-0.5[^>]*>.*?)(</div>)',
+                r'\1' + practice_links + r'\2',
+                html,
+                count=1,
+                flags=re.DOTALL
+            )
+
+    if 'Pricing</span></button>' in html and '<a href="/exams"><button' not in html:
+        html = re.sub(
+            r'(<button class="[^"]*bg-secondary main2-btn[^"]*">.*?Pricing</span></button>)',
+            r'<a href="/exams">\1</a>',
+            html,
+            flags=re.DOTALL
+        )
+
+    # 7. Remove "Mock exams are for Pro Members. Upgrade" banner
     if 'Mock exams are for' in html:
         mock_banner_regex = r'<div class="[^"]*bg-blue-50[^"]*">\s*<p>Mock exams are for <b[^>]*>Pro Members</b>\.</p>.*?Upgrade\s*</button>\s*</div>'
         html = re.sub(mock_banner_regex, '', html, flags=re.DOTALL)
