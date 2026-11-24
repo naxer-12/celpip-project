@@ -37,6 +37,7 @@ from celtestpip.server.routers import (
     vocabulary_router,
     user_router,
     clerk_router,
+    courses_router,
     assets_router,
     pages_router,
 )
@@ -104,6 +105,7 @@ app.include_router(practices_router)
 app.include_router(vocabulary_router)
 app.include_router(user_router)
 app.include_router(clerk_router)
+app.include_router(courses_router)
 
 @app.get("/healthz", tags=["System"])
 def healthcheck():

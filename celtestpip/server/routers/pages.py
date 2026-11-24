@@ -19,8 +19,36 @@ from celtestpip.server.config import (
     normalize_exam_id,
 )
 from celtestpip.scripts.unlock_all_pro_content import clean_html
+from celtestpip.scripts.rewrite_all_site_links import rewrite_celtestpip_links
 
 router = APIRouter(tags=["Pages"])
+
+
+def _apply_course_progress(content: str, slug: str) -> str:
+    """Inject completed course sections into pre-rendered course HTML and Flight state."""
+    import re
+    from celtestpip.server.database import get_completed_course_sections
+    completed_sections = get_completed_course_sections()
+    if not completed_sections:
+        return content
+
+    for sec_id in completed_sections:
+        content = re.sub(
+            r'(\\\"id\\\":\\\"' + re.escape(sec_id) + r'\\\"(?:(?!\\\"id\\\":).)*?\\\"isCompleted\\\":)false',
+            r'\g<1>true',
+            content
+        )
+
+    # Check if current lesson is completed
+    section_slug = slug.split("/")[-1] if "/" in slug else slug
+    m = re.search(r'\\\"id\\\":\\\"([a-z0-9]+)\\\"[^\}]*?\\\"slug\\\":\\\"' + re.escape(section_slug) + r'\\\"', content)
+    current_id = m.group(1) if m else None
+    if current_id and current_id in completed_sections:
+        content = content.replace(r'\"isCompleted\":false,\"outline\":', r'\"isCompleted\":true,\"outline\":')
+        content = content.replace("Finished this lesson?", "Lesson complete")
+        content = content.replace("Mark as complete", "Mark as not done")
+        content = content.replace("Mark it done so your course progress stays accurate.", "It counts towards your course progress. Carry on to the next lesson below.")
+    return content
 
 
 @router.post("/api/client-error")
@@ -100,7 +128,10 @@ def dynamic_content_page(full_path: str) -> HTMLResponse:
 
     safe_slug = slug.replace("/", "_")
     if safe_slug in PAGE_CACHE:
-        return HTMLResponse(PAGE_CACHE[safe_slug], headers=PAGE_HEADERS)
+        content = PAGE_CACHE[safe_slug]
+        if safe_slug.startswith("courses_"):
+            content = _apply_course_progress(content, slug)
+        return HTMLResponse(content, headers=PAGE_HEADERS)
 
     page_file = os.path.join(PAGES_DIR, f"{safe_slug}.html")
     if os.path.exists(page_file) and os.path.getsize(page_file) > 0:
@@ -111,7 +142,10 @@ def dynamic_content_page(full_path: str) -> HTMLResponse:
             .replace("24w9ng0sqrv9g.js", "24w9ng0sqrv9g_v2.js")
             .replace("00m674sfix9n3.js", "00m674sfix9n3_v2.js")
         )
+        content = rewrite_celtestpip_links(content)
         PAGE_CACHE[safe_slug] = content
+        if safe_slug.startswith("courses_"):
+            content = _apply_course_progress(content, slug)
         return HTMLResponse(content, headers=PAGE_HEADERS)
 
     # Remote fallback to crawl missing content pages on demand
@@ -125,9 +159,12 @@ def dynamic_content_page(full_path: str) -> HTMLResponse:
             if resp.status == 200:
                 content = resp.read().decode("utf-8", errors="replace")
                 cleaned = clean_html(content)
+                cleaned = rewrite_celtestpip_links(cleaned)
                 with open(page_file, "w", encoding="utf-8") as f:
                     f.write(cleaned)
                 PAGE_CACHE[safe_slug] = cleaned
+                if safe_slug.startswith("courses_"):
+                    cleaned = _apply_course_progress(cleaned, slug)
                 return HTMLResponse(cleaned, headers=PAGE_HEADERS)
     except Exception:
         pass

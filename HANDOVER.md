@@ -27,11 +27,13 @@ celtestpip/
 │   └── routers/
 │       ├── pages.py               # Serves HTML pages (exams, practices, learn, words, etc.)
 │       ├── practices.py           # Practice session endpoints (/api/practices/{id}/result, /done, /question)
+│       ├── courses.py             # Course lesson progress endpoints (/api/courses/sections/{id}/progress)
 │       ├── assets.py              # Next.js static bundles, images, and audio streaming with Range headers
 │       ├── exams.py               # Full mock exam endpoints and scoring calculators
 │       └── auth.py                # Local Clerk auth mock endpoints (/v1/client, /v1/environment)
 ├── scripts/
 │   ├── patch_listening_audio_steps.py  # Injects passage audio (Step 1) & updates Flight reference pointers
+│   ├── rewrite_all_site_links.py       # Rewrites all absolute celtestpip.com links to internal site paths
 │   └── unlock_all_pro_content.py       # Master paywall cleaner, spinner stripper, and HTML patcher
 ├── static/
 │   └── _next/static/immutable/chunks/  # Next.js React client bundles

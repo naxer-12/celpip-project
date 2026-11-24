@@ -71,6 +71,16 @@ def init_db(db_path: str = "celtestpip/data/celtestpip.db"):
         last_reviewed TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """)
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS user_course_progress (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id TEXT DEFAULT 'tester',
+        section_id TEXT NOT NULL,
+        completed BOOLEAN NOT NULL DEFAULT 1,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(user_id, section_id)
+    );
+    """)
     # FTS5 index
     cur.execute("""
     CREATE VIRTUAL TABLE IF NOT EXISTS fts_questions USING fts5(
@@ -153,3 +163,72 @@ def get_exam_parts(db_path: str, exam_id: str) -> List[Dict[str, Any]]:
     rows = cur.fetchall()
     conn.close()
     return [dict(r) for r in rows]
+
+def save_course_progress(section_id: str, completed: bool, user_id: str = "tester", db_path: str = "celtestpip/data/celtestpip.db") -> bool:
+    """Save completion status of a course lesson locally and sync to Turso if active."""
+    try:
+        conn = get_db_connection(db_path)
+        cur = conn.cursor()
+        cur.execute("""
+        CREATE TABLE IF NOT EXISTS user_course_progress (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT DEFAULT 'tester',
+            section_id TEXT NOT NULL,
+            completed BOOLEAN NOT NULL DEFAULT 1,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(user_id, section_id)
+        );
+        """)
+        cur.execute("""
+        INSERT INTO user_course_progress (user_id, section_id, completed, updated_at)
+        VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+        ON CONFLICT(user_id, section_id) DO UPDATE SET completed=excluded.completed, updated_at=CURRENT_TIMESTAMP
+        """, (user_id, section_id, 1 if completed else 0))
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(f"Error saving course progress: {e}")
+
+    try:
+        from celtestpip.server.turso import is_turso_enabled, turso_save_course_progress
+        if is_turso_enabled():
+            turso_save_course_progress(section_id, completed, user_id)
+    except Exception:
+        pass
+
+    return True
+
+def get_completed_course_sections(user_id: str = "tester", db_path: str = "celtestpip/data/celtestpip.db") -> set:
+    """Get all section IDs completed by the user from local DB and Turso cloud."""
+    sections = set()
+    try:
+        conn = get_db_connection(db_path)
+        cur = conn.cursor()
+        cur.execute("""
+        CREATE TABLE IF NOT EXISTS user_course_progress (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT DEFAULT 'tester',
+            section_id TEXT NOT NULL,
+            completed BOOLEAN NOT NULL DEFAULT 1,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(user_id, section_id)
+        );
+        """)
+        cur.execute("SELECT section_id FROM user_course_progress WHERE user_id = ? AND completed = 1", (user_id,))
+        rows = cur.fetchall()
+        for r in rows:
+            sections.add(r["section_id"])
+        conn.close()
+    except Exception:
+        pass
+
+    try:
+        from celtestpip.server.turso import is_turso_enabled, turso_get_completed_sections
+        if is_turso_enabled():
+            turso_secs = turso_get_completed_sections(user_id)
+            sections.update(turso_secs)
+    except Exception:
+        pass
+
+    return sections
+

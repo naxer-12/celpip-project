@@ -128,6 +128,43 @@ def init_turso_tables() -> None:
     );
     """)
 
+    execute_turso("""
+    CREATE TABLE IF NOT EXISTS user_course_progress (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id TEXT DEFAULT 'tester',
+        section_id TEXT NOT NULL,
+        completed BOOLEAN NOT NULL DEFAULT 1,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(user_id, section_id)
+    );
+    """)
+
+
+def turso_save_course_progress(section_id: str, completed: bool, user_id: str = "tester") -> None:
+    """Save user course section progress in Turso cloud."""
+    if not is_turso_enabled():
+        return
+    execute_turso("""
+    INSERT INTO user_course_progress (user_id, section_id, completed, updated_at)
+    VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+    ON CONFLICT(user_id, section_id) DO UPDATE SET completed=excluded.completed, updated_at=CURRENT_TIMESTAMP;
+    """, [user_id, section_id, 1 if completed else 0])
+
+
+def turso_get_completed_sections(user_id: str = "tester") -> set[str]:
+    """Retrieve all completed course section IDs for user from Turso cloud."""
+    if not is_turso_enabled():
+        return set()
+    res = execute_turso("SELECT section_id FROM user_course_progress WHERE user_id = ? AND completed = 1;", [user_id])
+    sections = set()
+    if "rows" in res:
+        for r in res["rows"]:
+            if r and len(r) > 0:
+                val = r[0].get("value")
+                if val:
+                    sections.add(str(val))
+    return sections
+
 
 def sync_local_to_turso(db_path: str) -> Dict[str, Any]:
     """Push local SQLite user_attempts and user_words rows to Turso cloud."""

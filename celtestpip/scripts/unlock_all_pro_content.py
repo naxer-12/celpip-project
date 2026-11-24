@@ -146,6 +146,14 @@ def clean_html(html: str) -> str:
     if '24w9ng0sqrv9g.js' in html:
         html = html.replace('24w9ng0sqrv9g.js', '24w9ng0sqrv9g_v2.js')
 
+    # 11. Internalize all external celtestpip.com links to relative internal routes
+    if 'celtestpip.com' in html:
+        try:
+            from celtestpip.scripts.rewrite_all_site_links import rewrite_celtestpip_links
+            html = rewrite_celtestpip_links(html)
+        except Exception:
+            pass
+
     return html
 
 def process_file(path: str):
