@@ -104,6 +104,12 @@ app.include_router(practices_router)
 app.include_router(vocabulary_router)
 app.include_router(user_router)
 app.include_router(clerk_router)
+
+@app.get("/healthz", tags=["System"])
+def healthcheck():
+    """Ultra-lightweight healthcheck endpoint for uptime monitors and keep-alive cronjobs."""
+    return {"status": "ok", "service": "celtestpip"}
+
 # Pages router MUST be included last because of the catch-all dynamic /{full_path:path} route
 app.include_router(pages_router)
 

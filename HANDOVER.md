@@ -142,6 +142,22 @@ Render is configured with continuous deployment from GitHub:
 
 ---
 
-## 6. Current Roadmap / Future Opportunities
+## 6. Keep-Alive Strategy for Render (Free Tier)
+Render's free tier spins down web services after 15 minutes of inactivity. To keep `https://celpip-project.onrender.com` 100% active and eliminate cold starts:
+1. **GitHub Actions 24/7 Cloud Cronjob (`.github/workflows/keep_render_alive.yml`):**
+   - Runs every 10 minutes (`*/10 * * * *`) directly on GitHub's cloud infrastructure.
+   - Pings `https://celpip-project.onrender.com/healthz` (with fallback to `/`).
+   - Runs 24/7 independently of whether local development laptops are awake or asleep.
+2. **Dedicated Healthcheck Endpoint (`/healthz`):**
+   - Returns `{"status": "ok", "service": "celtestpip"}` in < 1ms with 0 database load.
+3. **Local Keep-Alive Script (`celtestpip/scripts/keep_render_alive.sh`):**
+   - Can be scheduled locally via macOS crontab:
+     ```bash
+     */10 * * * * "/Users/jainamshah/Downloads/Learning French/celtestpip/scripts/keep_render_alive.sh" > /dev/null 2>&1
+     ```
+
+---
+
+## 7. Current Roadmap / Future Opportunities
 - **Speaking & Writing Submissions:** Currently, questions and prompts are 100% unlocked; AI score evaluation mock engines can be further expanded to provide simulated automated CLB scoring offline.
 - **Turso Sync:** If updating the database schema, migrate changes to both local `celtestpip/data/celtestpip.db` and the Turso cloud database using the provided Turso credentials.

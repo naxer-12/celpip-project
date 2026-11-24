@@ -50,3 +50,9 @@ def test_in_memory_page_cache_speed(client):
     resp2 = client.get("/practices/listening_cmn2ldtkn008b80un8zyrvxr9")
     assert resp2.status_code == 200
     assert resp2.text == resp1.text
+
+def test_healthcheck_endpoint(client):
+    resp = client.get("/healthz")
+    assert resp.status_code == 200
+    assert resp.json() == {"status": "ok", "service": "celtestpip"}
+
