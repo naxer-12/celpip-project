@@ -6,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 PAGES_DIR = os.path.join(BASE_DIR, "data", "pages")
 
-START_BTN_HDR = """<button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold bg-primary blue-btn text-white rounded-xl border border-blue-800 hover:-translate-y-0.5 active:translate-y-0 duration-200 h-10 px-4 py-2" id="headerStartBtn">Start<svg class="lucide lucide-arrow-right w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button>"""
+START_BTN_HDR = """<button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold bg-primary blue-btn text-white rounded-xl border border-blue-800 hover:-translate-y-0.5 active:translate-y-0 duration-200 h-10 px-4 py-2 lg:hidden" id="headerStartBtn">Start<svg class="lucide lucide-arrow-right w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button>"""
 START_BTN_BOX = """<div class="mt-6 flex flex-col w-full lg:w-fit"><button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold bg-primary blue-btn text-white rounded-xl border border-blue-800 hover:-translate-y-0.5 active:translate-y-0 duration-200 h-12 px-7 shadow text-[15px] font-bold" id="startTaskBtn">Start <svg class="lucide lucide-arrow-right w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button></div>"""
 
 def clean_html(html: str) -> str:
@@ -87,7 +87,7 @@ def clean_html(html: str) -> str:
     if 'celtestpip-unlock-style' in html:
         html = re.sub(r'<style id="celtestpip-unlock-style">.*?</style>', '', html)
     if '</head>' in html:
-        unlock_css = '<style id="celtestpip-unlock-style">svg[class*="lock"], [aria-label*="Membership"], div[class*="backdrop-blur"], div[class*="blur-"], .blur-sm, .filter.blur-sm { display: none !important; filter: none !important; }</style>'
+        unlock_css = '<style id="celtestpip-unlock-style">svg[class*="lock"], [aria-label*="Membership"], div[class*="backdrop-blur"], div[class*="blur-"], .blur-sm, .filter.blur-sm { display: none !important; filter: none !important; }\n    @media (min-width: 1024px) { #headerStartBtn { display: none !important; } }</style>'
         html = html.replace('</head>', f'{unlock_css}</head>', 1)
 
     # 5. Remove floating "Pro Membership / Upgrade Now / SALE" widget
@@ -155,6 +155,21 @@ def clean_html(html: str) -> str:
             html = rewrite_celtestpip_links(html)
         except Exception:
             pass
+
+    # 12. Fix duplicate Start button by ensuring #headerStartBtn is hidden on desktop (lg:hidden)
+    if 'id="headerStartBtn"' in html:
+        html = html.replace('id="headerStartBtn" class="', 'id="headerStartBtn" class="lg:hidden ')
+        html = html.replace('class="inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold bg-primary blue-btn text-white rounded-xl border border-blue-800 hover:-translate-y-0.5 active:translate-y-0 duration-200 h-10 px-4 py-2" id="headerStartBtn"', 'class="inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold bg-primary blue-btn text-white rounded-xl border border-blue-800 hover:-translate-y-0.5 active:translate-y-0 duration-200 h-10 px-4 py-2 lg:hidden" id="headerStartBtn"')
+    if '<style id="replica-unlock-style">' in html:
+        html = html.replace(
+            '<style id="replica-unlock-style">',
+            '<style id="replica-unlock-style">\n    @media (min-width: 1024px) { #headerStartBtn { display: none !important; } }'
+        )
+    if '<style id="celtestpip-unlock-style">' in html and '@media (min-width: 1024px)' not in html:
+        html = html.replace(
+            '<style id="celtestpip-unlock-style">',
+            '<style id="celtestpip-unlock-style">\n    @media (min-width: 1024px) { #headerStartBtn { display: none !important; } }'
+        )
 
     return html
 

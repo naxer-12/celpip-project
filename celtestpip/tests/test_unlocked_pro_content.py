@@ -169,3 +169,18 @@ def test_questions_report_api(client):
     resp = client.post("/api/questions/report", json={"questionId": "cm2v39qoc003h10y3u8q9r9z2", "reason": "other"})
     assert resp.status_code == 200
     assert resp.json()["ok"] is True
+
+def test_responsive_header_start_button_styling(client):
+    resp = client.get("/practices/listening_cmn4hda7y00pyyqundlh38n09")
+    assert resp.status_code == 200
+    html = clean_html(resp.text)
+    # Verify responsive rule exists hiding #headerStartBtn on desktop
+    assert "@media (min-width: 1024px)" in html or "@media (min-width:1024px)" in html or "lg:hidden" in html
+    assert "#headerStartBtn" in html
+
+    # Verify style.css includes media query hiding #headerStartBtn on desktop (min-width: 1024px)
+    css_resp = client.get("/static/css/style.css")
+    assert css_resp.status_code == 200
+    assert "@media (min-width: 1024px)" in css_resp.text
+    assert "#headerStartBtn" in css_resp.text
+
