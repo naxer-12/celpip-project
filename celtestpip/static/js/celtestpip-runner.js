@@ -168,8 +168,135 @@
     audio.play().catch(() => {});
   }
 
+  function startCountdown(seconds, onTick, onExpire) {
+    let remain = seconds;
+    const interval = setInterval(() => {
+      remain--;
+      if (onTick) onTick(remain);
+      if (remain <= 0) {
+        clearInterval(interval);
+        if (onExpire) onExpire();
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }
+
+  function renderOptions(options) {
+    return options.map(opt => `
+      <label class="option-card flex items-start gap-3 p-3.5 rounded-xl border border-zinc-200/80 hover:bg-zinc-50/80 cursor-pointer transition-all">
+        <input type="radio" name="practiceOption" value="${opt.key}" class="mt-1 text-primary focus:ring-primary h-4 w-4">
+        <div class="flex-1">
+          <span class="font-semibold text-xs text-zinc-400 mr-1.5">[${opt.label}]</span>
+          <span class="text-sm font-medium text-zinc-800">${opt.text}</span>
+        </div>
+      </label>
+    `).join('');
+  }
+
   function mountQuestionStep(step, qIndex, totalQuestions, onAnswer, onNext) {
-    // Defined in Task 4
+    const container = document.getElementById('practicePlayerContainer');
+    if (!container) return;
+
+    const content = step.content || step;
+    const options = [
+      { key: 'option1', label: 'A', text: content.option1 },
+      { key: 'option2', label: 'B', text: content.option2 },
+      { key: 'option3', label: 'C', text: content.option3 },
+      { key: 'option4', label: 'D', text: content.option4 },
+    ].filter(o => Boolean(o.text));
+
+    container.innerHTML = `
+      <div class="bg-white rounded-2xl border border-zinc-200/80 shadow-sm p-6 sm:p-8 max-w-3xl mx-auto animate-in fade-in-50 duration-300">
+        <!-- Tracker & 30s Countdown -->
+        <div class="flex items-center justify-between border-b border-zinc-100 pb-3 mb-4">
+          <span class="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+            Question ${qIndex + 1} of ${totalQuestions}
+          </span>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-zinc-500 font-mono">Time Remaining:</span>
+            <span id="timerCount" class="text-xs font-bold font-mono px-2 py-0.5 rounded bg-zinc-100 text-zinc-800">30s</span>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-zinc-100 h-1.5 rounded-full overflow-hidden mb-6">
+          <div id="timerBar" class="bg-primary h-full transition-all duration-1000 ease-linear" style="width: 100%;"></div>
+        </div>
+
+        ${content.audio ? `
+        <!-- Question Audio Player -->
+        <div class="flex items-center gap-3 bg-zinc-50 p-3 rounded-xl border border-zinc-200/60 mb-6">
+          <audio id="qAudio" src="${content.audio}" preload="auto"></audio>
+          <button id="qPlayBtn" class="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center shrink-0">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </button>
+          <span class="text-xs text-zinc-600 font-medium">Listen to Question</span>
+        </div>
+        ` : ''}
+
+        <h3 class="text-lg font-bold text-zinc-900 mb-6">${content.question || 'Select the best answer:'}</h3>
+
+        <!-- Options (A, B, C, D) -->
+        <div class="space-y-3 mb-6" id="optionsContainer">
+          ${renderOptions(options)}
+        </div>
+
+        <!-- Feedback & Explanation Box (Hidden initially) -->
+        <div id="explanationBox" class="hidden p-4 rounded-xl bg-blue-50/70 border border-blue-200/60 mb-6 text-sm text-zinc-700 whitespace-pre-line leading-relaxed"></div>
+
+        <!-- Controls -->
+        <div class="flex items-center justify-between pt-4 border-t border-zinc-100">
+          <button id="showAnswerBtn" class="px-4 py-2 text-xs font-semibold text-zinc-700 bg-zinc-100 hover:bg-zinc-200/80 rounded-xl transition">
+            Show Answer
+          </button>
+          <button id="nextQuestionBtn" class="px-6 py-2.5 text-sm font-semibold text-white bg-primary hover:bg-blue-600 rounded-xl transition shadow">
+            Next →
+          </button>
+        </div>
+      </div>
+    `;
+
+    const timerCount = document.getElementById('timerCount');
+    const timerBar = document.getElementById('timerBar');
+    const stopCountdown = startCountdown(30, (remain) => {
+      timerCount.textContent = `${remain}s`;
+      timerBar.style.width = `${(remain / 30) * 100}%`;
+    }, () => {
+      // Time expired
+    });
+
+    const qAudio = document.getElementById('qAudio');
+    const qPlayBtn = document.getElementById('qPlayBtn');
+    if (qAudio && qPlayBtn) {
+      qPlayBtn.onclick = () => {
+        if (qAudio.paused) qAudio.play();
+        else qAudio.pause();
+      };
+      qAudio.play().catch(() => {});
+    }
+
+    const showAnswerBtn = document.getElementById('showAnswerBtn');
+    const explanationBox = document.getElementById('explanationBox');
+    showAnswerBtn.onclick = () => {
+      if (content.explanation) {
+        explanationBox.textContent = content.explanation;
+        explanationBox.classList.remove('hidden');
+      }
+    };
+
+    const optionInputs = container.querySelectorAll('input[name="practiceOption"]');
+    optionInputs.forEach(input => {
+      input.addEventListener('change', (e) => {
+        if (onAnswer) onAnswer(e.target.value);
+      });
+    });
+
+    const nextBtn = document.getElementById('nextQuestionBtn');
+    nextBtn.onclick = () => {
+      stopCountdown();
+      if (qAudio) qAudio.pause();
+      if (onNext) onNext();
+    };
   }
 
   window.CeltestpipRunner = {
@@ -177,5 +304,7 @@
     extractPracticeData,
     mountAudioPlayer,
     mountQuestionStep,
+    startCountdown,
+    renderOptions,
   };
 })();
