@@ -343,14 +343,28 @@
     mountQuestionStep,
     startCountdown,
     renderOptions,
+    findStartButtons,
   };
 
-  function initRunner() {
-    const startBtns = [
+  function findStartButtons() {
+    const byId = [
       document.getElementById('startBtn'),
       document.getElementById('startTaskBtn'),
       document.getElementById('headerStartBtn')
     ].filter(Boolean);
+    if (byId.length > 0) return byId;
+
+    // Universal selector: Find any button whose visible text starts with "Start"
+    const allButtons = Array.from(document.querySelectorAll('button'));
+    const startButtons = allButtons.filter(btn => {
+      const txt = (btn.textContent || '').trim();
+      return txt.startsWith('Start') || txt === 'Start' || txt.includes('Start →');
+    });
+    return startButtons;
+  }
+
+  function initRunner() {
+    const startBtns = findStartButtons();
     const data = extractPracticeData();
     if (startBtns.length && data && data.steps) {
       startBtns.forEach(btn => {

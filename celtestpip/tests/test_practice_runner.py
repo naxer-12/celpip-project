@@ -68,4 +68,12 @@ def test_extract_practice_data_handles_flight_string_unescaping(client):
         exp = data["steps"][0]["content"]["explanation"]
         assert 'Explanation mentions "score".' == exp
 
+def test_universal_start_button_selector_logic(client):
+    resp = client.get("/static/js/celtestpip-runner.js")
+    assert resp.status_code == 200
+    content = resp.text
+    # Verify universal text matching selector exists
+    assert "findStartButtons" in content
+    assert "startsWith('Start')" in content or "textContent.trim()" in content
+
 
