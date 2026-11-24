@@ -145,6 +145,8 @@ def clean_html(html: str) -> str:
         html = html.replace('2fvw__nnw3kbd.js', '2fvw__nnw3kbd_v2.js')
     if '24w9ng0sqrv9g.js' in html:
         html = html.replace('24w9ng0sqrv9g.js', '24w9ng0sqrv9g_v2.js')
+    if '1191lj8_x8otc.js' in html:
+        html = html.replace('1191lj8_x8otc.js', '1191lj8_x8otc_v2.js')
 
     # 11. Internalize all external celtestpip.com links to relative internal routes
     if 'celtestpip.com' in html:

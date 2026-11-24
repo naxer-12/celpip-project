@@ -8,10 +8,11 @@ import os
 import ssl
 import urllib.request
 from typing import Optional
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse
 
 from celtestpip.server.config import (
+    STATIC_DIR,
     PAGES_DIR,
     PAGE_CACHE,
     PAGE_HEADERS,
@@ -51,7 +52,28 @@ def _apply_course_progress(content: str, slug: str) -> str:
     return content
 
 
+@router.post("/api/debug-log")
+async def client_debug_logger(request: Request):
+    """Log arbitrary client debugging data."""
+    try:
+        body = await request.body()
+        print(">>> CLIENT DEBUG:", body.decode("utf-8", errors="replace"))
+    except Exception as e:
+        print(">>> CLIENT DEBUG ERROR:", e)
+    return {"ok": True}
+
+
 @router.post("/api/client-error")
+async def client_error_logger(request: Request):
+    """Log client error details."""
+    try:
+        body = await request.body()
+        print(">>> CLIENT ERROR RECEIVED:", body.decode("utf-8", errors="replace"))
+    except Exception as e:
+        print(">>> CLIENT ERROR LOGGING FAILED:", e)
+    return {"ok": True}
+
+
 @router.post("/cdn-cgi/rum")
 def client_telemetry_stub():
     """Absorb client logging and telemetry gracefully."""
@@ -61,8 +83,14 @@ def client_telemetry_stub():
 @router.get("/", response_class=HTMLResponse)
 def index_page() -> HTMLResponse:
     """Home landing page with interactive skill categories and practice tests."""
-    content = get_cached_template("index.html")
-    if content:
+    if "_index_v2" in PAGE_CACHE:
+        return HTMLResponse(PAGE_CACHE["_index_v2"], headers=PAGE_HEADERS)
+    path = os.path.join(STATIC_DIR, "index.html")
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            content = f.read()
+        content = content.replace("1191lj8_x8otc.js", "1191lj8_x8otc_v2.js")
+        PAGE_CACHE["_index_v2"] = content
         return HTMLResponse(content, headers=PAGE_HEADERS)
     return HTMLResponse("<h1>CELTESTPIP Local Server Running</h1>", headers=PAGE_HEADERS)
 
@@ -141,6 +169,7 @@ def dynamic_content_page(full_path: str) -> HTMLResponse:
             content.replace("2fvw__nnw3kbd.js", "2fvw__nnw3kbd_v2.js")
             .replace("24w9ng0sqrv9g.js", "24w9ng0sqrv9g_v2.js")
             .replace("00m674sfix9n3.js", "00m674sfix9n3_v2.js")
+            .replace("1191lj8_x8otc.js", "1191lj8_x8otc_v2.js")
         )
         content = rewrite_celtestpip_links(content)
         PAGE_CACHE[safe_slug] = content
