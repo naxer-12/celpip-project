@@ -21,7 +21,13 @@ def test_static_immutable_cache_headers(client):
 def test_page_cache_headers(client):
     resp = client.get("/exams")
     assert resp.status_code == 200
-    assert "no-cache" in resp.headers.get("Cache-Control", "")
+    cache_header = resp.headers.get("Cache-Control", "")
+    assert "public" in cache_header
+    assert "max-age=" in cache_header
+
+def test_missing_page_returns_instant_404(client):
+    resp = client.get("/nonexistent-page-test-instant-404")
+    assert resp.status_code == 404
 
 def test_clerk_local_mock_endpoints(client):
     resp = client.get("/v1/client")

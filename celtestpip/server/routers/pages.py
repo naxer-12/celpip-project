@@ -195,25 +195,5 @@ def dynamic_content_page(full_path: str) -> HTMLResponse:
             content = _apply_course_progress(content, slug)
         return HTMLResponse(content, headers=PAGE_HEADERS)
 
-    # Remote fallback to crawl missing content pages on demand
-    remote_url = f"https://www.celtestpip.com/{slug}"
-    try:
-        ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-        req = urllib.request.Request(remote_url, headers={"User-Agent": "Mozilla/5.0 (CELTESTPIP Replica)"})
-        with urllib.request.urlopen(req, context=ctx, timeout=8) as resp:
-            if resp.status == 200:
-                content = resp.read().decode("utf-8", errors="replace")
-                cleaned = clean_html(content)
-                cleaned = rewrite_celtestpip_links(cleaned)
-                with open(page_file, "w", encoding="utf-8") as f:
-                    f.write(cleaned)
-                PAGE_CACHE[safe_slug] = cleaned
-                if safe_slug.startswith("courses_"):
-                    cleaned = _apply_course_progress(cleaned, slug)
-                return HTMLResponse(cleaned, headers=PAGE_HEADERS)
-    except Exception:
-        pass
-
+    # Instant 404 for missing content without blocking the server
     raise HTTPException(status_code=404, detail="Page not found")

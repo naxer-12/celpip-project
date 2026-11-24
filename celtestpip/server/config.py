@@ -14,10 +14,10 @@ NEXT_STATIC_DIR = os.path.join(STATIC_DIR, "_next", "static")
 ANIMATION_DIR = os.path.join(STATIC_DIR, "animation")
 DB_PATH = os.environ.get("CELTESTPIP_DB_PATH", os.path.join(BASE_DIR, "data", "celtestpip.db"))
 
-# HTTP Cache-Control headers
+# HTTP Cache-Control headers - cache HTML pages for fast navigation
 IMMUTABLE_HEADERS = {"Cache-Control": "public, max-age=31536000, immutable"}
 STATIC_HEADERS = {"Cache-Control": "public, max-age=86400"}
-PAGE_HEADERS = {"Cache-Control": "no-cache, must-revalidate"}
+PAGE_HEADERS = {"Cache-Control": "public, max-age=3600, stale-while-revalidate=86400"}
 
 # In-memory page cache for sub-millisecond response times
 PAGE_CACHE: Dict[str, str] = {}
