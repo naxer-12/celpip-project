@@ -38,10 +38,19 @@
             }
           }
           if (endIdx !== -1) {
+            let raw = txt.slice(startIdx, endIdx);
+            // 1. Two-stage JSON unescape for Flight-encoded strings with internal quotes
             try {
-              let raw = txt.slice(startIdx, endIdx);
-              raw = raw.replace(/\\"/g, '"');
-              const steps = JSON.parse(raw);
+              const unescaped = JSON.parse(`"${raw.replace(/\n/g, '\\n').replace(/\r/g, '\\r')}"`);
+              const steps = JSON.parse(unescaped);
+              if (Array.isArray(steps) && steps.length > 0) {
+                return { steps };
+              }
+            } catch (e) {}
+            // 2. Fallback to basic quote replacement
+            try {
+              let cleaned = raw.replace(/\\"/g, '"');
+              const steps = JSON.parse(cleaned);
               if (Array.isArray(steps) && steps.length > 0) {
                 return { steps };
               }
@@ -375,7 +384,9 @@
               if (step.type === 'audio') {
                 mountAudioPlayer(step, runNext);
               } else if (step.type === 'question') {
-                mountQuestionStep(step, currentStepIdx, data.steps.length - 1, null, runNext);
+                const totalQ = step.totalQuestions || data.steps.filter(s => s.type === 'question').length || (data.steps.length - 1);
+                const qNum = step.questionNumber ? (step.questionNumber - 1) : currentStepIdx;
+                mountQuestionStep(step, qNum, totalQ, null, runNext);
               } else {
                 runNext();
               }
