@@ -30,8 +30,11 @@ def get_practice_questions(practice_id: str) -> List[Dict[str, Any]]:
         .replace("speaking_", "")
     )
     cand_files = [
-        os.path.join(PAGES_DIR, f"practices_listening_{clean_id}.html"),
         os.path.join(PAGES_DIR, f"practices_{practice_id}.html"),
+        os.path.join(PAGES_DIR, f"practices_listening_{clean_id}.html"),
+        os.path.join(PAGES_DIR, f"practices_reading_{clean_id}.html"),
+        os.path.join(PAGES_DIR, f"practices_writing_{clean_id}.html"),
+        os.path.join(PAGES_DIR, f"practices_speaking_{clean_id}.html"),
         os.path.join(PAGES_DIR, f"practices_{clean_id}.html"),
     ]
     target_file = None
@@ -393,3 +396,65 @@ async def handle_speaking_submit(request: Request) -> Dict[str, Any]:
         "_practice_text": practice_text,
     }
     return result
+
+
+@router.get("/api/practices")
+def list_crawled_practices(skill: str = "", q: str = "", limit: int = 100) -> Dict[str, Any]:
+    """List all locally crawled and unlocked practice sets across Listening, Reading, Writing, and Speaking."""
+    import glob
+
+    pattern = os.path.join(PAGES_DIR, f"practices_{skill.lower()}_*.html" if skill else "practices_*.html")
+    files = sorted(glob.glob(pattern))
+    items: List[Dict[str, str]] = []
+    query = q.strip().lower()
+    for fp in files:
+        fname = os.path.basename(fp)[:-5]
+        slug = fname.replace("practices_", "", 1)
+        sk = slug.split("_")[0] if "_" in slug else "unknown"
+        if query and query not in slug.lower():
+            continue
+        items.append({"id": slug, "skill": sk, "url": f"/practices/{slug}"})
+        if len(items) >= limit:
+            break
+    return {"total": len(files), "count": len(items), "practices": items}
+
+
+@router.get("/api/practices/{practice_id}/detail")
+def get_practice_detail(practice_id: str) -> Dict[str, Any]:
+    """Return atomic extracted questions, options, and answer keys for any practice set."""
+    questions = get_practice_questions(practice_id)
+    return {
+        "practiceId": practice_id,
+        "questionCount": len(questions),
+        "questions": questions,
+    }
+
+
+@router.post("/api/practices/{practice_id}/grade")
+async def grade_practice_answers(practice_id: str, request: Request) -> Dict[str, Any]:
+    """Grade user answers for a Listening or Reading practice set against extracted ground truth."""
+    payload = await _extract_request_payload(request)
+    user_answers = payload.get("answers") if isinstance(payload.get("answers"), dict) else {}
+    questions = get_practice_questions(practice_id)
+    results = []
+    score = 0
+    for idx, q in enumerate(questions, start=1):
+        key = str(q.get("priority") or idx)
+        chosen = str(user_answers.get(key) or user_answers.get(str(idx)) or "")
+        correct = str(q.get("answer") or "")
+        ok = bool(chosen and chosen == correct)
+        if ok:
+            score += 1
+        results.append({
+            "questionNumber": idx,
+            "chosen": chosen,
+            "correct": correct,
+            "isCorrect": ok,
+            "explanation": q.get("explanation", ""),
+        })
+    return {
+        "practiceId": practice_id,
+        "score": score,
+        "total": len(questions),
+        "results": results,
+    }

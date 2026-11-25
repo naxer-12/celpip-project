@@ -203,4 +203,42 @@ def test_practice_page_has_runner_script(client):
     assert "/static/js/celtestpip-runner.js" in html
     assert "practicePlayerContainer" in html
 
+def test_atomic_practices_catalog_detail_and_grade_apis(client):
+    resp = client.get("/api/practices?skill=reading&limit=5")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["total"] >= 1
+    assert len(data["practices"]) >= 1
+
+    # Detail & grade for Camping Trailer Return
+    detail = client.get("/api/practices/reading_cmmll1ds0001520uni1chgpm1/detail")
+    assert detail.status_code == 200
+    d_json = detail.json()
+    assert d_json["questionCount"] == 11
+
+    grade = client.post("/api/practices/reading_cmmll1ds0001520uni1chgpm1/grade", json={"answers": {"1": "1"}})
+    assert grade.status_code == 200
+    g_json = grade.json()
+    assert g_json["total"] == 11
+    assert g_json["score"] >= 1
+
+def test_atomic_practices_catalog_detail_and_grade_apis(client):
+    resp = client.get("/api/practices?skill=reading&limit=5")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["total"] >= 1
+    assert len(data["practices"]) >= 1
+
+    # Detail & grade for Camping Trailer Return
+    detail = client.get("/api/practices/reading_cmmll1ds0001520uni1chgpm1/detail")
+    assert detail.status_code == 200
+    d_json = detail.json()
+    assert d_json["questionCount"] == 11
+
+    grade = client.post("/api/practices/reading_cmmll1ds0001520uni1chgpm1/grade", json={"answers": {"1": "1"}})
+    assert grade.status_code == 200
+    g_json = grade.json()
+    assert g_json["total"] == 11
+    assert g_json["score"] >= 1
+
 
