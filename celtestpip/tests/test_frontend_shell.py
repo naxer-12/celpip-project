@@ -34,14 +34,22 @@ def test_static_js_served(client):
     assert "/api/exams" in response.text
     assert "DOMContentLoaded" in response.text
 
-def test_header_navigation_has_calculator_and_pricing(client):
+def test_header_navigation_has_single_user_practice_links(client):
     resp = client.get("/")
     assert resp.status_code == 200
     html = resp.text
     assert "/calculator" in html
     assert "Score Calculator" in html
     assert "/exams" in html
-    assert "Pricing" in html
+    assert "/listening" in html
+    assert "/reading" in html
+    assert "/writing" in html
+    assert "/speaking" in html
+    assert "/words" in html
+    assert "Single-User Practice Mode" in html
+    assert "single-user-nav.js" in html
+    assert "Login / Sign up" not in html
 
     calc_resp = client.get("/calculator")
     assert calc_resp.status_code == 200
+    assert "single-user-nav.js" in calc_resp.text

@@ -80,23 +80,30 @@ def client_telemetry_stub():
     return {"ok": True}
 
 
+def _inject_single_user_nav(content: str) -> str:
+    """Inject the unified single-user practice navigation bar and hide legacy SaaS nav."""
+    nav_style = '<style id="single-user-nav-prehide">nav:not(#celtestpip-single-nav){display:none!important;}#nprogress{display:none!important;}</style>'
+    nav_script = '<script src="/static/js/single-user-nav.js" defer></script>'
+    if 'single-user-nav-prehide' not in content and '</head>' in content:
+        content = content.replace('</head>', f'{nav_style}</head>', 1)
+    if '/static/js/single-user-nav.js' not in content:
+        if '</body>' in content:
+            content = content.replace('</body>', f'{nav_script}</body>', 1)
+        else:
+            content = f'{content}\n{nav_script}'
+    return content
+
+
 @router.get("/", response_class=HTMLResponse)
 def index_page() -> HTMLResponse:
     """Home landing page with interactive skill categories and practice tests."""
-    if "_index_v2" in PAGE_CACHE:
-        return HTMLResponse(PAGE_CACHE["_index_v2"], headers=PAGE_HEADERS)
+    if "_index_v3" in PAGE_CACHE:
+        return HTMLResponse(PAGE_CACHE["_index_v3"], headers=PAGE_HEADERS)
     path = os.path.join(STATIC_DIR, "index.html")
     if os.path.exists(path):
         with open(path, "r", encoding="utf-8") as f:
             content = f.read()
-        content = content.replace("1191lj8_x8otc.js", "1191lj8_x8otc_v2.js")
-        if "Score Calculator" not in content:
-            nav_links = '<div class="hidden lg:flex items-center gap-6"><a href="/calculator" class="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Score Calculator</a><a href="/exams" class="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Pricing</a></div>'
-            content = content.replace(
-                '<div class="flex items-end gap-3 flex-row-reverse w-full justify-start">',
-                f'{nav_links}<div class="flex items-end gap-3 flex-row-reverse w-full justify-start">'
-            )
-        PAGE_CACHE["_index_v2"] = content
+        PAGE_CACHE["_index_v3"] = content
         return HTMLResponse(content, headers=PAGE_HEADERS)
     return HTMLResponse("<h1>CELTESTPIP Local Server Running</h1>", headers=PAGE_HEADERS)
 
@@ -106,7 +113,7 @@ def exams_catalog_page() -> HTMLResponse:
     """Exams catalog page listing all 60 full CELPIP practice tests."""
     content = get_cached_template("exams.html")
     if content:
-        return HTMLResponse(content, headers=PAGE_HEADERS)
+        return HTMLResponse(_inject_single_user_nav(content), headers=PAGE_HEADERS)
     return HTMLResponse("<h1>CELTESTPIP Exams Catalog</h1>", headers=PAGE_HEADERS)
 
 
@@ -150,7 +157,7 @@ def calculator_page() -> HTMLResponse:
     """Interactive Canadian Language Benchmark (CLB) score calculator tool."""
     content = get_cached_template("calculator.html")
     if content:
-        return HTMLResponse(content, headers=PAGE_HEADERS)
+        return HTMLResponse(_inject_single_user_nav(content), headers=PAGE_HEADERS)
     return HTMLResponse("<h1>CLB Calculator</h1>", headers=PAGE_HEADERS)
 
 
@@ -185,6 +192,7 @@ def dynamic_content_page(full_path: str) -> HTMLResponse:
         )
         content = clean_html(content)
         content = rewrite_celtestpip_links(content)
+        content = _inject_single_user_nav(content)
         if safe_slug.startswith("practices_") or "/practices/" in slug:
             if 'practicePlayerContainer' not in content:
                 content = content.replace('</body>', '<div id="practicePlayerContainer"></div>\n<script src="/static/js/celtestpip-runner.js" defer></script></body>')
