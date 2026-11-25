@@ -93,7 +93,7 @@ def clean_html(html: str) -> str:
     if 'celtestpip-unlock-style' in html:
         html = re.sub(r'<style id="celtestpip-unlock-style">.*?</style>', '', html)
     if '</head>' in html:
-        unlock_css = '<style id="celtestpip-unlock-style">svg[class*="lock"], [aria-label*="Membership"], div[class*="backdrop-blur"], div[class*="blur-"], .blur-sm, .filter.blur-sm { display: none !important; filter: none !important; }\n    @media (min-width: 1024px) { #headerStartBtn { display: none !important; } }</style>'
+        unlock_css = '<style id="celtestpip-unlock-style">svg[class*="lock"], [aria-label*="Membership"] { display: none !important; }\n    @media (min-width: 1024px) { #headerStartBtn { display: none !important; } }</style>'
         html = html.replace('</head>', f'{unlock_css}</head>', 1)
 
     # 5. Remove floating "Pro Membership / Upgrade Now / SALE" widget

@@ -81,29 +81,28 @@ def client_telemetry_stub():
 
 
 def _inject_single_user_nav(content: str) -> str:
-    """Inject the unified single-user practice navigation bar and hide legacy SaaS nav."""
-    nav_style = '<style id="single-user-nav-prehide">nav:not(#celtestpip-single-nav){display:none!important;}#nprogress{display:none!important;}</style>'
-    nav_script = '<script src="/static/js/single-user-nav.js" defer></script>'
-    if 'single-user-nav-prehide' not in content and '</head>' in content:
-        content = content.replace('</head>', f'{nav_style}</head>', 1)
-    if '/static/js/single-user-nav.js' not in content:
+    """Inject the 1:1 celtestpip.com interactive UI & icon hydration script without hiding native nav."""
+    ui_script = '<script src="/static/js/celtestpip-replica-ui.js" defer></script>'
+    if '/static/js/celtestpip-replica-ui.js' not in content:
         if '</body>' in content:
-            content = content.replace('</body>', f'{nav_script}</body>', 1)
+            content = content.replace('</body>', f'{ui_script}</body>', 1)
         else:
-            content = f'{content}\n{nav_script}'
+            content = f'{content}\n{ui_script}'
     return content
 
 
 @router.get("/", response_class=HTMLResponse)
 def index_page() -> HTMLResponse:
-    """Home landing page with interactive skill categories and practice tests."""
-    if "_index_v3" in PAGE_CACHE:
-        return HTMLResponse(PAGE_CACHE["_index_v3"], headers=PAGE_HEADERS)
+    """Home landing page mirroring celtestpip.com with full unlocked interactive access."""
+    if "_index_v4" in PAGE_CACHE:
+        return HTMLResponse(PAGE_CACHE["_index_v4"], headers=PAGE_HEADERS)
     path = os.path.join(STATIC_DIR, "index.html")
     if os.path.exists(path):
         with open(path, "r", encoding="utf-8") as f:
             content = f.read()
-        PAGE_CACHE["_index_v3"] = content
+        content = content.replace("1191lj8_x8otc.js", "1191lj8_x8otc_v2.js")
+        content = _inject_single_user_nav(content)
+        PAGE_CACHE["_index_v4"] = content
         return HTMLResponse(content, headers=PAGE_HEADERS)
     return HTMLResponse("<h1>CELTESTPIP Local Server Running</h1>", headers=PAGE_HEADERS)
 

@@ -34,7 +34,7 @@ def test_static_js_served(client):
     assert "/api/exams" in response.text
     assert "DOMContentLoaded" in response.text
 
-def test_header_navigation_has_single_user_practice_links(client):
+def test_header_navigation_has_replica_ui_and_core_links(client):
     resp = client.get("/")
     assert resp.status_code == 200
     html = resp.text
@@ -46,17 +46,16 @@ def test_header_navigation_has_single_user_practice_links(client):
     assert "/writing" in html
     assert "/speaking" in html
     assert "/words" in html
-    assert "Single-User Practice Mode" in html
-    assert "single-user-nav.js" in html
+    assert "Fastest Path" in html
+    assert "celtestpip-replica-ui.js" in html
     assert "Login / Sign up" not in html
 
     calc_resp = client.get("/calculator")
     assert calc_resp.status_code == 200
-    assert "single-user-nav.js" in calc_resp.text
+    assert "celtestpip-replica-ui.js" in calc_resp.text
 
-def test_all_core_pages_have_unified_single_user_nav(client):
+def test_all_core_pages_have_replica_ui_script(client):
     for path in ["/listening", "/reading", "/writing", "/speaking", "/courses", "/words", "/exams", "/calculator"]:
         resp = client.get(path)
         assert resp.status_code == 200, f"{path} failed"
-        assert "single-user-nav.js" in resp.text, f"{path} missing single-user-nav.js"
-        assert "single-user-nav-prehide" in resp.text, f"{path} missing prehide style"
+        assert "celtestpip-replica-ui.js" in resp.text, f"{path} missing celtestpip-replica-ui.js"
