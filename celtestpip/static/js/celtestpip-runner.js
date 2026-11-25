@@ -720,7 +720,7 @@
     });
 
     // Capture-phase delegation for Score my answer / Sample analysis / See an example report
-    document.addEventListener('click', (e) => {
+    document.addEventListener('click', async (e) => {
       const btn = e.target && e.target.closest ? e.target.closest('button, a') : null;
       if (!btn || btn.closest('#celtestpipReplicaModal')) return;
       const t = (btn.textContent || '').trim().toLowerCase();
@@ -728,7 +728,33 @@
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
-        openReportModal(skillLabel, analysisData, userDraftFn ? userDraftFn() : '', samplesData);
+        const draft = userDraftFn ? userDraftFn() : '';
+        let dynamicAnalysis = analysisData;
+        if (t.includes('score my answer') && skillLabel === 'Writing' && draft.trim()) {
+          try {
+            const pId = (window.location.pathname.split('/').pop() || '').replace(/^writing_/, '');
+            const resp = await fetch('/api/writing', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ response: draft, practiceId: pId }),
+            });
+            if (resp.ok) {
+              const apiData = await resp.json();
+              if (apiData && apiData.score) {
+                dynamicAnalysis = {
+                  score: {
+                    grammar: apiData.score,
+                    coherence: apiData.score,
+                    vocabulary: apiData.score,
+                    fulfillment: apiData.score,
+                  },
+                  assessment: { feedback: apiData.feedback || (apiData.analysis && apiData.analysis.summary) || '' },
+                };
+              }
+            }
+          } catch (err) {}
+        }
+        openReportModal(skillLabel, dynamicAnalysis, draft, samplesData);
       }
     }, true);
 
@@ -740,14 +766,102 @@
     });
   }
 
+  // --- Paywall-Crossing Hydrator for Pro-Gated Writing & Speaking Pages ---
+  function buildUnlockedSplitPane(skill, practiceObj, samplesData) {
+    const rawPrompt = resolveFlightRef((practiceObj && practiceObj.text) || '') || 'Complete the CELPIP task below.';
+    const title = (practiceObj && practiceObj.name) || document.title.replace(' | CELTESTPIP', '');
+    const imgUrl = (practiceObj && practiceObj.image) || '';
+
+    // Find the blurred/gated split-pane body inside the practice card
+    const gatedEl = Array.from(document.querySelectorAll('div')).find(d =>
+      d.textContent && (d.textContent.includes('Pro Members only') || d.textContent.includes('writing practice is for Pro') || d.textContent.includes('speaking practice is for Pro') || d.textContent.includes('Lorem ipsum'))
+      && d.closest('.rounded-2xl')
+    );
+    const hostCard = (gatedEl && (gatedEl.closest('div[class*="lg:overflow-hidden"]') || gatedEl.closest('.rounded-2xl'))) || document.querySelector('main');
+    if (!hostCard) return null;
+
+    // Replace the inner split-pane content while preserving the card header if separate
+    const splitTarget = Array.from(hostCard.children).find(ch =>
+      ch.textContent && (ch.textContent.includes('Pro Members only') || ch.textContent.includes('Lorem ipsum') || ch.textContent.includes('for Pro'))
+    ) || hostCard;
+
+    const promptHtml = rawPrompt
+      .split(/\n+/)
+      .filter(Boolean)
+      .map(line => line.trim().startsWith('-')
+        ? `<li class="ml-5 list-disc text-sm text-zinc-800 mb-1">${line.trim().slice(1).trim()}</li>`
+        : `<p class="text-sm text-zinc-800 leading-relaxed mb-3">${line}</p>`)
+      .join('');
+
+    const rightPaneHtml = skill === 'Writing' ? `
+      <div class="p-6" style="background-color:#F8FAFC;">
+        <div class="bg-white rounded-2xl border border-zinc-200 p-5 shadow-sm">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm font-bold text-zinc-900">Your response</span>
+            <p class="text-xs font-semibold text-zinc-500"><span class="font-bold text-zinc-700">0</span> / 150–200 words</p>
+          </div>
+          <textarea rows="12" class="w-full p-3.5 text-sm border border-zinc-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 leading-relaxed" placeholder="Write your response here..."></textarea>
+          <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <button type="button" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm">Score my answer</button>
+            <button type="button" class="px-4 py-2 rounded-xl border border-zinc-300 bg-white hover:bg-zinc-50 text-zinc-700 text-xs font-semibold">See an example report</button>
+          </div>
+        </div>
+      </div>
+    ` : `
+      <div class="p-6 flex flex-col items-center justify-center" style="background-color:#F8FAFC;">
+        <div class="w-full max-w-md bg-white rounded-2xl border border-zinc-200 p-6 shadow-sm">
+          <div class="flex items-center gap-4">
+            <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-zinc-200 text-zinc-600"></span>
+            <div>
+              <p class="text-sm font-bold text-zinc-900">Preparation Time</p>
+              <span class="text-2xl font-black text-blue-600 tabular-nums">30</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex items-center gap-3">
+          <button type="button" class="px-4 py-2 rounded-xl border border-zinc-300 bg-white hover:bg-zinc-50 text-zinc-700 text-xs font-bold">Skip</button>
+          <button type="button" class="px-4 py-2 rounded-xl border border-zinc-300 bg-white hover:bg-zinc-50 text-zinc-700 text-xs font-semibold">See an example report</button>
+        </div>
+      </div>
+    `;
+
+    splitTarget.innerHTML = `
+      <div class="grid grid-cols-1 lg:grid-cols-2 w-full">
+        <div class="p-6 border-b lg:border-b-0 lg:border-r border-zinc-200 bg-white overflow-y-auto">
+          <h3 class="text-base font-bold text-zinc-900 mb-3">${title}</h3>
+          ${imgUrl ? `<img src="${imgUrl}" alt="${title}" class="w-full max-w-md rounded-xl mb-4 border border-zinc-200" />` : ''}
+          <div class="mb-6">${promptHtml}</div>
+          <div class="p-4 rounded-xl bg-zinc-50 border border-zinc-200">
+            <div class="flex items-center justify-between mb-3">
+              <strong class="text-xs uppercase tracking-wider text-zinc-500">Sample Answers</strong>
+              <div class="flex items-center gap-1.5">
+                <button type="button" class="px-3 py-1 rounded-lg border border-amber-300 bg-amber-50 text-amber-900 text-xs font-bold">Weak</button>
+                <button type="button" class="px-3 py-1 rounded-lg border border-blue-300 bg-blue-50 text-blue-900 text-xs font-bold">Normal</button>
+                <button type="button" class="px-3 py-1 rounded-lg border border-emerald-300 bg-emerald-50 text-emerald-900 text-xs font-bold">Top</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        ${rightPaneHtml}
+      </div>
+    `;
+    return splitTarget;
+  }
+
   // --- Writing Practice Native Hook ---
   function initWritingEditor() {
     if (typeof window === 'undefined' || !window.location || !window.location.pathname) return;
     if (!window.location.pathname.includes('/practices/writing_') && !window.location.pathname.includes('practices_writing_')) return;
 
-    const textarea = document.querySelector('textarea');
-    const samplesData = extractFlightJson('samples', '{', '}');
+    const practiceObj = extractFlightJson('practice', '{', '}');
+    const samplesData = (practiceObj && practiceObj.samples) || extractFlightJson('samples', '{', '}');
     const analysisData = extractFlightJson('analysis', '{', '}');
+
+    if (!document.querySelector('textarea') || (document.body.textContent && document.body.textContent.includes('Pro Members only'))) {
+      buildUnlockedSplitPane('Writing', practiceObj, samplesData);
+    }
+
+    const textarea = document.querySelector('textarea');
 
     if (textarea) {
       // Prevent any React login gate from blocking typing
@@ -781,8 +895,13 @@
     if (typeof window === 'undefined' || !window.location || !window.location.pathname) return;
     if (!window.location.pathname.includes('/practices/speaking_') && !window.location.pathname.includes('practices_speaking_')) return;
 
-    const samplesData = extractFlightJson('samples', '{', '}');
+    const practiceObj = extractFlightJson('practice', '{', '}');
+    const samplesData = (practiceObj && practiceObj.samples) || extractFlightJson('samples', '{', '}');
     const analysisData = extractFlightJson('analysis', '{', '}');
+
+    if (document.body.textContent && (document.body.textContent.includes('Pro Members only') || document.body.textContent.includes('speaking practice is for Pro') || document.body.textContent.includes('Lorem ipsum'))) {
+      buildUnlockedSplitPane('Speaking', practiceObj, samplesData);
+    }
 
     // Populate Clock icon inside Preparation Time box (persists after React hydration)
     const ensureClockIcon = () => {
