@@ -170,7 +170,7 @@ def dynamic_content_page(full_path: str) -> HTMLResponse:
 
     safe_slug = slug.replace("/", "_")
     if safe_slug in PAGE_CACHE:
-        content = PAGE_CACHE[safe_slug]
+        content = _inject_single_user_nav(PAGE_CACHE[safe_slug])
         if safe_slug.startswith("practices_") or "/practices/" in slug:
             if 'practicePlayerContainer' not in content:
                 content = content.replace('</body>', '<div id="practicePlayerContainer"></div>\n<script src="/static/js/celtestpip-runner.js" defer></script></body>')

@@ -53,3 +53,10 @@ def test_header_navigation_has_single_user_practice_links(client):
     calc_resp = client.get("/calculator")
     assert calc_resp.status_code == 200
     assert "single-user-nav.js" in calc_resp.text
+
+def test_all_core_pages_have_unified_single_user_nav(client):
+    for path in ["/listening", "/reading", "/writing", "/speaking", "/courses", "/words", "/exams", "/calculator"]:
+        resp = client.get(path)
+        assert resp.status_code == 200, f"{path} failed"
+        assert "single-user-nav.js" in resp.text, f"{path} missing single-user-nav.js"
+        assert "single-user-nav-prehide" in resp.text, f"{path} missing prehide style"
