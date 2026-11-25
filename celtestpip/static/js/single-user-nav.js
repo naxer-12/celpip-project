@@ -26,18 +26,19 @@
       /* Hide bloated legacy Next.js navs, nprogress loaders, and upgrade promos */
       nav:not(#celtestpip-single-nav) { display: none !important; }
       #nprogress { display: none !important; }
-      body { padding-top: 64px !important; }
+      img[src=""] { display: none !important; }
+      body { padding-top: 68px !important; }
       #celtestpip-single-nav {
         position: fixed;
         top: 0; left: 0; right: 0;
-        height: 64px;
+        min-height: 60px;
         z-index: 9999;
         background: rgba(255, 255, 255, 0.96);
         backdrop-filter: blur(8px);
         border-bottom: 1px solid #e4e4e7;
         display: flex;
         align-items: center;
-        padding: 0 20px;
+        padding: 6px 16px;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
       }
@@ -46,9 +47,10 @@
         width: 100%;
         margin: 0 auto;
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
+        gap: 8px 12px;
       }
       #celtestpip-single-nav .nav-brand {
         display: flex;
@@ -58,21 +60,19 @@
         flex-shrink: 0;
       }
       #celtestpip-single-nav .nav-brand img {
-        height: 28px;
+        height: 26px;
         width: auto;
       }
       #celtestpip-single-nav .nav-links {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         gap: 4px;
-        overflow-x: auto;
-        scrollbar-width: none;
       }
-      #celtestpip-single-nav .nav-links::-webkit-scrollbar { display: none; }
       #celtestpip-single-nav .nav-link {
-        padding: 6px 11px;
+        padding: 5px 10px;
         border-radius: 8px;
-        font-size: 13.5px;
+        font-size: 13px;
         font-weight: 600;
         color: #3f3f46;
         text-decoration: none;
@@ -138,6 +138,34 @@
     `;
 
     document.body.insertBefore(nav, document.body.firstChild);
+
+    // Sync body top padding to nav height (handles mobile wrap cleanly)
+    const syncPad = () => {
+      document.body.style.setProperty('padding-top', `${nav.offsetHeight + 4}px`, 'important');
+    };
+    syncPad();
+    window.addEventListener('resize', syncPad);
+
+    populateSkillHeaderIcons(path);
+  }
+
+  function populateSkillHeaderIcons(path) {
+    const icons = {
+      listening: '<svg class="w-full h-full text-emerald-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg>',
+      reading: '<svg class="w-full h-full text-sky-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+      writing: '<svg class="w-full h-full text-amber-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>',
+      speaking: '<svg class="w-full h-full text-purple-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>',
+    };
+    let svg = null;
+    if (path.includes('listening')) svg = icons.listening;
+    else if (path.includes('reading')) svg = icons.reading;
+    else if (path.includes('writing')) svg = icons.writing;
+    else if (path.includes('speaking')) svg = icons.speaking;
+    if (!svg) return;
+
+    document.querySelectorAll('div.size-7, div.size-9').forEach(el => {
+      if (!el.innerHTML.trim()) el.innerHTML = svg;
+    });
   }
 
   if (document.readyState === 'loading') {

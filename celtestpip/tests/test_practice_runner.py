@@ -82,5 +82,10 @@ def test_writing_and_speaking_support_in_runner(client):
     content = resp.text
     assert "initWritingEditor" in content
     assert "initSpeakingRecorder" in content
+    assert "initReadingInteractive" in content
+    assert "initPartPageControls" in content
+    # Ensure hardcoded duplicate widgets were removed
+    assert "Dear Building Management" not in content
+    assert "Downtown Hotel with Underground Access" not in content
 
 

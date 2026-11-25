@@ -171,11 +171,16 @@ def dynamic_content_page(full_path: str) -> HTMLResponse:
     safe_slug = slug.replace("/", "_")
     if safe_slug in PAGE_CACHE:
         content = _inject_single_user_nav(PAGE_CACHE[safe_slug])
-        if safe_slug.startswith("practices_") or "/practices/" in slug:
+        if safe_slug.startswith("practices_") or safe_slug.startswith("parts_") or "/practices/" in slug:
             if 'practicePlayerContainer' not in content:
                 content = content.replace('</body>', '<div id="practicePlayerContainer"></div>\n<script src="/static/js/celtestpip-runner.js" defer></script></body>')
             elif '/static/js/celtestpip-runner.js' not in content:
                 content = content.replace('</body>', '<script src="/static/js/celtestpip-runner.js" defer></script></body>')
+        if safe_slug == "speaking":
+            content = content.replace(
+                "You can take a free CELPIP Speaking practice test on this page. You can take a free CELPIP Speaking practice test on this page.",
+                "You can take a free CELPIP Speaking practice test on this page.",
+            )
         if safe_slug.startswith("courses_"):
             content = _apply_course_progress(content, slug)
         return HTMLResponse(content, headers=PAGE_HEADERS)
@@ -193,7 +198,12 @@ def dynamic_content_page(full_path: str) -> HTMLResponse:
         content = clean_html(content)
         content = rewrite_celtestpip_links(content)
         content = _inject_single_user_nav(content)
-        if safe_slug.startswith("practices_") or "/practices/" in slug:
+        if safe_slug == "speaking":
+            content = content.replace(
+                "You can take a free CELPIP Speaking practice test on this page. You can take a free CELPIP Speaking practice test on this page.",
+                "You can take a free CELPIP Speaking practice test on this page.",
+            )
+        if safe_slug.startswith("practices_") or safe_slug.startswith("parts_") or "/practices/" in slug:
             if 'practicePlayerContainer' not in content:
                 content = content.replace('</body>', '<div id="practicePlayerContainer"></div>\n<script src="/static/js/celtestpip-runner.js" defer></script></body>')
             elif '/static/js/celtestpip-runner.js' not in content:
